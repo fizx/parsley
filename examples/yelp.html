@@ -35,81 +35,21 @@
 
 	<link rel="alternate" type="application/rss+xml" title="Recent Reviews Of Nick&#39;s Crispy Tacos" href="http://www.yelp.com/syndicate/biz/ziVej4oW2JpUConTE_Y_mg/rss.xml" >		
 	
-	<script type="text/javascript">
-	var imagesHostUrl = "http://static.px.yelp.com/";
-	var Yelp = {
-		img_serial : "20081117",
-		js_serial : "20081113",
-		css_serial : "20081117",
-		unique_request_id : "1b6d1cac1f1845b3",
-		cookie_domain: ".yelp.com" 
-	};
-</script>
-
-	<script type="text/javascript" src="http://static.px.yelp.com/static/20081113/js/main_versioned.js"></script>
-	<script type="text/javascript">
-	
-	function trackUnload(e) {
-		if (Yelp.JSONCookie.get('js_track') != "") {
-			return;
-		} else {
-			var trackRequest = new Ajax.Request("/unload_tracker", { 
-				method: 'get', 
-				parameters: "r=1b6d1cac1f1845b3&ctime=" + (new Date()).getTime(), 
-				onComplete: function() { }, 
-				asynchronous: false 
-			});
-		}
-	}
-	Event.observe(window, 'unload', trackUnload);
-	Event.observe(window, 'load', function(){
-				
-	var header_hoods = $('header_hoods');
-	if(header_hoods){
-		Element.addClassName(header_hoods,'pseudoLink');
-		Event.observe($('header_hoods'), 'click', function(){
-				Yelp.startHoods($('header_hoods'), 'dropperText_Mast', {'x':-80,'y':20});
-			});
-	}
 	
 
-	});
-	document.observe("dom:loaded", function(){
-	var user_loc = $('dropperText_Mast');
-	if(user_loc){
-		var userloc_ac = new Yelp.autocomplete(user_loc, ['canada', 'uk', 'usa']);
-	}
-});
-
-	</script>
+	
 	
   <!-- Revision: main 40259 --> 
 		<meta name="facebook_label" content="Nick&#39;s Crispy Tacos" >
 </head>
 
 <body id="yelp_main_body">
-<script type="text/javascript">
-Yelp.JSONCookie.clear('js_track');
-Event.observe(document.body, 'mousedown', function(event) { 
-	Yelp.JSTrack.handleClickOnLink(event);
-});
-
-Event.observe(document, 'keypress', function(event) { 
-	if (event.keyCode == Event.KEY_RETURN) { 
-		var searchButton = $('headerSearchBtn');
-		if (searchButton) {
-			Yelp.JSTrack.handleSearchKeyPress(searchButton);
-		}
-	}
-});
-
-</script>
 <!-- google_ad_section_start(weight=ignore) -->
 	<div id="mastHead">
 			<div id="logo"><a href="/">Yelp</a></div>
 
 			<div id="header_find_form">
-				<form method="get" action="/search" name="header_find_form">
+				<form method="get" action="/search" name="header_find_form_">
 					<p id="search_for">
 						<label for="find_desc">Search for <em>(e.g. taco, salon, Max's)</em></label> 
 						<input maxlength="64" name="find_desc" tabindex="1" size="20" id="find_desc" value="" />
@@ -130,20 +70,20 @@ Event.observe(document, 'keypress', function(event) {
 		<div id="navContainer">
 			<ul>
 				<li id="welcome"><a href="/">Welcome</a></li>
-				<li id="aboutMe">						<a href="/signup?return_url=%2Fuser_details" rel="nofollow" id="Zabout_me">				About Me</a></li>
-				<li id="writeReview">						<a href="/signup?return_url=%2Fwriteareview" rel="nofollow" id="Zwrite_a_review">				Write a Review</a></li>
-				<li id="findReview"><a rel="nofollow" href="/find" class="tabon">Find Reviews</a></li>
-				<li id="invite">						<a href="/signup?return_url=%2Finvite_friends" rel="nofollow" id="Zinvite_friends">				Invite Friends</a></li>
-				<li id="messaging">						<a rel="nofollow" href="/signup?return_url=%2Fmail" id="Zmail">				Messaging</a></li>
+				<li id="aboutMe">						<a href="/signup?return_url=%2Fuser_details"  id="Zabout_me">				About Me</a></li>
+				<li id="writeReview">						<a href="/signup?return_url=%2Fwriteareview"  id="Zwrite_a_review">				Write a Review</a></li>
+				<li id="findReview"><a  href="/find" class="tabon">Find Reviews</a></li>
+				<li id="invite">						<a href="/signup?return_url=%2Finvite_friends"  id="Zinvite_friends">				Invite Friends</a></li>
+				<li id="messaging">						<a  href="/signup?return_url=%2Fmail" id="Zmail">				Messaging</a></li>
 				<li id="talk"><a href="/talk">Talk</a></li>
 
-				<li class="header_login" id="rt"><a  rel="nofollow" href="/login?return_url=%2Fbiz%2Fnicks-crispy-tacos-san-francisco">Log In</a></li>	
-				<li class="header_login"><a href="/signup?return_url=%2Fprofile" rel="nofollow" id="Zprofile">Account</a> | </li>
-				<li class="header_login"><a href="/member_search" rel="nofollow">Member Search</a> | </li>		
+				<li class="header_login" id="rt"><a   href="/login?return_url=%2Fbiz%2Fnicks-crispy-tacos-san-francisco">Log In</a></li>	
+				<li class="header_login"><a href="/signup?return_url=%2Fprofile"  id="Zprofile">Account</a> | </li>
+				<li class="header_login"><a href="/member_search" >Member Search</a> | </li>		
 			</ul>
 		</div>
 
-		<p id="mobile_message">On a mobile device? <a href="http://mobile.yelp.com" rel="nofollow">Try our mobile site, optimized for faster browsing.</a></p>
+		<p id="mobile_message">On a mobile device? <a href="http://mobile.yelp.com" >Try our mobile site, optimized for faster browsing.</a></p>
 <!-- google_ad_section_end -->
 
 
@@ -167,7 +107,7 @@ Event.observe(document, 'keypress', function(event) {
 		<div id="bizInfoContent">
 
 			<p id="bizCategories">Category:
-					<span id="cat_display">				<a  href="/c/sf/mexican">Mexican</a> </span> &nbsp;[<a href="/biz_attribute?biz_id=ziVej4oW2JpUConTE_Y_mg" onclick="new Yelp.categoryPickerPopup(this, 'ziVej4oW2JpUConTE_Y_mg'); return false;" class="smallest" rel="nofollow">Edit</a>]
+					<span id="cat_display">				<a  href="/c/sf/mexican">Mexican</a> </span> &nbsp;[<a href="/biz_attribute?biz_id=ziVej4oW2JpUConTE_Y_mg" onclick="new Yelp.categoryPickerPopup(this, 'ziVej4oW2JpUConTE_Y_mg'); return false;" class="smallest" >Edit</a>]
 			</p>
 
 			<address>
@@ -188,7 +128,7 @@ Event.observe(document, 'keypress', function(event) {
 				<div id="slideHeader"></div>
 				<div id="slideViewer"></div>
 				<div id="slideViewerControls">
-					<div id="slideViewerAddPhoto"><a rel="nofollow" href="/biz_photos/ziVej4oW2JpUConTE_Y_mg?action_user_photos=1">Add Photos</a></div>
+					<div id="slideViewerAddPhoto"><a  href="/biz_photos/ziVej4oW2JpUConTE_Y_mg?action_user_photos=1">Add Photos</a></div>
 					<a href="/biz_photos/ziVej4oW2JpUConTE_Y_mg">View All</a>&nbsp;<strong>|</strong>&nbsp;<span id="slidestatus"><span style="font-size: 9px;"><strong>1</strong> of <strong>26</strong></span></span>&nbsp;<img id="reverseSSBtn" src="http://static.px.yelp.com/static/20081117/i/new/slideshow/reverseOff.gif" width="21" height="15" border="0" /><img id="forwardSSBtn" src="http://static.px.yelp.com/static/20081117/i/new/slideshow/forwardOff.gif" width="21" height="15" border="0" /><img id="playSSBtn" src="http://static.px.yelp.com/static/20081117/i/new/slideshow/playOff.gif" width="21" height="15" />
 				</div>
 				<div id="slideFooter"></div>
@@ -242,34 +182,34 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 			</ul>
 		</div>
 			<div id="firstToReviewBox" class="clearfix">
-		<div id="firstToReviewLabel"><a href="/biz/nicks-crispy-tacos-san-francisco#hrid:RczzCnHJgjvsnRGh-haf2Q" rel="nofollow">First to Review</a></div>
+		<div id="firstToReviewLabel"><a href="/biz/nicks-crispy-tacos-san-francisco#hrid:RczzCnHJgjvsnRGh-haf2Q" >First to Review</a></div>
 				<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=G5LXEaxhQMF_BVjNHkVr7g"><img src="http://static.px.yelp.com/photo/9c5KH6sosCtupUK5EtPtnw/xss" style="height:20px;width:20px;" alt="Photo of Nish N." /></a>
+			<a  href="/user_details?userid=G5LXEaxhQMF_BVjNHkVr7g"><img src="http://static.px.yelp.com/photo/9c5KH6sosCtupUK5EtPtnw/xss" style="height:20px;width:20px;" alt="Photo of Nish N." /></a>
 	</div>
  <a href="/user_details?userid=G5LXEaxhQMF_BVjNHkVr7g" id="user_name">Nish N.</a>
 	</div>
 
 	<div class="clearfix" id="bizOwner">
 		<p>
-			<a rel="nofollow" href="/biz_attribute?biz_id=ziVej4oW2JpUConTE_Y_mg" id="bizUpdate">Edit Business Info</a>
+			<a  href="/biz_attribute?biz_id=ziVej4oW2JpUConTE_Y_mg" id="bizUpdate">Edit Business Info</a>
 		</p>
 	</div> 
 
 			<div id="bizActions" class="clearfix">
-		<a rel="nofollow" href="javascript:printSwitch(window.location.href)" id="bizPrintLink">Print version</a>
-		<a rel="nofollow"  href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;return_url=%2Fbiz%2Fnicks-crispy-tacos-san-francisco" id="bizShare"><img src="http://static.px.yelp.com/static/20081117/i/new/btn/biz_sendToFriend_sm.gif" width="121" height="19" alt="Send to Friend" /></a>
+		<a  href="javascript:printSwitch(window.location.href)" id="bizPrintLink">Print version</a>
+		<a   href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;return_url=%2Fbiz%2Fnicks-crispy-tacos-san-francisco" id="bizShare"><img src="http://static.px.yelp.com/static/20081117/i/new/btn/biz_sendToFriend_sm.gif" width="121" height="19" alt="Send to Friend" /></a>
 
-		<a rel="nofollow" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" class="bookmark" id="bizBookmark" href="/signup"><img src="http://static.px.yelp.com/static/20081117/i/new/btn/biz_bookmark_sm.gif" width="121" height="19" alt="bookmark" /></a>
-			<a rel="nofollow" id="send2phone" href="#" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos','send2phone');return false"><img src="http://static.px.yelp.com/static/20081117/i/new/btn/biz_sendToPhone_sm.png" alt="send2phone" width="121" height="19" /></a>
+		<a  title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" class="bookmark" id="bizBookmark" href="/signup"><img src="http://static.px.yelp.com/static/20081117/i/new/btn/biz_bookmark_sm.gif" width="121" height="19" alt="bookmark" /></a>
+			<a  id="send2phone" href="#" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos','send2phone');return false"><img src="http://static.px.yelp.com/static/20081117/i/new/btn/biz_sendToPhone_sm.png" alt="send2phone" width="121" height="19" /></a>
 
-			<a rel="nofollow" href="/writeareview/biz/ziVej4oW2JpUConTE_Y_mg" id="bizWriteReview"><img src="http://static.px.yelp.com/static/20081117/i/new/btn/write_a_review.gif" alt="Write A Review" style="margin:0px;"></a>
+			<a  href="/writeareview/biz/ziVej4oW2JpUConTE_Y_mg" id="bizWriteReview"><img src="http://static.px.yelp.com/static/20081117/i/new/btn/write_a_review.gif" alt="Write A Review" style="margin:0px;"></a>
 	</div>
 
 	</div>
 
 
 							<div id="bizReviews">
-		<a rel="nofollow" name="reviews"></a>
+		<a  name="reviews"></a>
 		<div id="bizReviewsHeader" class="clearfix">
 
 				<form id="review_search_form" method="GET" action="/biz/nicks-crispy-tacos-san-francisco">
@@ -285,31 +225,31 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				<div id="review_summaries">
 						<div class="review_summary clearfix">
 								<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/biz/nicks-crispy-tacos-san-francisco?q=pescado" class="ngram" sentence-review-id="r7BqgenbdUTzxi4irkEjAA" ngram="pescado"><img src="http://static.px.yelp.com/photo/JFC_0A9joMfMOZAcRsUiWw/xss" style="height:20px;width:20px;" alt="user photo" /></a>
+			<a  href="/biz/nicks-crispy-tacos-san-francisco?q=pescado" class="ngram" sentence-review-id="r7BqgenbdUTzxi4irkEjAA" ngram="pescado"><img src="http://static.px.yelp.com/photo/JFC_0A9joMfMOZAcRsUiWw/xss" style="height:20px;width:20px;" alt="user photo" /></a>
 	</div>
-</a>
+
 							<div class="snippet">
-								"I can't begin to describe how perfect a food the <a class="ngram" sentence-review-id="r7BqgenbdUTzxi4irkEjAA" ngram="pescado" href="/biz/nicks-crispy-tacos-san-francisco?q=pescado" rel="nofollow">pescado</a> taco is."
+								"I can't begin to describe how perfect a food the <a class="ngram" sentence-review-id="r7BqgenbdUTzxi4irkEjAA" ngram="pescado" href="/biz/nicks-crispy-tacos-san-francisco?q=pescado" >pescado</a> taco is."
 								<span class="secondary">(in 61 reviews)</span>
 							</div>
 						</div>
 						<div class="review_summary clearfix">
 								<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/biz/nicks-crispy-tacos-san-francisco?q=carne+asada" class="ngram" sentence-review-id="jLQ2_Ug5LzkJaMIIFw_BXA" ngram="carne%20asada"><img src="http://static.px.yelp.com/photo/IspBW66i7ZwHfwMUqaztgQ/xss" style="height:20px;width:20px;" alt="user photo" /></a>
+			<a  href="/biz/nicks-crispy-tacos-san-francisco?q=carne+asada" class="ngram" sentence-review-id="jLQ2_Ug5LzkJaMIIFw_BXA" ngram="carne%20asada"><img src="http://static.px.yelp.com/photo/IspBW66i7ZwHfwMUqaztgQ/xss" style="height:20px;width:20px;" alt="user photo" /></a>
 	</div>
-</a>
+
 							<div class="snippet">
-								"I also had the <a class="ngram" sentence-review-id="jLQ2_Ug5LzkJaMIIFw_BXA" ngram="carne%20asada" href="/biz/nicks-crispy-tacos-san-francisco?q=carne+asada" rel="nofollow">carne asada</a> tacos, which were pretty damn good too."
+								"I also had the <a class="ngram" sentence-review-id="jLQ2_Ug5LzkJaMIIFw_BXA" ngram="carne%20asada" href="/biz/nicks-crispy-tacos-san-francisco?q=carne+asada" >carne asada</a> tacos, which were pretty damn good too."
 								<span class="secondary">(in 82 reviews)</span>
 							</div>
 						</div>
 						<div class="review_summary clearfix">
 								<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/biz/nicks-crispy-tacos-san-francisco?q=fish" class="ngram" sentence-review-id="f9lAahWnIPTXCjHlVJHjIA" ngram="fish"><img src="http://static.px.yelp.com/photo/detRBB88yTYxjlSW11LnzQ/xss" style="height:20px;width:20px;" alt="user photo" /></a>
+			<a  href="/biz/nicks-crispy-tacos-san-francisco?q=fish" class="ngram" sentence-review-id="f9lAahWnIPTXCjHlVJHjIA" ngram="fish"><img src="http://static.px.yelp.com/photo/detRBB88yTYxjlSW11LnzQ/xss" style="height:20px;width:20px;" alt="user photo" /></a>
 	</div>
-</a>
+
 							<div class="snippet">
-								"Hands down the best Baja style <a class="ngram" sentence-review-id="f9lAahWnIPTXCjHlVJHjIA" ngram="fish" href="/biz/nicks-crispy-tacos-san-francisco?q=fish" rel="nofollow">fish tacos</a> in the city."
+								"Hands down the best Baja style <a class="ngram" sentence-review-id="f9lAahWnIPTXCjHlVJHjIA" ngram="fish" href="/biz/nicks-crispy-tacos-san-francisco?q=fish" >fish tacos</a> in the city."
 								<span class="secondary">(in 205 reviews)</span>
 							</div>
 						</div>
@@ -329,13 +269,13 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 
 				<div id="review_sort_section">Sort by: 
 			
-				<a rel="nofollow" class="sort_label_desc selected" href="/biz/nicks-crispy-tacos-san-francisco?rpp=40&amp;sort_by=relevance_asc">Recent + Votes</a>
+				<a  class="sort_label_desc selected" href="/biz/nicks-crispy-tacos-san-francisco?rpp=40&amp;sort_by=relevance_asc">Recent + Votes</a>
 			 | 
-				<a rel="nofollow" href="/biz/nicks-crispy-tacos-san-francisco?rpp=40&amp;sort_by=date_desc">Date</a>
+				<a  href="/biz/nicks-crispy-tacos-san-francisco?rpp=40&amp;sort_by=date_desc">Date</a>
 			 | 
-				<a rel="nofollow" href="/biz/nicks-crispy-tacos-san-francisco?rpp=40&amp;sort_by=rating_desc">Rating</a>
+				<a  href="/biz/nicks-crispy-tacos-san-francisco?rpp=40&amp;sort_by=rating_desc">Rating</a>
 			 | 
-					<a rel="nofollow" href="/biz/nicks-crispy-tacos-san-francisco?rpp=40&amp;sort_by=elites_desc">Elites'</a>
+					<a  href="/biz/nicks-crispy-tacos-san-francisco?rpp=40&amp;sort_by=elites_desc">Elites'</a>
 	</div>
 
 
@@ -348,11 +288,11 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				<div class="mini">	
 	<div class="photoBoxSm">
 			<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=GuNBz3pAXMxfB2SBd5qeuQ"><img src="http://static.px.yelp.com/photo/rxEDtch0ydNjLPXdMoxbnw/ss" style="height:40px;width:40px;" alt="Photo of kylie H." /></a>
+			<a  href="/user_details?userid=GuNBz3pAXMxfB2SBd5qeuQ"><img src="http://static.px.yelp.com/photo/rxEDtch0ydNjLPXdMoxbnw/ss" style="height:40px;width:40px;" alt="Photo of kylie H." /></a>
 	</div>
 
 	<p class="miniOrange is_elite ieSucks">
-		<a rel="nofollow" href="/elite" title="User is Elite">Elite '08</a>
+		<a  href="/elite" title="User is Elite">Elite '08</a>
 	</p>
 	<p class="miniOrange friend_count ieSucks">60</p>
 	<p class="miniOrange review_count ieSucks">117</p>
@@ -387,9 +327,9 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 		
 		
 			<p class="externalReviewActions">
-				<a rel="nofollow" href="/signup" class="bookmark" rel="-QhhXl4NJn3zYUNMU5eZ2Q" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
-				<a rel="nofollow" href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=-QhhXl4NJn3zYUNMU5eZ2Q&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', null);return false">Send to a Friend</a>
-				<a rel="nofollow" class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:-QhhXl4NJn3zYUNMU5eZ2Q" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', '-QhhXl4NJn3zYUNMU5eZ2Q')">Link to This Review</a>
+				<a  href="/signup" class="bookmark" rel="-QhhXl4NJn3zYUNMU5eZ2Q" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
+				<a  href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=-QhhXl4NJn3zYUNMU5eZ2Q&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', null);return false">Send to a Friend</a>
+				<a  class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:-QhhXl4NJn3zYUNMU5eZ2Q" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', '-QhhXl4NJn3zYUNMU5eZ2Q')">Link to This Review</a>
 			</p>
 
 	</div>
@@ -400,7 +340,7 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				<div class="mini">	
 	<div class="photoBoxSm">
 			<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=PyFzJlt1R9p6tNnVTLreXw"><img src="http://static.px.yelp.com/photo/JPkgIT18o4J9r6mc4bTZGA/ss" style="height:40px;width:40px;" alt="Photo of Betsy D." /></a>
+			<a  href="/user_details?userid=PyFzJlt1R9p6tNnVTLreXw"><img src="http://static.px.yelp.com/photo/JPkgIT18o4J9r6mc4bTZGA/ss" style="height:40px;width:40px;" alt="Photo of Betsy D." /></a>
 	</div>
 
 	<p class="miniOrange is_elite ieSucks">
@@ -424,9 +364,9 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 		
 		
 			<p class="externalReviewActions">
-				<a rel="nofollow" href="/signup" class="bookmark" rel="4w-uqsAYPZc9qyaU9h6Vkg" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
-				<a rel="nofollow" href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=4w-uqsAYPZc9qyaU9h6Vkg&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', '4w-uqsAYPZc9qyaU9h6Vkg', null);return false">Send to a Friend</a>
-				<a rel="nofollow" class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:4w-uqsAYPZc9qyaU9h6Vkg" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', '4w-uqsAYPZc9qyaU9h6Vkg')">Link to This Review</a>
+				<a  href="/signup" class="bookmark" rel="4w-uqsAYPZc9qyaU9h6Vkg" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
+				<a  href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=4w-uqsAYPZc9qyaU9h6Vkg&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', '4w-uqsAYPZc9qyaU9h6Vkg', null);return false">Send to a Friend</a>
+				<a  class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:4w-uqsAYPZc9qyaU9h6Vkg" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', '4w-uqsAYPZc9qyaU9h6Vkg')">Link to This Review</a>
 			</p>
 
 	</div>
@@ -435,11 +375,11 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				<div class="mini">	
 	<div class="photoBoxSm">
 			<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=Bp-TQEtc6Vs6ldnLgjqglg"><img src="http://static.px.yelp.com/photo/NaVvHgmsUi1HIDcHum9Dgw/ss" style="height:40px;width:40px;" alt="Photo of May T." /></a>
+			<a  href="/user_details?userid=Bp-TQEtc6Vs6ldnLgjqglg"><img src="http://static.px.yelp.com/photo/NaVvHgmsUi1HIDcHum9Dgw/ss" style="height:40px;width:40px;" alt="Photo of May T." /></a>
 	</div>
 
 	<p class="miniOrange is_elite ieSucks">
-		<a rel="nofollow" href="/elite" title="User is Elite">Elite '08</a>
+		<a  href="/elite" title="User is Elite">Elite '08</a>
 	</p>
 	<p class="miniOrange friend_count ieSucks">189</p>
 	<p class="miniOrange review_count ieSucks">324</p>
@@ -474,9 +414,9 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 		
 		
 			<p class="externalReviewActions">
-				<a rel="nofollow" href="/signup" class="bookmark" rel="fxBpg589pmV_-ANRZz1TFA" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
-				<a rel="nofollow" href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=fxBpg589pmV_-ANRZz1TFA&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'fxBpg589pmV_-ANRZz1TFA', null);return false">Send to a Friend</a>
-				<a rel="nofollow" class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:fxBpg589pmV_-ANRZz1TFA" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'fxBpg589pmV_-ANRZz1TFA')">Link to This Review</a>
+				<a  href="/signup" class="bookmark" rel="fxBpg589pmV_-ANRZz1TFA" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
+				<a  href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=fxBpg589pmV_-ANRZz1TFA&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'fxBpg589pmV_-ANRZz1TFA', null);return false">Send to a Friend</a>
+				<a  class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:fxBpg589pmV_-ANRZz1TFA" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'fxBpg589pmV_-ANRZz1TFA')">Link to This Review</a>
 			</p>
 
 	</div>
@@ -485,7 +425,7 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				<div class="mini">	
 	<div class="photoBoxSm">
 			<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=XTUko7vKIZAqfnFMcl8DXA"><img src="http://static.px.yelp.com/photo/JeakUCPNrqErGPKWxDKFlw/ss" style="height:40px;width:40px;" alt="Photo of roger l." /></a>
+			<a  href="/user_details?userid=XTUko7vKIZAqfnFMcl8DXA"><img src="http://static.px.yelp.com/photo/JeakUCPNrqErGPKWxDKFlw/ss" style="height:40px;width:40px;" alt="Photo of roger l." /></a>
 	</div>
 
 	<p class="miniOrange is_elite ieSucks">
@@ -509,9 +449,9 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 		
 		
 			<p class="externalReviewActions">
-				<a rel="nofollow" href="/signup" class="bookmark" rel="UdNpUZzydmzbLZ5b2h-3iw" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
-				<a rel="nofollow" href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=UdNpUZzydmzbLZ5b2h-3iw&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'UdNpUZzydmzbLZ5b2h-3iw', null);return false">Send to a Friend</a>
-				<a rel="nofollow" class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:UdNpUZzydmzbLZ5b2h-3iw" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'UdNpUZzydmzbLZ5b2h-3iw')">Link to This Review</a>
+				<a  href="/signup" class="bookmark" rel="UdNpUZzydmzbLZ5b2h-3iw" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
+				<a  href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=UdNpUZzydmzbLZ5b2h-3iw&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'UdNpUZzydmzbLZ5b2h-3iw', null);return false">Send to a Friend</a>
+				<a  class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:UdNpUZzydmzbLZ5b2h-3iw" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'UdNpUZzydmzbLZ5b2h-3iw')">Link to This Review</a>
 			</p>
 
 	</div>
@@ -520,7 +460,7 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				<div class="mini">	
 	<div class="photoBoxSm">
 			<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=aEZwTlSYuTihuDvTewmMYw"><img src="http://static.px.yelp.com/photo/BhExo_8BsOdD4vJDN4vTww/ss" style="height:40px;width:40px;" alt="Photo of Dee Dee N." /></a>
+			<a  href="/user_details?userid=aEZwTlSYuTihuDvTewmMYw"><img src="http://static.px.yelp.com/photo/BhExo_8BsOdD4vJDN4vTww/ss" style="height:40px;width:40px;" alt="Photo of Dee Dee N." /></a>
 	</div>
 
 	<p class="miniOrange is_elite ieSucks">
@@ -544,9 +484,9 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 		
 		
 			<p class="externalReviewActions">
-				<a rel="nofollow" href="/signup" class="bookmark" rel="dPXhvcIoJ7-R07grwDYFQg" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
-				<a rel="nofollow" href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=dPXhvcIoJ7-R07grwDYFQg&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'dPXhvcIoJ7-R07grwDYFQg', null);return false">Send to a Friend</a>
-				<a rel="nofollow" class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:dPXhvcIoJ7-R07grwDYFQg" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'dPXhvcIoJ7-R07grwDYFQg')">Link to This Review</a>
+				<a  href="/signup" class="bookmark" rel="dPXhvcIoJ7-R07grwDYFQg" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
+				<a  href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=dPXhvcIoJ7-R07grwDYFQg&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'dPXhvcIoJ7-R07grwDYFQg', null);return false">Send to a Friend</a>
+				<a  class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:dPXhvcIoJ7-R07grwDYFQg" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'dPXhvcIoJ7-R07grwDYFQg')">Link to This Review</a>
 			</p>
 
 	</div>
@@ -555,7 +495,7 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				<div class="mini">	
 	<div class="photoBoxSm">
 			<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=ps9NxwiSFJrZ1mhgsD6IZQ"><img src="http://static.px.yelp.com/photo/nXMiy4cz-cdbwpRiBSdWiA/ss" style="height:40px;width:40px;" alt="Photo of Olga P." /></a>
+			<a  href="/user_details?userid=ps9NxwiSFJrZ1mhgsD6IZQ"><img src="http://static.px.yelp.com/photo/nXMiy4cz-cdbwpRiBSdWiA/ss" style="height:40px;width:40px;" alt="Photo of Olga P." /></a>
 	</div>
 
 	<p class="miniOrange is_elite ieSucks">
@@ -591,9 +531,9 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 		
 		
 			<p class="externalReviewActions">
-				<a rel="nofollow" href="/signup" class="bookmark" rel="SKENI8otSOlKTWJxEX4D0A" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
-				<a rel="nofollow" href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=SKENI8otSOlKTWJxEX4D0A&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'SKENI8otSOlKTWJxEX4D0A', null);return false">Send to a Friend</a>
-				<a rel="nofollow" class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:SKENI8otSOlKTWJxEX4D0A" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'SKENI8otSOlKTWJxEX4D0A')">Link to This Review</a>
+				<a  href="/signup" class="bookmark" rel="SKENI8otSOlKTWJxEX4D0A" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
+				<a  href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=SKENI8otSOlKTWJxEX4D0A&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'SKENI8otSOlKTWJxEX4D0A', null);return false">Send to a Friend</a>
+				<a  class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:SKENI8otSOlKTWJxEX4D0A" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'SKENI8otSOlKTWJxEX4D0A')">Link to This Review</a>
 			</p>
 
 	</div>
@@ -602,7 +542,7 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				<div class="mini">	
 	<div class="photoBoxSm">
 			<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=sIxLoeTM4t9Ck10mCZh5eg"><img src="http://static.px.yelp.com/photo/Ub062YZGTbqGSG_eNIrXRA/ss" style="height:40px;width:40px;" alt="Photo of July H." /></a>
+			<a  href="/user_details?userid=sIxLoeTM4t9Ck10mCZh5eg"><img src="http://static.px.yelp.com/photo/Ub062YZGTbqGSG_eNIrXRA/ss" style="height:40px;width:40px;" alt="Photo of July H." /></a>
 	</div>
 
 	<p class="miniOrange is_elite ieSucks">
@@ -626,9 +566,9 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 		
 		
 			<p class="externalReviewActions">
-				<a rel="nofollow" href="/signup" class="bookmark" rel="VGEIiZCmdkVRr3qWlXfK8w" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
-				<a rel="nofollow" href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=VGEIiZCmdkVRr3qWlXfK8w&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'VGEIiZCmdkVRr3qWlXfK8w', null);return false">Send to a Friend</a>
-				<a rel="nofollow" class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:VGEIiZCmdkVRr3qWlXfK8w" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'VGEIiZCmdkVRr3qWlXfK8w')">Link to This Review</a>
+				<a  href="/signup" class="bookmark" rel="VGEIiZCmdkVRr3qWlXfK8w" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
+				<a  href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=VGEIiZCmdkVRr3qWlXfK8w&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'VGEIiZCmdkVRr3qWlXfK8w', null);return false">Send to a Friend</a>
+				<a  class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:VGEIiZCmdkVRr3qWlXfK8w" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'VGEIiZCmdkVRr3qWlXfK8w')">Link to This Review</a>
 			</p>
 
 	</div>
@@ -637,7 +577,7 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				<div class="mini">	
 	<div class="photoBoxSm">
 			<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=QMugllQW_dXUNxMxWGJuqA"><img src="http://static.px.yelp.com/photo/c6zw_Zn2_eormjgrSndqlg/ss" style="height:40px;width:40px;" alt="Photo of Hector a." /></a>
+			<a  href="/user_details?userid=QMugllQW_dXUNxMxWGJuqA"><img src="http://static.px.yelp.com/photo/c6zw_Zn2_eormjgrSndqlg/ss" style="height:40px;width:40px;" alt="Photo of Hector a." /></a>
 	</div>
 
 	<p class="miniOrange is_elite ieSucks">
@@ -661,9 +601,9 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 		
 		
 			<p class="externalReviewActions">
-				<a rel="nofollow" href="/signup" class="bookmark" rel="3wbOU89THdoVlkMBhiZ0Uw" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
-				<a rel="nofollow" href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=3wbOU89THdoVlkMBhiZ0Uw&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', '3wbOU89THdoVlkMBhiZ0Uw', null);return false">Send to a Friend</a>
-				<a rel="nofollow" class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:3wbOU89THdoVlkMBhiZ0Uw" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', '3wbOU89THdoVlkMBhiZ0Uw')">Link to This Review</a>
+				<a  href="/signup" class="bookmark" rel="3wbOU89THdoVlkMBhiZ0Uw" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
+				<a  href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=3wbOU89THdoVlkMBhiZ0Uw&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', '3wbOU89THdoVlkMBhiZ0Uw', null);return false">Send to a Friend</a>
+				<a  class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:3wbOU89THdoVlkMBhiZ0Uw" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', '3wbOU89THdoVlkMBhiZ0Uw')">Link to This Review</a>
 			</p>
 
 	</div>
@@ -672,7 +612,7 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				<div class="mini">	
 	<div class="photoBoxSm">
 			<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=wGWc1rv-Ed0yCMUaoq7cLA"><img src="http://static.px.yelp.com/photo/eripEaXndMEU2LbbpEgG7w/ss" style="height:40px;width:40px;" alt="Photo of Jane A." /></a>
+			<a  href="/user_details?userid=wGWc1rv-Ed0yCMUaoq7cLA"><img src="http://static.px.yelp.com/photo/eripEaXndMEU2LbbpEgG7w/ss" style="height:40px;width:40px;" alt="Photo of Jane A." /></a>
 	</div>
 
 	<p class="miniOrange is_elite ieSucks">
@@ -696,9 +636,9 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 		
 		
 			<p class="externalReviewActions">
-				<a rel="nofollow" href="/signup" class="bookmark" rel="C6GKCiqRNuPiD8Gj84Pxvw" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
-				<a rel="nofollow" href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=C6GKCiqRNuPiD8Gj84Pxvw&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'C6GKCiqRNuPiD8Gj84Pxvw', null);return false">Send to a Friend</a>
-				<a rel="nofollow" class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:C6GKCiqRNuPiD8Gj84Pxvw" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'C6GKCiqRNuPiD8Gj84Pxvw')">Link to This Review</a>
+				<a  href="/signup" class="bookmark" rel="C6GKCiqRNuPiD8Gj84Pxvw" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
+				<a  href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=C6GKCiqRNuPiD8Gj84Pxvw&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'C6GKCiqRNuPiD8Gj84Pxvw', null);return false">Send to a Friend</a>
+				<a  class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:C6GKCiqRNuPiD8Gj84Pxvw" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'C6GKCiqRNuPiD8Gj84Pxvw')">Link to This Review</a>
 			</p>
 
 	</div>
@@ -707,7 +647,7 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				<div class="mini">	
 	<div class="photoBoxSm">
 			<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=GEOe8uxg-dAXjl7SsqQ80A"><img src="http://static.px.yelp.com/photo/2Uvr60PwDiJhuMnPgtx2lQ/ss" style="height:40px;width:40px;" alt="Photo of Caroline S." /></a>
+			<a  href="/user_details?userid=GEOe8uxg-dAXjl7SsqQ80A"><img src="http://static.px.yelp.com/photo/2Uvr60PwDiJhuMnPgtx2lQ/ss" style="height:40px;width:40px;" alt="Photo of Caroline S." /></a>
 	</div>
 
 	<p class="miniOrange is_elite ieSucks">
@@ -746,9 +686,9 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 		
 		
 			<p class="externalReviewActions">
-				<a rel="nofollow" href="/signup" class="bookmark" rel="LP2YneMTdlyBoXswLVl_kA" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
-				<a rel="nofollow" href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=LP2YneMTdlyBoXswLVl_kA&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'LP2YneMTdlyBoXswLVl_kA', null);return false">Send to a Friend</a>
-				<a rel="nofollow" class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:LP2YneMTdlyBoXswLVl_kA" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'LP2YneMTdlyBoXswLVl_kA')">Link to This Review</a>
+				<a  href="/signup" class="bookmark" rel="LP2YneMTdlyBoXswLVl_kA" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
+				<a  href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=LP2YneMTdlyBoXswLVl_kA&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'LP2YneMTdlyBoXswLVl_kA', null);return false">Send to a Friend</a>
+				<a  class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:LP2YneMTdlyBoXswLVl_kA" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'LP2YneMTdlyBoXswLVl_kA')">Link to This Review</a>
 			</p>
 
 	</div>
@@ -757,7 +697,7 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				<div class="mini">	
 	<div class="photoBoxSm">
 			<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=3yeBxgUCl6sXtn2GTX1UNw"><img src="http://static.px.yelp.com/photo/inXQ1D69FPPL5eBwmDVGIw/ss" style="height:40px;width:40px;" alt="Photo of Dennis L." /></a>
+			<a  href="/user_details?userid=3yeBxgUCl6sXtn2GTX1UNw"><img src="http://static.px.yelp.com/photo/inXQ1D69FPPL5eBwmDVGIw/ss" style="height:40px;width:40px;" alt="Photo of Dennis L." /></a>
 	</div>
 
 	<p class="miniOrange is_elite ieSucks">
@@ -781,9 +721,9 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 		
 		
 			<p class="externalReviewActions">
-				<a rel="nofollow" href="/signup" class="bookmark" rel="hEEmTWVUvsdy5oaruVKMLA" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
-				<a rel="nofollow" href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=hEEmTWVUvsdy5oaruVKMLA&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'hEEmTWVUvsdy5oaruVKMLA', null);return false">Send to a Friend</a>
-				<a rel="nofollow" class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:hEEmTWVUvsdy5oaruVKMLA" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'hEEmTWVUvsdy5oaruVKMLA')">Link to This Review</a>
+				<a  href="/signup" class="bookmark" rel="hEEmTWVUvsdy5oaruVKMLA" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
+				<a  href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=hEEmTWVUvsdy5oaruVKMLA&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'hEEmTWVUvsdy5oaruVKMLA', null);return false">Send to a Friend</a>
+				<a  class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:hEEmTWVUvsdy5oaruVKMLA" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'hEEmTWVUvsdy5oaruVKMLA')">Link to This Review</a>
 			</p>
 
 	</div>
@@ -792,7 +732,7 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				<div class="mini">	
 	<div class="photoBoxSm">
 			<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=tzqYy9UEJvzW0WMjRuVaAA"><img src="http://static.px.yelp.com/static/20081117/i/new/gfx/blank_user_small.gif" style="height:40px;width:40px;" alt="Photo of Elijah S." /></a>
+			<a  href="/user_details?userid=tzqYy9UEJvzW0WMjRuVaAA"><img src="http://static.px.yelp.com/static/20081117/i/new/gfx/blank_user_small.gif" style="height:40px;width:40px;" alt="Photo of Elijah S." /></a>
 	</div>
 
 	<p class="miniOrange is_elite ieSucks">
@@ -828,9 +768,9 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 		
 		
 			<p class="externalReviewActions">
-				<a rel="nofollow" href="/signup" class="bookmark" rel="yEkxgiWerrp3ixu22ykwkw" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
-				<a rel="nofollow" href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=yEkxgiWerrp3ixu22ykwkw&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'yEkxgiWerrp3ixu22ykwkw', null);return false">Send to a Friend</a>
-				<a rel="nofollow" class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:yEkxgiWerrp3ixu22ykwkw" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'yEkxgiWerrp3ixu22ykwkw')">Link to This Review</a>
+				<a  href="/signup" class="bookmark" rel="yEkxgiWerrp3ixu22ykwkw" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
+				<a  href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=yEkxgiWerrp3ixu22ykwkw&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'yEkxgiWerrp3ixu22ykwkw', null);return false">Send to a Friend</a>
+				<a  class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:yEkxgiWerrp3ixu22ykwkw" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'yEkxgiWerrp3ixu22ykwkw')">Link to This Review</a>
 			</p>
 
 	</div>
@@ -839,7 +779,7 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				<div class="mini">	
 	<div class="photoBoxSm">
 			<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=GWMo-GHRtiIBNV_T2YXd7g"><img src="http://static.px.yelp.com/photo/sbcBk0AgjuUXpsgx7SlLSg/ss" style="height:40px;width:40px;" alt="Photo of Janet H." /></a>
+			<a  href="/user_details?userid=GWMo-GHRtiIBNV_T2YXd7g"><img src="http://static.px.yelp.com/photo/sbcBk0AgjuUXpsgx7SlLSg/ss" style="height:40px;width:40px;" alt="Photo of Janet H." /></a>
 	</div>
 
 	<p class="miniOrange is_elite ieSucks">
@@ -878,9 +818,9 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 		
 		
 			<p class="externalReviewActions">
-				<a rel="nofollow" href="/signup" class="bookmark" rel="xLFxCLEfVPOYubLokVGHsQ" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
-				<a rel="nofollow" href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=xLFxCLEfVPOYubLokVGHsQ&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'xLFxCLEfVPOYubLokVGHsQ', null);return false">Send to a Friend</a>
-				<a rel="nofollow" class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:xLFxCLEfVPOYubLokVGHsQ" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'xLFxCLEfVPOYubLokVGHsQ')">Link to This Review</a>
+				<a  href="/signup" class="bookmark" rel="xLFxCLEfVPOYubLokVGHsQ" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
+				<a  href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=xLFxCLEfVPOYubLokVGHsQ&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'xLFxCLEfVPOYubLokVGHsQ', null);return false">Send to a Friend</a>
+				<a  class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:xLFxCLEfVPOYubLokVGHsQ" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'xLFxCLEfVPOYubLokVGHsQ')">Link to This Review</a>
 			</p>
 
 	</div>
@@ -889,11 +829,11 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				<div class="mini">	
 	<div class="photoBoxSm">
 			<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=PmTAFPoq3bufn9FVxCWRvA"><img src="http://static.px.yelp.com/photo/PTwKeKGdQz_jrLRhjz5qng/ss" style="height:40px;width:40px;" alt="Photo of stella c." /></a>
+			<a  href="/user_details?userid=PmTAFPoq3bufn9FVxCWRvA"><img src="http://static.px.yelp.com/photo/PTwKeKGdQz_jrLRhjz5qng/ss" style="height:40px;width:40px;" alt="Photo of stella c." /></a>
 	</div>
 
 	<p class="miniOrange is_elite ieSucks">
-		<a rel="nofollow" href="/elite" title="User is Elite">Elite '08</a>
+		<a  href="/elite" title="User is Elite">Elite '08</a>
 	</p>
 	<p class="miniOrange friend_count ieSucks">161</p>
 	<p class="miniOrange review_count ieSucks">427</p>
@@ -925,9 +865,9 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 		
 		
 			<p class="externalReviewActions">
-				<a rel="nofollow" href="/signup" class="bookmark" rel="BBiK5ptDUJJyb0bGC36DJg" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
-				<a rel="nofollow" href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=BBiK5ptDUJJyb0bGC36DJg&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'BBiK5ptDUJJyb0bGC36DJg', null);return false">Send to a Friend</a>
-				<a rel="nofollow" class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:BBiK5ptDUJJyb0bGC36DJg" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'BBiK5ptDUJJyb0bGC36DJg')">Link to This Review</a>
+				<a  href="/signup" class="bookmark" rel="BBiK5ptDUJJyb0bGC36DJg" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
+				<a  href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=BBiK5ptDUJJyb0bGC36DJg&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'BBiK5ptDUJJyb0bGC36DJg', null);return false">Send to a Friend</a>
+				<a  class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:BBiK5ptDUJJyb0bGC36DJg" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'BBiK5ptDUJJyb0bGC36DJg')">Link to This Review</a>
 			</p>
 
 	</div>
@@ -936,7 +876,7 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				<div class="mini">	
 	<div class="photoBoxSm">
 			<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=iZ2jdT2LLTGzKWwyXdqveg"><img src="http://static.px.yelp.com/photo/lP2lfUi_byXthgu2GY8ojA/ss" style="height:40px;width:40px;" alt="Photo of NiKKi N." /></a>
+			<a  href="/user_details?userid=iZ2jdT2LLTGzKWwyXdqveg"><img src="http://static.px.yelp.com/photo/lP2lfUi_byXthgu2GY8ojA/ss" style="height:40px;width:40px;" alt="Photo of NiKKi N." /></a>
 	</div>
 
 	<p class="miniOrange is_elite ieSucks">
@@ -975,9 +915,9 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 		
 		
 			<p class="externalReviewActions">
-				<a rel="nofollow" href="/signup" class="bookmark" rel="jaxbgIp1dom1M144ZNGUmg" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
-				<a rel="nofollow" href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=jaxbgIp1dom1M144ZNGUmg&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'jaxbgIp1dom1M144ZNGUmg', null);return false">Send to a Friend</a>
-				<a rel="nofollow" class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:jaxbgIp1dom1M144ZNGUmg" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'jaxbgIp1dom1M144ZNGUmg')">Link to This Review</a>
+				<a  href="/signup" class="bookmark" rel="jaxbgIp1dom1M144ZNGUmg" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
+				<a  href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=jaxbgIp1dom1M144ZNGUmg&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'jaxbgIp1dom1M144ZNGUmg', null);return false">Send to a Friend</a>
+				<a  class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:jaxbgIp1dom1M144ZNGUmg" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'jaxbgIp1dom1M144ZNGUmg')">Link to This Review</a>
 			</p>
 
 	</div>
@@ -986,7 +926,7 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				<div class="mini">	
 	<div class="photoBoxSm">
 			<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=Mp9gZsob8Hp7qzTh0vA4aA"><img src="http://static.px.yelp.com/static/20081117/i/new/gfx/blank_user_small.gif" style="height:40px;width:40px;" alt="Photo of Grace R." /></a>
+			<a  href="/user_details?userid=Mp9gZsob8Hp7qzTh0vA4aA"><img src="http://static.px.yelp.com/static/20081117/i/new/gfx/blank_user_small.gif" style="height:40px;width:40px;" alt="Photo of Grace R." /></a>
 	</div>
 
 	<p class="miniOrange is_elite ieSucks">
@@ -1010,9 +950,9 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 		
 		
 			<p class="externalReviewActions">
-				<a rel="nofollow" href="/signup" class="bookmark" rel="-TXvoJogkkxPBgjOOts1WA" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
-				<a rel="nofollow" href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=-TXvoJogkkxPBgjOOts1WA&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', '-TXvoJogkkxPBgjOOts1WA', null);return false">Send to a Friend</a>
-				<a rel="nofollow" class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:-TXvoJogkkxPBgjOOts1WA" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', '-TXvoJogkkxPBgjOOts1WA')">Link to This Review</a>
+				<a  href="/signup" class="bookmark" rel="-TXvoJogkkxPBgjOOts1WA" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
+				<a  href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=-TXvoJogkkxPBgjOOts1WA&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', '-TXvoJogkkxPBgjOOts1WA', null);return false">Send to a Friend</a>
+				<a  class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:-TXvoJogkkxPBgjOOts1WA" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', '-TXvoJogkkxPBgjOOts1WA')">Link to This Review</a>
 			</p>
 
 	</div>
@@ -1021,7 +961,7 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				<div class="mini">	
 	<div class="photoBoxSm">
 			<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=r61MFYKQXpiCG1qqv5ENpA"><img src="http://static.px.yelp.com/photo/FQoRQjGyl7tkHymtLmKIfA/ss" style="height:40px;width:40px;" alt="Photo of Tim B." /></a>
+			<a  href="/user_details?userid=r61MFYKQXpiCG1qqv5ENpA"><img src="http://static.px.yelp.com/photo/FQoRQjGyl7tkHymtLmKIfA/ss" style="height:40px;width:40px;" alt="Photo of Tim B." /></a>
 	</div>
 
 	<p class="miniOrange is_elite ieSucks">
@@ -1045,9 +985,9 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 		
 		
 			<p class="externalReviewActions">
-				<a rel="nofollow" href="/signup" class="bookmark" rel="fshpGiyWtiFlObv36JP6Pg" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
-				<a rel="nofollow" href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=fshpGiyWtiFlObv36JP6Pg&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'fshpGiyWtiFlObv36JP6Pg', null);return false">Send to a Friend</a>
-				<a rel="nofollow" class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:fshpGiyWtiFlObv36JP6Pg" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'fshpGiyWtiFlObv36JP6Pg')">Link to This Review</a>
+				<a  href="/signup" class="bookmark" rel="fshpGiyWtiFlObv36JP6Pg" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
+				<a  href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=fshpGiyWtiFlObv36JP6Pg&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'fshpGiyWtiFlObv36JP6Pg', null);return false">Send to a Friend</a>
+				<a  class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:fshpGiyWtiFlObv36JP6Pg" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'fshpGiyWtiFlObv36JP6Pg')">Link to This Review</a>
 			</p>
 
 	</div>
@@ -1056,7 +996,7 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				<div class="mini">	
 	<div class="photoBoxSm">
 			<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=PZokuYn6GU3t-TbeYiYrEg"><img src="http://static.px.yelp.com/photo/Vt_iGQ9IJ67kof75bvkysw/ss" style="height:40px;width:40px;" alt="Photo of Chris P." /></a>
+			<a  href="/user_details?userid=PZokuYn6GU3t-TbeYiYrEg"><img src="http://static.px.yelp.com/photo/Vt_iGQ9IJ67kof75bvkysw/ss" style="height:40px;width:40px;" alt="Photo of Chris P." /></a>
 	</div>
 
 	<p class="miniOrange is_elite ieSucks">
@@ -1089,9 +1029,9 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 		
 		
 			<p class="externalReviewActions">
-				<a rel="nofollow" href="/signup" class="bookmark" rel="5fMQhPnPVP7wYVxt3iH1BA" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
-				<a rel="nofollow" href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=5fMQhPnPVP7wYVxt3iH1BA&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', '5fMQhPnPVP7wYVxt3iH1BA', null);return false">Send to a Friend</a>
-				<a rel="nofollow" class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:5fMQhPnPVP7wYVxt3iH1BA" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', '5fMQhPnPVP7wYVxt3iH1BA')">Link to This Review</a>
+				<a  href="/signup" class="bookmark" rel="5fMQhPnPVP7wYVxt3iH1BA" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
+				<a  href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=5fMQhPnPVP7wYVxt3iH1BA&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', '5fMQhPnPVP7wYVxt3iH1BA', null);return false">Send to a Friend</a>
+				<a  class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:5fMQhPnPVP7wYVxt3iH1BA" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', '5fMQhPnPVP7wYVxt3iH1BA')">Link to This Review</a>
 			</p>
 
 	</div>
@@ -1100,7 +1040,7 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				<div class="mini">	
 	<div class="photoBoxSm">
 			<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=vqn-YtS4Lv2fM_cVil-lWg"><img src="http://static.px.yelp.com/static/20081117/i/new/gfx/blank_user_small.gif" style="height:40px;width:40px;" alt="Photo of Jenny H." /></a>
+			<a  href="/user_details?userid=vqn-YtS4Lv2fM_cVil-lWg"><img src="http://static.px.yelp.com/static/20081117/i/new/gfx/blank_user_small.gif" style="height:40px;width:40px;" alt="Photo of Jenny H." /></a>
 	</div>
 
 	<p class="miniOrange is_elite ieSucks">
@@ -1124,9 +1064,9 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 		
 		
 			<p class="externalReviewActions">
-				<a rel="nofollow" href="/signup" class="bookmark" rel="2NRQuzZBK9Hu6pZXjMNfCw" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
-				<a rel="nofollow" href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=2NRQuzZBK9Hu6pZXjMNfCw&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', '2NRQuzZBK9Hu6pZXjMNfCw', null);return false">Send to a Friend</a>
-				<a rel="nofollow" class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:2NRQuzZBK9Hu6pZXjMNfCw" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', '2NRQuzZBK9Hu6pZXjMNfCw')">Link to This Review</a>
+				<a  href="/signup" class="bookmark" rel="2NRQuzZBK9Hu6pZXjMNfCw" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
+				<a  href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=2NRQuzZBK9Hu6pZXjMNfCw&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', '2NRQuzZBK9Hu6pZXjMNfCw', null);return false">Send to a Friend</a>
+				<a  class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:2NRQuzZBK9Hu6pZXjMNfCw" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', '2NRQuzZBK9Hu6pZXjMNfCw')">Link to This Review</a>
 			</p>
 
 	</div>
@@ -1135,7 +1075,7 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				<div class="mini">	
 	<div class="photoBoxSm">
 			<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=CQ7AB1RE_6zwcWRMy729CQ"><img src="http://static.px.yelp.com/photo/Lbz0KiW6OhtynE4UtARfzQ/ss" style="height:40px;width:40px;" alt="Photo of Garrett J." /></a>
+			<a  href="/user_details?userid=CQ7AB1RE_6zwcWRMy729CQ"><img src="http://static.px.yelp.com/photo/Lbz0KiW6OhtynE4UtARfzQ/ss" style="height:40px;width:40px;" alt="Photo of Garrett J." /></a>
 	</div>
 
 	<p class="miniOrange is_elite ieSucks">
@@ -1159,9 +1099,9 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 		
 		
 			<p class="externalReviewActions">
-				<a rel="nofollow" href="/signup" class="bookmark" rel="NrmuhQ8rGkaQchuW873QUw" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
-				<a rel="nofollow" href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=NrmuhQ8rGkaQchuW873QUw&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'NrmuhQ8rGkaQchuW873QUw', null);return false">Send to a Friend</a>
-				<a rel="nofollow" class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:NrmuhQ8rGkaQchuW873QUw" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'NrmuhQ8rGkaQchuW873QUw')">Link to This Review</a>
+				<a  href="/signup" class="bookmark" rel="NrmuhQ8rGkaQchuW873QUw" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
+				<a  href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=NrmuhQ8rGkaQchuW873QUw&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'NrmuhQ8rGkaQchuW873QUw', null);return false">Send to a Friend</a>
+				<a  class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:NrmuhQ8rGkaQchuW873QUw" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'NrmuhQ8rGkaQchuW873QUw')">Link to This Review</a>
 			</p>
 
 	</div>
@@ -1170,7 +1110,7 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				<div class="mini">	
 	<div class="photoBoxSm">
 			<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=hA8et-LncZc1F1_seQl4eg"><img src="http://static.px.yelp.com/photo/_KCWpboO8B51OjNwClyERA/ss" style="height:40px;width:40px;" alt="Photo of Kelly M." /></a>
+			<a  href="/user_details?userid=hA8et-LncZc1F1_seQl4eg"><img src="http://static.px.yelp.com/photo/_KCWpboO8B51OjNwClyERA/ss" style="height:40px;width:40px;" alt="Photo of Kelly M." /></a>
 	</div>
 
 	<p class="miniOrange is_elite ieSucks">
@@ -1194,9 +1134,9 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 		
 		
 			<p class="externalReviewActions">
-				<a rel="nofollow" href="/signup" class="bookmark" rel="zuJbs6cLLIkvqfISRof-FQ" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
-				<a rel="nofollow" href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=zuJbs6cLLIkvqfISRof-FQ&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'zuJbs6cLLIkvqfISRof-FQ', null);return false">Send to a Friend</a>
-				<a rel="nofollow" class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:zuJbs6cLLIkvqfISRof-FQ" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'zuJbs6cLLIkvqfISRof-FQ')">Link to This Review</a>
+				<a  href="/signup" class="bookmark" rel="zuJbs6cLLIkvqfISRof-FQ" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
+				<a  href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=zuJbs6cLLIkvqfISRof-FQ&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'zuJbs6cLLIkvqfISRof-FQ', null);return false">Send to a Friend</a>
+				<a  class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:zuJbs6cLLIkvqfISRof-FQ" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'zuJbs6cLLIkvqfISRof-FQ')">Link to This Review</a>
 			</p>
 
 	</div>
@@ -1205,7 +1145,7 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				<div class="mini">	
 	<div class="photoBoxSm">
 			<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=t8eeyCHVuPe0r4WpURxRfA"><img src="http://static.px.yelp.com/photo/aTfHwxqWHIcV-44a_yNVOw/ss" style="height:40px;width:40px;" alt="Photo of Steve S." /></a>
+			<a  href="/user_details?userid=t8eeyCHVuPe0r4WpURxRfA"><img src="http://static.px.yelp.com/photo/aTfHwxqWHIcV-44a_yNVOw/ss" style="height:40px;width:40px;" alt="Photo of Steve S." /></a>
 	</div>
 
 	<p class="miniOrange is_elite ieSucks">
@@ -1238,9 +1178,9 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 		
 		
 			<p class="externalReviewActions">
-				<a rel="nofollow" href="/signup" class="bookmark" rel="btTtU0dqaHo398yVeCgz2Q" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
-				<a rel="nofollow" href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=btTtU0dqaHo398yVeCgz2Q&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'btTtU0dqaHo398yVeCgz2Q', null);return false">Send to a Friend</a>
-				<a rel="nofollow" class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:btTtU0dqaHo398yVeCgz2Q" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'btTtU0dqaHo398yVeCgz2Q')">Link to This Review</a>
+				<a  href="/signup" class="bookmark" rel="btTtU0dqaHo398yVeCgz2Q" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
+				<a  href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=btTtU0dqaHo398yVeCgz2Q&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'btTtU0dqaHo398yVeCgz2Q', null);return false">Send to a Friend</a>
+				<a  class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:btTtU0dqaHo398yVeCgz2Q" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'btTtU0dqaHo398yVeCgz2Q')">Link to This Review</a>
 			</p>
 
 	</div>
@@ -1249,7 +1189,7 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				<div class="mini">	
 	<div class="photoBoxSm">
 			<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=LnDW09gSlZCDtQrgzwWjHw"><img src="http://static.px.yelp.com/photo/vUk63vu-duHESWrxNLB9mQ/ss" style="height:40px;width:40px;" alt="Photo of Arceli A." /></a>
+			<a  href="/user_details?userid=LnDW09gSlZCDtQrgzwWjHw"><img src="http://static.px.yelp.com/photo/vUk63vu-duHESWrxNLB9mQ/ss" style="height:40px;width:40px;" alt="Photo of Arceli A." /></a>
 	</div>
 
 	<p class="miniOrange is_elite ieSucks">
@@ -1273,9 +1213,9 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 		
 		
 			<p class="externalReviewActions">
-				<a rel="nofollow" href="/signup" class="bookmark" rel="FGwnvF2kZ2qE0JK9hx8wZA" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
-				<a rel="nofollow" href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=FGwnvF2kZ2qE0JK9hx8wZA&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'FGwnvF2kZ2qE0JK9hx8wZA', null);return false">Send to a Friend</a>
-				<a rel="nofollow" class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:FGwnvF2kZ2qE0JK9hx8wZA" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'FGwnvF2kZ2qE0JK9hx8wZA')">Link to This Review</a>
+				<a  href="/signup" class="bookmark" rel="FGwnvF2kZ2qE0JK9hx8wZA" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
+				<a  href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=FGwnvF2kZ2qE0JK9hx8wZA&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'FGwnvF2kZ2qE0JK9hx8wZA', null);return false">Send to a Friend</a>
+				<a  class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:FGwnvF2kZ2qE0JK9hx8wZA" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'FGwnvF2kZ2qE0JK9hx8wZA')">Link to This Review</a>
 			</p>
 
 	</div>
@@ -1284,7 +1224,7 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				<div class="mini">	
 	<div class="photoBoxSm">
 			<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=DiiyWCoTG_urZBffTsvx-Q"><img src="http://static.px.yelp.com/photo/hQdML_Z4yx6ihJ2VqLY8aQ/ss" style="height:40px;width:40px;" alt="Photo of Melissa G." /></a>
+			<a  href="/user_details?userid=DiiyWCoTG_urZBffTsvx-Q"><img src="http://static.px.yelp.com/photo/hQdML_Z4yx6ihJ2VqLY8aQ/ss" style="height:40px;width:40px;" alt="Photo of Melissa G." /></a>
 	</div>
 
 	<p class="miniOrange is_elite ieSucks">
@@ -1308,9 +1248,9 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 		
 		
 			<p class="externalReviewActions">
-				<a rel="nofollow" href="/signup" class="bookmark" rel="J4I_qvGfrvtB5OQEpTlR2A" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
-				<a rel="nofollow" href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=J4I_qvGfrvtB5OQEpTlR2A&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'J4I_qvGfrvtB5OQEpTlR2A', null);return false">Send to a Friend</a>
-				<a rel="nofollow" class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:J4I_qvGfrvtB5OQEpTlR2A" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'J4I_qvGfrvtB5OQEpTlR2A')">Link to This Review</a>
+				<a  href="/signup" class="bookmark" rel="J4I_qvGfrvtB5OQEpTlR2A" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
+				<a  href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=J4I_qvGfrvtB5OQEpTlR2A&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'J4I_qvGfrvtB5OQEpTlR2A', null);return false">Send to a Friend</a>
+				<a  class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:J4I_qvGfrvtB5OQEpTlR2A" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'J4I_qvGfrvtB5OQEpTlR2A')">Link to This Review</a>
 			</p>
 
 	</div>
@@ -1319,11 +1259,11 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				<div class="mini">	
 	<div class="photoBoxSm">
 			<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=R_aCqb62GyeU2h7OmSufeA"><img src="http://static.px.yelp.com/photo/Oi8adsoMwm6dCM_xPYkASg/ss" style="height:40px;width:40px;" alt="Photo of Julie F." /></a>
+			<a  href="/user_details?userid=R_aCqb62GyeU2h7OmSufeA"><img src="http://static.px.yelp.com/photo/Oi8adsoMwm6dCM_xPYkASg/ss" style="height:40px;width:40px;" alt="Photo of Julie F." /></a>
 	</div>
 
 	<p class="miniOrange is_elite ieSucks">
-		<a rel="nofollow" href="/elite" title="User is Elite">Elite '08</a>
+		<a  href="/elite" title="User is Elite">Elite '08</a>
 	</p>
 	<p class="miniOrange friend_count ieSucks">77</p>
 	<p class="miniOrange review_count ieSucks">107</p>
@@ -1343,9 +1283,9 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 		
 		
 			<p class="externalReviewActions">
-				<a rel="nofollow" href="/signup" class="bookmark" rel="SGIicy3z4iLKHjpz9aVq6w" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
-				<a rel="nofollow" href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=SGIicy3z4iLKHjpz9aVq6w&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'SGIicy3z4iLKHjpz9aVq6w', null);return false">Send to a Friend</a>
-				<a rel="nofollow" class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:SGIicy3z4iLKHjpz9aVq6w" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'SGIicy3z4iLKHjpz9aVq6w')">Link to This Review</a>
+				<a  href="/signup" class="bookmark" rel="SGIicy3z4iLKHjpz9aVq6w" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
+				<a  href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=SGIicy3z4iLKHjpz9aVq6w&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'SGIicy3z4iLKHjpz9aVq6w', null);return false">Send to a Friend</a>
+				<a  class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:SGIicy3z4iLKHjpz9aVq6w" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'SGIicy3z4iLKHjpz9aVq6w')">Link to This Review</a>
 			</p>
 
 	</div>
@@ -1354,11 +1294,11 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				<div class="mini">	
 	<div class="photoBoxSm">
 			<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=GCuDiPUKYxhgFHP5LqJa2Q"><img src="http://static.px.yelp.com/photo/XuPQp7hqo7TyRV2ynTbnGg/ss" style="height:40px;width:40px;" alt="Photo of Gloria H." /></a>
+			<a  href="/user_details?userid=GCuDiPUKYxhgFHP5LqJa2Q"><img src="http://static.px.yelp.com/photo/XuPQp7hqo7TyRV2ynTbnGg/ss" style="height:40px;width:40px;" alt="Photo of Gloria H." /></a>
 	</div>
 
 	<p class="miniOrange is_elite ieSucks">
-		<a rel="nofollow" href="/elite" title="User is Elite">Elite '08</a>
+		<a  href="/elite" title="User is Elite">Elite '08</a>
 	</p>
 	<p class="miniOrange friend_count ieSucks">50</p>
 	<p class="miniOrange review_count ieSucks">536</p>
@@ -1402,9 +1342,9 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 
 		
 			<p class="externalReviewActions">
-				<a rel="nofollow" href="/signup" class="bookmark" rel="OllWIlbkPETsL5cW0RcmHg" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
-				<a rel="nofollow" href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=OllWIlbkPETsL5cW0RcmHg&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'OllWIlbkPETsL5cW0RcmHg', null);return false">Send to a Friend</a>
-				<a rel="nofollow" class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:OllWIlbkPETsL5cW0RcmHg" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'OllWIlbkPETsL5cW0RcmHg')">Link to This Review</a>
+				<a  href="/signup" class="bookmark" rel="OllWIlbkPETsL5cW0RcmHg" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
+				<a  href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=OllWIlbkPETsL5cW0RcmHg&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'OllWIlbkPETsL5cW0RcmHg', null);return false">Send to a Friend</a>
+				<a  class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:OllWIlbkPETsL5cW0RcmHg" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'OllWIlbkPETsL5cW0RcmHg')">Link to This Review</a>
 			</p>
 
 	</div>
@@ -1413,7 +1353,7 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				<div class="mini">	
 	<div class="photoBoxSm">
 			<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=sV7R7Vyx1zbRHdTaPYe8Mg"><img src="http://static.px.yelp.com/photo/juEKxLtP_h5n9wOYCAb0FQ/ss" style="height:40px;width:40px;" alt="Photo of John G." /></a>
+			<a  href="/user_details?userid=sV7R7Vyx1zbRHdTaPYe8Mg"><img src="http://static.px.yelp.com/photo/juEKxLtP_h5n9wOYCAb0FQ/ss" style="height:40px;width:40px;" alt="Photo of John G." /></a>
 	</div>
 
 	<p class="miniOrange is_elite ieSucks">
@@ -1437,9 +1377,9 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 		
 		
 			<p class="externalReviewActions">
-				<a rel="nofollow" href="/signup" class="bookmark" rel="IjCZJjGSHEe8mOWt5lmvbw" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
-				<a rel="nofollow" href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=IjCZJjGSHEe8mOWt5lmvbw&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'IjCZJjGSHEe8mOWt5lmvbw', null);return false">Send to a Friend</a>
-				<a rel="nofollow" class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:IjCZJjGSHEe8mOWt5lmvbw" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'IjCZJjGSHEe8mOWt5lmvbw')">Link to This Review</a>
+				<a  href="/signup" class="bookmark" rel="IjCZJjGSHEe8mOWt5lmvbw" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
+				<a  href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=IjCZJjGSHEe8mOWt5lmvbw&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'IjCZJjGSHEe8mOWt5lmvbw', null);return false">Send to a Friend</a>
+				<a  class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:IjCZJjGSHEe8mOWt5lmvbw" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'IjCZJjGSHEe8mOWt5lmvbw')">Link to This Review</a>
 			</p>
 
 	</div>
@@ -1448,7 +1388,7 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				<div class="mini">	
 	<div class="photoBoxSm">
 			<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=5jXfN4vBYb-PyNfOSVulLQ"><img src="http://static.px.yelp.com/photo/goMe64i0I_lrwtFa54G7LQ/ss" style="height:40px;width:40px;" alt="Photo of t l." /></a>
+			<a  href="/user_details?userid=5jXfN4vBYb-PyNfOSVulLQ"><img src="http://static.px.yelp.com/photo/goMe64i0I_lrwtFa54G7LQ/ss" style="height:40px;width:40px;" alt="Photo of t l." /></a>
 	</div>
 
 	<p class="miniOrange is_elite ieSucks">
@@ -1472,9 +1412,9 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 		
 		
 			<p class="externalReviewActions">
-				<a rel="nofollow" href="/signup" class="bookmark" rel="cDav_gSVlQgr_5KW5neUzw" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
-				<a rel="nofollow" href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=cDav_gSVlQgr_5KW5neUzw&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'cDav_gSVlQgr_5KW5neUzw', null);return false">Send to a Friend</a>
-				<a rel="nofollow" class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:cDav_gSVlQgr_5KW5neUzw" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'cDav_gSVlQgr_5KW5neUzw')">Link to This Review</a>
+				<a  href="/signup" class="bookmark" rel="cDav_gSVlQgr_5KW5neUzw" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
+				<a  href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=cDav_gSVlQgr_5KW5neUzw&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'cDav_gSVlQgr_5KW5neUzw', null);return false">Send to a Friend</a>
+				<a  class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:cDav_gSVlQgr_5KW5neUzw" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'cDav_gSVlQgr_5KW5neUzw')">Link to This Review</a>
 			</p>
 
 	</div>
@@ -1483,7 +1423,7 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				<div class="mini">	
 	<div class="photoBoxSm">
 			<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=wcwH3HDVkIi9J90XzCZJkQ"><img src="http://static.px.yelp.com/photo/pNgVsgyLokmeraA7qjXxaw/ss" style="height:40px;width:40px;" alt="Photo of Eddy N." /></a>
+			<a  href="/user_details?userid=wcwH3HDVkIi9J90XzCZJkQ"><img src="http://static.px.yelp.com/photo/pNgVsgyLokmeraA7qjXxaw/ss" style="height:40px;width:40px;" alt="Photo of Eddy N." /></a>
 	</div>
 
 	<p class="miniOrange is_elite ieSucks">
@@ -1507,9 +1447,9 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 		
 		
 			<p class="externalReviewActions">
-				<a rel="nofollow" href="/signup" class="bookmark" rel="O69A6u9wduPvd8vx1Tuw6g" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
-				<a rel="nofollow" href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=O69A6u9wduPvd8vx1Tuw6g&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'O69A6u9wduPvd8vx1Tuw6g', null);return false">Send to a Friend</a>
-				<a rel="nofollow" class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:O69A6u9wduPvd8vx1Tuw6g" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'O69A6u9wduPvd8vx1Tuw6g')">Link to This Review</a>
+				<a  href="/signup" class="bookmark" rel="O69A6u9wduPvd8vx1Tuw6g" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
+				<a  href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=O69A6u9wduPvd8vx1Tuw6g&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'O69A6u9wduPvd8vx1Tuw6g', null);return false">Send to a Friend</a>
+				<a  class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:O69A6u9wduPvd8vx1Tuw6g" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'O69A6u9wduPvd8vx1Tuw6g')">Link to This Review</a>
 			</p>
 
 	</div>
@@ -1518,7 +1458,7 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				<div class="mini">	
 	<div class="photoBoxSm">
 			<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=aGKhooafW3zlKcK2Wp25uA"><img src="http://static.px.yelp.com/photo/scOy7bKf54pkbOxYB380gQ/ss" style="height:40px;width:40px;" alt="Photo of Dan Y." /></a>
+			<a  href="/user_details?userid=aGKhooafW3zlKcK2Wp25uA"><img src="http://static.px.yelp.com/photo/scOy7bKf54pkbOxYB380gQ/ss" style="height:40px;width:40px;" alt="Photo of Dan Y." /></a>
 	</div>
 
 	<p class="miniOrange is_elite ieSucks">
@@ -1542,9 +1482,9 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 		
 		
 			<p class="externalReviewActions">
-				<a rel="nofollow" href="/signup" class="bookmark" rel="PkgE7rIfbMeKZtrrQGj1Gw" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
-				<a rel="nofollow" href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=PkgE7rIfbMeKZtrrQGj1Gw&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'PkgE7rIfbMeKZtrrQGj1Gw', null);return false">Send to a Friend</a>
-				<a rel="nofollow" class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:PkgE7rIfbMeKZtrrQGj1Gw" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'PkgE7rIfbMeKZtrrQGj1Gw')">Link to This Review</a>
+				<a  href="/signup" class="bookmark" rel="PkgE7rIfbMeKZtrrQGj1Gw" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
+				<a  href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=PkgE7rIfbMeKZtrrQGj1Gw&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'PkgE7rIfbMeKZtrrQGj1Gw', null);return false">Send to a Friend</a>
+				<a  class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:PkgE7rIfbMeKZtrrQGj1Gw" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'PkgE7rIfbMeKZtrrQGj1Gw')">Link to This Review</a>
 			</p>
 
 	</div>
@@ -1553,7 +1493,7 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				<div class="mini">	
 	<div class="photoBoxSm">
 			<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=vlYbuIXxmOxPTruIyB2cgA"><img src="http://static.px.yelp.com/photo/j6rEsbxpIVH606_FhgR74w/ss" style="height:40px;width:40px;" alt="Photo of Annie B." /></a>
+			<a  href="/user_details?userid=vlYbuIXxmOxPTruIyB2cgA"><img src="http://static.px.yelp.com/photo/j6rEsbxpIVH606_FhgR74w/ss" style="height:40px;width:40px;" alt="Photo of Annie B." /></a>
 	</div>
 
 	<p class="miniOrange is_elite ieSucks">
@@ -1577,9 +1517,9 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 		
 		
 			<p class="externalReviewActions">
-				<a rel="nofollow" href="/signup" class="bookmark" rel="ZvyV4vv6J4Z_1eHrIfDFtw" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
-				<a rel="nofollow" href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=ZvyV4vv6J4Z_1eHrIfDFtw&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'ZvyV4vv6J4Z_1eHrIfDFtw', null);return false">Send to a Friend</a>
-				<a rel="nofollow" class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:ZvyV4vv6J4Z_1eHrIfDFtw" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'ZvyV4vv6J4Z_1eHrIfDFtw')">Link to This Review</a>
+				<a  href="/signup" class="bookmark" rel="ZvyV4vv6J4Z_1eHrIfDFtw" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
+				<a  href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=ZvyV4vv6J4Z_1eHrIfDFtw&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'ZvyV4vv6J4Z_1eHrIfDFtw', null);return false">Send to a Friend</a>
+				<a  class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:ZvyV4vv6J4Z_1eHrIfDFtw" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'ZvyV4vv6J4Z_1eHrIfDFtw')">Link to This Review</a>
 			</p>
 
 	</div>
@@ -1588,11 +1528,11 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				<div class="mini">	
 	<div class="photoBoxSm">
 			<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=_SVAW_bwFx3G2tDqmsmOBw"><img src="http://static.px.yelp.com/photo/fHqmBOVZC7-ONn2D7p3okQ/ss" style="height:40px;width:40px;" alt="Photo of Steven R." /></a>
+			<a  href="/user_details?userid=_SVAW_bwFx3G2tDqmsmOBw"><img src="http://static.px.yelp.com/photo/fHqmBOVZC7-ONn2D7p3okQ/ss" style="height:40px;width:40px;" alt="Photo of Steven R." /></a>
 	</div>
 
 	<p class="miniOrange is_elite ieSucks">
-		<a rel="nofollow" href="/elite" title="User is Elite">Elite '08</a>
+		<a  href="/elite" title="User is Elite">Elite '08</a>
 	</p>
 	<p class="miniOrange friend_count ieSucks">24</p>
 	<p class="miniOrange review_count ieSucks">172</p>
@@ -1627,9 +1567,9 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 		
 		
 			<p class="externalReviewActions">
-				<a rel="nofollow" href="/signup" class="bookmark" rel="0PrfqEpUBQq9th_h_W2y2g" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
-				<a rel="nofollow" href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=0PrfqEpUBQq9th_h_W2y2g&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', '0PrfqEpUBQq9th_h_W2y2g', null);return false">Send to a Friend</a>
-				<a rel="nofollow" class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:0PrfqEpUBQq9th_h_W2y2g" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', '0PrfqEpUBQq9th_h_W2y2g')">Link to This Review</a>
+				<a  href="/signup" class="bookmark" rel="0PrfqEpUBQq9th_h_W2y2g" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
+				<a  href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=0PrfqEpUBQq9th_h_W2y2g&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', '0PrfqEpUBQq9th_h_W2y2g', null);return false">Send to a Friend</a>
+				<a  class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:0PrfqEpUBQq9th_h_W2y2g" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', '0PrfqEpUBQq9th_h_W2y2g')">Link to This Review</a>
 			</p>
 
 	</div>
@@ -1638,7 +1578,7 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				<div class="mini">	
 	<div class="photoBoxSm">
 			<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=PfbmDAiFhv_c4s_Aat_bow"><img src="http://static.px.yelp.com/photo/5nOiXLwVJICCR0doyOyOzA/ss" style="height:40px;width:40px;" alt="Photo of Marie K." /></a>
+			<a  href="/user_details?userid=PfbmDAiFhv_c4s_Aat_bow"><img src="http://static.px.yelp.com/photo/5nOiXLwVJICCR0doyOyOzA/ss" style="height:40px;width:40px;" alt="Photo of Marie K." /></a>
 	</div>
 
 	<p class="miniOrange is_elite ieSucks">
@@ -1662,9 +1602,9 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 		
 		
 			<p class="externalReviewActions">
-				<a rel="nofollow" href="/signup" class="bookmark" rel="sUhD9e_8zqYPKCZSHTgi5g" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
-				<a rel="nofollow" href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=sUhD9e_8zqYPKCZSHTgi5g&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'sUhD9e_8zqYPKCZSHTgi5g', null);return false">Send to a Friend</a>
-				<a rel="nofollow" class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:sUhD9e_8zqYPKCZSHTgi5g" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'sUhD9e_8zqYPKCZSHTgi5g')">Link to This Review</a>
+				<a  href="/signup" class="bookmark" rel="sUhD9e_8zqYPKCZSHTgi5g" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
+				<a  href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=sUhD9e_8zqYPKCZSHTgi5g&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'sUhD9e_8zqYPKCZSHTgi5g', null);return false">Send to a Friend</a>
+				<a  class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:sUhD9e_8zqYPKCZSHTgi5g" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'sUhD9e_8zqYPKCZSHTgi5g')">Link to This Review</a>
 			</p>
 
 	</div>
@@ -1673,7 +1613,7 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				<div class="mini">	
 	<div class="photoBoxSm">
 			<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=l0E2uND3lPHlg8_rjd0m1Q"><img src="http://static.px.yelp.com/photo/hMc40okU5lbwJOXR7jmKvg/ss" style="height:40px;width:40px;" alt="Photo of kristie l." /></a>
+			<a  href="/user_details?userid=l0E2uND3lPHlg8_rjd0m1Q"><img src="http://static.px.yelp.com/photo/hMc40okU5lbwJOXR7jmKvg/ss" style="height:40px;width:40px;" alt="Photo of kristie l." /></a>
 	</div>
 
 	<p class="miniOrange is_elite ieSucks">
@@ -1709,9 +1649,9 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 		
 		
 			<p class="externalReviewActions">
-				<a rel="nofollow" href="/signup" class="bookmark" rel="-Sy0RvtZdRNiCySM0GMNdQ" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
-				<a rel="nofollow" href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=-Sy0RvtZdRNiCySM0GMNdQ&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', '-Sy0RvtZdRNiCySM0GMNdQ', null);return false">Send to a Friend</a>
-				<a rel="nofollow" class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:-Sy0RvtZdRNiCySM0GMNdQ" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', '-Sy0RvtZdRNiCySM0GMNdQ')">Link to This Review</a>
+				<a  href="/signup" class="bookmark" rel="-Sy0RvtZdRNiCySM0GMNdQ" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
+				<a  href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=-Sy0RvtZdRNiCySM0GMNdQ&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', '-Sy0RvtZdRNiCySM0GMNdQ', null);return false">Send to a Friend</a>
+				<a  class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:-Sy0RvtZdRNiCySM0GMNdQ" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', '-Sy0RvtZdRNiCySM0GMNdQ')">Link to This Review</a>
 			</p>
 
 	</div>
@@ -1720,7 +1660,7 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				<div class="mini">	
 	<div class="photoBoxSm">
 			<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=0tl0RoxhNRqxYRqXLIDEig"><img src="http://static.px.yelp.com/photo/11At-5XQIr7thjP0ljasXA/ss" style="height:40px;width:40px;" alt="Photo of Matthew G." /></a>
+			<a  href="/user_details?userid=0tl0RoxhNRqxYRqXLIDEig"><img src="http://static.px.yelp.com/photo/11At-5XQIr7thjP0ljasXA/ss" style="height:40px;width:40px;" alt="Photo of Matthew G." /></a>
 	</div>
 
 	<p class="miniOrange is_elite ieSucks">
@@ -1744,9 +1684,9 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 		
 		
 			<p class="externalReviewActions">
-				<a rel="nofollow" href="/signup" class="bookmark" rel="sGjTJVCL4IVsPdx3t0CZSQ" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
-				<a rel="nofollow" href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=sGjTJVCL4IVsPdx3t0CZSQ&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'sGjTJVCL4IVsPdx3t0CZSQ', null);return false">Send to a Friend</a>
-				<a rel="nofollow" class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:sGjTJVCL4IVsPdx3t0CZSQ" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'sGjTJVCL4IVsPdx3t0CZSQ')">Link to This Review</a>
+				<a  href="/signup" class="bookmark" rel="sGjTJVCL4IVsPdx3t0CZSQ" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
+				<a  href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=sGjTJVCL4IVsPdx3t0CZSQ&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'sGjTJVCL4IVsPdx3t0CZSQ', null);return false">Send to a Friend</a>
+				<a  class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:sGjTJVCL4IVsPdx3t0CZSQ" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'sGjTJVCL4IVsPdx3t0CZSQ')">Link to This Review</a>
 			</p>
 
 	</div>
@@ -1755,7 +1695,7 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				<div class="mini">	
 	<div class="photoBoxSm">
 			<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=owf1nM4hKYAoUEgWYxQNyQ"><img src="http://static.px.yelp.com/photo/IJpaweK3x6AFZnWBc6lAcQ/ss" style="height:40px;width:40px;" alt="Photo of Spencer T." /></a>
+			<a  href="/user_details?userid=owf1nM4hKYAoUEgWYxQNyQ"><img src="http://static.px.yelp.com/photo/IJpaweK3x6AFZnWBc6lAcQ/ss" style="height:40px;width:40px;" alt="Photo of Spencer T." /></a>
 	</div>
 
 	<p class="miniOrange is_elite ieSucks">
@@ -1794,9 +1734,9 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 		
 		
 			<p class="externalReviewActions">
-				<a rel="nofollow" href="/signup" class="bookmark" rel="wflFMXgVp_ywKD7cGMjtSw" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
-				<a rel="nofollow" href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=wflFMXgVp_ywKD7cGMjtSw&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'wflFMXgVp_ywKD7cGMjtSw', null);return false">Send to a Friend</a>
-				<a rel="nofollow" class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:wflFMXgVp_ywKD7cGMjtSw" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'wflFMXgVp_ywKD7cGMjtSw')">Link to This Review</a>
+				<a  href="/signup" class="bookmark" rel="wflFMXgVp_ywKD7cGMjtSw" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
+				<a  href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=wflFMXgVp_ywKD7cGMjtSw&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'wflFMXgVp_ywKD7cGMjtSw', null);return false">Send to a Friend</a>
+				<a  class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:wflFMXgVp_ywKD7cGMjtSw" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'wflFMXgVp_ywKD7cGMjtSw')">Link to This Review</a>
 			</p>
 
 	</div>
@@ -1805,7 +1745,7 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				<div class="mini">	
 	<div class="photoBoxSm">
 			<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=K1NLdTfT1IizE-6smhsSug"><img src="http://static.px.yelp.com/photo/nNQ4SrpfigfQiPxSiTgu3Q/ss" style="height:40px;width:40px;" alt="Photo of Creamy A." /></a>
+			<a  href="/user_details?userid=K1NLdTfT1IizE-6smhsSug"><img src="http://static.px.yelp.com/photo/nNQ4SrpfigfQiPxSiTgu3Q/ss" style="height:40px;width:40px;" alt="Photo of Creamy A." /></a>
 	</div>
 
 	<p class="miniOrange is_elite ieSucks">
@@ -1838,9 +1778,9 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 		
 		
 			<p class="externalReviewActions">
-				<a rel="nofollow" href="/signup" class="bookmark" rel="dGT7gYNAWB3vxGkQB8TRyw" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
-				<a rel="nofollow" href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=dGT7gYNAWB3vxGkQB8TRyw&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'dGT7gYNAWB3vxGkQB8TRyw', null);return false">Send to a Friend</a>
-				<a rel="nofollow" class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:dGT7gYNAWB3vxGkQB8TRyw" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'dGT7gYNAWB3vxGkQB8TRyw')">Link to This Review</a>
+				<a  href="/signup" class="bookmark" rel="dGT7gYNAWB3vxGkQB8TRyw" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
+				<a  href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=dGT7gYNAWB3vxGkQB8TRyw&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'dGT7gYNAWB3vxGkQB8TRyw', null);return false">Send to a Friend</a>
+				<a  class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:dGT7gYNAWB3vxGkQB8TRyw" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'dGT7gYNAWB3vxGkQB8TRyw')">Link to This Review</a>
 			</p>
 
 	</div>
@@ -1849,11 +1789,11 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				<div class="mini">	
 	<div class="photoBoxSm">
 			<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=ee1XilXm-2clTtM5O_k0aA"><img src="http://static.px.yelp.com/photo/v5vFyWnphAxTnthHPnWw3Q/ss" style="height:40px;width:40px;" alt="Photo of Cory G." /></a>
+			<a  href="/user_details?userid=ee1XilXm-2clTtM5O_k0aA"><img src="http://static.px.yelp.com/photo/v5vFyWnphAxTnthHPnWw3Q/ss" style="height:40px;width:40px;" alt="Photo of Cory G." /></a>
 	</div>
 
 	<p class="miniOrange is_elite ieSucks">
-		<a rel="nofollow" href="/elite" title="User is Elite">Elite '08</a>
+		<a  href="/elite" title="User is Elite">Elite '08</a>
 	</p>
 	<p class="miniOrange friend_count ieSucks">36</p>
 	<p class="miniOrange review_count ieSucks">209</p>
@@ -1873,9 +1813,9 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 		
 		
 			<p class="externalReviewActions">
-				<a rel="nofollow" href="/signup" class="bookmark" rel="g9JE7mGjRzBqb4xBsSJCqQ" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
-				<a rel="nofollow" href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=g9JE7mGjRzBqb4xBsSJCqQ&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'g9JE7mGjRzBqb4xBsSJCqQ', null);return false">Send to a Friend</a>
-				<a rel="nofollow" class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:g9JE7mGjRzBqb4xBsSJCqQ" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'g9JE7mGjRzBqb4xBsSJCqQ')">Link to This Review</a>
+				<a  href="/signup" class="bookmark" rel="g9JE7mGjRzBqb4xBsSJCqQ" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
+				<a  href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=g9JE7mGjRzBqb4xBsSJCqQ&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 'g9JE7mGjRzBqb4xBsSJCqQ', null);return false">Send to a Friend</a>
+				<a  class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:g9JE7mGjRzBqb4xBsSJCqQ" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 'g9JE7mGjRzBqb4xBsSJCqQ')">Link to This Review</a>
 			</p>
 
 	</div>
@@ -1884,7 +1824,7 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				<div class="mini">	
 	<div class="photoBoxSm">
 			<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=Za_I090SWdL67gKH_kGMRQ"><img src="http://static.px.yelp.com/photo/XqB3rp-dQD0FHFginF6Jtg/ss" style="height:40px;width:40px;" alt="Photo of Ralph C." /></a>
+			<a  href="/user_details?userid=Za_I090SWdL67gKH_kGMRQ"><img src="http://static.px.yelp.com/photo/XqB3rp-dQD0FHFginF6Jtg/ss" style="height:40px;width:40px;" alt="Photo of Ralph C." /></a>
 	</div>
 
 	<p class="miniOrange is_elite ieSucks">
@@ -1923,9 +1863,9 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 		
 		
 			<p class="externalReviewActions">
-				<a rel="nofollow" href="/signup" class="bookmark" rel="s4oSx9jgYsazjpAsubaiAg" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
-				<a rel="nofollow" href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=s4oSx9jgYsazjpAsubaiAg&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 's4oSx9jgYsazjpAsubaiAg', null);return false">Send to a Friend</a>
-				<a rel="nofollow" class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:s4oSx9jgYsazjpAsubaiAg" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 's4oSx9jgYsazjpAsubaiAg')">Link to This Review</a>
+				<a  href="/signup" class="bookmark" rel="s4oSx9jgYsazjpAsubaiAg" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
+				<a  href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=s4oSx9jgYsazjpAsubaiAg&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', 's4oSx9jgYsazjpAsubaiAg', null);return false">Send to a Friend</a>
+				<a  class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:s4oSx9jgYsazjpAsubaiAg" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', 's4oSx9jgYsazjpAsubaiAg')">Link to This Review</a>
 			</p>
 
 	</div>
@@ -1934,7 +1874,7 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				<div class="mini">	
 	<div class="photoBoxSm">
 			<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=TAzGPFt9x99JCYWtDmZDWg"><img src="http://static.px.yelp.com/static/20081117/i/new/gfx/blank_user_small.gif" style="height:40px;width:40px;" alt="Photo of Derrick C." /></a>
+			<a  href="/user_details?userid=TAzGPFt9x99JCYWtDmZDWg"><img src="http://static.px.yelp.com/static/20081117/i/new/gfx/blank_user_small.gif" style="height:40px;width:40px;" alt="Photo of Derrick C." /></a>
 	</div>
 
 	<p class="miniOrange is_elite ieSucks">
@@ -1958,9 +1898,9 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 		
 		
 			<p class="externalReviewActions">
-				<a rel="nofollow" href="/signup" class="bookmark" rel="9ZET-X9qdv2iJcIemPEy0g" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
-				<a rel="nofollow" href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=9ZET-X9qdv2iJcIemPEy0g&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', '9ZET-X9qdv2iJcIemPEy0g', null);return false">Send to a Friend</a>
-				<a rel="nofollow" class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:9ZET-X9qdv2iJcIemPEy0g" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', '9ZET-X9qdv2iJcIemPEy0g')">Link to This Review</a>
+				<a  href="/signup" class="bookmark" rel="9ZET-X9qdv2iJcIemPEy0g" title="Something catch your eye?<br> Bookmark this business to build your own list of fun ideas to check out later!" onclick="initBookSignUp(this,'ziVej4oW2JpUConTE_Y_mg','Nick\'s Crispy Tacos');return false">Bookmark</a>&nbsp;&nbsp;
+				<a  href="/biz_share?bizid=ziVej4oW2JpUConTE_Y_mg&amp;reviewid=9ZET-X9qdv2iJcIemPEy0g&amp;return_url=/biz/nicks-crispy-tacos-san-francisco" class="sendToFriend" onclick="Yelp.send2Friends.open(this, 'ziVej4oW2JpUConTE_Y_mg', '9ZET-X9qdv2iJcIemPEy0g', null);return false">Send to a Friend</a>
+				<a  class="linkToThis" href="/biz/nicks-crispy-tacos-san-francisco#hrid:9ZET-X9qdv2iJcIemPEy0g" onclick="review_fetcher.fetchReviews('ziVej4oW2JpUConTE_Y_mg', '-QhhXl4NJn3zYUNMU5eZ2Q', '9ZET-X9qdv2iJcIemPEy0g')">Link to This Review</a>
 			</p>
 
 	</div>
@@ -1997,23 +1937,23 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 			<div id="bizSideBar" class="clearfix">
 						<div id="bizNearby">
 			<div id="mapdiv">
-				<a rel="nofollow" href="/map/nicks-crispy-tacos-san-francisco"><img id="static_map" src="http://maps.google.com/staticmap?center=37.7960014343,-122.42199707&amp;zoom=15&amp;size=238x245&amp;key=ABQIAAAA-4PdDZI3yUT7Q6QmlfyYQBR-H9_hULZDKDkXlc3vkn3yqIJUbRQJYjw-XzY7Nb8a-Xj4njoI-o-BLg&amp;client=gme-yelp" alt="Map of Business" />
+				<a  href="/map/nicks-crispy-tacos-san-francisco"><img id="static_map" src="http://maps.google.com/staticmap?center=37.7960014343,-122.42199707&amp;zoom=15&amp;size=238x245&amp;key=ABQIAAAA-4PdDZI3yUT7Q6QmlfyYQBR-H9_hULZDKDkXlc3vkn3yqIJUbRQJYjw-XzY7Nb8a-Xj4njoI-o-BLg&amp;client=gme-yelp" alt="Map of Business" />
 				<img src="http://static.px.yelp.com/static/20081117/i/new/map/marker_star.png" width="20" height="29" id="biz_marker" alt="Business Location"></a>
 				<img src="http://static.px.yelp.com/static/20081117/i/new/map/zoom_in.png" id="zoom_in" alt="zoom in" /><img src="http://static.px.yelp.com/static/20081117/i/new/map/zoom_out.png" id="zoom_out" alt="zoom out" />
 			</div>
 
 				<div id="mapLink">
-						<a rel="nofollow" href="/map/nicks-crispy-tacos-san-francisco">View Larger Map/Directions &raquo;</a>
+						<a  href="/map/nicks-crispy-tacos-san-francisco">View Larger Map/Directions &raquo;</a>
 				</div>
 
 			<div id="nearby_biz_nav" class="clearfix">
 					<h3>Browse Nearby:</h3>
 					<ul class="stripped">
-							<li><a href="/search?find_loc=1500+Broadway%2C+San+Francisco%2C+CA+94109&cflt=restaurants" rel="nofollow">Restaurants</a> | </li>
-							<li><a href="/search?find_loc=1500+Broadway%2C+San+Francisco%2C+CA+94109&cflt=nightlife" rel="nofollow">Nightlife</a> | </li>
-							<li><a href="/search?find_loc=1500+Broadway%2C+San+Francisco%2C+CA+94109&cflt=shopping" rel="nofollow">Shopping</a> | </li>
-							<li><a href="/search?find_loc=1500+Broadway%2C+San+Francisco%2C+CA+94109&cflt=coffee" rel="nofollow">Coffee</a> | </li>
-						<li><a href="/search?find_loc=1500+Broadway%2C+San+Francisco%2C+CA+94109" rel="nofollow">All</a></li>
+							<li><a href="/search?find_loc=1500+Broadway%2C+San+Francisco%2C+CA+94109&amp;cflt=restaurants" >Restaurants</a> | </li>
+							<li><a href="/search?find_loc=1500+Broadway%2C+San+Francisco%2C+CA+94109&amp;cflt=nightlife" >Nightlife</a> | </li>
+							<li><a href="/search?find_loc=1500+Broadway%2C+San+Francisco%2C+CA+94109&amp;cflt=shopping" >Shopping</a> | </li>
+							<li><a href="/search?find_loc=1500+Broadway%2C+San+Francisco%2C+CA+94109&amp;cflt=coffee" >Coffee</a> | </li>
+						<li><a href="/search?find_loc=1500+Broadway%2C+San+Francisco%2C+CA+94109" >All</a></li>
 					</ul>
 			</div>
 		</div>
@@ -2117,13 +2057,13 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 
 						<div id="relatedLists" class="simple_list">
 			<h3 class="clearfix">
-					<a href="/list_search?q=Mexican&sort=relevance&location=San+Francisco%2C+CA" id="more_lists_button"><img src="http://static.px.yelp.com/static/20081117/i/new/btn/more.gif" alt="More" /></a>
+					<a href="/list_search?q=Mexican&amp;sort=relevance&amp;location=San+Francisco%2C+CA" id="more_lists_button"><img src="http://static.px.yelp.com/static/20081117/i/new/btn/more.gif" alt="More" /></a>
 				Related Lists
 			</h3>
 			<ul>
 				<li class="clearfix">
 						<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=e_Nl3VfvnZhewUpHgAF6mQ"><img src="http://static.px.yelp.com/photo/emFVDCxVL3h7NtdUc6t8Tg/ss" style="height:40px;width:40px;" alt="Photo of lindsay w." /></a>
+			<a  href="/user_details?userid=e_Nl3VfvnZhewUpHgAF6mQ"><img src="http://static.px.yelp.com/photo/emFVDCxVL3h7NtdUc6t8Tg/ss" style="height:40px;width:40px;" alt="Photo of lindsay w." /></a>
 	</div>
 
 					<div class="user_info">
@@ -2133,7 +2073,7 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				</li>
 				<li class="clearfix">
 						<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=-ZvOYHZSWQBi_K8dJghoyA"><img src="http://static.px.yelp.com/photo/qj4CkXoLvhgE806kGdDh5w/ss" style="height:40px;width:40px;" alt="Photo of jaja w." /></a>
+			<a  href="/user_details?userid=-ZvOYHZSWQBi_K8dJghoyA"><img src="http://static.px.yelp.com/photo/qj4CkXoLvhgE806kGdDh5w/ss" style="height:40px;width:40px;" alt="Photo of jaja w." /></a>
 	</div>
 
 					<div class="user_info">
@@ -2143,7 +2083,7 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				</li>
 				<li class="clearfix">
 						<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=XnbGrJNw0wglmqXekW138Q"><img src="http://static.px.yelp.com/photo/4pIMLx8mX5ykQ8Jm8Y-4iA/ss" style="height:40px;width:40px;" alt="Photo of Carolyn B." /></a>
+			<a  href="/user_details?userid=XnbGrJNw0wglmqXekW138Q"><img src="http://static.px.yelp.com/photo/4pIMLx8mX5ykQ8Jm8Y-4iA/ss" style="height:40px;width:40px;" alt="Photo of Carolyn B." /></a>
 	</div>
 
 					<div class="user_info">
@@ -2153,7 +2093,7 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				</li>
 				<li class="clearfix">
 						<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=QMVuoUgZfVQYwWMFBcbPMw"><img src="http://static.px.yelp.com/photo/M_--FKvd_I_LAGfwo8uzow/ss" style="height:40px;width:40px;" alt="Photo of kiko v." /></a>
+			<a  href="/user_details?userid=QMVuoUgZfVQYwWMFBcbPMw"><img src="http://static.px.yelp.com/photo/M_--FKvd_I_LAGfwo8uzow/ss" style="height:40px;width:40px;" alt="Photo of kiko v." /></a>
 	</div>
 
 					<div class="user_info">
@@ -2163,7 +2103,7 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				</li>
 				<li class="clearfix">
 						<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=s1DSkbdFEuO3ODbMWQqSvw"><img src="http://static.px.yelp.com/photo/O0SmfKzNrCYnl0yPwmNRyg/ss" style="height:40px;width:40px;" alt="Photo of Monika M." /></a>
+			<a  href="/user_details?userid=s1DSkbdFEuO3ODbMWQqSvw"><img src="http://static.px.yelp.com/photo/O0SmfKzNrCYnl0yPwmNRyg/ss" style="height:40px;width:40px;" alt="Photo of Monika M." /></a>
 	</div>
 
 					<div class="user_info">
@@ -2173,7 +2113,7 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				</li>
 				<li class="clearfix">
 						<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=aEKUC4oQg2CokbwyW_CXSg"><img src="http://static.px.yelp.com/photo/M_6sMU2kYoZXT9aDqYVKaA/ss" style="height:40px;width:40px;" alt="Photo of Sarah R." /></a>
+			<a  href="/user_details?userid=aEKUC4oQg2CokbwyW_CXSg"><img src="http://static.px.yelp.com/photo/M_6sMU2kYoZXT9aDqYVKaA/ss" style="height:40px;width:40px;" alt="Photo of Sarah R." /></a>
 	</div>
 
 					<div class="user_info">
@@ -2183,7 +2123,7 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				</li>
 				<li class="clearfix">
 						<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=5vd9a7Xx_LlFfVogN1UsJg"><img src="http://static.px.yelp.com/photo/5gc-EtAS3xiq8dqXb6XNbA/ss" style="height:40px;width:40px;" alt="Photo of Lauren C." /></a>
+			<a  href="/user_details?userid=5vd9a7Xx_LlFfVogN1UsJg"><img src="http://static.px.yelp.com/photo/5gc-EtAS3xiq8dqXb6XNbA/ss" style="height:40px;width:40px;" alt="Photo of Lauren C." /></a>
 	</div>
 
 					<div class="user_info">
@@ -2193,7 +2133,7 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 				</li>
 				<li class="clearfix">
 						<div class="clearStyles photoBox" >
-			<a rel="nofollow" href="/user_details?userid=YI79OBE_GEhguwk3qgslxQ"><img src="http://static.px.yelp.com/photo/W0ew9ujxAcS9aNbM9aWoKw/ss" style="height:40px;width:40px;" alt="Photo of Jessie L." /></a>
+			<a  href="/user_details?userid=YI79OBE_GEhguwk3qgslxQ"><img src="http://static.px.yelp.com/photo/W0ew9ujxAcS9aNbM9aWoKw/ss" style="height:40px;width:40px;" alt="Photo of Jessie L." /></a>
 	</div>
 
 					<div class="user_info">
@@ -2231,78 +2171,23 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 
 	-->
 
-		<script type="text/javascript" src="http://static.px.yelp.com/static/20081113/js/st_lib/effects.js"></script>
-	<script type="text/javascript" src="http://static.px.yelp.com/static/20081113/js/moo.fx.js"></script>
-	<script type="text/javascript" src="http://static.px.yelp.com/static/20081113/js/biz_functions.js"></script>
-
-	<script type="text/javascript">
-	<!--
-		var gmapsUrl = 'http://maps.google.com/maps?oe=utf-8&file=api&v=2.132d&client=gme-yelp&key=ABQIAAAA-4PdDZI3yUT7Q6QmlfyYQBR-H9_hULZDKDkXlc3vkn3yqIJUbRQJYjw-XzY7Nb8a-Xj4njoI-o-BLg';
-		var review_fetcher;
-		Yelp.mainBizInit = function(){
-				makeNiceTitles();
-
-
-				var priceTooltip = new Yelp.tooltipz('price_tip', {doClick: true});
-
-				review_fetcher = new Yelp.BizReviewsFetcher(); 
-					review_fetcher.fetchReviews("ziVej4oW2JpUConTE_Y_mg", "-QhhXl4NJn3zYUNMU5eZ2Q",false);
-					Event.observe($$('#firstToReviewLabel a')[0],'click',function(){review_fetcher.fetchReviews("ziVej4oW2JpUConTE_Y_mg", "-QhhXl4NJn3zYUNMU5eZ2Q", "RczzCnHJgjvsnRGh-haf2Q");});
-
-				Yelp.biz_map_init();
-			Yelp.extraBizInit();
-		};
-		Event.observe(window, "load", Yelp.mainBizInit);
-		
-			(function(){new Yelp.ReviewSummaryMechatron({
-				'container': $('review_snapshot'),
-				'main_reviews_elements': [$('bizReviewsContent'), $('review_sort_section'), $('paginationControls')],
-				'main_reviews_container': $('bizReviewsContent'),
-				'scroll_to_element': $('bizReviewsHeader'),
-				'graphs_header': $('review_snapshot_graph_header'),
-				'graphs_content': $('review_snapshot_graph_content'),
-				'graphs_urls': {
-					dist:"http://static.px.yelp.com/biz_details_graphs/static/20081117/dist/ziVej4oW2JpUConTE_Y_mg",
-					trend:"http://static.px.yelp.com/biz_details_graphs/static/20081117/trend/ziVej4oW2JpUConTE_Y_mg"
-				}
-			});})();
-
-			Yelp.loggedin_user = false;
-
-		var json_biz = {"cross_streets":"Polk St & United States Highway 101","rating":3.869159,"zip":"94109","review_count":749,"name":"Nick's Crispy Tacos","neighborhoods":["Russian Hill"],"category_yelp_ids":["5WfAGDDGX7iwTC6cE5yxvQ"],"address1":"1500 Broadway","address2":"","photos":[],"longitude":-122.421997,"phone":"(415) 409-8226","state":"CA","city":"San Francisco","cross_streets_miniprefix":"b/t","latitude":37.796001,"id":"ziVej4oW2JpUConTE_Y_mg"};
-
-		Yelp.api_domain = 'http://api.yelp.com';
-		Yelp.biz_id = 'ziVej4oW2JpUConTE_Y_mg';
-		
-				var slides = [{"description":"At Nick's, you will find a festive environment and the best crispy tacos around.  We don't just do tacos - we offer other specialties like tasty burritos, corn on the cob and fresh juices.  Located inside Harry Denton's Rouge on Polk Street, we're a great way to start (or recover from) a night on the town!  But get here early - it's take-out only after 8:30pm!","caption":null,"image_url":null,"user":{"exists":false},"business_name":"Nick's Crispy Tacos","type":"description"},{"image_url":"bphoto/sa6Hv0hkKYMiTJ8yXgeQuw/","type":"photo","user":{"display_name":"Jeremy S.","id":"nkN_do3fJ9xekchVC-v68A","exists":true},"caption":null},{"image_url":"bphoto/7AZLRBKfRZOy1XN5m6j9bg/","type":"photo","user":{"display_name":"Julie K.","id":"5Kef0JeNixYH9T4CJsyDxw","exists":true},"caption":null},{"image_url":"bphoto/cTCWX0ISEmGMoIDhrm5Lgg/","type":"photo","user":{"display_name":"Julie K.","id":"5Kef0JeNixYH9T4CJsyDxw","exists":true},"caption":null},{"image_url":"bphoto/OQB4g4KrPCKO5QHkUmFxwQ/","type":"photo","user":{"display_name":"Julie K.","id":"5Kef0JeNixYH9T4CJsyDxw","exists":true},"caption":null},{"image_url":"bphoto/51hzP7cqjo7Tr_Y5PABd0A/","type":"photo","user":{"display_name":"Julie K.","id":"5Kef0JeNixYH9T4CJsyDxw","exists":true},"caption":null},{"image_url":"bphoto/GBRCrLGT0Bs7tMh-t23IzA/","type":"photo","user":{"display_name":"Caroline C.","id":"kORGcgi0Iw2RG8gJl84MVA","exists":true},"caption":null},{"image_url":"bphoto/lXUCLsJ_yJjOI1d7KN4RVw/","type":"photo","user":{"display_name":"Caroline C.","id":"kORGcgi0Iw2RG8gJl84MVA","exists":true},"caption":null},{"image_url":"bphoto/KNmICr2x7bDNJjrbmyt08A/","type":"photo","user":{"display_name":"Caroline C.","id":"kORGcgi0Iw2RG8gJl84MVA","exists":true},"caption":null},{"image_url":"bphoto/6HOYpp7Jm1GXJBcpHMSj3w/","type":"photo","user":{"display_name":"Peter B.","id":"tjoO2drWxgDGPrC3JkNdFQ","exists":true},"caption":"Scene"},{"image_url":"bphoto/O9QoLvOYvni-Oefk-suoug/","type":"photo","user":{"display_name":"Peter B.","id":"tjoO2drWxgDGPrC3JkNdFQ","exists":true},"caption":"Tacos"},{"image_url":"bphoto/XJ5WJPLP-fTIFkza3ChGbA/","type":"photo","user":{"display_name":"Peter B.","id":"tjoO2drWxgDGPrC3JkNdFQ","exists":true},"caption":"Aqua Fresca"},{"image_url":"bphoto/U_iV0mrFDoSrtLUC6jROJQ/","type":"photo","user":{"display_name":"Peter B.","id":"tjoO2drWxgDGPrC3JkNdFQ","exists":true},"caption":"Soup"},{"image_url":"bphoto/AV6fSCZ1AnDeqXZwb6W4hA/","type":"photo","user":{"display_name":"Peter B.","id":"tjoO2drWxgDGPrC3JkNdFQ","exists":true},"caption":"Salad"},{"image_url":"bphoto/JZzpSZ4A3Q7VSPWGgWda0g/","type":"photo","user":{"display_name":"Fallopian Swim Team D.","id":"dyXStp5ALuR7jc0FLIzycg","exists":true},"caption":null},{"image_url":"bphoto/sVL0y6cbDY3HYiZQXzNFSA/","type":"photo","user":{"display_name":"Fallopian Swim Team D.","id":"dyXStp5ALuR7jc0FLIzycg","exists":true},"caption":null},{"image_url":"bphoto/XkmURoXESliTmYi-2nZ7wg/","type":"photo","user":{"display_name":"Daniel K.","id":"olPfZ8iqJF2e7lgWEicRPQ","exists":true},"caption":null},{"image_url":"bphoto/pl-TzTXWmdrhzvg8DVNzsg/","type":"photo","user":{"display_name":"Jonas T.","id":"NK-zIxHMuTnLRU0RhoZWqw","exists":true},"caption":"Tacos and Nachos"},{"image_url":"bphoto/fyIXx-6GCOumTxMN0tYBgQ/","type":"photo","user":{"display_name":"Jonas T.","id":"NK-zIxHMuTnLRU0RhoZWqw","exists":true},"caption":"Inside"},{"image_url":"bphoto/wOr2y79zfIpytAKOPrSVaQ/","type":"photo","user":{"display_name":"Jonas T.","id":"NK-zIxHMuTnLRU0RhoZWqw","exists":true},"caption":"Carnitas Quesadilla"},{"image_url":"bphoto/N9cbGy9tWBa8tD-pmryN3w/","type":"photo","user":{"display_name":"Jonas T.","id":"NK-zIxHMuTnLRU0RhoZWqw","exists":true},"caption":"Pescado Taco"},{"image_url":"bphoto/jy73Yvl18kAlWw7ZDbVXQg/","type":"photo","user":{"display_name":"Jonas T.","id":"NK-zIxHMuTnLRU0RhoZWqw","exists":true},"caption":"Nick's Crispy Tacos"},{"image_url":"bphoto/enW1jkPV2nu37LmiOrw97g/","type":"photo","user":{"display_name":"Jeremy S.","id":"nkN_do3fJ9xekchVC-v68A","exists":true},"caption":null},{"image_url":"bphoto/aGpiaaE2nWw4zJF4dqe_LQ/","type":"photo","user":{"display_name":"Brad C.","id":"uaiBkiGlMpiPnn26kM6sHA","exists":true},"caption":null},{"image_url":"bphoto/PhzvQzV_hkBeH-jvJnbm7w/","type":"photo","user":{"display_name":"Paula C.","id":"wPklud-oVInjbpk3SCPiCA","exists":true},"caption":"Nick's New Sign"},{"image_url":"bphoto/tEsSQ4GFuPJotzxtDfxFmg/","type":"photo","user":{"display_name":"Paula C.","id":"wPklud-oVInjbpk3SCPiCA","exists":true},"caption":"I Love Nick's"}];
-	var paused = false;
-	var slideshow;
-	var playMouseover = false;
-	Event.observe(window, 'load', initss);
-
-				Yelp.makeSupporterTooltip();
-	//-->
-	</script>
-		<script type="text/javascript" src="http://static.px.yelp.com/static/20081113/js/dynObjects.js"></script>
-		<script type="text/javascript" src="http://static.px.yelp.com/static/20081113/js/chart_functions.js"></script>
-
-<!-- google_ad_section_start(weight=ignore) -->
+		<!-- google_ad_section_start(weight=ignore) -->
 <div id="footer">
 	
 	<div>		
 				<ul id="aboutSite">
-					<li><a href="/business?country=US" rel="nofollow">Business Owners</a></li>
-					<li> | <a href="/signup" rel="nofollow" id="Zprofile_footer">My Account</a></li>
-					<li> | <a href="/about" rel="nofollow">About Yelp</a></li>
-					<li> | <a href="/faq" rel="nofollow">FAQ</a></li>
+					<li><a href="/business?country=US" >Business Owners</a></li>
+					<li> | <a href="/signup"  id="Zprofile_footer">My Account</a></li>
+					<li> | <a href="/about" >About Yelp</a></li>
+					<li> | <a href="/faq" >FAQ</a></li>
 					<li> | <a href="/weekly">The Weekly Yelp</a></li>
-					<li> | <a href="http://blog.yelp.com/" rel="nofollow">Yelp Blog</a></li>
-					<li> | <a href="/yelpmobile" rel="nofollow">Yelp Mobile</a></li>
+					<li> | <a href="http://blog.yelp.com/" >Yelp Blog</a></li>
+					<li> | <a href="/yelpmobile" >Yelp Mobile</a></li>
 					<li> | <a href="/toronto">Yelp Canada</a></li>
-					<li> | <a href="/rss" rel="nofollow">RSS</a></li>
-					<li> | <a href="/developers?country=US" rel="nofollow">Developers</a></li>
-					<li> | <a href="/contact" rel="nofollow">Feedback</a></li>
-					<li> | <a href="/jobs?country=US" rel="nofollow">Jobs</a></li>
+					<li> | <a href="/rss" >RSS</a></li>
+					<li> | <a href="/developers?country=US" >Developers</a></li>
+					<li> | <a href="/contact" >Feedback</a></li>
+					<li> | <a href="/jobs?country=US" >Jobs</a></li>
 				</ul>
 	</div>
 
@@ -2341,8 +2226,8 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 	</span>
 </div>	
 <p>&nbsp;</p>	
-<p>Use of this site is subject to express <a href="/static?p=tos&amp;country=US" rel="nofollow"><strong>Terms of Service</strong></a>. By continuing past this page, you agree to abide by these terms.</p>
-<p>Copyright &copy; 2004-2008 Yelp | <a href="/static?p=privacy&amp;country=US" rel="nofollow">Privacy Policy</a><br><br></p>
+<p>Use of this site is subject to express <a href="/static?p=tos&amp;country=US" ><strong>Terms of Service</strong></a>. By continuing past this page, you agree to abide by these terms.</p>
+<p>Copyright &copy; 2004-2008 Yelp | <a href="/static?p=privacy&amp;country=US" >Privacy Policy</a><br><br></p>
 
 <div class="directory">
 	<ul>
@@ -2436,12 +2321,6 @@ Sat-Sun.					10:30 a.m. - 9:00 p.m.
 
 <img src="/spice?r=1b6d1cac1f1845b3" />
 
-<script src="http://www.google-analytics.com/urchin.js" type="text/javascript">
-</script>
-<script type="text/javascript">
-_uacct = "UA-30501-1";
-urchinTracker();
-</script>
 
 
 
