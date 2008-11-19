@@ -1,0 +1,13 @@
+{
+  "name": "h1",
+  "phone": "#bizPhone",
+  "address": "address",
+  "reviews(.nonfavoriteReview)": [
+    {
+      "date": ".ieSucks .smaller",
+      "user_name": ".reviewer_info a",
+      "user_link": ".reviewer_info a | @href",
+      "comment": ".review_comment"
+    }
+  ]
+}
