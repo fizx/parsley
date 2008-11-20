@@ -6,7 +6,7 @@
     {
       "date": ".ieSucks .smaller",
       "user_name": ".reviewer_info a",
-      "user_link": ".reviewer_info a | @href",
+      "user_link": "$user_name | @href | concat('http://www.yelp.com', $in)",
       "comment": ".review_comment"
     }
   ]

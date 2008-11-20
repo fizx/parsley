@@ -4,16 +4,23 @@
 
 	<xsl:template match="/">
 		<root>
-			<name><xsl:value-of select="//h1" /></name>
-			<phone><xsl:value-of select="//*[@id='bizPhone']" /></phone>
-			<address><xsl:value-of select="//address" /></address>
+			<xsl:variable name="root.name" select="//h1" />
+			<name><xsl:value-of select="$root.name" /></name>
+			<xsl:variable name="root.phone" select="//*[@id='bizPhone']" />
+			<phone><xsl:value-of select="$root.phone" /></phone>
+			<xsl:variable name="root.address" select="//address" />
+			<address><xsl:value-of select="$root.address" /></address>
 			<reviews>
 				<xsl:for-each select="//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'nonfavoriteReview', ' ' ))]">
 					<group>
-						<date><xsl:value-of select=".//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'ieSucks', ' ' ))]//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'smaller', ' ' ))]" /></date>
-						<user-name><xsl:value-of select=".//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'reviewer_info', ' ' ))]//a" /></user-name>
-						<user-link><xsl:value-of select=".//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'reviewer_info', ' ' ))]//a/@href" /></user-link>
-						<comment><xsl:value-of select=".//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'review_comment', ' ' ))]" /></comment>
+						<xsl:variable name="root.reviews.date" select=".//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'ieSucks', ' ' ))]//*[contains(concat( ' ', @class, ' ' ), concat( ' ', 'smaller', ' ' ))]" />
+						<date><xsl:value-of select="$root.reviews.date" /></date>
+						<xsl:variable name="root.reviews.user-name" select=".//*[contains(concat( ' ', @class, ' ' ), ' reviewer_info ')]//a" />
+						<user-name><xsl:value-of select="$root.reviews.user-name" /></user-name>
+						<xsl:variable name="root.reviews.user-link" select="concat('http://www.yelp.com', $root.reviews.user-name/@href)" />
+						<user-link><xsl:value-of select="$root.reviews.user-link" /></user-link>
+						<xsl:variable name="root.reviews.comment" select=".//*[contains(concat( ' ', @class, ' ' ), ' review_comment ')]" />
+						<comment><xsl:value-of select="$root.reviews.comment" /></comment>
 					</group>
 				</xsl:for-each>
 			</reviews>
