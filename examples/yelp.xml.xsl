@@ -17,7 +17,7 @@
 						<date><xsl:value-of select="$root.reviews.date" /></date>
 						<xsl:variable name="root.reviews.user-name" select=".//*[contains(concat( ' ', @class, ' ' ), ' reviewer_info ')]//a" />
 						<user-name><xsl:value-of select="$root.reviews.user-name" /></user-name>
-						<xsl:variable name="root.reviews.user-link" select="concat('http://www.yelp.com', $root.reviews.user-name/@href)" />
+						<xsl:variable name="root.reviews.user-link" select="concat('http://www.yelp.com', $root.reviews.user-name / @href)" />
 						<user-link><xsl:value-of select="$root.reviews.user-link" /></user-link>
 						<xsl:variable name="root.reviews.comment" select=".//*[contains(concat( ' ', @class, ' ' ), ' review_comment ')]" />
 						<comment><xsl:value-of select="$root.reviews.comment" /></comment>

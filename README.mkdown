@@ -1,0 +1,50 @@
+Dexter is a simple language for data-extraction from XML-like documents (including HTML).  A simple script, or "dex", looks like this:
+
+{
+	"title": "h1",
+	"links": [
+		{
+			"text": "a",
+			"href": "$text/@href"
+		}
+	]
+}
+
+This returns JSON output with the same structure.  Applying this dex to http://www.yelp.com/biz/amnesia-san-francisco yields:
+
+{
+  "title": "Amnesia",
+  "links": [
+    {
+      "href": "\/",
+      "text": "Yelp"
+    },
+    {
+      "href": "\/",
+      "text": "Welcome"
+    },
+    {
+      "href": "\/signup?return_url=%2Fuser_details",
+      "text": " About Me"
+    },
+		.....
+	]
+}
+
+This dex could also have been expressed as:
+
+{
+	"title": "h1",
+	"links(a)": [
+		{
+			"text": ".",
+			"href": "@href"
+		}
+	]
+}
+
+The "a" in links(a) is a "key selector" an explicit grouping (with scope) for the array.  You can use any XPath or CSS3 expression as a value or a key selector.  Dexter will try to be smart, and figure out which you are using.  
+
+We've made a few more changes, which you should be aware of.
+
+# 
