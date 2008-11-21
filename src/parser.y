@@ -46,6 +46,7 @@ void myparse(char*);
 %token TILDE
 %token SPLAT
 %token PLUS
+%token DASH
 %token EQ
 %token LTE
 %token GTE
@@ -121,10 +122,260 @@ void myparse(char*);
 %token STRING
 
 %%
-final
-	: selectors_full_group						{ printf("-----\nXPath: %s\n-----\n", $1); }
+
+Root
+	:	Expr OptS		{ $$ = $1; printf("-----\nxpath: %s\n-----\n", $$); }
+	;
+
+LocationPath
+  : RelativeLocationPath 
+	| AbsoluteLocationPath
+	| selectors_full_group
 	;
 	
+AbsoluteLocationPath
+  : SLASH RelativeLocationPath				{ $$ = astrcat($1, $2); }
+	| SLASH
+	| AbbreviatedAbsoluteLocationPath
+	;
+	
+RelativeLocationPath
+  : Step 
+	| RelativeLocationPath SLASH Step		{ $$ = astrcat3($1, $2, $3); }
+	| AbbreviatedRelativeLocationPath
+	;
+	
+Step
+  : AxisSpecifier NodeTest						{ $$ = astrcat($1, $2); }
+	| AxisSpecifier NodeTest Predicate  { $$ = astrcat3($1, $2, $3); }
+	| AbbreviatedStep
+	;
+	
+AxisSpecifier
+  : AxisName DBLCOLON									{ $$ = astrcat($1, $2); } 
+	| AbbreviatedAxisSpecifier
+	;
+AxisName
+	: XANCESTOR 		
+	| XANCESTORSELF	
+	| XATTR					
+	| XCHILD				
+	| XDESC					
+	| XDESCSELF			
+	| XFOLLOW				
+	| XFOLLOWSIB		
+	| XNS						
+	| XPARENT				
+	| XPRE					
+	| XPRESIB				
+	| XSELF					
+	;
+	
+NodeTest
+  : NameTest 
+	| NodeType LPAREN RPAREN						 { $$ = astrcat3($1, $2, $3); }
+	| XPI LPAREN Literal RPAREN					 { $$ = astrcat4($1, $2, $3, $4); }
+	;
+	
+Predicate
+  : LBRA PredicateExpr RBRA						 { $$ = astrcat3($1, $2, $3); }
+	;
+	
+PredicateExpr
+  : Expr
+	;
+	
+AbbreviatedAbsoluteLocationPath
+  : DBLSLASH RelativeLocationPath			{ $$ = astrcat($1, $2); }
+	;
+	
+AbbreviatedRelativeLocationPath
+  : RelativeLocationPath DBLSLASH Step	{ $$ = astrcat3($1, $2, $3); }
+	;
+	
+AbbreviatedStep
+  : DOT
+ 	| DBLDOT
+	;
+	
+AbbreviatedAxisSpecifier
+  : AT
+	|				{ $$ = ""; }
+	;
+Expr
+  : OrExpr								%dprec 1
+	| selectors_full_group	%dprec 2
+	;
+PrimaryExpr
+  : VariableReference 
+	| LPAREN Expr RPAREN 									{ $$ = astrcat3($1, $2, $3); }
+	| Literal
+  | Number 
+	| FunctionCall
+	;
+	
+FunctionCall
+  : FunctionName LPAREN Arguments RPAREN		{ $$ = astrcat4($1, $2, $3, $4); }
+	;
+Arguments
+	: ArgumentSet
+	|										{ $$ = ""; }
+	;
+ArgumentSet
+	:	Argument COMMA ArgumentSet				{ $$ = astrcat3($1, $2, $3); }
+	| Argument												
+	;
+Argument
+  : Expr
+	;
+	
+UnionExpr
+  : PathExpr 
+	| UnionExpr PIPE PathExpr							{ $$ = astrcat3($1, $2, $3); }
+	;
+	
+PathExpr
+  : LocationPath 
+	| FilterExpr
+	| FilterExpr SLASH RelativeLocationPath					{ $$ = astrcat3($1, $2, $3); }
+	| FilterExpr DBLSLASH RelativeLocationPath				{ $$ = astrcat3($1, $2, $3); }		
+	;
+	
+FilterExpr
+  : PrimaryExpr 
+	| FilterExpr Predicate				{ $$ = astrcat($1, $2); }
+	;
+	
+OrExpr
+  : AndExpr 
+	| OrExpr XOR AndExpr						{ $$ = astrcat3($1, $2, $3); }
+	;
+	
+AndExpr
+  : EqualityExpr 
+	| AndExpr XAND EqualityExpr			{ $$ = astrcat3($1, $2, $3); }
+	;
+	
+EqualityExpr
+  : RelationalExpr 
+	| EqualityExpr EQ RelationalExpr				{ $$ = astrcat3($1, $2, $3); }
+	| EqualityExpr CXOPNE RelationalExpr		{ $$ = astrcat3($1, $2, $3); }	
+	;
+	
+RelationalExpr
+  : AdditiveExpr
+  | RelationalExpr LT AdditiveExpr        { $$ = astrcat3($1, $2, $3); }
+  | RelationalExpr GT AdditiveExpr        { $$ = astrcat3($1, $2, $3); }
+  | RelationalExpr LTE AdditiveExpr       { $$ = astrcat3($1, $2, $3); }
+  | RelationalExpr GTE AdditiveExpr       { $$ = astrcat3($1, $2, $3); }
+	;
+	
+AdditiveExpr
+  : MultiplicativeExpr
+	| AdditiveExpr PLUS MultiplicativeExpr		{ $$ = astrcat3($1, $2, $3); }
+	| AdditiveExpr DASH MultiplicativeExpr		{ $$ = astrcat3($1, $2, $3); }
+	;
+	
+MultiplicativeExpr
+  : UnaryExpr
+  | MultiplicativeExpr MultiplyOperator UnaryExpr		{ $$ = astrcat3($1, $2, $3); }
+  | MultiplicativeExpr XDIV UnaryExpr              { $$ = astrcat3($1, $2, $3); }
+  | MultiplicativeExpr XMOD UnaryExpr              { $$ = astrcat3($1, $2, $3); }
+	;
+	
+UnaryExpr
+  : UnionExpr 
+	| DASH UnaryExpr		{ $$ = astrcat($1, $2); }
+	;
+	
+ExprToken
+  : LPAREN
+	| RPAREN
+	| LBRA
+	| RBRA
+	| DOT
+	| DBLDOT
+	| AT
+	| COMMA
+	| DBLCOLON
+	| NameTest 
+	| NodeType 
+	| Operator 
+	| FunctionName
+	| AxisName 
+	| Literal 
+	| Number 
+	| VariableReference
+	;
+	
+Literal
+  : STRING
+	;
+Number
+  : NUMBER
+	| NUMBER DOT						{ $$ = astrcat($1, $2); }
+	| NUMBER DOT NUMBER			{ $$ = astrcat3($1, $2, $3); }
+	| DOT NUMBER						{ $$ = astrcat($1, $2); }
+	;
+	
+Operator
+  : OperatorName 
+	| MultiplyOperator 
+	| SLASH
+	| DBLSLASH
+	| PIPE
+	| PLUS
+	| DASH
+	| EQ
+	| CXOPNE
+	| LT
+	| LTE
+	| GT 
+	| GTE
+	;
+	
+OperatorName
+  : XAND 
+	| XOR 
+	| XMOD 
+	| XDIV
+	;
+	
+MultiplyOperator
+  : SPLAT
+	;
+	
+VariableReference
+  : DOLLAR QName				{	$$ = astrcat($1, $2); }
+	;
+	
+NameTest
+  : SPLAT
+	| NCName COLON SPLAT 	{ $$ = astrcat3($1, $2, $3); }
+	| QName
+	;
+NodeType
+  : XCOMMENT 
+	| XTEXT 
+	| XPI 
+	| XNODE
+	;
+	
+ExprWhitespace
+  : S
+
+FunctionName
+  : NAME
+	;
+
+QName
+	: NAME
+	;
+
+NCName
+	: NAME
+	;
+
 selectors_full_group
 	: selectors_group OptS				{ $$ = astrcat(".//", $1); }
 	;

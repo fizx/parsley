@@ -42,6 +42,7 @@ RBRA        "]"
 TILDE       {S}?"~"
 SPLAT       "*"
 PLUS        {S}?"+"
+DASH				"-"
 EQ          "="
 LTE         "<="
 GTE         ">="
@@ -143,6 +144,7 @@ NAME        [a-zA-Z_][a-zA-Z0-9\-_]*
 {TILDE} yylval = strdup(yytext); return TILDE;
 {SPLAT} yylval = strdup(yytext); return SPLAT;
 {PLUS} yylval = strdup(yytext); return PLUS;
+{DASH} yylval = strdup(yytext); return DASH;
 {EQ} yylval = strdup(yytext); return EQ;
 {LTE} yylval = strdup(yytext); return LTE;
 {GTE} yylval = strdup(yytext); return GTE;
