@@ -58,7 +58,12 @@ PARENT	      'parent'
 PRE	          'preceding' 
 PRESIB	      'preceding-sibling' 
 SELF	        'self'
+S             [\x20|\x9|\xD|\xA]+
 
+
+NCNameStartChar	[A-za-z_]
+NCNameChar	  [A-za-z_\-\.0-9]
+NCName        {NCNameStartChar}{NCNameChar}*
 
 
 

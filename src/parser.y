@@ -226,6 +226,22 @@ NodeType
 ExprWhitespace 
   : S
   ;
+QName
+	: PrefixedName
+  | UnprefixedName
+  ;
+PrefixedName
+  : Prefix COLON LocalPart
+  ;
+UnprefixedName
+  : LocalPart
+  ;
+Prefix
+  : NCName
+  ;
+LocalPart
+  : NCName
+  ;
   
   
 %%
