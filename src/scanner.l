@@ -1,58 +1,70 @@
 %{
 #include <stdio.h>
 #include "y.tab.h"
+
+YY_BUFFER_STATE mybuffer;
+
+void prepare_parse(char* msg) {
+  mybuffer = yy_scan_string(msg);  
+}
+
+void cleanup_parse() {
+  yy_delete_buffer(mybuffer);  
+}
  
 %}
-              
-DSTR          '"' [^"]+ '"'
-SSTR          "'" [^']+ "'"
-Digits        [0-9]+
-SLASH         '/'
-PIPE          '|'
-PLUS          '+'
-DASH          '-'
-EQ            '='
-NE            '!='
-LT            '<'
-GT            '>'
-GTE           '>='
-LTE           '<='
-AND           'and'
-OR            'or'
-MOD           'mod'
-DIV           'div'
-SPLAT         '*'
-LPAREN        '('
-RPAREN        ')'
-LBRA          '['
-RBRA          ']'
-DOT           '.'
-AT            '@'
-COLON         ':'
-DOLLAR        '$'
-COMMA         ','
-COMMENT       'comment'
-TEXT          'text' 
-PI            'processing-instruction' 
-NODE          'node'
-ANCESTOR      'ancestor' 
-ANCESTORSELF  'ancestor-or-self' 
-ATTR	        'attribute' 
-CHILD	        'child' 
-DESC	        'descendant' 
-DESCSELF	    'descendant-or-self' 
-FOLLOW	      'following'
-FOLLOWSIB	    'following-sibling' 
-NS	          'namespace' 
-PARENT	      'parent' 
-PRE	          'preceding' 
-PRESIB	      'preceding-sibling' 
-SELF	        'self'
-S             [\x20|\x9|\xD|\xA]+
 
+%option stack
+%option case-insensitive
 
-NCNameStartChar	[A-za-z_]
-NCNameChar	  [A-za-z_\-\.0-9]
-NCName        {NCNameStartChar}{NCNameChar}*
+ident     [-]?{nmstart}{nmchar}*
+name      {nmchar}+
+nmstart   [_a-z]|{nonascii}|{escape}
+nonascii  [^\0-\177]
+unicode   \\[0-9a-f]{1,6}(\r\n|[ \n\r\t\f])?
+escape    {unicode}|\\[^\n\r\f0-9a-f]
+nmchar    [_a-z0-9-]|{nonascii}|{escape}
+num       [0-9]+|[0-9]*\.[0-9]+
+string    {string1}|{string2}
+string1   \"([^\n\r\f\\"]|\\{nl}|{nonascii}|{escape})*\"
+string2   \'([^\n\r\f\\']|\\{nl}|{nonascii}|{escape})*\'
+invalid   {invalid1}|{invalid2}
+invalid1  \"([^\n\r\f\\"]|\\{nl}|{nonascii}|{escape})*
+invalid2  \'([^\n\r\f\\']|\\{nl}|{nonascii}|{escape})*
+nl        \n|\r\n|\r|\f
+w         [ \t\r\n\f]*
+
 
 %%
+
+[ \t\r\n\f]+     return S;
+
+"~="             return INCLUDES;
+"|="             return DASHMATCH;
+"^="             return PREFIXMATCH;
+"$="             return SUFFIXMATCH;
+"*="             return SUBSTRINGMATCH;
+{ident}          return IDENT;
+{string}         return STRING;
+{ident}"("       return FUNCTION;
+{num}            return NUMBER;
+"#"{name}        return HASH;
+{w}"+"           return PLUS;
+{w}">"           return GREATER;
+{w}","           return COMMA;
+{w}"~"           return TILDE;
+":not("          return NOT;
+@{ident}         return ATKEYWORD;
+{invalid}        return INVALID;
+{num}%           return PERCENTAGE;
+{num}{ident}     return DIMENSION;
+"<!--"           return CDO;
+"-->"            return CDC;
+
+"url("{w}{string}{w}")"                           return URI;
+"url("{w}([!#$%&*-~]|{nonascii}|{escape})*{w}")"  return URI;
+U\+[0-9a-f?]{1,6}(-[0-9a-f]{1,6})?                return UNICODE_RANGE;
+
+\/\*[^*]*\*+([^/*][^*]*\*+)*\/                    /* ignore comments */
+
+.                return *yytext;

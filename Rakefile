@@ -12,6 +12,8 @@ task :clean do
   end
 end
 
+task :default => :parser
+
 task :parser => ["bin/parser", "bin/scanner"]
 
 file "bin/parser" => ["src/scanner.yy.c", "src/y.tab.c", "src/parser_main.c"] do
@@ -21,7 +23,7 @@ end
 
 file "bin/scanner" => ["src/scanner.yy.c", "src/scanner_main.c"] do
   mkdir_p "bin"
-  system "cd src && gcc -std=c99 -lfl -o ../bin/scanner kstring.c scanner.yy.c scanner_main.c"
+  system "cd src && gcc -std=c99 -lfl -o ../bin/scanner kstring.c y.tab.c scanner.yy.c scanner_main.c"
 end
 
 file "src/y.tab.c" => ["src/parser.y"] do
@@ -29,5 +31,5 @@ file "src/y.tab.c" => ["src/parser.y"] do
 end
 
 file "src/scanner.yy.c" => ["src/y.tab.c", "src/scanner.l"] do
-  system "cd src && lex -o scanner.yy.c scanner.l"
+  system "cd src && lex -d -o scanner.yy.c scanner.l"
 end
