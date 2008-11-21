@@ -236,6 +236,31 @@ Ident
 	| BSLASHLIT						{ *$$ = *strdup($1) + 1; }
 	| NAME Ident					{ $$ = strcat($1, $2); }
 	| BSLASHLIT Ident			{ *$$ = (*astrcat($1, $2) + 1); }
+	| keyword
+	;
+	
+keyword
+	: XANCESTOR
+	| XANCESTORSELF
+	| XATTR
+	| XCHILD
+	| XDESC
+	| XDESCSELF
+	| XFOLLOW
+	| XFOLLOWSIB
+	| XNS
+	| XPARENT
+	| XPRE
+	| XPRESIB
+	| XSELF
+	| XOR
+	| XAND
+	| XDIV
+	| XMOD
+	| XCOMMENT
+	| XTEXT
+	| XPI
+	| XNODE
 	;
 	
 StringLike
