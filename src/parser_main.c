@@ -3,10 +3,6 @@
 #include "y.tab.h"
 
 int main() {
-  const int max = 10000;
-  char buffer[max];
-  while (fgets(buffer, max, stdin) != NULL) {
-    myparse(buffer);
-  }
+  yyparse();
   return 0; 
 }

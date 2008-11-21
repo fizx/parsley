@@ -1,22 +1,12 @@
 %{
 #include <stdio.h>
 #include "y.tab.h"
-
-YY_BUFFER_STATE mybuffer;
-
-void prepare_parse(char* msg) {
-  mybuffer = yy_scan_string(msg);  
-}
-
-void cleanup_parse() {
-  yy_delete_buffer(mybuffer);  
-}
  
 %}
               
 DSTR          '"' [^"]+ '"'
 SSTR          "'" [^']+ "'"
-DIGIT         [0-9]
+Digits        [0-9]+
 SLASH         '/'
 PIPE          '|'
 PLUS          '+'
@@ -64,9 +54,5 @@ S             [\x20|\x9|\xD|\xA]+
 NCNameStartChar	[A-za-z_]
 NCNameChar	  [A-za-z_\-\.0-9]
 NCName        {NCNameStartChar}{NCNameChar}*
-
-
-
-OTHER       (.|\n)
 
 %%
