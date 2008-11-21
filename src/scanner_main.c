@@ -7,6 +7,6 @@ int yywrap(void){
 }
 
 int main(void){
-  yylex();
+	while(1) yylex();
   return 0;
 }
