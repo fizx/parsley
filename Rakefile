@@ -7,16 +7,16 @@ task :yelp do
 end
 
 task :clean do
-  rm Dir["examples/*.output.*"]
-  rm Dir["src/*.yy.c"]
-  rm Dir["src/*.tab.*"]
+  File.open(".gitignore").each do |line|
+    rm_rf Dir[line.strip]
+  end
 end
 
 task :parser => ["bin/parser", "bin/scanner"]
 
 file "bin/parser" => ["src/scanner.yy.c", "src/y.tab.c", "src/parser_main.c"] do
   mkdir_p "bin"
-  system "cd src && gcc -std=c99 -lfl -o ../bin/parser kstring.c y.tab.c parser_main.c"
+  system "cd src && gcc -std=c99 -lfl -o ../bin/parser kstring.c y.tab.c scanner.yy.c parser_main.c"
 end
 
 file "bin/scanner" => ["src/scanner.yy.c", "src/scanner_main.c"] do

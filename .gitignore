@@ -1,0 +1,4 @@
+examples/*.output.*
+src/*.yy.c
+src/*.tab.*
+bin
