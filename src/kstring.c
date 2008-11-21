@@ -34,9 +34,19 @@ char* astrcat5(char* a, char* b, char* c, char* d, char* e) {
   return aastrcat(5, arr);
 }
 
+char* astrcat6(char* a, char* b, char* c, char* d, char* e, char* f) {
+  char* arr[6] = {a, b, c, d, e, f};
+  return aastrcat(6, arr);
+}
+
 char* astrcat9(char* a, char* b, char* c, char* d, char* e, char* f, char* g, char* h, char* i) {
   char* arr[9] = {a, b, c, d, e, f, g, h, i};
   return aastrcat(9, arr);
+}
+
+char* astrcat10(char* a, char* b, char* c, char* d, char* e, char* f, char* g, char* h, char* i, char* j) {
+  char* arr[10] = {a, b, c, d, e, f, g, h, i, j};
+  return aastrcat(10, arr);
 }
 
 void* memdup(void* input, int size){

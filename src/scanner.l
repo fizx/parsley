@@ -33,15 +33,15 @@ COLON       ":"
 DBLCOLON			"::"
 QUERY       "?"
 HASH        "#"
-COMMA       ","
+COMMA       {S}?","
 DOT         "."
 DBLDOT       ".."
-GT          ">"
+GT          {S}?">"
 LBRA        "["
 RBRA        "]"
-TILDE       "~"
+TILDE       {S}?"~"
 SPLAT       "*"
-PLUS        "+"
+PLUS        {S}?"+"
 EQ          "="
 LTE         "<="
 GTE         ">="
@@ -68,7 +68,10 @@ XOR						"or"
 XAND					"and"
 XDIV					"div"
 XMOD					"mod"
-
+XCOMMENT			"comment"
+XTEXT 				"text" 
+XPI					 	"processing-instruction"
+XNODE					"node"
 CXEQUATION    [0-9]+n
 CXOPHE        "|="
 CXOPNE        "!="
@@ -89,8 +92,6 @@ CXCONTAINS    ":contains"
 CXEMPTY       ":empty"
 CXHAS         ":has"
 CXPARENT      ":parent"
-CXHIDDEN      ":hidden"
-CXVISIBLE     ":visible"
 CXNTHCH       ":nth-child"
 CXNTHLASTCH   ":nth-last-child"
 CXNTHTYPE 	  ":nth-of-type"
@@ -165,6 +166,10 @@ NAME        [a-zA-Z_][a-zA-Z0-9\-_]*
 {XAND} yylval = strdup(yytext); return XAND;
 {XDIV} yylval = strdup(yytext); return XDIV;
 {XMOD} yylval = strdup(yytext); return XMOD;
+{XCOMMENT} yylval = strdup(yytext); return XCOMMENT;
+{XTEXT} yylval = strdup(yytext); return XTEXT;
+{XPI} yylval = strdup(yytext); return XPI;
+{XNODE} yylval = strdup(yytext); return XNODE;
 {CXEQUATION} yylval = strdup(yytext); return CXEQUATION;
 {CXOPHE} yylval = strdup(yytext); return CXOPHE;
 {CXOPNE} yylval = strdup(yytext); return CXOPNE;
@@ -185,8 +190,6 @@ NAME        [a-zA-Z_][a-zA-Z0-9\-_]*
 {CXEMPTY} yylval = strdup(yytext); return CXEMPTY;
 {CXHAS} yylval = strdup(yytext); return CXHAS;
 {CXPARENT} yylval = strdup(yytext); return CXPARENT;
-{CXHIDDEN} yylval = strdup(yytext); return CXHIDDEN;
-{CXVISIBLE} yylval = strdup(yytext); return CXVISIBLE;
 {CXNTHCH} yylval = strdup(yytext); return CXNTHCH;
 {CXNTHLASTCH} yylval = strdup(yytext); return CXNTHLASTCH;
 {CXNTHTYPE} yylval = strdup(yytext); return CXNTHTYPE;

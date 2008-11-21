@@ -8,7 +8,7 @@ int yywrap(void){
 
 int main() {
   const int max = 1000;
-  // start_debugging();
+  start_debugging();
   char buffer[max];
   while (fgets(buffer, max, stdin) != NULL) {
     myparse(buffer);
