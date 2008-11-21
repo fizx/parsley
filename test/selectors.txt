@@ -32,4 +32,4 @@ a[class$="red"]
 a[class*="red"]
 a[class~="red"]
 a[class|="red"]
-a[class|="red"] b
+a[class|="red"]
