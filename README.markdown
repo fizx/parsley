@@ -3,7 +3,7 @@
 Dexter is a simple language for data-extraction from XML-like documents (including HTML).  Dexter is:
 
 1. Blazing fast -- Typical HTML parses are sub-50ms.
-2. Easy to write and understand.
+2. Easy to write and understand -- Dexter uses your current knowledge of JSON, CSS, and XPath.
 3. Powerful.  Dexter can understand full XPath, including standard and user-defined functions.
 
 ### Examples
