@@ -15,12 +15,12 @@ task :default => :parser
 
 task :parser => ["bin/parser", "bin/scanner"]
 
-file "bin/parser" => Dir["src/*.c"] do
+file "bin/parser" => Dir["src/*.c"] + ["src/y.tab.c", "src/scanner.yy.c"] do
   mkdir_p "bin"
   system "cd src && gcc -std=c99 -lfl -o ../bin/parser kstring.c y.tab.c scanner.yy.c parser_main.c"
 end
 
-file "bin/scanner" => Dir["src/*.c"] do
+file "bin/scanner" => Dir["src/*.c"] + ["src/y.tab.c", "src/scanner.yy.c"] do
   mkdir_p "bin"
   system "cd src && gcc -std=c99 -lfl -o ../bin/scanner kstring.c y.tab.c scanner.yy.c scanner_main.c"
 end
@@ -30,5 +30,5 @@ file "src/y.tab.c" => ["src/parser.y"] do
 end
 
 file "src/scanner.yy.c" => ["src/y.tab.c", "src/scanner.l"] do
-  system "cd src && lex  -o scanner.yy.c scanner.l"
+  system "cd src && lex -d -o scanner.yy.c scanner.l"
 end
