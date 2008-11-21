@@ -32,12 +32,12 @@ LocationPath
   | AbsoluteLocationPath
   ;
 AbsoluteLocationPath 
-  : '/' RelativeLocationPath?
+  : SLASH RelativeLocationPath?
   | AbbreviatedAbsoluteLocationPath
   ;
 RelativeLocationPath 
   : Step 
-  | RelativeLocationPath '/' Step
+  | RelativeLocationPath SLASH Step
   | AbbreviatedRelativeLocationPath
   ;
 Step 
@@ -45,59 +45,59 @@ Step
   | AbbreviatedStep
   ;
 AxisSpecifier 
-  : AxisName '::' 
+  : AxisName COLON COLON 
   | AbbreviatedAxisSpecifier
   ;
 AxisName 
-	: 'ancestor' 
-	|	'ancestor-or-self' 
-	|	'attribute' 
-	|	'child' 
-	|	'descendant' 
-	|	'descendant-or-self' 
-	|	'following'
-	|	'following-sibling' 
-	|	'namespace' 
-	|	'parent' 
-	|	'preceding' 
-	|	'preceding-sibling' 
-	|	'self'
+	: ANCESTOR      
+	| ANCESTORSELF  
+	| ATTR	        
+	| CHILD	        
+	| DESC	        
+	| DESCSELF	    
+	| FOLLOW	      
+	| FOLLOWSIB	    
+	| NS	          
+	| PARENT	      
+	| PRE	          
+	| PRESIB	      
+	| SELF	        
 	;
 NodeTest 
   : NameTest 
-  | NodeType '(' ')'
-  | 'processing-instruction' '(' Literal ')'
+  | NodeType LPAREN RPAREN
+  | PI LPAREN Literal RPAREN
   ;
 Predicate 
-  : '[' PredicateExpr ']'
+  : LBRA PredicateExpr RBRA
   ;
 PredicateExpr 
   : Expr
   ;
 AbbreviatedAbsoluteLocationPath 
-  : '//' RelativeLocationPath
+  : SLASH SLASH RelativeLocationPath
   ;
 AbbreviatedRelativeLocationPath 
-  : RelativeLocationPath '//' Step
+  : RelativeLocationPath SLASH SLASH Step
   ;
 AbbreviatedStep 
-  : '.' 
-  | '..'
+  : DOT 
+  | DOT DOT
   ;
 AbbreviatedAxisSpecifier 
-  : '@'?
+  : AT?
 Expr 
   : OrExpr
   ;
 PrimaryExpr 
   : VariableReference 
-  | '(' Expr ')' 
+  | LPAREN Expr RPAREN 
   | Literal
   | Number 
   | FunctionCall
   ;
 FunctionCall 
-  : FunctionName '(' ( Argument ( ',' Argument )* )? ')'
+  : FunctionName LPAREN ( Argument ( COMMA Argument )* )? RPAREN
   ;
 Argument 
   : Expr
@@ -105,13 +105,13 @@ Argument
   ;
 UnionExpr
   : PathExpr 
-  | UnionExpr '|' PathExpr
+  | UnionExpr PIPE PathExpr
   ;
 PathExpr 
   : LocationPath 
   | FilterExpr
-  | FilterExpr '/' RelativeLocationPath
-  | FilterExpr '//' RelativeLocationPath
+  | FilterExpr SLASH RelativeLocationPath
+  | FilterExpr SLASH SLASH RelativeLocationPath
   ;
 FilterExpr 
   : PrimaryExpr 
@@ -119,49 +119,49 @@ FilterExpr
   ;
 OrExpr 
   : AndExpr 
-  | OrExpr 'or' AndExpr
+  | OrExpr OR AndExpr
   ;
 AndExpr
   : EqualityExpr 
-  | AndExpr 'and' EqualityExpr
+  | AndExpr AND EqualityExpr
   ;
 EqualityExpr 
   : RelationalExpr 
-  | EqualityExpr '=' RelationalExpr
-  | EqualityExpr '!=' RelationalExpr
+  | EqualityExpr EQ RelationalExpr
+  | EqualityExpr NE RelationalExpr
   ;
 RelationalExpr 
   : AdditiveExpr
-  | RelationalExpr '<' AdditiveExpr
-  | RelationalExpr '>' AdditiveExpr
-  | RelationalExpr '<=' AdditiveExpr
-  | RelationalExpr '>=' AdditiveExpr
+  | RelationalExpr LT AdditiveExpr
+  | RelationalExpr GT AdditiveExpr
+  | RelationalExpr LTE AdditiveExpr
+  | RelationalExpr GTE AdditiveExpr
   ;
 AdditiveExpr 
   : MultiplicativeExpr
-  | AdditiveExpr '+' MultiplicativeExpr
-  | AdditiveExpr '-' MultiplicativeExpr
+  | AdditiveExpr PLUS MultiplicativeExpr
+  | AdditiveExpr DASH MultiplicativeExpr
   ;
 MultiplicativeExpr 
   : UnaryExpr
   | MultiplicativeExpr MultiplyOperator UnaryExpr
-  | MultiplicativeExpr 'div' UnaryExpr
-  | MultiplicativeExpr 'mod' UnaryExpr
+  | MultiplicativeExpr DIV UnaryExpr
+  | MultiplicativeExpr MOD UnaryExpr
   ;
 UnaryExpr 
   : UnionExpr
-  | '-' UnaryExpr
+  | DASH UnaryExpr
   ;
 ExprToken 
-  : '('
-  | ')'
-  | '['
-  | ']'
-  | '.'
-  | '..'
-  | '@'
-  | ','
-  | '::'
+  : LPAREN
+  | RPAREN
+  | LBRA
+  | RBRA
+  | DOT
+  | DOT DOT
+  | AT
+  | COMMA
+  | COLON COLON
   | NameTest 
   | NodeType 
   | Operator 
@@ -172,69 +172,62 @@ ExprToken
   | VariableReference
   ;
 Literal 
-  : '"' [^"]* '"' 
-  | "'" [^']* "'"
+  : DSTR 
+  | SSTR
   ;
 Number 
-  : Digits ('.' Digits?)? 
-  | '.' Digits
+  : Digits (DOT Digits?)? 
+  | DOT Digits
   ;
 Digits 
-  : [0-9]+
+  : DIGIT+
   ;
 Operator 
   : OperatorName 
   | MultiplyOperator 
-  | '/' 
-  | '//' 
-  | '|'
-  | '+' 
-  | '-' 
-  | '=' 
-  | '!=' 
-  | '<' 
-  | '<=' 
-  | '>' 
-  | '>='
+  | SLASH 
+  | SLASH SLASH 
+  | PIPE
+  | PLUS 
+  | DASH
+  | EQ
+  | NE
+  | LT
+  | LTE
+  | GT
+  | GTE
   ;
 OperatorName 
-  : 'and' 
-  | 'or' 
-  | 'mod' 
-  | 'div'
+  : AND 
+  | OR 
+  | MOD 
+  | DIV
   ;
 MultiplyOperator 
-  : '*'
+  : SPLAT
   ;
 FunctionName 
   : QName - NodeType
   ;
 VariableReference 
-  : '$' QName
+  : DOLLAR QName
   ;
 NameTest 
-  : '*' 
-  | NCName ':' '*' 
+  : SPLAT 
+  | NCName COLON SPLAT 
   | QName
   ;
 NodeType 
-  : 'comment' 
-  | 'text' 
-  | 'processing-instruction' 
-  | 'node'
+  : COMMENT
+  | TEXT
+  | PI
+  | NODE
   ;
 ExprWhitespace 
   : S
   ;
-
-
-
-
-
-
-
-
-
+  
+  
 %%
 
 void myparse(char* string){
