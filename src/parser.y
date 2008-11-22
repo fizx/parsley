@@ -7,6 +7,8 @@
 
 #define YYSTYPE char *
 
+char* parsed_answer;
+
 int yylex (void);
 void yyerror (char const *);
 
@@ -15,7 +17,8 @@ void cleanup_parse(void);
 void start_debugging(void);
 
 int yyparse(void);
-void myparse(char*);
+char* myparse(char*);
+void answer(char*);
   
 %}
 
@@ -124,7 +127,7 @@ void myparse(char*);
 %%
 
 Root
-	:	Expr OptS		{ $$ = $1; printf("-----\nxpath: %s\n-----\n", $$); }
+	:	Expr OptS		{ answer($1); }
 	;
 
 LocationPath
@@ -204,7 +207,7 @@ AbbreviatedAxisSpecifier
 	;
 Expr
   : OrExpr								%dprec 1
-	| selectors_full_group	%dprec 2
+	| selectors_full_group	%dprec 2  
 	;
 PrimaryExpr
   : VariableReference 
@@ -377,12 +380,12 @@ NCName
 	;
 
 selectors_full_group
-	: selectors_group OptS				{ $$ = astrcat(".//", $1); }
+	: selectors_group OptS				{ $$ = astrcat(".//", $1); printf("---<%s>", $$); }
 	;
 	
 selectors_group
 	: selector COMMA OptS selectors_group		{ $$ = astrcat3($1, "|", $4); }
-	| selector 
+	| selector 	{$$=$1;	printf("!!!<%s>", $$); }
   ;
 
 selector
@@ -399,7 +402,7 @@ combinator
 
 simple_selector_sequence
 	: simple_selector_anchor
-	| possibly_empty_sequence HASH Ident		{ $$ = astrcat4($1, "[@id=\"", $3,"\"]"); }
+	| possibly_empty_sequence HASH Ident		{ $$ = astrcat4($1, "[@id='", $3,"']"); }
 	| possibly_empty_sequence DOT Ident		{ $$ = astrcat4($1, "[contains(concat( ' ', @class, ' ' ), concat( ' ', '", $3, "', ' ' ))]"); }
 	| possibly_empty_sequence LBRA	type_selector RBRA { $$ = astrcat4($1, "[@", $3, "]"); }
 	| possibly_empty_sequence LBRA	type_selector OptS EQ OptS StringLike OptS RBRA { $$ = astrcat6($1, "[@", $3, " = ", $7, "]"); }
@@ -417,7 +420,7 @@ simple_selector_sequence
 	| possibly_empty_sequence CXEQ LPAREN NumberLike RPAREN			{ $$ = astrcat4($1, "[position() = ", $4, "]"); }
 	| possibly_empty_sequence CXGT LPAREN NumberLike RPAREN			{ $$ = astrcat4($1, "[position() > ", $4, "]"); }
 	| possibly_empty_sequence CXLT LPAREN NumberLike RPAREN			{ $$ = astrcat4($1, "[position() < ", $4, "]"); }
-	| possibly_empty_sequence CXHEADER		{ $$ = astrcat($1, "[contains(\"h1 h2 h3 h4 h5 h6\", lower-case(local-name()))]"); }
+	| possibly_empty_sequence CXHEADER		{ $$ = astrcat($1, "[contains('h1 h2 h3 h4 h5 h6', lower-case(local-name()))]"); }
 	| possibly_empty_sequence CXCONTAINS	LPAREN StringLike RPAREN { $$ = astrcat4($1, "[contains(., ", $4, "]"); }
 	| possibly_empty_sequence CXEMPTY		{ $$ = astrcat($1, "[not(node())]"); }
 	| possibly_empty_sequence CXHAS LPAREN selectors_full_group RPAREN		{ $$ = astrcat4($1, "[", $4, "]"); }
@@ -460,7 +463,7 @@ simple_selector_anchor
 
 type_selector
   : namespace_prefix element_name	{	$$ = astrcat3($1, ":", $2); }
-  | element_name
+  | element_name				
   ;
 
 namespace_prefix
@@ -531,10 +534,15 @@ void yyerror (const char * s) {
   exit(1);
 }
 
-void myparse(char* string){
+char* myparse(char* string){
   prepare_parse(string);
   yyparse();
   cleanup_parse();
+	return parsed_answer;
+}
+
+void answer(char* a){
+	parsed_answer = a;
 }
 
 
