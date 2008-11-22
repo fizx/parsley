@@ -3,6 +3,10 @@
 #include <stdio.h>
 #include "kstring.h"
 
+char* astrdup(char* c) {
+	return strdup(c);
+}
+
 char* astrcat(char* a, char* b) {
 	char* output = (char*) malloc(sizeof(char) * (strlen(a) + strlen(b) + 1));
 	sprintf(output, "%s%s", a, b);

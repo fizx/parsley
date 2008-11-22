@@ -483,7 +483,7 @@ NumberLike
 
 Ident
 	: NAME
-	| BSLASHLIT						{ *$$ = *strdup($1) + 1; }
+	| BSLASHLIT						{ *$$ = *astrdup($1) + 1; }
 	| NAME Ident					{ $$ = strcat($1, $2); }
 	| BSLASHLIT Ident			{ *$$ = (*astrcat($1, $2) + 1); }
 	| keyword

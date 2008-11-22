@@ -1,6 +1,6 @@
 #ifndef KSTRING_INCLUDED
 #define KSTRING_INCLUDED
-
+extern char* astrdup(char*);
 extern char* astrcat(char*, char*);
 extern char* astrcat3(char*, char*, char*);
 extern char* astrcat4(char*, char*, char*, char*);

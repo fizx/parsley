@@ -3,6 +3,7 @@
 #include <argp.h>
 #include <json/json.h>
 #include "kstring.h"
+#include "obstack.h"
 #include "y.tab.h"
 #include <string.h>
 #include <errno.h>
@@ -143,8 +144,8 @@ void recurse_object(struct json_object * json, FILE * out, char *context) {
 	bool has_expr;
 	json_object_object_foreach(json, key, val) {
 		offset = 0;
-		tag = strdup(key);
-		expr = strdup(key);
+		tag = astrdup(key);
+		expr = astrdup(key);
 		ptr = tag;
 		has_expr = false;
 		while(*ptr++ != '\0'){
@@ -174,7 +175,7 @@ void recurse_array(struct json_object * json, FILE * out, char *context) {
 }
 
 void recurse_string(struct json_object * json, FILE * out, char *context) {
-	char* a = strdup(json_object_get_string(json));
+	char* a = astrdup(json_object_get_string(json));
 	char* ptr = context;
 	char* last = context;
 	while(*ptr++){
