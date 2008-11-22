@@ -133,7 +133,7 @@ Root
 LocationPath
   : RelativeLocationPath 
 	| AbsoluteLocationPath
-	| selectors_full_group
+	| selectors_group
 	;
 	
 AbsoluteLocationPath
@@ -207,7 +207,7 @@ AbbreviatedAxisSpecifier
 	;
 Expr
   : OrExpr								%dprec 1
-	| selectors_full_group	%dprec 2  
+	| selectors_group	%dprec 2  
 	;
 PrimaryExpr
   : VariableReference 
@@ -379,13 +379,9 @@ NCName
 	: NAME
 	;
 
-selectors_full_group
-	: selectors_group OptS				{ $$ = astrcat(".//", $1); printf("---<%s>", $$); }
-	;
-	
 selectors_group
 	: selector COMMA OptS selectors_group		{ $$ = astrcat3($1, "|", $4); }
-	| selector 	{$$=$1;	printf("!!!<%s>", $$); }
+	| selector 	{ $$ = astrcat(".//", $1); }
   ;
 
 selector
@@ -414,7 +410,7 @@ simple_selector_sequence
 	| possibly_empty_sequence LBRA	type_selector OptS CXOPCONTAINS2 OptS StringLike OptS RBRA { $$ = astrcat6($1, "[contains(@", $3, ", ", $7, ")]"); }
 	| possibly_empty_sequence CXFIRST	{ $$ = astrcat($1, "[1]"); }
 	| possibly_empty_sequence CXLAST		{ $$ = astrcat($1, "[last()]"); }
-	| possibly_empty_sequence CXNOT LPAREN selectors_full_group RPAREN		{ $$ = astrcat5("set-difference(", $1, ", ", $4, ")"); }
+	| possibly_empty_sequence CXNOT LPAREN selectors_group RPAREN		{ $$ = astrcat5("set-difference(", $1, ", ", $4, ")"); }
 	| possibly_empty_sequence CXEVEN		{ $$ = astrcat($1, "[position() % 2 = 0]"); }
 	| possibly_empty_sequence CXODD		{ $$ = astrcat($1, "[position() % 2 = 1]"); }
 	| possibly_empty_sequence CXEQ LPAREN NumberLike RPAREN			{ $$ = astrcat4($1, "[position() = ", $4, "]"); }
@@ -423,7 +419,7 @@ simple_selector_sequence
 	| possibly_empty_sequence CXHEADER		{ $$ = astrcat($1, "[contains('h1 h2 h3 h4 h5 h6', lower-case(local-name()))]"); }
 	| possibly_empty_sequence CXCONTAINS	LPAREN StringLike RPAREN { $$ = astrcat4($1, "[contains(., ", $4, "]"); }
 	| possibly_empty_sequence CXEMPTY		{ $$ = astrcat($1, "[not(node())]"); }
-	| possibly_empty_sequence CXHAS LPAREN selectors_full_group RPAREN		{ $$ = astrcat4($1, "[", $4, "]"); }
+	| possibly_empty_sequence CXHAS LPAREN selectors_group RPAREN		{ $$ = astrcat4($1, "[", $4, "]"); }
 	| possibly_empty_sequence CXPARENT		{ $$ = astrcat($1, "[node()]"); }
 	| possibly_empty_sequence CXNTHCH LPAREN NumberLike RPAREN 	{ $$ = astrcat4("*[", $4, "]/self::", $1); }
 	| possibly_empty_sequence CXNTHLASTCH LPAREN NumberLike RPAREN 	{ $$ = astrcat4("*[last() - ", $4, "]/self::", $1); }

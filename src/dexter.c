@@ -8,6 +8,7 @@
 #include <errno.h>
 #include <ctype.h>
 #include <stdbool.h>
+#define BUF_SIZE 1024
 
 int yywrap(void){
   return 1;
@@ -38,10 +39,10 @@ typedef struct arguments
 }	ARGS;
 
 int compile(ARGS*);
-void recurse(struct json_object *, FILE *);
-void recurse_object(struct json_object *, FILE *);
-void recurse_array(struct json_object *, FILE *);
-void recurse_string(struct json_object *, FILE *);
+void recurse(struct json_object *, FILE *, char*);
+void recurse_object(struct json_object *, FILE *, char*);
+void recurse_array(struct json_object *, FILE *, char*);
+void recurse_string(struct json_object *, FILE *, char*);
 
 static error_t parse_opt (int key, char *arg, struct argp_state *state)
 {
@@ -123,7 +124,8 @@ int compile(ARGS* arguments) {
 	fprintf(out, "<xsl:template match=\"/\">");
 	fprintf(out, "<root>");
 	
-	recurse(json, out);
+	char *context = "root";
+	recurse(json, out, context);
 	
 	fprintf(out, "</root>");
 	fprintf(out, "</xsl:template>");
@@ -133,10 +135,11 @@ int compile(ARGS* arguments) {
 	return 0;
 }
 
-void recurse_object(struct json_object * json, FILE * out) {
+void recurse_object(struct json_object * json, FILE * out, char *context) {
 	char *tag;
 	char *ptr;
 	char *expr;
+	char new_context[BUF_SIZE];
 	int offset;
 	bool has_expr;
 	json_object_object_foreach(json, key, val) {
@@ -157,35 +160,45 @@ void recurse_object(struct json_object * json, FILE * out) {
 		
 		fprintf(out, "<%s>", tag);
 		if(has_expr) fprintf(out, "<xsl:for-each select=\"%s\">", myparse(expr));
-		recurse(val, out);
+		printf("<!--%s-->", context);
+		snprintf(new_context, BUF_SIZE, "%s.%s", context, tag);
+		printf("<!--%s-->", new_context);
+		recurse(val, out, new_context);
 		if(has_expr) fprintf(out, "</xsl:for-each>");
 		fprintf(out, "</%s>", tag);
   }
 }
 
-void recurse_array(struct json_object * json, FILE * out) {
+void recurse_array(struct json_object * json, FILE * out, char *context) {
 	for(int i = 0; i < json_object_array_length(json); i++) {
 		fprintf(out, "<group>");
- 		recurse(json_object_array_get_idx(json, i), out);
+ 		recurse(json_object_array_get_idx(json, i), out, context);
     fprintf(out, "</group>");
   }
 }
 
-void recurse_string(struct json_object * json, FILE * out) {
-	char* a = json_object_get_string(json);
-	fprintf(out, "<xsl:value-of select=\"%s\" /><!--%s-->", myparse(a), a);
+void recurse_string(struct json_object * json, FILE * out, char *context) {
+	char* a = strdup(json_object_get_string(json));
+	char* ptr = context;
+	char* last = context;
+	while(*ptr++){
+		if(*ptr == '.') last = ptr + 1;
+	}
+	fprintf(out, "<xsl:variable name=\"%s\" select=\"%s\" />", context, myparse(a));
+	fprintf(out, "<xsl:variable name=\"%s\" select=\"$%s\" />", last, context);
+	fprintf(out, "<xsl:value-of select=\"$%s\" />", context);
 }
 
-void recurse(struct json_object * json, FILE * out) {
+void recurse(struct json_object * json, FILE * out, char *context) {
 	switch(json_object_get_type(json)){
 		case json_type_object:
-			recurse_object(json, out);
+			recurse_object(json, out, context);
 			break;
 		case json_type_array:
-			recurse_array(json, out);
+			recurse_array(json, out, context);
 			break;
 		case json_type_string:
-			recurse_string(json, out);
+			recurse_string(json, out, context);
 			break;
 		case json_type_boolean:
 		case json_type_double:
