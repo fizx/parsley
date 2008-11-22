@@ -139,7 +139,6 @@ void recurse_object(struct json_object * json, FILE * out, char *context) {
 	char *tag;
 	char *ptr;
 	char *expr;
-	char new_context[BUF_SIZE];
 	int offset;
 	bool has_expr;
 	json_object_object_foreach(json, key, val) {
@@ -160,10 +159,7 @@ void recurse_object(struct json_object * json, FILE * out, char *context) {
 		
 		fprintf(out, "<%s>", tag);
 		if(has_expr) fprintf(out, "<xsl:for-each select=\"%s\">", myparse(expr));
-		printf("<!--%s-->", context);
-		snprintf(new_context, BUF_SIZE, "%s.%s", context, tag);
-		printf("<!--%s-->", new_context);
-		recurse(val, out, new_context);
+		recurse(val, out, astrcat3(context, ".", tag));
 		if(has_expr) fprintf(out, "</xsl:for-each>");
 		fprintf(out, "</%s>", tag);
   }

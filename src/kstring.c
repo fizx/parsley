@@ -1,75 +1,46 @@
 #include <string.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include "kstring.h"
 
-char* aastrcat(int count, char** strings) {
-  size_t size = 1;
-  for(int i = 0; i < count; i++){
-    size += sizeof(char) * strlen(strings[i]);
-  }
-  char* output = (char*) malloc(size);
-  for(int i = 0; i < count; i++){
-    strcat(output, strings[i]);
-  }
+char* astrcat(char* a, char* b) {
+	char* output = (char*) malloc(sizeof(char) * (strlen(a) + strlen(b) + 1));
+	sprintf(output, "%s%s", a, b);
   return output;
 }
 
-char* astrcat(char* a, char* b) {
-  char* arr[2] = {a, b};
-  return aastrcat(2, arr);
-}
-
 char* astrcat3(char* a, char* b, char* c) {
-  char* arr[3] = {a, b, c};
-  return aastrcat(3, arr);
+	char* output = (char*) malloc(sizeof(char) * (strlen(a) + strlen(b) + strlen(c) + 1));
+	sprintf(output, "%s%s%s", a, b, c);
+  return output;
 }
 
 char* astrcat4(char* a, char* b, char* c, char* d) {
-  char* arr[4] = {a, b, c, d};
-  return aastrcat(4, arr);
+	char* output = (char*) malloc(sizeof(char) * (strlen(a) + strlen(b) + strlen(c) + strlen(d) + 1));
+	sprintf(output, "%s%s%s%s", a, b, c, d);
+  return output;
 }
 
 char* astrcat5(char* a, char* b, char* c, char* d, char* e) {
-  char* arr[5] = {a, b, c, d, e};
-  return aastrcat(5, arr);
+	char* output = (char*) malloc(sizeof(char) * (strlen(a) + strlen(b) + strlen(c) + strlen(d) + strlen(e) + 1));
+	sprintf(output, "%s%s%s%s%s", a, b, c, d, e);
+  return output;
 }
 
 char* astrcat6(char* a, char* b, char* c, char* d, char* e, char* f) {
-  char* arr[6] = {a, b, c, d, e, f};
-  return aastrcat(6, arr);
+	char* output = (char*) malloc(sizeof(char) * (strlen(a) + strlen(b) + strlen(c) + strlen(d) + strlen(e) + strlen(f) + 1));
+	sprintf(output, "%s%s%s%s%s%s", a, b, c, d, e, f);
+  return output;
 }
 
 char* astrcat9(char* a, char* b, char* c, char* d, char* e, char* f, char* g, char* h, char* i) {
-  char* arr[9] = {a, b, c, d, e, f, g, h, i};
-  return aastrcat(9, arr);
+	char* output = (char*) malloc(sizeof(char) * (strlen(a) + strlen(b) + strlen(c) + strlen(d) + strlen(e) + strlen(f) + strlen(g) + strlen(h) + strlen(i) + 1));
+	sprintf(output, "%s%s%s%s%s%s%s%s%s", a, b, c, d, e, f, g, h, i);
+  return output;
 }
 
 char* astrcat10(char* a, char* b, char* c, char* d, char* e, char* f, char* g, char* h, char* i, char* j) {
-  char* arr[10] = {a, b, c, d, e, f, g, h, i, j};
-  return aastrcat(10, arr);
-}
-
-void* memdup(void* input, int size){
-  void* out = malloc(size);
-  memcpy(out, input, size);
-  return out;
-}
-
-char* esc(char* input) { 
-  int size = sizeof(char) * 2 * strlen(input);
-  char* buffer = malloc(size);
-  char* bufptr = buffer;
-  char c;
-  while(c = *(input++)){
-    switch(c){
-      case '\n': *(bufptr++) = '\\'; *(bufptr++) = 'n'; break;
-      case '\t': *(bufptr++) = '\\'; *(bufptr++) = 't'; break;
-      case '\\': *(bufptr++) = '\\'; *(bufptr++) = '\\'; break;
-      default:   *(bufptr++) = c;
-    }
-  }
-  char* out = malloc(sizeof(char) * strlen(buffer));
-  strcpy(out, buffer);
-  free(buffer);
-  return buffer;
+	char* output = (char*) malloc(sizeof(char) * (strlen(a) + strlen(b) + strlen(c) + strlen(d) + strlen(e) + strlen(f) + strlen(g) + strlen(h) + strlen(i) + strlen(j) + 1));
+	sprintf(output, "%s%s%s%s%s%s%s%s%s%s", a, b, c, d, e, f, g, h, i, j);
+  return output;
 }
