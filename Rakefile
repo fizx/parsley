@@ -17,7 +17,7 @@ task :parser => ["bin/parser", "bin/scanner", "bin/dexter"]
 
 file "bin/dexter" => Dir["src/*.c"] + ["src/y.tab.c", "src/scanner.yy.c"] do
   mkdir_p "bin"
-  system "cd src && gcc -std=c99 -largp -lfl -L/opt/local/lib -I/opt/local/include -o ../bin/dexter kstring.c y.tab.c scanner.yy.c dexter.c"
+  system "cd src && gcc -std=c99 -largp -ljson -lfl -L/opt/local/lib -I/opt/local/include -o ../bin/dexter kstring.c y.tab.c scanner.yy.c dexter.c"
 end
 
 file "bin/parser" => Dir["src/*.c"] + ["src/y.tab.c", "src/scanner.yy.c"] do
