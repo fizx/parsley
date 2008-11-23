@@ -17,7 +17,6 @@ int yywrap(void){
 
 int tracing = 0;
 char* parsing_context;
-void trace(char*);
 
 const char *argp_program_version = "dexter 0.1";
 const char *argp_program_bug_address = "<kyle@kylemaxwell.com>";
@@ -32,6 +31,7 @@ static struct argp_option options[] = {
 };
 
 struct list_elem {
+	int has_next;
 	struct list_elem *next;
 	char *string;
 };
@@ -60,8 +60,9 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state)
     case 'i':
 			e = (struct list_elem *) malloc(sizeof(e));
 			e->string = arg;
-			while(base->next != NULL) base = base->next;
+			while(base->has_next) base = base->next;
 			base->next = e;
+			base->has_next = 1;
       break;
     case 'd':	
 			start_debugging();
@@ -85,10 +86,6 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state)
 
 static struct argp argp = { options, parse_opt, args_doc, doc };
 
-void trace(char* m) {
-	if(tracing) fprintf(stderr, "----> %s\n", m);
-}
-
 int main (int argc, char **argv) {
 	ARGS arguments;
 	struct list_elem include_root;
@@ -97,7 +94,6 @@ int main (int argc, char **argv) {
 	arguments.output_file = "-";
 	arguments.dex = "-";
 	argp_parse (&argp, argc, argv, 0, 0, &arguments);
-	trace("args parsed");
 	return compile(&arguments);
 }
 
@@ -124,9 +120,8 @@ int compile(ARGS* arguments) {
 	fprintf(out, "<xsl:output method=\"xml\" indent=\"yes\"/>\n");
 	fprintf(out, "<xsl:strip-space elements=\"*\"/>\n");
 	
-	trace("hi");
 	struct list_elem *elem = arguments->include_files;
-	while(elem->next != NULL) {
+	while(elem->has_next) {
 		elem = elem->next;
 		FILE* incl = fopen(elem->string, "r");
 		if (incl == NULL){  
