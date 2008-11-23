@@ -1,2 +1,9 @@
 - contextless arrays with implicit grouping
 - CSS equations
+- runtime no-match errors
+- better syntax error messages
+- fix leakiness to allow embedding
+- namespace c functions
+- Ruby bindings
+- standard library
+- group-before, group-after, group-adjacent
