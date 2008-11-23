@@ -219,6 +219,8 @@ PrimaryExpr
 	
 FunctionCall
   : FunctionName LPAREN Arguments RPAREN		{ $$ = astrcat4($1, $2, $3, $4); }
+	| FunctionName LPAREN Arguments						{ yyerror("unclosed parenthesis"); }
+	| FunctionName LPAREN Arguments RPAREN RPAREN { yyerror("too many parenthesis"); }
 	;
 Arguments
 	: ArgumentSet
@@ -524,11 +526,6 @@ OptS
 	;
 	
 %%
-
-void yyerror (const char * s) {
-  printf("%s\n", s);
-  exit(1);
-}
 
 char* myparse(char* string){
   prepare_parse(string);

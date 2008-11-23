@@ -15,6 +15,11 @@ int yywrap(void){
   return 1;
 }
 
+void yyerror (const char * s) {
+  printf("%s\n", s);
+  exit(1);
+}
+
 int main () {
 	char buffer[BUF_SIZE];
 	while(fgets(buffer, BUF_SIZE, stdin)) {

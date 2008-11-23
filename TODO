@@ -1,5 +1,6 @@
 - improve test coverage
 - better syntax error messages
+- check all fopens, mallocs, etc for error handling.
 - fix leakiness to allow embedding
 - namespace c functions
 - HTML-style paragraph awareness (inner-text has newlines)

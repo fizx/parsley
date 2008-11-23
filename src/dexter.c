@@ -16,6 +16,7 @@ int yywrap(void){
 }
 
 int tracing = 0;
+char* parsing_context;
 void trace(char*);
 
 const char *argp_program_version = "dexter 0.1";
@@ -101,7 +102,12 @@ int main (int argc, char **argv) {
 }
 
 int compile(ARGS* arguments) {
-	struct json_object *json = json_object_from_file(arguments->dex); 
+	struct json_object *json = json_object_from_file(arguments->dex);
+	if(is_error(json)) {
+		fprintf(stderr, "Your dex is not valid json.\n");
+		exit(1);
+	}
+	
 	FILE* out = (strcmp(arguments->output_file, "-") == 0) ? stdout : fopen(arguments->output_file, "w");
 	fprintf(out, "<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\"");
 	fprintf(out, " xmlns:str=\"http://exslt.org/strings\"");
@@ -118,6 +124,7 @@ int compile(ARGS* arguments) {
 	fprintf(out, "<xsl:output method=\"xml\" indent=\"yes\"/>\n");
 	fprintf(out, "<xsl:strip-space elements=\"*\"/>\n");
 	
+	trace("hi");
 	struct list_elem *elem = arguments->include_files;
 	while(elem->next != NULL) {
 		elem = elem->next;
@@ -187,13 +194,22 @@ void recurse_string(struct json_object * json, FILE * out, char *context) {
 	char* a = astrdup(json_object_get_string(json));
 	char* ptr = context;
 	char* last = context;
+	char* expr;
 	while(*ptr++){
 		if(*ptr == '.') last = ptr + 1;
 	}
-	fprintf(out, "<xsl:variable name=\"%s\" select=\"%s\" />\n", context, myparse(a));
+	parsing_context = context;
+	expr = myparse(a);
+	fprintf(out, "<xsl:variable name=\"%s\" select=\"%s\" />\n", context, expr);
 	fprintf(out, "<xsl:variable name=\"%s\" select=\"$%s\" />\n", last, context);
 	fprintf(out, "<xsl:value-of select=\"$%s\" />\n", context);
 }
+
+void yyerror (const char * s) {
+  printf("%s in key: %s\n", s, parsing_context);
+  exit(1);
+}
+
 
 void recurse(struct json_object * json, FILE * out, char *context) {
 	switch(json_object_get_type(json)){
