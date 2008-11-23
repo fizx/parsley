@@ -23,5 +23,5 @@ file "src/y.tab.c" => ["src/parser.y"] do
 end
 
 file "src/scanner.yy.c" => ["src/y.tab.c", "src/scanner.l"] do
-  system "cd src && lex -d -o scanner.yy.c scanner.l"
+  system "cd src && lex -o scanner.yy.c scanner.l"
 end

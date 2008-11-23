@@ -7,3 +7,6 @@
 - Ruby bindings
 - standard library
 - group-before, group-after, group-adjacent
+- JSON output
+- HTML-style paragraph awareness (inner-text has newlines)
+- test coverage

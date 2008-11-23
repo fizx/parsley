@@ -15,6 +15,9 @@ int yywrap(void){
   return 1;
 }
 
+int tracing = 0;
+void trace(char*);
+
 const char *argp_program_version = "dexter 0.1";
 const char *argp_program_bug_address = "<kyle@kylemaxwell.com>";
 static char args_doc[] = "DEX_FILE";
@@ -61,6 +64,7 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state)
       break;
     case 'd':	
 			start_debugging();
+			tracing = 1; 
 			break;
     case 'o':
       arguments->output_file = arg;
@@ -80,6 +84,10 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state)
 
 static struct argp argp = { options, parse_opt, args_doc, doc };
 
+void trace(char* m) {
+	if(tracing) fprintf(stderr, "----> %s\n", m);
+}
+
 int main (int argc, char **argv) {
 	ARGS arguments;
 	struct list_elem include_root;
@@ -88,6 +96,7 @@ int main (int argc, char **argv) {
 	arguments.output_file = "-";
 	arguments.dex = "-";
 	argp_parse (&argp, argc, argv, 0, 0, &arguments);
+	trace("args parsed");
 	return compile(&arguments);
 }
 
@@ -105,9 +114,9 @@ int compile(ARGS* arguments) {
 	fprintf(out, " xmlns:exsl=\"http://exslt.org/common\"");
 	fprintf(out, " xmlns:saxon=\"http://icl.com/saxon\"");
 	fprintf(out, " exclude-result-prefixes=\"str math set func dyn exsl saxon user date\"");
-	fprintf(out, ">");
-	fprintf(out, "<xsl:output method=\"xml\" indent=\"yes\"/>");
-	fprintf(out, "<xsl:strip-space elements=\"*\"/>");
+	fprintf(out, ">\n");
+	fprintf(out, "<xsl:output method=\"xml\" indent=\"yes\"/>\n");
+	fprintf(out, "<xsl:strip-space elements=\"*\"/>\n");
 	
 	struct list_elem *elem = arguments->include_files;
 	while(elem->next != NULL) {
@@ -122,14 +131,14 @@ int compile(ARGS* arguments) {
 		fclose(incl);
 	}
 	
-	fprintf(out, "<xsl:template match=\"/\">");
-	fprintf(out, "<root>");
+	fprintf(out, "<xsl:template match=\"/\">\n");
+	fprintf(out, "<root>\n");
 	
 	char *context = "root";
 	recurse(json, out, context);
 	
-	fprintf(out, "</root>");
-	fprintf(out, "</xsl:template>");
+	fprintf(out, "</root>\n");
+	fprintf(out, "</xsl:template>\n");
 	fprintf(out, "</xsl:stylesheet>\n");
 	json_object_put(json);
 	fclose(out);
@@ -158,19 +167,19 @@ void recurse_object(struct json_object * json, FILE * out, char *context) {
 		}
 		expr += offset;
 		
-		fprintf(out, "<%s>", tag);
-		if(has_expr) fprintf(out, "<xsl:for-each select=\"%s\">", myparse(expr));
+		fprintf(out, "<%s>\n", tag);
+		if(has_expr) fprintf(out, "<xsl:for-each select=\"%s\">\n", myparse(expr));
 		recurse(val, out, astrcat3(context, ".", tag));
-		if(has_expr) fprintf(out, "</xsl:for-each>");
-		fprintf(out, "</%s>", tag);
+		if(has_expr) fprintf(out, "</xsl:for-each>\n");
+		fprintf(out, "</%s>\n", tag);
   }
 }
 
 void recurse_array(struct json_object * json, FILE * out, char *context) {
 	for(int i = 0; i < json_object_array_length(json); i++) {
-		fprintf(out, "<group>");
+		fprintf(out, "<group>\n");
  		recurse(json_object_array_get_idx(json, i), out, context);
-    fprintf(out, "</group>");
+    fprintf(out, "</group>\n");
   }
 }
 
@@ -181,9 +190,9 @@ void recurse_string(struct json_object * json, FILE * out, char *context) {
 	while(*ptr++){
 		if(*ptr == '.') last = ptr + 1;
 	}
-	fprintf(out, "<xsl:variable name=\"%s\" select=\"%s\" />", context, myparse(a));
-	fprintf(out, "<xsl:variable name=\"%s\" select=\"$%s\" />", last, context);
-	fprintf(out, "<xsl:value-of select=\"$%s\" />", context);
+	fprintf(out, "<xsl:variable name=\"%s\" select=\"%s\" />\n", context, myparse(a));
+	fprintf(out, "<xsl:variable name=\"%s\" select=\"$%s\" />\n", last, context);
+	fprintf(out, "<xsl:value-of select=\"$%s\" />\n", context);
 }
 
 void recurse(struct json_object * json, FILE * out, char *context) {
