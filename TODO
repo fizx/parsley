@@ -6,6 +6,7 @@
 - Ruby bindings
 - JSON output
 - standard library
+- fix not()/set-difference
 - runtime no-match errors
 - group-before, group-after, group-adjacent
 - contextless arrays with implicit grouping

@@ -402,7 +402,7 @@ simple_selector_sequence
 	| possibly_empty_sequence DOT Ident		{ $$ = astrcat4($1, "[contains(concat( ' ', @class, ' ' ), concat( ' ', '", $3, "', ' ' ))]"); }
 	| possibly_empty_sequence LBRA	type_selector RBRA { $$ = astrcat4($1, "[@", $3, "]"); }
 	| possibly_empty_sequence LBRA	type_selector OptS EQ OptS StringLike OptS RBRA { $$ = astrcat6($1, "[@", $3, " = ", $7, "]"); }
-	| possibly_empty_sequence LBRA	type_selector OptS CXOPHE OptS StringLike OptS RBRA { $$ = astrcat10($1, "[@", $3, " = '", $7, "' or starts-with(@", $3, ", concat('", $7, "', '-' ))]"); }
+	| possibly_empty_sequence LBRA	type_selector OptS CXOPHE OptS StringLike OptS RBRA { $$ = astrcat10($1, "[@", $3, " = ", $7, " or starts-with(@", $3, ", concat(", $7, ", '-' ))]"); }
 	| possibly_empty_sequence LBRA	type_selector OptS CXOPNE OptS StringLike OptS RBRA { $$ = astrcat6($1, "[@", $3, " != ", $7, "]"); }
 	| possibly_empty_sequence LBRA	type_selector OptS CXOPSTARTEQ OptS StringLike OptS RBRA { $$ = astrcat6($1, "[starts-with(@", $3, ", ", $7, ")]"); }
 	| possibly_empty_sequence LBRA	type_selector OptS CXOPENDEQ OptS StringLike OptS RBRA { $$ = astrcat6($1, "[ends-with(@", $3, ", ", $7, ")]"); }
