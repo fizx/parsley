@@ -5,6 +5,7 @@
 #include "kstring.h"
 #include "obstack.h"
 #include "y.tab.h"
+#include "printbuf.h"
 #include <string.h>
 #include <errno.h>
 #include <ctype.h>
@@ -44,10 +45,10 @@ typedef struct arguments
 }	ARGS;
 
 int compile(ARGS*);
-void recurse(struct json_object *, FILE *, char*);
-void recurse_object(struct json_object *, FILE *, char*);
-void recurse_array(struct json_object *, FILE *, char*);
-void recurse_string(struct json_object *, FILE *, char*);
+void recurse(struct json_object *, struct printbuf*, char*);
+void recurse_object(struct json_object *, struct printbuf*, char*);
+void recurse_array(struct json_object *, struct printbuf*, char*);
+void recurse_string(struct json_object *, struct printbuf*, char*);
 
 static error_t parse_opt (int key, char *arg, struct argp_state *state)
 {
@@ -87,7 +88,6 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state)
 static struct argp argp = { options, parse_opt, args_doc, doc };
 
 int main (int argc, char **argv) {
-	printbuf_new();
 	ARGS arguments;
 	struct list_elem include_root;
 	struct list_elem *f;
@@ -100,28 +100,29 @@ int main (int argc, char **argv) {
 
 int compile(ARGS* arguments) {
 	struct json_object *json = json_object_from_file(arguments->dex);
+	struct printbuf* buf = printbuf_new();
 	if(is_error(json)) {
 		fprintf(stderr, "Your dex is not valid json.\n");
 		exit(1);
 	}
 	
-	FILE* out = (strcmp(arguments->output_file, "-") == 0) ? stdout : fopen(arguments->output_file, "w");
-	fprintf(out, "<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\"");
-	fprintf(out, " xmlns:str=\"http://exslt.org/strings\"");
-	fprintf(out, " xmlns:set=\"http://exslt.org/sets\"");
-	fprintf(out, " xmlns:math=\"http://exslt.org/math\"");
-	fprintf(out, " xmlns:func=\"http://exslt.org/functions\"");
-	fprintf(out, " xmlns:user=\"http://kylemaxwell.com/dexter/user-functions\"");
-	fprintf(out, " xmlns:dyn=\"http://exslt.org/dynamic\"");
-	fprintf(out, " xmlns:date=\"http://exslt.org/dates-and-times\"");
-	fprintf(out, " xmlns:exsl=\"http://exslt.org/common\"");
-	fprintf(out, " xmlns:saxon=\"http://icl.com/saxon\"");
-	fprintf(out, " exclude-result-prefixes=\"str math set func dyn exsl saxon user date\"");
-	fprintf(out, ">\n");
-	fprintf(out, "<xsl:output method=\"xml\" indent=\"yes\"/>\n");
-	fprintf(out, "<xsl:strip-space elements=\"*\"/>\n");
+	sprintbuf(buf, "<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\"");
+	sprintbuf(buf, " xmlns:str=\"http://exslt.org/strings\"");
+	sprintbuf(buf, " xmlns:set=\"http://exslt.org/sets\"");
+	sprintbuf(buf, " xmlns:math=\"http://exslt.org/math\"");
+	sprintbuf(buf, " xmlns:func=\"http://exslt.org/functions\"");
+	sprintbuf(buf, " xmlns:user=\"http://kylemaxwell.com/dexter/user-functions\"");
+	sprintbuf(buf, " xmlns:dyn=\"http://exslt.org/dynamic\"");
+	sprintbuf(buf, " xmlns:date=\"http://exslt.org/dates-and-times\"");
+	sprintbuf(buf, " xmlns:exsl=\"http://exslt.org/common\"");
+	sprintbuf(buf, " xmlns:saxon=\"http://icl.com/saxon\"");
+	sprintbuf(buf, " exclude-result-prefixes=\"str math set func dyn exsl saxon user date\"");
+	sprintbuf(buf, ">\n");
+	sprintbuf(buf, "<xsl:output method=\"xml\" indent=\"yes\"/>\n");
+	sprintbuf(buf, "<xsl:strip-space elements=\"*\"/>\n");
 	
 	struct list_elem *elem = arguments->include_files;
+	char *t = (char*) malloc(sizeof(char) * BUF_SIZE);
 	while(elem->has_next) {
 		elem = elem->next;
 		FILE* incl = fopen(elem->string, "r");
@@ -129,26 +130,30 @@ int compile(ARGS* arguments) {
 		    fprintf(stderr, "Cannot open file %s, error %d, %s\n", elem->string, errno, strerror(errno));
 				exit(1);
 		}
-		char c;
-		while((c = fgetc(incl)) != EOF) fputc(c, out);
+		
+		while((t = fgets(t, BUF_SIZE, incl)) != NULL) printbuf_memappend(buf, t, strlen(t));
 		fclose(incl);
 	}
+	free(t);
 	
-	fprintf(out, "<xsl:template match=\"/\">\n");
-	fprintf(out, "<root>\n");
+	sprintbuf(buf, "<xsl:template match=\"/\">\n");
+	sprintbuf(buf, "<root>\n");
 	
 	char *context = "root";
-	recurse(json, out, context);
+	recurse(json, buf, context);
 	
-	fprintf(out, "</root>\n");
-	fprintf(out, "</xsl:template>\n");
-	fprintf(out, "</xsl:stylesheet>\n");
+	sprintbuf(buf, "</root>\n");
+	sprintbuf(buf, "</xsl:template>\n");
+	sprintbuf(buf, "</xsl:stylesheet>\n");
 	json_object_put(json);
+	FILE* out = (strcmp(arguments->output_file, "-") == 0) ? stdout : fopen(arguments->output_file, "w");
+	fprintf(out, buf->buf);
+	printbuf_free(buf);
 	fclose(out);
 	return 0;
 }
 
-void recurse_object(struct json_object * json, FILE * out, char *context) {
+void recurse_object(struct json_object * json, struct printbuf* buf, char *context) {
 	char *tag;
 	char *ptr;
 	char *expr;
@@ -170,23 +175,23 @@ void recurse_object(struct json_object * json, FILE * out, char *context) {
 		}
 		expr += offset;
 		
-		fprintf(out, "<%s>\n", tag);
-		if(has_expr) fprintf(out, "<xsl:for-each select=\"%s\">\n", myparse(expr));
-		recurse(val, out, astrcat3(context, ".", tag));
-		if(has_expr) fprintf(out, "</xsl:for-each>\n");
-		fprintf(out, "</%s>\n", tag);
+		sprintbuf(buf, "<%s>\n", tag);
+		if(has_expr) sprintbuf(buf, "<xsl:for-each select=\"%s\">\n", myparse(expr));
+		recurse(val, buf, astrcat3(context, ".", tag));
+		if(has_expr) sprintbuf(buf, "</xsl:for-each>\n");
+		sprintbuf(buf, "</%s>\n", tag);
   }
 }
 
-void recurse_array(struct json_object * json, FILE * out, char *context) {
+void recurse_array(struct json_object * json, struct printbuf* buf, char *context) {
 	for(int i = 0; i < json_object_array_length(json); i++) {
-		fprintf(out, "<group>\n");
- 		recurse(json_object_array_get_idx(json, i), out, context);
-    fprintf(out, "</group>\n");
+		sprintbuf(buf, "<group>\n");
+ 		recurse(json_object_array_get_idx(json, i), buf, context);
+    sprintbuf(buf, "</group>\n");
   }
 }
 
-void recurse_string(struct json_object * json, FILE * out, char *context) {
+void recurse_string(struct json_object * json, struct printbuf* buf, char *context) {
 	char* a = astrdup(json_object_get_string(json));
 	char* ptr = context;
 	char* last = context;
@@ -196,9 +201,9 @@ void recurse_string(struct json_object * json, FILE * out, char *context) {
 	}
 	parsing_context = context;
 	expr = myparse(a);
-	fprintf(out, "<xsl:variable name=\"%s\" select=\"%s\" />\n", context, expr);
-	fprintf(out, "<xsl:variable name=\"%s\" select=\"$%s\" />\n", last, context);
-	fprintf(out, "<xsl:value-of select=\"$%s\" />\n", context);
+	sprintbuf(buf, "<xsl:variable name=\"%s\" select=\"%s\" />\n", context, expr);
+	sprintbuf(buf, "<xsl:variable name=\"%s\" select=\"$%s\" />\n", last, context);
+	sprintbuf(buf, "<xsl:value-of select=\"$%s\" />\n", context);
 }
 
 void yyerror (const char * s) {
@@ -207,16 +212,16 @@ void yyerror (const char * s) {
 }
 
 
-void recurse(struct json_object * json, FILE * out, char *context) {
+void recurse(struct json_object * json, struct printbuf* buf, char *context) {
 	switch(json_object_get_type(json)){
 		case json_type_object:
-			recurse_object(json, out, context);
+			recurse_object(json, buf, context);
 			break;
 		case json_type_array:
-			recurse_array(json, out, context);
+			recurse_array(json, buf, context);
 			break;
 		case json_type_string:
-			recurse_string(json, out, context);
+			recurse_string(json, buf, context);
 			break;
 		case json_type_boolean:
 		case json_type_double:
