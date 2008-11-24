@@ -12,15 +12,11 @@
 #include <ctype.h>
 #include <stdbool.h>
 
-char* dex_parsing_context;
-int dex_debug_mode = 0;
-
 char* dex_set_debug_mode(int i) {
 	dex_debug_mode = i;
 }
 
 char* dex_compile(char* dex, char* incl) {
-	obstack_init (&dex_obstack);
 	fprintf(stderr, "obstack init\n");
 	
 	struct json_object *json = json_tokener_parse(dex);
@@ -61,8 +57,12 @@ char* dex_compile(char* dex, char* incl) {
 	char* output = strdup(buf->buf);
 	printbuf_free(buf);
 	fprintf(stderr, "obstack free\n");
-	obstack_free(&dex_obstack, NULL);
 	return output;
+}
+
+
+void * __dex_alloc(int size) {
+	return obstack_alloc(&dex_obstack, size);
 }
 
 void __dex_recurse_object(struct json_object * json, struct printbuf* buf, char *context) {
