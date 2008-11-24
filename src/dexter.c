@@ -107,6 +107,7 @@ int compile(ARGS* arguments) {
 	}
 	
 	sprintbuf(buf, "<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\"");
+	sprintbuf(buf, " xmlns:dexter=\"http://kylemaxwell.com/dexter\"");
 	sprintbuf(buf, " xmlns:str=\"http://exslt.org/strings\"");
 	sprintbuf(buf, " xmlns:set=\"http://exslt.org/sets\"");
 	sprintbuf(buf, " xmlns:math=\"http://exslt.org/math\"");
@@ -147,6 +148,10 @@ int compile(ARGS* arguments) {
 	sprintbuf(buf, "</xsl:stylesheet>\n");
 	json_object_put(json);
 	FILE* out = (strcmp(arguments->output_file, "-") == 0) ? stdout : fopen(arguments->output_file, "w");
+	if(out == NULL) {		
+    fprintf(stderr, "Cannot open file %s, error %d, %s\n", arguments->output_file, errno, strerror(errno));
+		exit(1);
+	}
 	fprintf(out, buf->buf);
 	printbuf_free(buf);
 	fclose(out);
@@ -185,9 +190,9 @@ void recurse_object(struct json_object * json, struct printbuf* buf, char *conte
 
 void recurse_array(struct json_object * json, struct printbuf* buf, char *context) {
 	for(int i = 0; i < json_object_array_length(json); i++) {
-		sprintbuf(buf, "<group>\n");
+		sprintbuf(buf, "<dexter:group>\n");
  		recurse(json_object_array_get_idx(json, i), buf, context);
-    sprintbuf(buf, "</group>\n");
+    sprintbuf(buf, "</dexter:group>\n");
   }
 }
 
