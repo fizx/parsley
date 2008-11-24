@@ -20,6 +20,9 @@ char* dex_set_debug_mode(int i) {
 }
 
 char* dex_compile(char* dex, char* incl) {
+	obstack_init (&dex_obstack);
+	fprintf(stderr, "obstack init\n");
+	
 	struct json_object *json = json_tokener_parse(dex);
 	if(is_error(json)) {
 		fprintf(stderr, "Your dex is not valid json.\n");
@@ -57,6 +60,8 @@ char* dex_compile(char* dex, char* incl) {
 	
 	char* output = strdup(buf->buf);
 	printbuf_free(buf);
+	fprintf(stderr, "obstack free\n");
+	obstack_free(&dex_obstack, NULL);
 	return output;
 }
 
@@ -119,7 +124,6 @@ void yyerror(const char * s) {
 	dex_error(buf->buf);
 	printbuf_free(buf);
 }
-
 
 void __dex_recurse(struct json_object * json, struct printbuf* buf, char *context) {
 	switch(json_object_get_type(json)){

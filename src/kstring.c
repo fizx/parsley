@@ -3,12 +3,15 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include "kstring.h"
+#include "obstack.h"
+#include "dexter.h"
 
 char* astrdup(char* c) {
 	return strdup(c);
 }
 
 char* astrcat(char* a, char* b) {
+	// char* output = (char*) obstack_alloc(&dex_obstack, sizeof(char) * (strlen(a) + strlen(b) + 1));
 	char* output = (char*) malloc(sizeof(char) * (strlen(a) + strlen(b) + 1));
 	sprintf(output, "%s%s", a, b);
   return output;

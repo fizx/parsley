@@ -40,7 +40,7 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state)
   switch (key)
     {
     case 'i':
-			e = (struct list_elem *) malloc(sizeof(e));
+			e = (struct list_elem *) calloc(1, sizeof(e));
 			e->string = arg;
 			while(base->has_next) base = base->next;
 			base->next = e;
@@ -77,6 +77,7 @@ int main (int argc, char **argv) {
 	struct arguments arguments;
 	struct list_elem elem;
 	struct list_elem *elemptr = &elem;
+	elem.has_next = 0;
 	
 	arguments.include_files = elemptr;
 	arguments.output_file = "-";

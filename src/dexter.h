@@ -3,6 +3,11 @@
 
 #define DEX_BUF_SIZE 1024
 
+#include "obstack.h"
+#define obstack_chunk_alloc malloc
+#define obstack_chunk_free free
+static struct obstack dex_obstack;
+
 #include <json/json.h>
 
 char* dex_compile(char* dex, char* incl);
