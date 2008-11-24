@@ -1,8 +1,20 @@
 require "rubygems"
 require "rakeutil"
 
-task :test => "bin/dexter-path-parser" do
-  
+def relpath(path)
+  File.expand_path(path).sub(File.expand_path(".") + "/", '')
+end
+
+def gcc(out, *srcs)
+  srcs.flatten!
+  file(relpath(SRC + out) => srcs.map{|s| relpath(SRC + s) }) do
+    mkdir_p(File.dirname(relpath(SRC + out)))
+    system "cd #{SRC} && gcc #{CFLAGS} -o #{out} #{srcs.join(" ")}"
+  end
+end
+
+def gcc_main(name, *srcs)
+  gcc "../bin/#{name}", srcs + ["#{name}_main.c"]
 end
 
 task :clean do
@@ -11,16 +23,15 @@ task :clean do
   end
 end
 
-task :default => "bin/dexter-path-parser"
+# ---------------------------------------------------------------------------------
 
-file "bin/dexter-path-parser" => %w[bin/dexterc src/dexter-path-parser.c] do
-  system "cd src && gcc -std=c99 -lfl -L/opt/local/lib -I/opt/local/include -o ../bin/dexter-path-parser obstack.c printbuf.c kstring.c y.tab.c scanner.yy.c dexter-path-parser.c"
-end
+const :CFLAGS, "-std=c99 -lfl -L/opt/local/lib -I/opt/local/include -ljson -largp"
+const :SRC, "src/"
+const :SRCS, %w[obstack.c printbuf.c kstring.c y.tab.c scanner.yy.c dexter.c]
 
-file "bin/dexterc" => %w[src/y.tab.c src/scanner.yy.c src/dexterc.c] do
-  mkdir_p "bin"
-  system "cd src && gcc -std=c99 -largp -ljson -lfl -L/opt/local/lib -I/opt/local/include -o ../bin/dexterc obstack.c printbuf.c kstring.c y.tab.c scanner.yy.c dexterc.c"
-end
+task :default => "bin/dexterc"
+
+gcc_main "dexterc", SRCS
 
 file "src/y.tab.c" => ["src/parser.y"] do
   system "cd src && yacc -d -t parser.y"
