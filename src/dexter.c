@@ -17,7 +17,7 @@ char* dex_set_debug_mode(int i) {
 }
 
 char* dex_compile(char* dex, char* incl) {
-	fprintf(stderr, "obstack init\n");
+	obstack_init(&dex_obstack);
 	
 	struct json_object *json = json_tokener_parse(dex);
 	if(is_error(json)) {
@@ -56,7 +56,7 @@ char* dex_compile(char* dex, char* incl) {
 	
 	char* output = strdup(buf->buf);
 	printbuf_free(buf);
-	fprintf(stderr, "obstack free\n");
+	obstack_free(&dex_obstack, NULL);
 	return output;
 }
 
