@@ -1,4 +1,7 @@
-examples/*.output.*
-src/*.yy.c
-src/*.tab.*
-bin
+.libs/
+*.o
+*.lo
+scanner.yy.c
+y.tab.c
+y.tab.h
+dexterc
