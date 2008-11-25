@@ -1,5 +1,5 @@
 #include "ruby.h"
-#include "dexter.h"
+#include "../src/dexter.h"
 
 VALUE cDexter;
 

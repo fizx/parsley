@@ -31,10 +31,23 @@ const :SRCS, %w[obstack.c printbuf.c kstring.c y.tab.c scanner.yy.c dexter.c]
 
 task :default => "bin/dexterc"
 
-gcc_main "dexterc", SRCS
+task :ruby_binding => "src/libdexter.a" do 
+  mkdir_p "ruby"
+  cp "src/libdexter.a", "ruby"
+  
+end
 
-CFLAGS += " -shared "
-gcc "dexter.dylib", SRCS + ["dex_error.c"]
+
+file "src/libdexter.a" => "src/dexter.o" do
+  system "cd src && ar rcs libdexter.a dexter.o"
+end
+
+file "src/libdexter.a" => "src/dexter.o" do
+  system "cd src && ar rcs libdexter.a dexter.o"
+end
+
+gcc "dexter.o", SRCS + ["dex_error.c"]
+gcc_main "dexterc", SRCS
 
 file "src/y.tab.c" => ["src/parser.y"] do
   system "cd src && yacc -d -t parser.y"
