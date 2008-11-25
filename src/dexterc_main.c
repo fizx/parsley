@@ -70,7 +70,6 @@ void read_into_buffer(FILE*, struct printbuf*);
 
 void dex_error(char* msg){
 	fprintf(stderr, "%s\n", msg);
-	exit(1);
 }
 
 int main (int argc, char **argv) {
@@ -106,6 +105,7 @@ int main (int argc, char **argv) {
 	}
 	
 	char* compiled = dex_compile(dex->buf, incl->buf);
+	if(compiled == NULL) exit(1);
 	
 	FILE* out = (strcmp(arguments.output_file, "-") == 0) ? stdout : fopen(arguments.output_file, "w");
 	if(out == NULL) {		

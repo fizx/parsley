@@ -10,6 +10,7 @@
 
 static struct obstack dex_obstack;
 static char* dex_parsing_context;
+static int dex_error_state = 0;
 static int dex_debug_mode = 0;
 
 #include <json/json.h>
