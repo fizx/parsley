@@ -33,6 +33,9 @@ task :default => "bin/dexterc"
 
 gcc_main "dexterc", SRCS
 
+CFLAGS += " -shared "
+gcc "dexter.dylib", SRCS + ["dex_error.c"]
+
 file "src/y.tab.c" => ["src/parser.y"] do
   system "cd src && yacc -d -t parser.y"
 end

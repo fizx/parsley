@@ -5,9 +5,12 @@
 #include <string.h>
 #include "kstring.h"
 
+#ifndef PARSER_Y_H_INCLUDED
+#define PARSER_Y_H_INCLUDED
+
 #define YYSTYPE char *
 
-char* parsed_answer;
+static char* parsed_answer;
 
 int yylex (void);
 void yyerror (char const *);
@@ -19,6 +22,8 @@ void start_debugging(void);
 int yyparse(void);
 char* myparse(char*);
 void answer(char*);
+
+#endif
   
 %}
 
