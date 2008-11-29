@@ -12,6 +12,10 @@
 #include <ctype.h>
 #include <stdbool.h>
 
+int yywrap(void){
+  return 1;
+}
+
 char* dex_set_debug_mode(int i) {
 	dex_debug_mode = i;
 }

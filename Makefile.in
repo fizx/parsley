@@ -38,7 +38,7 @@ bin_PROGRAMS = dexterc$(EXEEXT)
 subdir = .
 DIST_COMMON = README $(am__configure_deps) $(include_HEADERS) \
 	$(srcdir)/Makefile.am $(srcdir)/Makefile.in \
-	$(top_srcdir)/configure AUTHORS ChangeLog NEWS TODO \
+	$(top_srcdir)/configure AUTHORS ChangeLog INSTALL NEWS TODO \
 	config.guess config.sub depcomp install-sh ltmain.sh missing \
 	parser.c scanner.c ylwrap
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
@@ -216,7 +216,7 @@ top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
 lib_LTLIBRARIES = libdexter.la
 libdexter_la_SOURCES = printbuf.c kstring.c obstack.c scanner.l parser.y dexter.c
-include_HEADERS = dexter.h
+include_HEADERS = dexter.h obstack.h
 dexterc_SOURCES = dexterc_main.c
 dexterc_LDADD = @LEXLIB@ libdexter.la
 all: all-am
