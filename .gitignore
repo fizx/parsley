@@ -5,3 +5,12 @@ scanner.yy.c
 y.tab.c
 y.tab.h
 dexterc
+.deps/
+Makefile
+autom4te.cache/
+autoscan.log
+config.log
+config.status
+configure.scan
+parser.c
+scanner.c
