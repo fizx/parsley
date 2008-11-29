@@ -47,9 +47,9 @@ CONFIG_CLEAN_FILES =
 am__installdirs = "$(DESTDIR)$(bindir)"
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
-am_dexterc_OBJECTS = printbuf.$(OBJEXT) obstack.$(OBJEXT) \
-	dexter.$(OBJEXT) scanner.$(OBJEXT) parser.$(OBJEXT) \
-	dexterc_main.$(OBJEXT)
+am_dexterc_OBJECTS = printbuf.$(OBJEXT) kstring.$(OBJEXT) \
+	obstack.$(OBJEXT) dexter.$(OBJEXT) scanner.$(OBJEXT) \
+	parser.$(OBJEXT) dexterc_main.$(OBJEXT)
 dexterc_OBJECTS = $(am_dexterc_OBJECTS)
 dexterc_DEPENDENCIES =
 DEFAULT_INCLUDES = -I.@am__isrc@
@@ -86,6 +86,7 @@ AWK = @AWK@
 CC = @CC@
 CCDEPMODE = @CCDEPMODE@
 CFLAGS = @CFLAGS@
+CPP = @CPP@
 CPPFLAGS = @CPPFLAGS@
 CYGPATH_W = @CYGPATH_W@
 DEFS = @DEFS@
@@ -93,7 +94,9 @@ DEPDIR = @DEPDIR@
 ECHO_C = @ECHO_C@
 ECHO_N = @ECHO_N@
 ECHO_T = @ECHO_T@
+EGREP = @EGREP@
 EXEEXT = @EXEEXT@
+GREP = @GREP@
 INSTALL = @INSTALL@
 INSTALL_DATA = @INSTALL_DATA@
 INSTALL_PROGRAM = @INSTALL_PROGRAM@
@@ -163,7 +166,7 @@ sysconfdir = @sysconfdir@
 target_alias = @target_alias@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
-dexterc_SOURCES = printbuf.c obstack.c dexter.c scanner.l parser.y dexterc_main.c
+dexterc_SOURCES = printbuf.c kstring.c obstack.c dexter.c scanner.l parser.y dexterc_main.c
 dexterc_LDADD = @LEXLIB@
 all: all-am
 
@@ -237,6 +240,7 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dexter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dexterc_main.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kstring.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/obstack.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parser.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/printbuf.Po@am__quote@

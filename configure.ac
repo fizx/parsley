@@ -4,9 +4,13 @@ AC_INIT([dexterc], [1.0], [kyle@kylemaxwell.com])
 
 AM_INIT_AUTOMAKE([1.9 foreign])
 
-AC_PROG_CC
+AC_PROG_CC_C99
 AM_PROG_LEX
 AC_PROG_YACC
+AC_CHECK_HEADER(argp.h)
+AC_CHECK_HEADER(json/json.h)
+AC_CHECK_LIB(argp, argp_parse)
+AC_CHECK_LIB(json, json_object_new_string)
 
 AC_CONFIG_FILES([Makefile])
 AC_OUTPUT
