@@ -13,7 +13,9 @@ Mac OS X with MacPorts:
 ------------------------------------------------------------------------
 sudo port install argp-standalone json-c
 LDFLAGS=-L/opt/local/lib CPPFLAGS="-I/opt/local/include" ./configure
-make
+make # errors happen
+cp parser.h y.tab.h
+make # should work
 sudo make install
 
 Other OS/Configurations:

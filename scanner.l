@@ -1,7 +1,7 @@
 %{
 #include <stdio.h>
 #include "kstring.h"
-#include "y.tab.h"
+#include "parser.h"
 
 YY_BUFFER_STATE mybuffer;
 
