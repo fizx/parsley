@@ -5,13 +5,19 @@ Dexter depends on
 GNU/Linux:
 ------------------------------------------------------------------------
 Dexter uses autotools, so install the JSON library, and then:
+./bootstrap.sh
 ./configure
 make
 sudo make install
 
 Mac OS X with MacPorts:
 ------------------------------------------------------------------------
+
+The default version of Gnu M4 on OS X is broken.  You might need to 
+install the latest.
+
 sudo port install argp-standalone json-c
+./bootstrap.sh
 LDFLAGS=-L/opt/local/lib CPPFLAGS="-I/opt/local/include" ./configure
 make # errors happen
 cp parser.h y.tab.h
