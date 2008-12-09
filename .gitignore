@@ -21,3 +21,6 @@ missing
 old.build.sh
 y.tab.h
 ylwrap
+Makefile.in
+libdexter.la
+parser.h
