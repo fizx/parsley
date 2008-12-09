@@ -19,9 +19,7 @@ install the latest.
 sudo port install argp-standalone json-c
 ./bootstrap.sh
 LDFLAGS=-L/opt/local/lib CPPFLAGS="-I/opt/local/include" ./configure
-make # errors happen
-cp parser.h y.tab.h
-make # should work
+make
 sudo make install
 
 Other OS/Configurations:
