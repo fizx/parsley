@@ -40,7 +40,7 @@ DIST_COMMON = README $(am__configure_deps) $(include_HEADERS) \
 	$(srcdir)/Makefile.am $(srcdir)/Makefile.in \
 	$(top_srcdir)/configure AUTHORS ChangeLog INSTALL NEWS TODO \
 	config.guess config.sub depcomp install-sh ltmain.sh missing \
-	parser.c scanner.c ylwrap
+	parser.c parser.h scanner.c ylwrap
 ACLOCAL_M4 = $(top_srcdir)/aclocal.m4
 am__aclocal_m4_deps = $(top_srcdir)/configure.ac
 am__configure_deps = $(am__aclocal_m4_deps) $(CONFIGURE_DEPENDENCIES) \
@@ -214,12 +214,15 @@ sysconfdir = @sysconfdir@
 target_alias = @target_alias@
 top_builddir = @top_builddir@
 top_srcdir = @top_srcdir@
+AM_YFLAGS = -d
+BUILT_SOURCES = parser.h
 lib_LTLIBRARIES = libdexter.la
 libdexter_la_SOURCES = printbuf.c kstring.c obstack.c scanner.l parser.y dexter.c
 include_HEADERS = dexter.h obstack.h
 dexterc_SOURCES = dexterc_main.c
 dexterc_LDADD = @LEXLIB@ libdexter.la
-all: all-am
+all: $(BUILT_SOURCES)
+	$(MAKE) $(AM_MAKEFLAGS) all-am
 
 .SUFFIXES:
 .SUFFIXES: .c .l .lo .o .obj .y
@@ -283,6 +286,11 @@ clean-libLTLIBRARIES:
 	  echo "rm -f \"$${dir}/so_locations\""; \
 	  rm -f "$${dir}/so_locations"; \
 	done
+parser.h: parser.c
+	@if test ! -f $@; then \
+	  rm -f parser.c; \
+	  $(MAKE) $(AM_MAKEFLAGS) parser.c; \
+	else :; fi
 libdexter.la: $(libdexter_la_OBJECTS) $(libdexter_la_DEPENDENCIES) 
 	$(LINK) -rpath $(libdir) $(libdexter_la_OBJECTS) $(libdexter_la_LIBADD) $(LIBS)
 install-binPROGRAMS: $(bin_PROGRAMS)
@@ -558,7 +566,8 @@ distcleancheck: distclean
 	       $(distcleancheck_listfiles) ; \
 	       exit 1; } >&2
 check-am: all-am
-check: check-am
+check: $(BUILT_SOURCES)
+	$(MAKE) $(AM_MAKEFLAGS) check-am
 all-am: Makefile $(LTLIBRARIES) $(PROGRAMS) $(HEADERS)
 install-binPROGRAMS: install-libLTLIBRARIES
 
@@ -566,7 +575,8 @@ installdirs:
 	for dir in "$(DESTDIR)$(libdir)" "$(DESTDIR)$(bindir)" "$(DESTDIR)$(includedir)"; do \
 	  test -z "$$dir" || $(MKDIR_P) "$$dir"; \
 	done
-install: install-am
+install: $(BUILT_SOURCES)
+	$(MAKE) $(AM_MAKEFLAGS) install-am
 install-exec: install-exec-am
 install-data: install-data-am
 uninstall: uninstall-am
@@ -591,7 +601,9 @@ maintainer-clean-generic:
 	@echo "This command is intended for maintainers to use"
 	@echo "it deletes files that may require special tools to rebuild."
 	-rm -f parser.c
+	-rm -f parser.h
 	-rm -f scanner.c
+	-test -z "$(BUILT_SOURCES)" || rm -f $(BUILT_SOURCES)
 clean: clean-am
 
 clean-am: clean-binPROGRAMS clean-generic clean-libLTLIBRARIES \

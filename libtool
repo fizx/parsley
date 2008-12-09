@@ -44,7 +44,6 @@ available_tags=" CXX"
 
 # ### BEGIN LIBTOOL CONFIG
 
-# Libtool was configured on host kyle-maxwells-macbook.local:
 
 # Shell to use when invoking shell scripts.
 SHELL="/bin/sh"
@@ -66,13 +65,13 @@ fast_install=needless
 
 # The host system.
 host_alias=
-host=i686-apple-darwin9.5.1
-host_os=darwin9.5.1
+host=i686-apple-darwin9.5.0
+host_os=darwin9.5.0
 
 # The build system.
 build_alias=
-build=i686-apple-darwin9.5.1
-build_os=darwin9.5.1
+build=i686-apple-darwin9.5.0
+build_os=darwin9.5.0
 
 # An echo program that does not interpret backslashes.
 echo="/bin/echo"
@@ -82,13 +81,13 @@ AR="ar"
 AR_FLAGS="cru"
 
 # A C compiler.
-LTCC="gcc"
+LTCC="gcc -std=gnu99"
 
 # LTCC compiler flags.
 LTCFLAGS="-g -O2"
 
 # A language-specific compiler.
-CC="gcc"
+CC="gcc -std=gnu99"
 
 # Is the compiler the GNU C compiler?
 with_gcc=yes
@@ -7212,8 +7211,6 @@ disable_libs=static
 # End:
 # ### BEGIN LIBTOOL TAG CONFIG: CXX
 
-# Libtool was configured on host kyle-maxwells-macbook.local:
-
 # Shell to use when invoking shell scripts.
 SHELL="/bin/sh"
 
@@ -7234,13 +7231,13 @@ fast_install=needless
 
 # The host system.
 host_alias=
-host=i686-apple-darwin9.5.1
-host_os=darwin9.5.1
+host=i686-apple-darwin9.5.0
+host_os=darwin9.5.0
 
 # The build system.
 build_alias=
-build=i686-apple-darwin9.5.1
-build_os=darwin9.5.1
+build=i686-apple-darwin9.5.0
+build_os=darwin9.5.0
 
 # An echo program that does not interpret backslashes.
 echo="/bin/echo"
@@ -7250,7 +7247,7 @@ AR="ar"
 AR_FLAGS="cru"
 
 # A C compiler.
-LTCC="gcc"
+LTCC="gcc -std=gnu99"
 
 # LTCC compiler flags.
 LTCFLAGS="-g -O2"
