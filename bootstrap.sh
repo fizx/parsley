@@ -1,5 +1,6 @@
 #!/bin/sh
 libtoolize || glibtoolize
-automake --add-missing
-autoreconf
+aclocal
+autoconf
+automake -a
 bison -yd parser.y
