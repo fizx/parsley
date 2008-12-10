@@ -1,6 +1,8 @@
 Dexter depends on 
 - the JSON C library from http://oss.metaparadigm.com/json-c/ (I used 0.7)
 - argp (standard with GNU)
+- libxml2
+- libxslt (with exslt)
 
 GNU/Linux:
 ------------------------------------------------------------------------
@@ -18,7 +20,7 @@ install the latest.
 
 sudo port install argp-standalone json-c
 ./bootstrap.sh
-LDFLAGS=-L/opt/local/lib CPPFLAGS="-I/opt/local/include" ./configure
+./configure
 make
 sudo make install
 

@@ -5,6 +5,10 @@ lib_LTLIBRARIES = libdexter.la
 libdexter_la_SOURCES = printbuf.c kstring.c obstack.c scanner.l parser.y dexter.c
 include_HEADERS = dexter.h obstack.h
 
-bin_PROGRAMS = dexterc
+bin_PROGRAMS = dexterc dexter
+
 dexterc_SOURCES = dexterc_main.c
-dexterc_LDADD = @LEXLIB@ libdexter.la
+dexterc_LDADD = libdexter.la
+
+dexter_SOURCES = dexter_main.c
+dexter_LDADD = libdexter.la
