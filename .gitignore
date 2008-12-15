@@ -2,6 +2,7 @@
 *.o
 *.lo
 dexterc
+dexter
 .deps/
 Makefile
 y.tab.c

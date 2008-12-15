@@ -66,8 +66,6 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state)
 
 static struct argp argp = { options, parse_opt, args_doc, doc };
 
-void read_into_buffer(FILE*, struct printbuf*);
-
 void dex_error(char* msg){
 	fprintf(stderr, "%s\n", msg);
 }
@@ -92,7 +90,7 @@ int main (int argc, char **argv) {
 		exit(1);
 	}
 	
-	read_into_buffer(in, dex);
+	printbuf_file_read(in, dex);
 	while(elemptr->has_next) {
 		elemptr = elemptr->next;
 		FILE* f = fopen(elemptr->string, "r");
@@ -100,7 +98,7 @@ int main (int argc, char **argv) {
 	    fprintf(stderr, "Cannot open file %s, error %d, %s\n", elemptr->string, errno, strerror(errno));
 			exit(1);
 		}
-		read_into_buffer(f, incl);
+		printbuf_file_read(f, incl);
 		fclose(f);
 	}
 	
@@ -115,18 +113,5 @@ int main (int argc, char **argv) {
 	fprintf(out, compiled);
 	fclose(out);
 	return 0;
-}
-
-void read_into_buffer(FILE* file, struct printbuf* pb){
-	int size = 1024;
-	char t[size];
-	while(fgets(t, size, file) != NULL) {
-		printbuf_memappend(pb, t, strlen(t));
-	}
-	
-	if(ferror(file) != 0) {
-		fprintf(stderr, "IO error\n");
-		exit(1);
-	}
 }
 

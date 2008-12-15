@@ -88,3 +88,17 @@ void printbuf_free(struct printbuf *p)
     free(p);
   }
 }
+
+void printbuf_file_read(FILE* file, struct printbuf* pb){
+	int size = 1024;
+	char t[size];
+	while(fgets(t, size, file) != NULL) {
+		printbuf_memappend(pb, t, strlen(t));
+	}
+	
+	if(ferror(file) != 0) {
+		fprintf(stderr, "IO error\n");
+		exit(1);
+	}
+}
+

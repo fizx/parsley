@@ -11,6 +11,9 @@
 #include <errno.h>
 #include <ctype.h>
 #include <stdbool.h>
+#include <libxslt/xslt.h>
+#include <libexslt/exslt.h>
+
 
 int yywrap(void){
   return 1;
@@ -21,6 +24,11 @@ char* dex_set_debug_mode(int i) {
 }
 
 char* dex_compile(char* dex, char* incl) {
+  if(!dex_exslt_registered) {
+    exsltRegisterAll();
+    dex_exslt_registered = true;
+  }
+  
 	dex_error_state = 0;
 	obstack_init(&dex_obstack);
 	
