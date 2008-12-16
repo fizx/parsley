@@ -57,13 +57,13 @@ char* dex_compile(char* dex, char* incl) {
 	sprintbuf(buf, "<xsl:strip-space elements=\"*\"/>\n");
 	sprintbuf(buf, "%s\n", incl);
 	sprintbuf(buf, "<xsl:template match=\"/\">\n");
-	sprintbuf(buf, "<root>\n");
+	sprintbuf(buf, "<dexter:root>\n");
 	
 	char *context = "root";
 	__dex_recurse(json, buf, context);
 	json_object_put(json); // frees json
 	
-	sprintbuf(buf, "</root>\n");
+	sprintbuf(buf, "</dexter:root>\n");
 	sprintbuf(buf, "</xsl:template>\n");
 	sprintbuf(buf, "</xsl:stylesheet>\n");
 	
@@ -103,9 +103,9 @@ void __dex_recurse_object(struct json_object * json, struct printbuf* buf, char 
 		expr += offset;
 		
 		sprintbuf(buf, "<%s>\n", tag);
-		if(has_expr) sprintbuf(buf, "<xsl:for-each select=\"%s\">\n", myparse(expr));
+		if(has_expr) sprintbuf(buf, "<dexter:groups><xsl:for-each select=\"%s\">\n", myparse(expr));
 		__dex_recurse(val, buf, astrcat3(context, ".", tag));
-		if(has_expr) sprintbuf(buf, "</xsl:for-each>\n");
+		if(has_expr) sprintbuf(buf, "</xsl:for-each></dexter:groups>\n");
 		sprintbuf(buf, "</%s>\n", tag);
   }
 }
