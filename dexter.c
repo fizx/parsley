@@ -23,19 +23,26 @@ char* dex_set_debug_mode(int i) {
 	dex_debug_mode = i;
 }
 
-char* dex_compile(char* dex, char* incl) {
+dexPtr dex_compile(char* dex) {
+	return dex_compile_with(dex, "", 0);
+}
+
+dexPtr dex_compile_with(char* dex, char* incl, int flags) {
+	dexPtr dex = (dexPtr) calloc(sizeof(struct compiled_dex), 1);
+	dex->flags = flags;
+	
   if(!dex_exslt_registered) {
     exsltRegisterAll();
     dex_exslt_registered = true;
   }
   
-	dex_error_state = 0;
+	// dex_error_state = 0;
 	obstack_init(&dex_obstack);
 	
 	struct json_object *json = json_tokener_parse(dex);
 	if(is_error(json)) {
-		dex_error("Your dex is not valid json.");
-		return NULL;
+		dex->error = strdup("Your dex is not valid json.");
+		return dex;
 	}
 
 	struct printbuf* buf = printbuf_new();
@@ -67,12 +74,16 @@ char* dex_compile(char* dex, char* incl) {
 	sprintbuf(buf, "</xsl:template>\n");
 	sprintbuf(buf, "</xsl:stylesheet>\n");
 	
-	char* output = strdup(buf->buf);
+	if(dex->error == NULL) {
+		xmlParserCtxtPtr ctxt = xmlNewParserCtxt();
+		xmlDocPtr doc = xmlCtxtReadMemory(ctxt, buf->buf, buf->size, "http://kylemaxwell.com/some-dex", "UTF-8", 3);
+		dex->stylesheet = xsltParseStylesheetDoc(doc);
+	}
+	
 	printbuf_free(buf);
 	obstack_free(&dex_obstack, NULL);
 	
-	if(dex_error_state != 0) return NULL;
-	return output;
+	return dex;
 }
 
 
