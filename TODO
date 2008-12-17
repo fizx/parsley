@@ -5,6 +5,8 @@
 - HTML-style paragraph awareness (inner-text has newlines)
 - Ruby bindings
 - JSON output
+- native JSON output
+- array parsing error
 - standard library
 - fix not()/set-difference
 - runtime no-match errors
