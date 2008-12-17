@@ -21,7 +21,7 @@ void inspect(VALUE v) {
 
 void Init_dexterous()
 {
-  VALUE dexterous = rb_define_module("Dexterous");
+  VALUE dexterous = rb_define_module("CDexterous");
 	rb_define_singleton_method(dexterous, "compile", dexCompile, 2);
 	rb_define_singleton_method(dexterous, "parse", dexNative, 3);
 }
@@ -46,11 +46,14 @@ VALUE dexNative(VALUE self, VALUE dex, VALUE rhtml, VALUE incl){
 	xmlDocPtr doc = xmlCtxtReadMemory(ctxt, xslt, strlen(xslt), "http://foo", "UTF-8", 3);
   xsltStylesheetPtr stylesheet = xsltParseStylesheetDoc(doc);
   char* chtml = STR2CSTR(rhtml);
-	htmlParserCtxtPtr htmlCtxt = htmlNewParserCtxt();
-  htmlDocPtr html = htmlCtxtReadMemory(htmlCtxt, chtml, strlen(chtml), "http://foo", "UTF-8", 3);
+	int len = strlen(chtml);
+	if(len == 0) return Qnil;
+	htmlParserCtxtPtr htmlCtxt = htmlCreateMemoryParserCtxt(chtml, len);
+  htmlDocPtr html = htmlCtxtReadMemory(htmlCtxt, chtml, len, "http://foo", "UTF-8", 3);
   xmlDocPtr xml = xsltApplyStylesheet(stylesheet, html, NULL);
+	// xmlDebugDumpDocument(stdout, xml);
   VALUE v = recurse(xml->children->children);
-  rb_global_variable(v);
+	if(v == NULL) v = Qnil; 
   return v;
 }
 
@@ -61,7 +64,7 @@ void dex_error(char* message) {
 VALUE recurse(xmlNodePtr xml) {
   if(xml == NULL) return NULL;
   xmlNodePtr child;
-  VALUE obj;
+  VALUE obj = Qnil;
 
   switch(xml->type) {
     case XML_ELEMENT_NODE:
