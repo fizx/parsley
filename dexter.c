@@ -12,6 +12,12 @@
 #include <ctype.h>
 #include <stdbool.h>
 #include <libxslt/xslt.h>
+#include <libxslt/xsltInternals.h>
+#include <libxslt/transform.h>
+#include <libxml/parser.h>
+#include <libxml/HTMLparser.h>
+#include <libxml/HTMLtree.h>
+#include <libxml/xmlwriter.h>
 #include <libexslt/exslt.h>
 
 
@@ -19,27 +25,50 @@ int yywrap(void){
   return 1;
 }
 
-char* dex_set_debug_mode(int i) {
-	dex_debug_mode = i;
+xmlDocPtr dex_parse_file(dexPtr dex, char* file, boolean html) {
+	if(html) {
+		htmlParserCtxtPtr htmlCtxt = htmlNewParserCtxt();
+  	htmlDocPtr html = htmlCtxtReadFile(htmlCtxt, file, "UTF-8", 3);
+		return dex_parse_doc(dex, html);
+	} else {
+		xmlParserCtxtPtr ctxt = xmlNewParserCtxt();
+		xmlDocPtr xml = xmlCtxtReadFile(ctxt, file, "UTF-8", 3);
+		return dex_parse_doc(dex, xml);
+	}
 }
 
-dexPtr dex_compile(char* dex) {
-	return dex_compile_with(dex, "", 0);
+xmlDocPtr dex_parse_string(dexPtr dex, char* string, size_t size, boolean html) {
+	if(html) {
+		htmlParserCtxtPtr htmlCtxt = htmlNewParserCtxt();
+  	htmlDocPtr html = htmlCtxtReadMemory(htmlCtxt, string, size, "http://foo", "UTF-8", 3);
+		return dex_parse_doc(dex, html);
+	} else {
+		xmlParserCtxtPtr ctxt = xmlNewParserCtxt();
+ 		xmlDocPtr xml = xmlCtxtReadMemory(ctxt, string, size, "http://foo", "UTF-8", 3);
+		return dex_parse_doc(dex, xml);
+	}
 }
 
-dexPtr dex_compile_with(char* dex, char* incl, int flags) {
+xmlDocPtr dex_parse_doc(dexPtr dex, xmlDocPtr doc) {
+	return xsltApplyStylesheet(dex->stylesheet, doc, NULL);
+}
+
+dexPtr dex_compile(char* dex_str, char* incl) {
 	dexPtr dex = (dexPtr) calloc(sizeof(struct compiled_dex), 1);
-	dex->flags = flags;
+	
+	if(last_dex_error != NULL) {
+		free(last_dex_error);
+		last_dex_error = NULL;
+	}
 	
   if(!dex_exslt_registered) {
     exsltRegisterAll();
     dex_exslt_registered = true;
   }
-  
-	// dex_error_state = 0;
+
 	obstack_init(&dex_obstack);
 	
-	struct json_object *json = json_tokener_parse(dex);
+	struct json_object *json = json_tokener_parse(dex_str);
 	if(is_error(json)) {
 		dex->error = strdup("Your dex is not valid json.");
 		return dex;
@@ -69,6 +98,7 @@ dexPtr dex_compile_with(char* dex, char* incl, int flags) {
 	char *context = "root";
 	__dex_recurse(json, buf, context);
 	json_object_put(json); // frees json
+	dex->error = last_dex_error;
 	
 	sprintbuf(buf, "</dexter:root>\n");
 	sprintbuf(buf, "</xsl:template>\n");
@@ -146,10 +176,9 @@ void __dex_recurse_string(struct json_object * json, struct printbuf* buf, char 
 
 void yyerror(const char * s) {
 	struct printbuf *buf = printbuf_new();
+	if(last_dex_error !=NULL) sprintbuf(buf, "%s\n", last_dex_error);
   sprintbuf(buf, "%s in key: %s", s, dex_parsing_context);
-	
-	dex_error_state = 1;
-	dex_error(buf->buf);
+	last_dex_error = strdup(buf->buf);
 	printbuf_free(buf);
 }
 

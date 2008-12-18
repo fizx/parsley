@@ -47,7 +47,7 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state)
 			base->has_next = 1;
       break;
     case 'd':	
-			dex_set_debug_mode(1);
+			// dex_set_debug_mode(1);
 			break;
     case 'o':
       arguments->output_file = arg;
@@ -102,16 +102,13 @@ int main (int argc, char **argv) {
 		fclose(f);
 	}
 	
-	char* compiled = dex_compile(dex->buf, incl->buf);
-	if(compiled == NULL) exit(1);
-	
-	FILE* out = (strcmp(arguments.output_file, "-") == 0) ? stdout : fopen(arguments.output_file, "w");
-	if(out == NULL) {		
-    fprintf(stderr, "Cannot open file %s, error %d, %s\n", arguments.output_file, errno, strerror(errno));
-		exit(1);
+	dexPtr compiled = dex_compile(dex->buf, incl->buf);
+	if(compiled->error != NULL) {
+		fprintf(stderr, "%s\n", compiled->error);
+	 	exit(1);
 	}
-	fprintf(out, compiled);
-	fclose(out);
-	return 0;
+
+	int status = xmlSaveFile(arguments.output_file, compiled->stylesheet->doc);
+	return status > 0 ? 0 : 1;
 }
 

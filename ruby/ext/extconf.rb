@@ -58,4 +58,4 @@ end
 have_header('dexter.h')
 have_library('dexter', 'dex_compile')
 
-create_makefile('dexterous')
+create_makefile('cdexterous')
