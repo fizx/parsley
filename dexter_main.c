@@ -32,15 +32,15 @@ int main (int argc, char **argv) {
   
   printbuf_file_read(fd, buf);
   dexPtr dex = dex_compile(buf->buf, "");
-	printf("hi\n");
+	// printf("hi\n");
 	xmlDocPtr xml = dex_parse_file(dex, argv[2], 1);
-  printf("%s\n", xml);
-	printf("%s\n", dex->error);
+  // printf("%s\n", xml);
+	// printf("%s\n", dex->error);
 
-  // struct json_object *json = xml2json(xml->children->children);
-  // printf("%s\n", json_object_to_json_string(json));
+  struct json_object *json = xml2json(xml->children->children);
+  printf("%s\n", json_object_to_json_string(json));
 
-	xmlSaveFile("-", xml);
+	// xmlSaveFile("-", xml);
 	
 	return 0;
 }
