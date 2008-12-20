@@ -11,56 +11,61 @@
 #include <json/json.h>
 #include <xml2json.h>
 
-
 VALUE _new(VALUE, VALUE, VALUE);
 VALUE _parse_file(VALUE, VALUE, VALUE, VALUE);
 VALUE _parse_string(VALUE, VALUE, VALUE, VALUE);
-VALUE _parse_doc(xmlDocPtr, VALUE);
+VALUE _parse_doc(dexPtr, xmlDocPtr, VALUE);
 VALUE recurse(xmlNodePtr xml);
 VALUE c_dex_err;
 VALUE c_dex;
 
-void Init_dexterous()
+void Init_cdexter()
 {
-	rb_define_class_under(c_dex, "CDexter", rb_cObject);
-	rb_define_class_under(c_dex_err, "DexError", rb_eRuntimeError);
-	rb_define_static_method(c_dex, "new", _new, 2);
-	rb_define_static_method(c_dex, "parse_file", _parse_file, 3);
-	rb_define_static_method(c_dex, "parse_string", _parse_string, 3);
+	c_dex = rb_define_class("CDexter", rb_cObject);
+	c_dex_err = rb_define_class("DexError", rb_eRuntimeError);
+	rb_define_singleton_method(c_dex, "new", _new, 2);
+	rb_define_method(c_dex, "parse_file", _parse_file, 3);
+	rb_define_method(c_dex, "parse_string", _parse_string, 3);
 }
 
 VALUE _new(VALUE self, VALUE dex, VALUE incl){
-	dexPtr dex = dex_compile(STR2CSTR(dex), STR2CSTR(incl));
- 	return Data_Wrap_Struct(c_dex, 0, dex_free, dex);
+	dexPtr ptr = dex_compile(STR2CSTR(dex), STR2CSTR(incl));
+ 	return Data_Wrap_Struct(c_dex, 0, dex_free, ptr);
 }
 
 VALUE _parse_file(VALUE self, VALUE name, VALUE input, VALUE output){
 	dexPtr dex;
 	Data_Get_Struct(self, dexPtr, dex);
-	return _parse_doc(dex_parse_file(dex, STR2CSTR(name), input == ID2SYM(rb_intern("html"))), output);
+	return _parse_doc(dex, dex_parse_file(dex, STR2CSTR(name), input == ID2SYM(rb_intern("html"))), output);
 }
 
 VALUE _parse_string(VALUE self, VALUE string, VALUE input, VALUE output) {
 	dexPtr dex;
 	Data_Get_Struct(self, dexPtr, dex);
-	char* string = STR2CSTR(name);
-	return _parse_doc(dex_parse_string(dex, string, strlen(string), input == ID2SYM(rb_intern("html"))), output);
+	char* cstr = STR2CSTR(string);
+	return _parse_doc(dex, dex_parse_string(dex, cstr, strlen(string), input == ID2SYM(rb_intern("html"))), output);
 }
 
-VALUE _parse_doc(xmlDocPtr xml, VALUE type) {
+VALUE _parse_doc(dexPtr dex, xmlDocPtr xml, VALUE type) {
+	if(xml == NULL) {
+		rb_raise(c_dex_err, dex->error);
+		free(dex->error);
+		dex->error = NULL;
+		return Qnil;
+	}
+	
 	VALUE output;
 	if(type == ID2SYM(rb_intern("json"))) {
 		struct json_object *json = xml2json(xml->children->children);
 		char* str = json_object_to_json_string(json);
 		output = rb_str_new2(str);
-		free(str);
 		json_object_put(json);
 	} else if(type == ID2SYM(rb_intern("xml"))) {
 		char* str;
 		int size;
 		xmlDocDumpMemory(xml, &str, &size);
 		output = rb_str_new(str, size);
-		free(str);
+		// free(str);
 	} else {
  		output = recurse(xml->children->children);
 		if(output == NULL) output = Qnil; 
