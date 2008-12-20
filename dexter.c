@@ -142,41 +142,100 @@ void * __dex_alloc(int size) {
 }
 
 void __dex_recurse_object(struct json_object * json, struct printbuf* buf, char *context) {
-	char *tag;
-	char *ptr;
-	char *expr;
-	int offset;
-	bool has_expr;
 	json_object_object_foreach(json, key, val) {
-		offset = 0;
-		tag = astrdup(key);
-		expr = astrdup(key);
-		ptr = tag;
-		has_expr = false;
-		while(*ptr++ != '\0'){
-			offset++;
-			if(*ptr == '(') {
-				*ptr = 0;
-				has_expr = true;
-				break;
-			}
-		}
-		expr += offset;
-		
-		sprintbuf(buf, "<%s>\n", tag);
-		if(has_expr) sprintbuf(buf, "<dexter:groups><xsl:for-each select=\"%s\">\n", myparse(expr));
-		__dex_recurse(val, buf, astrcat3(context, ".", tag));
-		if(has_expr) sprintbuf(buf, "</xsl:for-each></dexter:groups>\n");
-		sprintbuf(buf, "</%s>\n", tag);
+		__dex_recurse_foreach(json, key, val, buf, context);
   }
 }
 
+void __dex_recurse_foreach(struct json_object * json, char* key, struct json_object * val, struct printbuf* buf, char *context) {
+	char *tag = astrdup(key);;
+	char *ptr = tag;
+	char *expr = astrdup(key);;
+	int offset = 0;
+	bool has_expr = false;
+	struct json_object * inner;
+	
+	while(*ptr++ != '\0'){
+		offset++;
+		if(*ptr == '(') {
+			*ptr = 0;
+			has_expr = true;
+			break;
+		}
+	}
+	expr += offset;
+	
+	sprintbuf(buf, "<%s>\n", tag);	
+	switch(json_object_get_type(val)) {
+		case json_type_array:
+			printf("arr");
+			inner = json_object_array_get_idx(val, 0);
+			switch(json_object_get_type(inner)) {
+				case json_type_string:
+					if(has_expr) {
+						sprintbuf(buf, "<dexter:groups><xsl:for-each select=\"%s\"><dexter:group>\n", myparse(expr));
+						__dex_recurse(inner, buf, astrcat3(context, ".", tag));
+					} else {
+						sprintbuf(buf, "<dexter:groups><xsl:for-each select=\"%s\"><dexter:group>\n", myparse(json_object_get_string(inner)));
+						struct json_object * dot = json_object_new_string(".");
+						__dex_recurse(dot, buf, astrcat3(context, ".", tag));						
+					}
+					sprintbuf(buf, "</dexter:group></xsl:for-each></dexter:groups>\n");
+					break;
+				case json_type_object:
+					break;
+			}
+			break;
+		case json_type_string:
+			printf("str");
+			break;
+		case json_type_object:
+			printf("obj");
+			break;
+	};
+	sprintbuf(buf, "</%s>\n", tag);	
+	
+	
+	// char *tag;
+	// char *ptr;
+	// char *expr;
+	// int offset;
+	// bool has_expr;
+	// int is_arr;
+	// int is_simple_arr;
+	// offset = 0;
+	// tag = astrdup(key);
+	// expr = astrdup(key);
+	// ptr = tag;
+	// has_expr = false;
+	// while(*ptr++ != '\0'){
+	// 	offset++;
+	// 	if(*ptr == '(') {
+	// 		*ptr = 0;
+	// 		has_expr = true;
+	// 		break;
+	// 	}
+	// }
+	// expr += offset;
+	// 
+	// if(!has_expr) expr = ".";
+	// if(is_arr = json_object_is_type(val, json_type_array) ) {
+	// 	struct json_object * inner = json_object_array_get_idx(val, 0);
+	// 	if(is_simple_arr = json_object_is_type(inner, json_type_string)) {
+	// 		expr = json_object_get_string(inner);
+	// 	}
+	// }
+	// 
+	// sprintbuf(buf, "<%s>\n", tag);
+	// if(is_arr) sprintbuf(buf, "<dexter:groups><xsl:for-each select=\"%s\">\n", myparse(expr));
+	// __dex_recurse(val, buf, astrcat3(context, ".", tag));
+	// if(is_arr) sprintbuf(buf, "</xsl:for-each></dexter:groups>\n");
+	// sprintbuf(buf, "</%s>\n", tag);	
+}
+
+
 void __dex_recurse_array(struct json_object * json, struct printbuf* buf, char *context) {
-	for(int i = 0; i < json_object_array_length(json); i++) {
-		sprintbuf(buf, "<dexter:group>\n");
- 		__dex_recurse(json_object_array_get_idx(json, i), buf, context);
-    sprintbuf(buf, "</dexter:group>\n");
-  }
+	printf("WTF!!!!!!!\n");
 }
 
 void __dex_recurse_string(struct json_object * json, struct printbuf* buf, char *context) {

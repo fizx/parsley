@@ -39,5 +39,6 @@ static void __dex_recurse(struct json_object *, struct printbuf*, char*);
 static void __dex_recurse_object(struct json_object *, struct printbuf*, char*);
 static void __dex_recurse_array(struct json_object *, struct printbuf*, char*);
 static void __dex_recurse_string(struct json_object *, struct printbuf*, char*);
+static void __dex_recurse_foreach(struct json_object *, char *, struct json_object *, struct printbuf *, char *);
 
 #endif

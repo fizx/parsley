@@ -27,12 +27,12 @@ class TestDexterous < Test::Unit::TestCase
     @nonexistant_file = File.dirname(__FILE__) + "/../fixtures/yelp.html"
     assert_equal({"hi" => "Nick's Crispy Tacos"}, @dex.parse(:file => @nonexistant_file)) rescue nil
   end
-  # 
-  # def test_array_string
-  #   @dex = Dexterous.new({"foo" => ["li"]})
-  #   out = @dex.parse(:file => @file)
-  #   assert_kind_of Hash, out
-  #   assert_kind_of Array, out["foo"], out.inspect
-  #   assert out["foo"].length > 1
-  # end
+  
+  def test_array_string
+    @dex = Dexterous.new({"foo" => ["li"]})
+    out = @dex.parse(:file => @file)
+    assert_kind_of Hash, out
+    assert_kind_of Array, out["foo"], out.inspect
+    assert out["foo"].length > 1
+  end
 end
