@@ -20,7 +20,6 @@
 #include <libxml/xmlwriter.h>
 #include <libexslt/exslt.h>
 
-
 int yywrap(void){
   return 1;
 }
@@ -29,10 +28,18 @@ xmlDocPtr dex_parse_file(dexPtr dex, char* file, boolean html) {
 	if(html) {
 		htmlParserCtxtPtr htmlCtxt = htmlNewParserCtxt();
   	htmlDocPtr html = htmlCtxtReadFile(htmlCtxt, file, "UTF-8", 3);
+		if(html == NULL) {
+			asprintf(&dex->error, "Couldn't parse file: %s\n", file);
+			return NULL;
+		}
 		return dex_parse_doc(dex, html);
 	} else {
 		xmlParserCtxtPtr ctxt = xmlNewParserCtxt();
 		xmlDocPtr xml = xmlCtxtReadFile(ctxt, file, "UTF-8", 3);
+		if(xml == NULL) {
+			asprintf(&dex->error, "Couldn't parse file: %s\n", file);
+			return NULL;
+		}
 		return dex_parse_doc(dex, xml);
 	}
 }
@@ -41,10 +48,18 @@ xmlDocPtr dex_parse_string(dexPtr dex, char* string, size_t size, boolean html) 
 	if(html) {
 		htmlParserCtxtPtr htmlCtxt = htmlNewParserCtxt();
   	htmlDocPtr html = htmlCtxtReadMemory(htmlCtxt, string, size, "http://foo", "UTF-8", 3);
+		if(html == NULL) {
+			asprintf(&dex->error, "Couldn't parse string\n");
+			return NULL;
+		}
 		return dex_parse_doc(dex, html);
 	} else {
 		xmlParserCtxtPtr ctxt = xmlNewParserCtxt();
  		xmlDocPtr xml = xmlCtxtReadMemory(ctxt, string, size, "http://foo", "UTF-8", 3);
+		if(xml == NULL) {
+			asprintf(&dex->error, "Couldn't parse string\n");
+			return NULL;
+		}
 		return dex_parse_doc(dex, xml);
 	}
 }
@@ -54,7 +69,7 @@ xmlDocPtr dex_parse_doc(dexPtr dex, xmlDocPtr doc) {
 }
 
 dexPtr dex_compile(char* dex_str, char* incl) {
-	dexPtr dex = (dexPtr) calloc(sizeof(struct compiled_dex), 1);
+	dexPtr dex = (dexPtr) calloc(sizeof(compiled_dex), 1);
 	
 	if(last_dex_error != NULL) {
 		free(last_dex_error);
@@ -116,6 +131,11 @@ dexPtr dex_compile(char* dex_str, char* incl) {
 	return dex;
 }
 
+void dex_free(dexPtr ptr) {
+	if(ptr->error != NULL) free(ptr->error);
+	if(ptr->stylesheet != NULL) xsltFreeStylesheet(ptr->stylesheet);
+	free(ptr);
+}
 
 void * __dex_alloc(int size) {
 	return obstack_alloc(&dex_obstack, size);

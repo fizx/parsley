@@ -20,13 +20,14 @@ static char* last_dex_error;
 
 #include <json/json.h>
 
-struct compiled_dex {
+typedef struct __compiled_dex {
 	xsltStylesheetPtr stylesheet;
 	char* error;
-};
+} compiled_dex;
 
-typedef struct compiled_dex * dexPtr;
+typedef compiled_dex * dexPtr;
 
+void dex_free(dexPtr);
 dexPtr dex_compile(char* dex, char* incl);
 xmlDocPtr dex_parse_file(dexPtr, char*, boolean);
 xmlDocPtr dex_parse_string(dexPtr, char*, size_t, boolean);

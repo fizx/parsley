@@ -1,13 +1,13 @@
-require File.dirname(__FILE__) + "/../ext/cdexterous"
+require File.dirname(__FILE__) + "/../ext/cdexter"
 require "rubygems"
 require "json"
 
 class Dexterous
-  def initialize(dex)
-    if(dex.kind_of(Hash))
+  def initialize(dex, incl = "")
+    if(dex.is_a?(Hash))
       dex = dex.to_json 
     end
-    @dex = CDexterous.compile(dex, "")
+    @dex = CDexter.new(dex, incl)
   end
   
   # Valid options:
@@ -23,9 +23,13 @@ class Dexterous
   #
   # Defaults are :input => :html, :output => :ruby, :allow_empty => false
   def parse(options = {})
+    options[:file] || options[:string] || throw("must specify what to parse")
+    options[:input] ||= :html
+    options[:output]||= :ruby
     if options[:file]
-      D
+      @dex.parse_file options[:file], options[:input], options[:output]
     else
+      @dex.parse_string options[:string], options[:input], options[:output]
     end
   end
 end
