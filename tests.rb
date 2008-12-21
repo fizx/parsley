@@ -2,13 +2,15 @@
 require "test/unit"
 
 class Tests < Test::Unit::TestCase
-  def test_simple_array
-    dex_test "li.dex", "yelp.html", "li.yelp.json"
+  def self.dex_test(dex, input, output)
+    define_method "test_#{[dex,input,output].join(' ').gsub(/\W/, '_')}" do
+      root = File.dirname(__FILE__) 
+      fixtures = "#{root}/fixtures"
+      assert_equal `./dexter #{fixtures}/#{dex} #{fixtures}/#{input}`, File.read("#{fixtures}/#{output}")
+    end
   end
   
-  def dex_test(dex, input, output)
-    root = File.dirname(__FILE__) 
-    fixtures = "#{root}/fixtures"
-    assert_equal `./dexter #{fixtures}/#{dex} #{fixtures}/#{input}`, File.read("#{fixtures}/#{output}")
-  end
+  dex_test "li.dex", "yelp.html", "li.yelp.json"
+  dex_test "obj.dex", "yelp.html", "obj.yelp.json"
+  
 end

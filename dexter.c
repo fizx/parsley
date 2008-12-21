@@ -187,11 +187,8 @@ void __dex_recurse_foreach(struct json_object * json, char* key, struct json_obj
 			}
 			break;
 		case json_type_string:
-			// printf("str");
-			break;
 		case json_type_object:
-			// printf("obj");
-			break;
+			__dex_recurse(val, buf, astrcat3(context, ".", tag));
 	};
 	sprintbuf(buf, "</%s>\n", tag);	
 	
