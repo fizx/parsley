@@ -29,18 +29,25 @@ int main (int argc, char **argv) {
   struct printbuf *buf = printbuf_new();
   
   FILE * fd = fopen(argv[1], "r");
-  
   printbuf_file_read(fd, buf);
-  dexPtr dex = dex_compile(buf->buf, "");
-	// printf("hi\n");
+	
+  struct printbuf *incl = printbuf_new();
+  FILE * inclf = fopen("group-after.xml", "r");
+  printbuf_file_read(inclf, incl);
+
+  
+	dexPtr dex = dex_compile(buf->buf, incl->buf);
+	printf("hi\n");
+	
 	xmlDocPtr xml = dex_parse_file(dex, argv[2], 1);
-  // printf("%s\n", xml);
-	// printf("%s\n", dex->error);
+  printf("hi\n");
+	printf("%s\n", xml);
+	printf("%s\n", dex->error);
 
-  struct json_object *json = xml2json(xml->children->children);
-  printf("%s\n", json_object_to_json_string(json));
+  // struct json_object *json = xml2json(xml->children->children);
+  // printf("%s\n", json_object_to_json_string(json));
 
-	// xmlSaveFile("-", xml);
+	xmlSaveFile("-", xml);
 	
 	return 0;
 }

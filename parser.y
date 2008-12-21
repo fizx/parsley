@@ -211,8 +211,9 @@ AbbreviatedAxisSpecifier
 	|				{ $$ = ""; }
 	;
 Expr
-  : OrExpr								%dprec 1
-	| selectors_group	%dprec 2  
+	: LPAREN Expr RPAREN		%dprec 1
+  | OrExpr								%dprec 2
+	| selectors_group	%dprec 3
 	;
 PrimaryExpr
   : VariableReference 
@@ -238,7 +239,6 @@ ArgumentSet
 Argument
   : Expr
 	;
-	
 UnionExpr
   : PathExpr 
 	| UnionExpr PIPE PathExpr							{ $$ = astrcat3($1, $2, $3); }
@@ -375,11 +375,28 @@ ExprWhitespace
   : S
 
 FunctionName
-  : NAME
+  : QName
 	;
 
 QName
-	: NAME
+	: PrefixedName
+	| UnprefixedName
+	;
+
+PrefixedName
+	: Prefix COLON LocalPart  { $$ = astrcat3($1, $2, $3); }
+	;
+	
+UnprefixedName
+	: LocalPart
+	;
+
+Prefix
+	: NCName
+	;
+
+LocalPart
+	: NCName
 	;
 
 NCName
@@ -533,6 +550,7 @@ OptS
 %%
 
 char* myparse(char* string){
+	// start_debugging();
   prepare_parse(string);
   yyparse();
   cleanup_parse();
@@ -542,7 +560,6 @@ char* myparse(char* string){
 void answer(char* a){
 	parsed_answer = a;
 }
-
 
 void start_debugging(){
   yydebug = 1;
