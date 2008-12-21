@@ -12,5 +12,6 @@ class Tests < Test::Unit::TestCase
   
   dex_test "li.dex", "yelp.html", "li.yelp.json"
   dex_test "obj.dex", "yelp.html", "obj.yelp.json"
+  dex_test "yelp.dex", "yelp.html", "yelp.full.json"
   
 end

@@ -183,6 +183,13 @@ void __dex_recurse_foreach(struct json_object * json, char* key, struct json_obj
 					sprintbuf(buf, "</dexter:group></xsl:for-each></dexter:groups>\n");
 					break;
 				case json_type_object:
+					if(has_expr) {
+						sprintbuf(buf, "<dexter:groups><xsl:for-each select=\"%s\"><dexter:group>\n", myparse(expr));
+						__dex_recurse(inner, buf, astrcat3(context, ".", tag));
+						sprintbuf(buf, "</dexter:group></xsl:for-each></dexter:groups>\n");
+					} else {
+						// MAGIC FORTHCOMING!
+					}
 					break;
 			}
 			break;
