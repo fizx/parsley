@@ -18,6 +18,35 @@
 				}]
 			}]
 		}
+		
+		key looks like: 			use="count(set:intersection(following::*, <KEY>))
+		
+		visitation:
+		page
+		- type: magic, key: //h1									
+		page>title
+		- type: simple
+		- append-key: page-title-key
+		- value-of:select key
+		page>nav
+		- type:simple-array
+		- append-key: page-nav-key
+		- for-each select(key) > value-of .
+		
+		
+		
+		<xsl:key name="comment-title-key" match="//*[@id='comments']//h3" use="count(set:intersection(following::*, //*[@id='comments']//h3))" />
+		
+		
+		
+		["page", :magic, "h1"] => {
+		
+		
+		}
+		
+		
+		
+		]
 	-->
 	
 	<xsl:template match="/">
@@ -32,7 +61,7 @@
 								<xsl:attribute name="title"><xsl:value-of select=".//h2" /></xsl:attribute>
 								<xsl:for-each select=".//*[@id='comments']//h3">
 									<comment>
-										<xsl:variable name="comment_index" select="count(set:intersection(following::*, //*[@id='comments']//h3))"/>
+										<xsl:variable name="comment_index" select="count(set:intersection(following::*, //*[@id='posts']//li//*[@id='comments']//h3))"/>
 										<xsl:attribute name="index"><xsl:value-of select="$comment_index" /></xsl:attribute>
 										<xsl:attribute name="ele"><xsl:value-of select="count(key('comment-title-key', $comment_index))" /></xsl:attribute>
 										<xsl:attribute name="title"><xsl:value-of select="key('`', $comment_index)" /></xsl:attribute>

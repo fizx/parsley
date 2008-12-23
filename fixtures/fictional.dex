@@ -12,8 +12,3 @@
 		}]
 	}]
 }
-
-									___ can you even build a key on this?  (exslt node-set?!!?!?)
-								|  |  |  |  |  |  |  |  |  |  |  |  
-								
-  for-each      group-after(h1)[1] / (#posts li)[1] / group-after(#comments h3)[1] / #comments p 

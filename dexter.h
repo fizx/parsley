@@ -13,7 +13,6 @@
 #define obstack_chunk_free free
 
 static struct obstack dex_obstack;
-static char* dex_parsing_context;
 static int dex_debug_mode = 0;
 static bool dex_exslt_registered = false;
 static char* last_dex_error;
@@ -25,7 +24,16 @@ typedef struct __compiled_dex {
 	char* error;
 } compiled_dex;
 
+typedef struct __dex_context {
+	char* name;
+} dex_context;
+
+
+
 typedef compiled_dex * dexPtr;
+typedef dex_context * contextPtr;
+
+static contextPtr dex_parsing_context;
 
 void dex_free(dexPtr);
 dexPtr dex_compile(char* dex, char* incl);
@@ -35,10 +43,14 @@ xmlDocPtr dex_parse_string(dexPtr, char*, size_t, boolean);
 static xmlDocPtr dex_parse_doc(dexPtr, xmlDocPtr);
 
 void* __dex_alloc(int);
-static void __dex_recurse(struct json_object *, struct printbuf*, char*);
-static void __dex_recurse_object(struct json_object *, struct printbuf*, char*);
-static void __dex_recurse_array(struct json_object *, struct printbuf*, char*);
-static void __dex_recurse_string(struct json_object *, struct printbuf*, char*);
-static void __dex_recurse_foreach(struct json_object *, char *, struct json_object *, struct printbuf *, char *);
+static char* inner_key_of(struct json_object *);
+static char* inner_key_each(struct json_object *);
+static contextPtr clone_context(contextPtr);
+static contextPtr deeper_context(contextPtr, char*);
+static void __dex_recurse(struct json_object *, struct printbuf*, contextPtr);
+static void __dex_recurse_object(struct json_object *, struct printbuf*, contextPtr);
+static void __dex_recurse_array(struct json_object *, struct printbuf*, contextPtr);
+static void __dex_recurse_string(struct json_object *, struct printbuf*, contextPtr);
+static void __dex_recurse_foreach(struct json_object *, char *, struct json_object *, struct printbuf *, contextPtr);
 
 #endif
