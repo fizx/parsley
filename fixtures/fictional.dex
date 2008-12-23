@@ -4,12 +4,16 @@
 		"nav": ["ul#nav li"],
 		"post(#posts li)": [{
 			"title": "h2",
-			"paras": ["p"],
-			"subcomments": [{
+			"paras": ["./p"],
+			"comments": [{
 				"title": "#comments h3",
-				"tags": ["#comments p"]
+				"paras": ["#comments p"]
 			}]
 		}]
 	}]
 }
 
+									___ can you even build a key on this?  (exslt node-set?!!?!?)
+								|  |  |  |  |  |  |  |  |  |  |  |  
+								
+  for-each      group-after(h1)[1] / (#posts li)[1] / group-after(#comments h3)[1] / #comments p 
