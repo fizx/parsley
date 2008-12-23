@@ -22,64 +22,43 @@
 	
 	<xsl:template match="/">
 		<dexter:root xmlns:dexter="http://kylemaxwell.com/dexter">
-		  <page>
-		    <dexter:groups>
-		      <xsl:for-each select="//h1">
-						<xsl:variable name="index1" select="last() - position()" />
-		        <dexter:group>
-		          <title><xsl:value-of select="." /></title>
-		          <nav>
-		            <dexter:groups>
-		              <xsl:for-each select="set:intersection(key('key1', $index1), //ul[@id='nav']//li)">
-		                <dexter:group>
-		                	<xsl:value-of select="." />	
-		                </dexter:group>
-		              </xsl:for-each>
-		            </dexter:groups>
-		          </nav>
-		          <post>
-		            <dexter:groups>
-		              <xsl:for-each select="set:intersection(key('key1', $index1), //*[@id='posts']//li)">
-										<xsl:variable name="post" value="position()" />
-		                <dexter:group>
-		                  <title><xsl:value-of select=".//h2" /></title>
-		                  <paras>
-		                    <dexter:groups>
-		                      <xsl:for-each select="./p">
-		                        <dexter:group><xsl:value-of select="."/></dexter:group>
-		                      </xsl:for-each>
-		                    </dexter:groups>
-		                  </paras>
-		                  <comments>
-		                    <dexter:groups>
-		                      <xsl:for-each select=".//*[@id='comments']//h3">
-														<xsl:variable name="index2" select="$index1 + (last() - position())" />
-		                        <dexter:group>
-		                          <title><xsl:value-of select="."/></title>
-		                          <paras>
-		                            <dexter:groups>
-																		<xsl:for-each select="set:intersection(key('key2', $index2), //p)">
-		                                <dexter:group><xsl:value-of select="."/></dexter:group>
-		                              </xsl:for-each>
-		                            </dexter:groups>
-		                          </paras>
-		                        </dexter:group>
-		                      </xsl:for-each>
-		                    </dexter:groups>
-		                  </comments>
-		                </dexter:group>
-		              </xsl:for-each>
-		            </dexter:groups>
-		          </post>
-		        </dexter:group>
-		      </xsl:for-each>
-		    </dexter:groups>
-		  </page>
+			<xsl:for-each select="//h1">
+			  <page>
+					<xsl:variable name="page_index" select="last() - position()" />
+					<xsl:attribute name="title"><xsl:value-of select="key('page-key', $page_index)/h1" /></xsl:attribute>
+
+					<xsl:for-each select="key('page-key', $page_index)/*[@id='posts']//li">
+							<post>
+								<xsl:attribute name="title"><xsl:value-of select=".//h2" /></xsl:attribute>
+								<xsl:for-each select=".//*[@id='comments']//h3">
+									<comment>
+										<xsl:variable name="comment_index" select="count(set:intersection(following::*, //*[@id='comments']//h3))"/>
+										<xsl:attribute name="index"><xsl:value-of select="$comment_index" /></xsl:attribute>
+										<xsl:attribute name="ele"><xsl:value-of select="count(key('comment-title-key', $comment_index))" /></xsl:attribute>
+										<xsl:attribute name="title"><xsl:value-of select="key('`', $comment_index)" /></xsl:attribute>
+
+										<xsl:for-each select="key('comment-paras-key', $comment_index)">
+											<para><xsl:value-of select="."/></para>
+										</xsl:for-each>
+									</comment>
+								</xsl:for-each>
+							</post>
+					</xsl:for-each>
+				</page>
+			</xsl:for-each>
 		</dexter:root>
 	</xsl:template>
 	
-	<xsl:key name="key1" match="//*" use="count(following::h1)" />
-	<xsl:key name="key2" match="//*" use="count(following::*[@id='comments']//h3)" />
+	<xsl:template match="node()|@*">
+	  <xsl:copy>
+	    <xsl:apply-templates select="@*|node()"/>
+	  </xsl:copy>
+	</xsl:template>
+	
+	<xsl:key name="page-key" match="//*" use="count(following::h1)" />
+	<!-- <xsl:key name="post-key" match="//*" use="." /> -->
+	<xsl:key name="comment-title-key" match="//*[@id='comments']//h3" use="count(set:intersection(following::*, //*[@id='comments']//h3))" />
+	<xsl:key name="comment-paras-key" match="//*[@id='comments']//p" use="count(set:intersection(following::*, //*[@id='comments']//h3))" />
 			
 </xsl:stylesheet>
 
