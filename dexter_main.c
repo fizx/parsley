@@ -47,7 +47,7 @@ int main (int argc, char **argv) {
   // struct json_object *json = xml2json(xml->children->children);
   // printf("%s\n", json_object_to_json_string(json));
 
-	xmlSaveFile("-", xml);
+	xmlSaveFormatFile("-", xml, 1);
 	
 	return 0;
 }

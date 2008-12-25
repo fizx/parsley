@@ -2,8 +2,6 @@
 	
 	<xsl:output method="xml" indent="yes"/>
 	<xsl:strip-space elements="*"/>
-	
-	
 	<xsl:template match="/">
 		<dexter:root>
 			<day>
@@ -20,6 +18,17 @@
 									</xsl:for-each>
 								</dexter:groups>
 							</entries>
+							
+							<nest>
+								<dexter:groups>
+									<xsl:for-each select="//b">
+										<xsl:if test="position() &lt; 5">
+											<dexter:group><xsl:value-of select="."/></dexter:group>
+										</xsl:if>
+									</xsl:for-each>
+								</dexter:groups>
+							</nest>
+							
 						</dexter:group>
 					</xsl:for-each>
 				</dexter:groups>
@@ -30,4 +39,10 @@
 	
 	<xsl:key name="hafter" match="//b/h4" use="count(following::b/h4)" />
 	<xsl:key name="pafter" match="//p/a" use="count(following::b/h4)" />
+	<xsl:key name="bafter" match="//b" use="count(following::b/h4)" />
 </xsl:stylesheet>
+
+
+
+
+

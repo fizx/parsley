@@ -7,7 +7,8 @@
 #include "dexter.h"
 
 char* astrdup(char* c) {
-	return strdup(c);
+	if(c == NULL) return NULL;
+	return astrcat(c, "");
 }
 
 char* astrcat(char* a, char* b) {
@@ -37,6 +38,18 @@ char* astrcat5(char* a, char* b, char* c, char* d, char* e) {
 char* astrcat6(char* a, char* b, char* c, char* d, char* e, char* f) {
 	char* output = (char*) __dex_alloc(sizeof(char) * (strlen(a) + strlen(b) + strlen(c) + strlen(d) + strlen(e) + strlen(f) + 1));
 	sprintf(output, "%s%s%s%s%s%s", a, b, c, d, e, f);
+  return output;
+}
+
+char* astrcat7(char* a, char* b, char* c, char* d, char* e, char* f, char* g) {
+	char* output = (char*) __dex_alloc(sizeof(char) * (strlen(a) + strlen(b) + strlen(c) + strlen(d) + strlen(e) + strlen(f) + strlen(g) + 1));
+	sprintf(output, "%s%s%s%s%s%s%s", a, b, c, d, e, f, g);
+  return output;
+}
+
+char* astrcat8(char* a, char* b, char* c, char* d, char* e, char* f, char* g, char* h) {
+	char* output = (char*) __dex_alloc(sizeof(char) * (strlen(a) + strlen(b) + strlen(c) + strlen(d) + strlen(e) + strlen(f) + strlen(g) + strlen(h) + 1));
+	sprintf(output, "%s%s%s%s%s%s%s%s", a, b, c, d, e, f, g, h);
   return output;
 }
 

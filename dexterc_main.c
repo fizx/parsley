@@ -108,7 +108,7 @@ int main (int argc, char **argv) {
 	 	exit(1);
 	}
 
-	int status = xmlSaveFile(arguments.output_file, compiled->stylesheet->doc);
+	int status = xmlSaveFormatFile(arguments.output_file, compiled->stylesheet->doc, 1);
 	return status > 0 ? 0 : 1;
 }
 

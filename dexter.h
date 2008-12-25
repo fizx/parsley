@@ -26,10 +26,18 @@ typedef struct __compiled_dex {
 
 typedef struct __dex_context {
 	char* name;
+	char* group_key;
+	char* full_group_key;
 } dex_context;
 
+static char* xslt_keys;
 
-
+// typedef struct __dex_context_node {
+// 	char* key;
+// 	dex_context_node* next;
+// } dex_context_node;
+// 
+// typedef dex_context_node * nodePtr;
 typedef compiled_dex * dexPtr;
 typedef dex_context * contextPtr;
 

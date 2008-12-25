@@ -1,6 +1,57 @@
 {
-	"day(user:group-after(h4))": [{
+	"day": [{
 		"title": "h4",
-		"entries": ["p"]
+		"entries": ["p"],
+		"nest(c)": [{
+			"a": "b",
+			"b": ["c"],
+			"foo": [{
+				"a": "b",
+				"c": ["d"]
+			}]
+		}]
 	}]
 }
+
+
+
+
+
+
+{
+	"day": [{
+		"title": "h4",
+		"nav": ["p"],
+		"post(c)": [{
+			"title": "b",
+			"paras": ["c"],
+			"subcomments": [{
+				"title": "b",
+				"tags": ["d"]
+			}]
+		}]
+	}]
+}
+
+
+
+
+
+
+
+
+
+
+how to handle nesting?1!?
+
+two parts to any nest....
+
+external for-each			day(//h4)
+external scope				
+internal for-each 
+internal scope
+
+- group-by(key) or simple
+
+simple-simple
+

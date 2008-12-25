@@ -2,7 +2,6 @@
 	
 	<xsl:output method="xml" indent="yes"/>
 	<xsl:strip-space elements="*"/>
-	
 	<!-- 	
 		{
 			"page": [{
@@ -47,47 +46,106 @@
 		
 		
 		]
+		
+		tenets:
+		- you can always get an accurate simple refinement, if you have a consistent scope
+		- simple refinement +c counter
+		
+		
+		- you can always get an accurate simple refinement of the current scope,
+													which you can use to for-each
+		- complex refinements are handled with multikeys
+		
+		
+		every scope is a completely independent (multi?)key, same countdown, even for simple
+		- what do you need to carry?!
+		match=parent-match//current-match
+		use=parent-criteria-current-criteria
+		for-each:parent-scope//current-key
+		
+		{
+			"page": [{
+				"title": "h1",
+				"nav": ["ul#nav li"],
+				"post(#posts li)": [{
+					"title": "h2",
+					"paras": ["./p"],
+					"comment": [{
+						"title": "#comments h3",
+						"contents": ["#comments p"]
+					}]
+				}]
+			}]
+		}
 	-->
+
 	
 	<xsl:template match="/">
-		<dexter:root xmlns:dexter="http://kylemaxwell.com/dexter">
-			<xsl:for-each select="//h1">
-			  <page>
-					<xsl:variable name="page_index" select="last() - position()" />
-					<xsl:attribute name="title"><xsl:value-of select="key('page-key', $page_index)/h1" /></xsl:attribute>
-
-					<xsl:for-each select="key('page-key', $page_index)/*[@id='posts']//li">
-							<post>
-								<xsl:attribute name="title"><xsl:value-of select=".//h2" /></xsl:attribute>
-								<xsl:for-each select=".//*[@id='comments']//h3">
+		<xsl:variable name="context0" select="." />
+		<dexter:root>
+			<page>
+				<xsl:for-each select="//h1">
+					<dexter:grp>
+						<xsl:variable name="page_index" select="count(set:intersection(following::*, //h1))" />
+						<title><xsl:value-of select="key('page-key', $page_index)/h1" /></title>
+						<nav>
+							<xsl:for-each select="key('page-key', $page_index)/ul[@id='nav']//li">
+								<dexter:grp>
+									<xsl:value-of select="." />
+								</dexter:grp>
+							</xsl:for-each>
+						</nav>
+						<post>
+							<xsl:for-each select="key('page-key', $page_index)/*[@id='posts']//li">
+								<xsl:variable name="context1" select="." />
+								<xsl:variable name="post_index" select="concat($page_index, '-', count(set:intersection(following::*, //*[@id='posts']//li//h2)))" />
+								<dexter:grp>
+									<title><xsl:value-of select="key('post-key', $post_index)/h2" /></title>
+									<paras>
+										<xsl:for-each select="set:intersection(key('post-key', $post_index), exsl:node-set($context1)/p)">
+											<dexter:grp>
+												<xsl:value-of select="." />
+											</dexter:grp>
+										</xsl:for-each>
+									</paras>
 									<comment>
-										<xsl:variable name="comment_index" select="count(set:intersection(following::*, //*[@id='posts']//li//*[@id='comments']//h3))"/>
-										<xsl:attribute name="index"><xsl:value-of select="$comment_index" /></xsl:attribute>
-										<xsl:attribute name="ele"><xsl:value-of select="count(key('comment-title-key', $comment_index))" /></xsl:attribute>
-										<xsl:attribute name="title"><xsl:value-of select="key('`', $comment_index)" /></xsl:attribute>
-
-										<xsl:for-each select="key('comment-paras-key', $comment_index)">
-											<para><xsl:value-of select="."/></para>
+										<xsl:for-each select="key('post-key', $post_index)/*[@id='comments']//h3">
+											<xsl:variable name="comment_index" select="concat($post_index, '-', count(set:intersection(following::*, //*[@id='posts']//li//*[@id='comments']//h3)))" />
+											<dexter:grp>
+												<title><xsl:value-of select="set:intersection(exsl:node-set($context1)//*[@id='comments']//h3, key('comment-key', $comment_index))" /></title>
+												<contents>
+													<xsl:for-each select="set:intersection(exsl:node-set($context1)//*[@id='comments']//p, key('comment-key', $comment_index))">
+														<dexter:grp>
+															<xsl:value-of select="." />
+														</dexter:grp>
+													</xsl:for-each>
+												</contents>
+											</dexter:grp>
 										</xsl:for-each>
 									</comment>
-								</xsl:for-each>
-							</post>
-					</xsl:for-each>
-				</page>
-			</xsl:for-each>
+								</dexter:grp>
+							</xsl:for-each>
+						</post>
+					</dexter:grp>
+				</xsl:for-each>
+			</page>
 		</dexter:root>
+		<xsl:apply-templates select="key('comment-key', '1-0-1')"  mode="debug"/>
 	</xsl:template>
 	
-	<xsl:template match="node()|@*">
+	<xsl:template match="@*|node()" mode="debug">
 	  <xsl:copy>
-	    <xsl:apply-templates select="@*|node()"/>
+	    <xsl:apply-templates select="@*|node()" mode="debug"/>
 	  </xsl:copy>
 	</xsl:template>
 	
-	<xsl:key name="page-key" match="//*" use="count(following::h1)" />
-	<!-- <xsl:key name="post-key" match="//*" use="." /> -->
-	<xsl:key name="comment-title-key" match="//*[@id='comments']//h3" use="count(set:intersection(following::*, //*[@id='comments']//h3))" />
-	<xsl:key name="comment-paras-key" match="//*[@id='comments']//p" use="count(set:intersection(following::*, //*[@id='comments']//h3))" />
+	<xsl:key name="page-key" match="//*" use="count(set:intersection(following::*, //h1))" />
+	<xsl:key name="post-key" match="//*[@id='posts']//li/descendant-or-self::*" 
+		use="concat(count(set:intersection(following::*, //h1)) , '-', count(set:intersection(following::*, //*[@id='posts']//li//h2)))" />
+	<xsl:key name="comment-key" match="//*[@id='posts']//li/descendant-or-self::*" 
+		use="concat(count(set:intersection(following::*, //h1)), '-',
+		            count(set:intersection(following::*, //*[@id='posts']//li//h2)), '-',
+								count(set:intersection(following::*, //*[@id='posts']//li//*[@id='comments']//h3)))" />
 			
 </xsl:stylesheet>
 
