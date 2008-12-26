@@ -143,7 +143,7 @@
 	<xsl:key name="post-key" match="//*[@id='posts']//li/descendant-or-self::*" 
 		use="concat(count(set:intersection(following::*, //h1)) , '-', count(set:intersection(following::*, //*[@id='posts']//li//h2)))" />
 	<xsl:key name="comment-key" match="//*[@id='posts']//li/descendant-or-self::*" 
-		use="concat(count(set:intersection(following::*, //h1)), '-',
+		use="concat(count(set:intersection(following::*, 4)), '-',
 		            count(set:intersection(following::*, //*[@id='posts']//li//h2)), '-',
 								count(set:intersection(following::*, //*[@id='posts']//li//*[@id='comments']//h3)))" />
 			

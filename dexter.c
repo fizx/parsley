@@ -68,15 +68,6 @@ xmlDocPtr dex_parse_doc(dexPtr dex, xmlDocPtr doc) {
 	return xsltApplyStylesheet(dex->stylesheet, doc, NULL);
 }
 
-static contextPtr clone_context(contextPtr context) {
-	contextPtr other;
-	other = __dex_alloc(sizeof(dex_context));
-	other->name = astrdup(context->name);
-	other->group_key = astrdup(context->group_key);
-	other->full_group_key = astrdup(context->full_group_key);
-	return other;
-}
-
 dexPtr dex_compile(char* dex_str, char* incl) {
 	dexPtr dex = (dexPtr) calloc(sizeof(compiled_dex), 1);
 	
@@ -118,21 +109,16 @@ dexPtr dex_compile(char* dex_str, char* incl) {
 	sprintbuf(buf, "%s\n", incl);
 	sprintbuf(buf, "<xsl:template match=\"/\">\n");
 	sprintbuf(buf, "<dexter:root>\n");
+		
+	contextPtr context = new_context(json, buf);
+	__dex_recurse(context);
 	
-	contextPtr context = __dex_alloc(sizeof(dex_context));
-	context->name = "root";
-	context->full_group_key = "";
-	context->group_key = "";
-	xslt_keys = "";
-	
-	__dex_recurse(json, buf, context);
 	json_object_put(json); // frees json
 	dex->error = last_dex_error;
 	
 	sprintbuf(buf, "</dexter:root>\n");
 	sprintbuf(buf, "</xsl:template>\n");
-	printf("hi: %s\n", xslt_keys);
-	sprintbuf(buf, xslt_keys);
+	sprintbuf(buf, context->key_buf->buf);
 	sprintbuf(buf, "</xsl:stylesheet>\n");
 	
 	if(dex->error == NULL) {
@@ -147,6 +133,54 @@ dexPtr dex_compile(char* dex_str, char* incl) {
 	return dex;
 }
 
+contextPtr new_context(struct json_object * json, struct printbuf *buf) {
+	contextPtr c = __dex_alloc(sizeof(dex_context));
+	c->key_buf = printbuf_new();
+	sprintbuf(c->key_buf, "");
+	c->name = "root";
+	c->tag = "root";
+	c->full_expr = "/";
+	c->expr = NULL;
+	c->magic = NULL;
+	c->filter = NULL;
+	c->buf = buf;
+	c->json = json;
+	c->parent = NULL;
+	c->array = 0;
+	c->string = 0;
+	c->keys = NULL;
+	return c;
+}
+
+contextPtr deeper_context(contextPtr context, char* key, struct json_object * val) {
+	contextPtr c = __dex_alloc(sizeof(dex_context));
+	c->key_buf = context->key_buf;
+	c->keys = context->keys;
+	c->tag = __tag(key);
+	c->array = json_object_is_type(val, json_type_array);
+	c->json = c->array ? json_object_array_get_idx(val, 0) : val;
+	c->string = json_object_is_type(c->json, json_type_string);
+	c->filter = __filter(key);
+	c->name = astrcat3(context->name, ".", c->tag);
+	c->magic = ((c->filter == NULL) && c->array && !(c->string)) ? c->name : context->magic;
+	c->buf = context->buf;
+	c->expr = c->string ? myparse(astrdup(json_object_get_string(c->json))) : NULL;
+	c->full_expr = full_expr(context, c->filter);
+	c->full_expr = full_expr(c, c->expr);
+	c->expr = filter_intersection(c->magic, c->expr);
+	c->filter = filter_intersection(c->magic, c->filter);
+	c->parent = context;
+	return c;
+}
+
+static char* filter_intersection(char* key, char* expr) {
+	if(key != NULL && expr != NULL) {
+		return astrcat7("set:intersection(key('", key, "__key', $", key, "__index), ", expr, ")");
+	} else {
+		return expr;
+	}
+}
+
 void dex_free(dexPtr ptr) {
 	if(ptr->error != NULL) free(ptr->error);
 	if(ptr->stylesheet != NULL) xsltFreeStylesheet(ptr->stylesheet);
@@ -157,93 +191,126 @@ void * __dex_alloc(int size) {
 	return obstack_alloc(&dex_obstack, size);
 }
 
-void __dex_recurse_object(struct json_object * json, struct printbuf* buf, contextPtr context) {
-	json_object_object_foreach(json, key, val) {
-		__dex_recurse_foreach(json, key, val, buf, context);
-  }
+void yyerror(const char * s) {
+	struct printbuf *buf = printbuf_new();
+	if(last_dex_error !=NULL) sprintbuf(buf, "%s\n", last_dex_error);
+  sprintbuf(buf, "%s in key: %s", s, dex_parsing_context->name);
+	last_dex_error = strdup(buf->buf);
+	printbuf_free(buf);
 }
 
-static contextPtr deeper_context(contextPtr context, char* tag) {
-	contextPtr deeper = clone_context(context);
-	deeper->name = astrcat3(context->name, ".", tag);
-	return deeper;
-}
-
-void __dex_recurse_foreach(struct json_object * json, char* key, struct json_object * val, struct printbuf* buf, contextPtr context) {
-	char *tag = astrdup(key);;
+char* __tag(char* key) {
+	char *tag = astrdup(key);
 	char *ptr = tag;
-	char *expr = astrdup(key);;
+	while(*ptr++ != '\0'){
+		if(*ptr == '(') {
+			*ptr = 0;
+			return tag;
+		}
+	}
+	return tag;
+}
+
+char* __filter(char* key) {
+	char *expr = astrdup(key);
+	char *ptr = expr;
+
 	int offset = 0;
 	bool has_expr = false;
-	struct json_object * inner;
-	
+
 	while(*ptr++ != '\0'){
 		offset++;
 		if(*ptr == '(') {
-			*ptr = 0;
 			has_expr = true;
 			break;
 		}
 	}
-	expr += offset;
-	
-	sprintbuf(buf, "<%s>\n", tag);	
-	switch(json_object_get_type(val)) {
-		case json_type_array:
-			// printf("arr");
-			inner = json_object_array_get_idx(val, 0);
-			switch(json_object_get_type(inner)) {
-				case json_type_string:
-					if(has_expr) {
-						printf("parsing: %s\n", expr);
-						sprintbuf(buf, "<dexter:groups><xsl:for-each select=\"%s\"><dexter:group>\n", myparse(expr));
-						printf("error: %s\n", last_dex_error);
-						__dex_recurse(inner, buf, deeper_context(context, tag));
-					} else {
-						printf("parsing: %s\n", json_object_get_string(inner));
-						sprintbuf(buf, "<dexter:groups><xsl:for-each select=\"%s\"><dexter:group>\n", myparse(json_object_get_string(inner)));
-						printf("error: %s\n", last_dex_error);
-						struct json_object * dot = json_object_new_string(".");
-						__dex_recurse(dot, buf, deeper_context(context, tag));						
-					}
-					sprintbuf(buf, "</dexter:group></xsl:for-each></dexter:groups>\n");
-					break;
-				case json_type_object:
-					if(has_expr) {
-						printf("parsing: %s\n", expr);
-						sprintbuf(buf, "<dexter:groups><xsl:for-each select=\"%s\"><dexter:group>\n", myparse(expr));
-						printf("error: %s\n", last_dex_error);
-						__dex_recurse(inner, buf, deeper_context(context, tag));
-						sprintbuf(buf, "</dexter:group></xsl:for-each></dexter:groups>\n");
-					} else {
-						char* inner_expr = inner_key_of(inner);
-						if(inner_expr == NULL) { // boring, no singleton keys, just maintain structure
-							sprintbuf(buf, "<dexter:groups><dexter:group>\n");
-							__dex_recurse(inner, buf, deeper_context(context, tag));
-							sprintbuf(buf, "</dexter:group></dexter:groups>\n");
-						} else {
-							char* group_key = myparse(inner_expr);
-							contextPtr new_context = deeper_context(context, tag);
-							new_context->full_group_key = astrcat3(new_context->full_group_key, "//", group_key);
-							sprintbuf(buf, "<dexter:groups><xsl:for-each select=\"%s\"><dexter:group>\n", group_key);
-							sprintbuf(buf, 
-								"<xsl:variable name=\"%s_index\" select=\"count(set:intersection(following::*, %s))\"/>\n", 
-								new_context->name, new_context->full_group_key);
-							__dex_recurse(inner, buf, new_context);
-							sprintbuf(buf, "</dexter:group></xsl:for-each></dexter:groups>\n");
-						}
-					}
-					break;
-			}
-			break;
-		case json_type_string:
-		case json_type_object:
-			__dex_recurse(val, buf, deeper_context(context, tag));
-	};
-	sprintbuf(buf, "</%s>\n", tag);	
+	if(!has_expr) return NULL;
+
+	expr += offset + 1; // clip "("
+	int l = strlen(expr);
+	if(l <= 1) return NULL;
+	*(expr + l - 1) = 0; // clip ")"
+	return myparse(expr);
 }
 
-char* inner_key_of(struct json_object * json) {
+void __dex_recurse(contextPtr context) {
+	char* tmp;
+	struct printbuf * buf;
+	keyPtr keys;
+	contextPtr c;
+	json_object_object_foreach(context->json, key, val) {
+		c = deeper_context(context, key, val);
+		sprintbuf(c->buf, "<%s>\n", c->tag);	
+		if(c->string) {
+			if(c->array) {
+				sprintbuf(c->buf, "<dexter:groups><xsl:for-each select=\"%s\"><dexter:group>\n", c->expr);	
+				sprintbuf(c->buf, "<xsl:value-of select=\".\" />\n");
+				sprintbuf(c->buf, "</dexter:group></xsl:for-each></dexter:groups>\n");
+			} else {
+				sprintbuf(c->buf, "<xsl:value-of select=\"%s\" />\n", c->expr);
+			} 
+		} else { // if c->object !string
+			if(c->array) {		// scoped
+				if(c->filter != NULL) {
+					sprintbuf(c->buf, "<dexter:groups><xsl:for-each select=\"%s\"><dexter:group>\n", c->filter);	
+					__dex_recurse(c);
+					sprintbuf(c->buf, "</dexter:group></xsl:for-each></dexter:groups>\n");
+				} else {				// magic	
+					sprintbuf(c->buf, "<xsl:variable name=\"%s__context\" select=\".\"/>\n", c->name);
+					tmp = myparse(astrdup(inner_key_of(c->json)));
+					sprintbuf(c->buf, "<dexter:groups><xsl:for-each select=\"%s\">\n", filter_intersection(context->magic, tmp));	
+
+
+					// keys
+					keys = __dex_alloc(sizeof(key_node));
+					keys->name = c->name;
+					keys->use = full_expr(c, tmp);
+					keys->next = c->keys;
+					c->keys = keys;
+					
+					buf = printbuf_new();
+					
+					sprintbuf(buf, "concat(");
+					while(keys != NULL){
+						sprintbuf(buf, "count(set:intersection(following::*, %s)), '-',", keys->use);
+						keys = keys->next;
+					}
+					sprintbuf(buf, "'')");
+					tmp = astrdup(buf->buf);
+					printbuf_free(buf);
+					
+					sprintbuf(c->key_buf, "<xsl:key name=\"%s__key\" match=\"%s\" use=\"%s\"/>\n", c->name, 
+						full_expr(c, "./descendant-or-self::*"),
+						tmp
+					);
+
+					sprintbuf(c->buf, "<xsl:variable name=\"%s__index\" select=\"%s\"/>\n", c->name, tmp);
+					sprintbuf(c->buf, "<xsl:for-each select=\"$%s__context\"><dexter:group>\n", c->name);	
+					__dex_recurse(c);
+					sprintbuf(c->buf, "</dexter:group></xsl:for-each></xsl:for-each></dexter:groups>\n");					
+				}
+			} else {
+				if(c->filter == NULL) {
+					__dex_recurse(c);
+				} else {	
+					sprintbuf(c->buf, "<xsl:for-each select=\"%s\"><xsl:if test=\"position() = 1\">\n", c->filter);	
+					__dex_recurse(c);
+					sprintbuf(c->buf, "</xsl:if></xsl:for-each>\n");
+				}
+			}
+		}
+		sprintbuf(c->buf, "</%s>\n", c->tag);
+	}
+}
+
+static char* full_expr(contextPtr context, char* expr) {
+	if(expr == NULL) return context->full_expr;
+	char* merged = arepl(expr, ".", context->full_expr);
+	return arepl(merged, "///", "//");
+}
+
+static char* inner_key_of(struct json_object * json) {
 	switch(json_object_get_type(json)) {
 		case json_type_string: 
 			return json_object_get_string(json);
@@ -254,65 +321,10 @@ char* inner_key_of(struct json_object * json) {
 	}
 }
 
-char* inner_key_each(struct json_object * json) {
+static char* inner_key_each(struct json_object * json) {
 	json_object_object_foreach(json, key, val) {
 		char* inner = inner_key_of(val);
 		if(inner != NULL) return inner;
 	}
 	return NULL;
-}
-
-void __dex_recurse_array(struct json_object * json, struct printbuf* buf, contextPtr context) {
-	printf("WTF!!!!!!!\n");
-}
-
-void __dex_recurse_string(struct json_object * json, struct printbuf* buf, contextPtr context) {
-	char* a = astrdup(json_object_get_string(json));
-	char* ptr = context->name;
-	char* last_name = context->name;
-	char* expr;
-	while(*ptr++){
-		if(*ptr == '.') last_name = ptr + 1;
-	}
-	dex_parsing_context = context;
-	expr = myparse(a);
-	
-	xslt_keys = astrcat8(xslt_keys, "<xsl:key name=\"key-", 
-			context->name, 
-			"\" match=\"",
-			expr,
-			"\" use=\"count(set:intersection(following::*, ",
-			context->full_group_key, 
-			"))\" />");	
-	sprintbuf(buf, "<xsl:variable name=\"%s\" select=\"%s\" />\n", context->name, expr);
-	sprintbuf(buf, "<xsl:variable name=\"%s\" select=\"$%s\" />\n", last_name, context->name);
-	sprintbuf(buf, "<xsl:value-of select=\"$%s\" />\n", context->name);
-}
-
-void yyerror(const char * s) {
-	struct printbuf *buf = printbuf_new();
-	if(last_dex_error !=NULL) sprintbuf(buf, "%s\n", last_dex_error);
-  sprintbuf(buf, "%s in key: %s", s, dex_parsing_context->name);
-	last_dex_error = strdup(buf->buf);
-	printbuf_free(buf);
-}
-
-void __dex_recurse(struct json_object * json, struct printbuf* buf, contextPtr context) {
-	switch(json_object_get_type(json)){
-		case json_type_object:
-			__dex_recurse_object(json, buf, context);
-			break;
-		case json_type_array:
-			__dex_recurse_array(json, buf, context);
-			break;
-		case json_type_string:
-			__dex_recurse_string(json, buf, context);
-			break;
-		case json_type_boolean:
-		case json_type_double:
-		case json_type_int:
-		default:
-			fprintf(stderr, "Invalid type in json\n");
-			exit(1);
-	}
 }

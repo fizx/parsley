@@ -24,20 +24,30 @@ typedef struct __compiled_dex {
 	char* error;
 } compiled_dex;
 
-typedef struct __dex_context {
+typedef struct __key_node {
 	char* name;
-	char* group_key;
-	char* full_group_key;
+	char* use;
+	struct __key_node * next;
+} key_node;
+
+typedef key_node * keyPtr;
+
+typedef struct __dex_context {
+	struct printbuf * buf;
+	struct printbuf * key_buf;
+ 	keyPtr keys;
+	struct json_object * json;
+	struct __dex_context * parent;
+	char* tag;
+	char* filter;
+	char* expr;
+	char* full_expr;
+	char* name;
+	char* magic;
+	int array;
+	int string;
 } dex_context;
 
-static char* xslt_keys;
-
-// typedef struct __dex_context_node {
-// 	char* key;
-// 	dex_context_node* next;
-// } dex_context_node;
-// 
-// typedef dex_context_node * nodePtr;
 typedef compiled_dex * dexPtr;
 typedef dex_context * contextPtr;
 
@@ -50,15 +60,28 @@ xmlDocPtr dex_parse_string(dexPtr, char*, size_t, boolean);
 
 static xmlDocPtr dex_parse_doc(dexPtr, xmlDocPtr);
 
+void print_variables(struct printbuf *, contextPtr, char*);
 void* __dex_alloc(int);
+static char* full_expr(contextPtr, char*);
+static char* expr_join(char*, char*);
 static char* inner_key_of(struct json_object *);
 static char* inner_key_each(struct json_object *);
+static void free_context(contextPtr);
+static contextPtr init_context();
 static contextPtr clone_context(contextPtr);
-static contextPtr deeper_context(contextPtr, char*);
-static void __dex_recurse(struct json_object *, struct printbuf*, contextPtr);
-static void __dex_recurse_object(struct json_object *, struct printbuf*, contextPtr);
-static void __dex_recurse_array(struct json_object *, struct printbuf*, contextPtr);
-static void __dex_recurse_string(struct json_object *, struct printbuf*, contextPtr);
-static void __dex_recurse_foreach(struct json_object *, char *, struct json_object *, struct printbuf *, contextPtr);
+static contextPtr tagged_context(contextPtr, char*);
 
+contextPtr new_context(struct json_object *, struct printbuf *);
+contextPtr deeper_context(contextPtr, char*, struct json_object *);
+
+static char* __tag(char* key);
+static char* __filter(char* key);
+static void __dex_recurse(contextPtr);
+static void __dex_keys(contextPtr);
+static char* filter_intersection(char*, char*);
+
+static char* inner_key_of(struct json_object *);
+
+static char* inner_key_each(struct json_object *);
+	
 #endif

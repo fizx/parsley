@@ -3,39 +3,14 @@
 	<xsl:output method="xml" indent="yes"/>
 	<xsl:strip-space elements="*"/>
 	
-	<!-- 	
-		{
-			"page": [{
-				"title": "h1",
-				"nav": ["ul#nav li"],
-				"post(#posts li)": [{
-					"title": "h2",
-					"paras": ["p"],
-					"comments": [{
-						"title": "#comments h3",
-						"paras": ["#comments p"]
-					}]
-				}]
-			}]
-		}
-	-->
-
 	<xsl:template match="node()">
-	  <xsl:copy>
-			<xsl:attribute name="index"><xsl:value-of select="concat(count(set:intersection(following::*, //h1)), '-',
-			            count(set:intersection(following::*, //*[@id='posts']//li//h2)), '-',
-									count(set:intersection(following::*, //*[@id='posts']//li//*[@id='comments']//h3)))" /></xsl:attribute>
-	    <xsl:apply-templates select="@*|node()"/>
-	  </xsl:copy>
+		<xsl:copy>
+			<xsl:attribute name="index"><xsl:value-of select="concat(count(set:intersection(following::*, //h1)), '-','')" /></xsl:attribute>
+			<xsl:apply-templates select="@*|node()" />
+		</xsl:copy>
+	</xsl:template>	
+	
+	<xsl:template match="@*" mode="copy">
+		<xsl:copy-of select="."/>
 	</xsl:template>
-	
-	<xsl:template match="@*">
-	  <xsl:copy>
-	    <xsl:apply-templates select="@*|node()"/>
-	  </xsl:copy>
-	</xsl:template>
-	
-	
 </xsl:stylesheet>
-
-

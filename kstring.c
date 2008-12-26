@@ -3,8 +3,26 @@
 #include <stdio.h>
 #include <stdarg.h>
 #include "kstring.h"
+#include "printbuf.h"
 #include "obstack.h"
 #include "dexter.h"
+
+char* arepl(char* orig, char* old, char* new) {
+	char* ptr = astrdup(orig);
+	int nlen = strlen(new);
+	int olen = strlen(old);
+	char* i;
+	struct printbuf * buf = printbuf_new();
+	while((i = strstr(ptr, old)) != NULL) {
+		printbuf_memappend(buf, ptr, i - ptr);
+		printbuf_memappend(buf, new, nlen);
+		ptr = i + olen;
+	}
+	printbuf_memappend(buf, ptr, strlen(ptr));
+	ptr = astrdup(buf->buf);
+	printbuf_free(buf);
+	return ptr;
+}
 
 char* astrdup(char* c) {
 	if(c == NULL) return NULL;
