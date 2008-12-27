@@ -106,6 +106,10 @@ dexPtr dex_compile(char* dex_str, char* incl) {
 	sprintbuf(buf, ">\n");
 	sprintbuf(buf, "<xsl:output method=\"xml\" indent=\"yes\"/>\n");
 	sprintbuf(buf, "<xsl:strip-space elements=\"*\"/>\n");
+	sprintbuf(buf, "<xsl:template match=\"text()\" mode=\"innertext\"><xsl:value-of select=\".\" /></xsl:template>");
+	sprintbuf(buf, "<xsl:template match=\"br\" mode=\"innertext\"><xsl:apply-templates mode=\"innertext\" /><xsl:text>\n</xsl:text></xsl:template>");
+	sprintbuf(buf, "<xsl:template match=\"p\" mode=\"innertext\"><xsl:apply-templates mode=\"innertext\" /><xsl:text>\n\n</xsl:text></xsl:template>");
+
 	sprintbuf(buf, "%s\n", incl);
 	sprintbuf(buf, "<xsl:template match=\"/\">\n");
 	sprintbuf(buf, "<dexter:root>\n");
@@ -245,10 +249,10 @@ void __dex_recurse(contextPtr context) {
 		if(c->string) {
 			if(c->array) {
 				sprintbuf(c->buf, "<dexter:groups><xsl:for-each select=\"%s\"><dexter:group>\n", c->expr);	
-				sprintbuf(c->buf, "<xsl:value-of select=\".\" />\n");
+				sprintbuf(c->buf, "<xsl:apply-templates mode=\"innertext\" select=\".\" />\n");
 				sprintbuf(c->buf, "</dexter:group></xsl:for-each></dexter:groups>\n");
 			} else {
-				sprintbuf(c->buf, "<xsl:value-of select=\"%s\" />\n", c->expr);
+				sprintbuf(c->buf, "<xsl:apply-templates mode=\"innertext\" select=\"%s\" />\n", c->expr);
 			} 
 		} else { // if c->object !string
 			if(c->array) {		// scoped

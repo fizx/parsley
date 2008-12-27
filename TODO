@@ -1,16 +1,14 @@
-[x] buffer out all of the file writes, so that nothing gets written on error.
-- check all fopens, mallocs, etc for error handling.
-- fix leakiness with obstacks to allow embedding
-- namespace c functions
-- HTML-style paragraph awareness (inner-text has newlines)
-- Ruby bindings
-- JSON output
-- native JSON output
-- array parsing error
-- standard library
+- windows, linux builds
+- flags?! 
+		^ - force group-before
+		$ - force group-after
+		! - don't group?!
+		? - optional field
+- complain if empty
+- p/br support needs div?!
+- p/br support needs multicase handling
+- memory leaks
+- dexter executable bus errors
 - fix not()/set-difference
 - runtime no-match errors
-- improve test coverage
-- group-before, group-after, group-adjacent
-- contextless arrays with implicit grouping
 - CSS equations

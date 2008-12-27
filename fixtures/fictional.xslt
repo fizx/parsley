@@ -79,6 +79,22 @@
 		}
 	-->
 
+	<xsl:template match="text()" mode="innertext">
+		<xsl:value-of select="." />
+	</xsl:template>
+
+	<xsl:template match="br" mode="innertext">
+		<apply-templates mode="innertext" />
+		<xsl:text>
+</xsl:text>
+	</xsl:template>
+
+	<xsl:template match="p" mode="innertext">
+		<apply-templates mode="innertext" />
+		<xsl:text>
+
+</xsl:text>
+	</xsl:template>
 	
 	<xsl:template match="/">
 		<xsl:variable name="context0" select="." />
