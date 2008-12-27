@@ -12,3 +12,6 @@
 - fix not()/set-difference
 - runtime no-match errors
 - CSS equations
+- saxon compatibility?!
+- text functions inside magic groups?!?!
+- XML input converter?!

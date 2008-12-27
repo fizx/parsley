@@ -28,6 +28,7 @@ fi
 CPPFLAGS="$CPPFLAGS $XSLT_CFLAGS"
 LIBS="$LIBS $XSLT_LIBS"
 
+AC_CHECK_LIB(pcre, pcre_compile)
 AC_CHECK_LIB(argp, argp_parse)
 AC_CHECK_LIB(json, json_object_new_string, , AC_MSG_ERROR([could not find the json library]))
 

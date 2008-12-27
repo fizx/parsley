@@ -78,6 +78,7 @@ dexPtr dex_compile(char* dex_str, char* incl) {
 	
   if(!dex_exslt_registered) {
     exsltRegisterAll();
+		exslt_org_regular_expressions_init();
     dex_exslt_registered = true;
   }
 
@@ -102,7 +103,8 @@ dexPtr dex_compile(char* dex_str, char* incl) {
 	sprintbuf(buf, " xmlns:date=\"http://exslt.org/dates-and-times\"");
 	sprintbuf(buf, " xmlns:exsl=\"http://exslt.org/common\"");
 	sprintbuf(buf, " xmlns:saxon=\"http://icl.com/saxon\"");
-	sprintbuf(buf, " extension-element-prefixes=\"str math set func dyn exsl saxon user date\"");
+	sprintbuf(buf, " xmlns:regexp=\"http://exslt.org/regular-expressions\"");
+	sprintbuf(buf, " extension-element-prefixes=\"str math set func dyn exsl saxon user date regexp\"");
 	sprintbuf(buf, ">\n");
 	sprintbuf(buf, "<xsl:output method=\"xml\" indent=\"yes\"/>\n");
 	sprintbuf(buf, "<xsl:strip-space elements=\"*\"/>\n");
@@ -239,6 +241,7 @@ char* __filter(char* key) {
 }
 
 void __dex_recurse(contextPtr context) {
+	printf("a\n");
 	char* tmp;
 	struct printbuf * buf;
 	keyPtr keys;
@@ -256,11 +259,17 @@ void __dex_recurse(contextPtr context) {
 			} 
 		} else { // if c->object !string
 			if(c->array) {		// scoped
+				
+				printf("d\n");
 				if(c->filter != NULL) {
+					
+					printf("e\n");
 					sprintbuf(c->buf, "<dexter:groups><xsl:for-each select=\"%s\"><dexter:group>\n", c->filter);	
 					__dex_recurse(c);
 					sprintbuf(c->buf, "</dexter:group></xsl:for-each></dexter:groups>\n");
 				} else {				// magic	
+					
+					printf("f\n");
 					sprintbuf(c->buf, "<xsl:variable name=\"%s__context\" select=\".\"/>\n", c->name);
 					tmp = myparse(astrdup(inner_key_of(c->json)));
 					sprintbuf(c->buf, "<dexter:groups><xsl:for-each select=\"%s\">\n", filter_intersection(context->magic, tmp));	
@@ -295,6 +304,8 @@ void __dex_recurse(contextPtr context) {
 					sprintbuf(c->buf, "</dexter:group></xsl:for-each></xsl:for-each></dexter:groups>\n");					
 				}
 			} else {
+				
+				printf("c\n");
 				if(c->filter == NULL) {
 					__dex_recurse(c);
 				} else {	

@@ -2,7 +2,7 @@ AM_YFLAGS = -d
 BUILT_SOURCES=parser.h
 
 lib_LTLIBRARIES = libdexter.la
-libdexter_la_SOURCES = printbuf.c kstring.c obstack.c scanner.l parser.y dexter.c xml2json.c
+libdexter_la_SOURCES = xml2json.c regexp.c printbuf.c kstring.c obstack.c scanner.l parser.y dexter.c
 include_HEADERS = dexter.h obstack.h xml2json.h
 
 bin_PROGRAMS = dexterc dexter
