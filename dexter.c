@@ -159,23 +159,31 @@ contextPtr new_context(struct json_object * json, struct printbuf *buf) {
 }
 
 contextPtr deeper_context(contextPtr context, char* key, struct json_object * val) {
+	printf("1\n");
 	contextPtr c = __dex_alloc(sizeof(dex_context));
 	c->key_buf = context->key_buf;
 	c->keys = context->keys;
 	c->tag = __tag(key);
+	
+	printf("4\n");
 	c->array = json_object_is_type(val, json_type_array);
 	c->json = c->array ? json_object_array_get_idx(val, 0) : val;
 	c->string = json_object_is_type(c->json, json_type_string);
 	c->filter = __filter(key);
+	
 	c->name = astrcat3(context->name, ".", c->tag);
 	c->magic = ((c->filter == NULL) && c->array && !(c->string)) ? c->name : context->magic;
 	c->buf = context->buf;
+	printf("%d\n", c->string);
 	c->expr = c->string ? myparse(astrdup(json_object_get_string(c->json))) : NULL;
+	
+	printf("5\n");
 	c->full_expr = full_expr(context, c->filter);
 	c->full_expr = full_expr(c, c->expr);
 	c->expr = filter_intersection(c->magic, c->expr);
 	c->filter = filter_intersection(c->magic, c->filter);
 	c->parent = context;
+	printf("2\n");
 	return c;
 }
 
@@ -247,7 +255,9 @@ void __dex_recurse(contextPtr context) {
 	keyPtr keys;
 	contextPtr c;
 	json_object_object_foreach(context->json, key, val) {
+		printf("Y\n");
 		c = deeper_context(context, key, val);
+		printf("Z\n");
 		sprintbuf(c->buf, "<%s>\n", c->tag);	
 		if(c->string) {
 			if(c->array) {

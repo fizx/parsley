@@ -233,11 +233,11 @@ Arguments
 	|										{ $$ = ""; }
 	;
 ArgumentSet
-	:	Argument COMMA ArgumentSet				{ $$ = astrcat3($1, $2, $3); }
-	| Argument												
+	:	Argument COMMA ArgumentSet		%dprec 2		{ $$ = astrcat3($1, $2, $3); }
+	| Argument												%dprec 1
 	;
 Argument
-  : Expr
+  : OptS Expr OptS		{ $$ = $2; }
 	;
 UnionExpr
   : PathExpr 
@@ -404,7 +404,7 @@ NCName
 	;
 
 selectors_group
-	: selector COMMA OptS selectors_group		{ $$ = astrcat3($1, "|", $4); }
+	: selector COMMA OptS selectors_group		{ $$ = astrcat4(".//", $1, "|", $4); }
 	| selector 	{ $$ = astrcat(".//", $1); }
   ;
 
@@ -550,7 +550,7 @@ OptS
 %%
 
 char* myparse(char* string){
-	// start_debugging();
+	start_debugging();
   prepare_parse(string);
   yyparse();
   cleanup_parse();

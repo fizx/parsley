@@ -6,7 +6,7 @@
 			"title": "h2",
 			"paras": ["./p"],
 			"comments": [{
-				"title": "#comments h3",
+				"title": "current()",
 				"paras": ["#comments p"]
 			}]
 		}]

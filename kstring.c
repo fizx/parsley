@@ -8,6 +8,7 @@
 #include "dexter.h"
 
 char* arepl(char* orig, char* old, char* new) {
+	printf("y\n");
 	char* ptr = astrdup(orig);
 	int nlen = strlen(new);
 	int olen = strlen(old);
@@ -21,6 +22,7 @@ char* arepl(char* orig, char* old, char* new) {
 	printbuf_memappend(buf, ptr, strlen(ptr));
 	ptr = astrdup(buf->buf);
 	printbuf_free(buf);
+	printf("z\n");
 	return ptr;
 }
 
