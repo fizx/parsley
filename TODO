@@ -2,9 +2,12 @@
 - memory leaks
 # - output raw xslt
 - define stable c api
-- reorganize project (at least tests)
+- reorganize project (at least tests, makefile.am src?!)
 - p/br support explicit
 - p/br support needs div?!
+- dex_parse_url support
+- ruby binding for dex_parse_url
+- relative urls
 - p/br support needs multicase handling
 - windows, linux builds
 - flags?! 
