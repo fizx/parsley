@@ -184,6 +184,7 @@ contextPtr deeper_context(contextPtr context, char* key, struct json_object * va
 	
 	c->name = astrcat3(context->name, ".", c->tag);
 	c->magic = ((c->filter == NULL) && c->array && !(c->string)) ? c->name : context->magic;
+	if(context->filter != NULL && !c->array) c->magic = NULL;
 	c->buf = context->buf;
 	// printf("%d\n", c->string);
 	c->expr = c->string ? myparse(astrdup(json_object_get_string(c->json))) : NULL;

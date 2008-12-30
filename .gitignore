@@ -25,3 +25,4 @@ ylwrap
 Makefile.in
 libdexter.la
 parser.h
+test.log

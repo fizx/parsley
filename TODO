@@ -8,8 +8,8 @@
 # - ruby binding for dex_parse_url
 # - relative urls
 # - p/br support needs multicase handling
-- reorganize project (at least tests, makefile.am src?!)
-- unfilter inside of nested explicit scope
+# - reorganize project (at least tests, makefile.am src?!)
+# - unfilter inside of nested explicit scope
 - memory leaks
 - windows, linux builds
 - flags?! 

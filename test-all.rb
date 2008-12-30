@@ -25,7 +25,8 @@ Dir[File.dirname(__FILE__) + "/test/*.dex"].each do |f|
         lf.puts "Failure: #{f}"
         lf.puts "=" * 78
         lf.puts "expected: #{expected}"
-        lf.puts "got:      #{expected}"
+        lf.puts "got:      #{output}"
+        lf.puts
       end
     end
   rescue Exception => e
@@ -34,6 +35,7 @@ Dir[File.dirname(__FILE__) + "/test/*.dex"].each do |f|
     File.open(log, "a") do |lf|
       lf.puts e.message 
       lf.puts e.backtrace.join("\n")
+      lf.puts
     end
   end
 end
