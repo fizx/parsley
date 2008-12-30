@@ -1,0 +1,71 @@
+To use dexter from C, the following functions are available from dexter.h.  In
+addition, there is a function to convert xml documents of the type returned by
+dexter into json.  
+
+You will also need passing familiarity with libxml2 and json-c to print, manipulate, and free some of the generated objects.
+
+- http://svn.metaparadigm.com/svn/json-c/trunk
+- http://xmlsoft.org/
+
+From dexter.h
+=============
+
+dexPtr dex_compile(char* dex, char* incl)
+
+	Arguments:
+	- char* dex -- a string of dex to compile.
+	- char* incl -- arbitrary XSLT to inject directly into the stylesheet, 
+		outside any templates.
+		
+	Returns: A structure that you can pass to dex_parse_* to do the actual
+	parsing.  This structure contains the compiled XSLT.
+	
+	Notes: This is *NOT* thread-safe. (Usage of the dex via dex_parse_* *IS* 
+	thread-safe, however.)
+	
+void dex_free(dexPtr);
+
+	Frees the dexPtr's memory.
+
+xmlDocPtr dex_parse_file(dexPtr dex, char* file_name, boolean html);
+
+	Arguments:
+	- dexPtr dex -- Compiled dex struct
+	- char* file_name -- file to parse
+	- boolean html -- Use the html parser? (instead of xml)
+	
+	Returns: A libxml2 document of the extracted data.  You need to free this 
+	with xmlFree().  To output, look at the libxml2 documentation for functions 
+	like xmlSaveFormatFile().  If you want json output, look below for xml2json 
+	docs.  
+
+xmlDocPtr dex_parse_string(dexPtr dex, char* string, size_t len, boolean html);
+
+	Parses the in-memory string/length combination given.  See dex_parse_file 
+	docs.
+	
+xmlDocPtr dex_parse_doc(dexPtr dex, xmlDocPtr doc);
+
+	Uses the dex parser to parse a libxml2 document.  
+
+From xml2json.h
+===============
+
+struct json_object * xml2json(xmlNodePtr);
+
+	Converts an xml subtree to json.  The xml should be in the format returned
+	by dexter.  Basically, xml attributes get ignored, and if you want an array 	
+	like [a,b], use:
+	
+		<dex:groups> 
+			<dex:group>a</dex:group>
+			<dex:group>b</dex:group>
+		</dex:groups>
+		
+	To get a null-terminated string out, use:
+	
+		json_object_to_json_string(struct json_object *)
+		
+	To free (actually, to decrement the reference count), call:
+	
+		json_object_put(struct json_object *)
