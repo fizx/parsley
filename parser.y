@@ -11,6 +11,7 @@
 #define YYSTYPE char *
 
 static char* parsed_answer;
+static char* parse_magic_key;
 
 int yylex (void);
 void yyerror (char const *);
@@ -20,7 +21,7 @@ void cleanup_parse(void);
 void start_debugging(void);
 
 int yyparse(void);
-char* myparse(char*);
+char* myparse(char*, char*);
 void answer(char*);
 
 #endif
@@ -211,9 +212,17 @@ AbbreviatedAxisSpecifier
 	|				{ $$ = ""; }
 	;
 Expr
-	: LPAREN Expr RPAREN		%dprec 1
-  | OrExpr								%dprec 2
-	| selectors_group	%dprec 3
+	: LPAREN Expr RPAREN	%dprec 1 { $$ = $2; }
+  | OrExpr							%dprec 2 { 
+		if(parse_magic_key != NULL) {
+			$$ = astrcat7("set:intersection(key('", parse_magic_key, "__key', $", parse_magic_key, "__index), ", $1, ")");
+		}
+	}
+	| selectors_group			%dprec 3 { 
+		if(parse_magic_key != NULL) {
+			$$ = astrcat7("set:intersection(key('", parse_magic_key, "__key', $", parse_magic_key, "__index), ", $1, ")");
+		}
+	}
 	;
 PrimaryExpr
   : VariableReference 
@@ -549,8 +558,9 @@ OptS
 	
 %%
 
-char* myparse(char* string){
+char* myparse(char* string, char* key){
 	// start_debugging();
+	parse_magic_key = key;
   prepare_parse(string);
   yyparse();
   cleanup_parse();

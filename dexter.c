@@ -187,7 +187,7 @@ contextPtr deeper_context(contextPtr context, char* key, struct json_object * va
 	if(context->filter != NULL && !c->array) c->magic = NULL;
 	c->buf = context->buf;
 	// printf("%d\n", c->string);
-	c->expr = c->string ? myparse(astrdup(json_object_get_string(c->json))) : NULL;
+	c->expr = c->string ? myparse(astrdup(json_object_get_string(c->json)), NULL) : NULL;
 	
 	// printf("5\n");
 	c->full_expr = full_expr(context, c->filter);
@@ -261,7 +261,7 @@ char* dex_key_filter(char* key) {
 	int l = strlen(expr);
 	if(l <= 1) return NULL;
 	*(expr + l - 1) = 0; // clip ")"
-	return myparse(expr);
+	return myparse(expr, NULL);
 }
 
 void __dex_recurse(contextPtr context) {
@@ -271,22 +271,25 @@ void __dex_recurse(contextPtr context) {
 	keyPtr keys;
 	contextPtr c;
 	json_object_object_foreach(context->json, key, val) {
-		// printf("Y\n");
 		c = deeper_context(context, key, val);
-		// printf("Z\n");
 		sprintbuf(c->buf, "<%s>\n", c->tag);	
 		if(c->string) {
 			if(c->array) {
-				sprintbuf(c->buf, "<dexter:groups><xsl:for-each select=\"%s\"><dexter:group>\n", c->expr);	
-				sprintbuf(c->buf, "<xsl:value-of select=\".\" />\n");
-				sprintbuf(c->buf, "</dexter:group></xsl:for-each></dexter:groups>\n");
+				if(c->filter){
+					sprintbuf(c->buf, "<dexter:groups><xsl:for-each select=\"%s\"><dexter:group>\n", c->filter);	
+					sprintbuf(c->buf, "<xsl:value-of select=\"%s\" />\n", c->expr);
+					sprintbuf(c->buf, "</dexter:group></xsl:for-each></dexter:groups>\n");
+				} else {
+					sprintbuf(c->buf, "<dexter:groups><xsl:for-each select=\"%s\"><dexter:group>\n", c->expr);	
+					sprintbuf(c->buf, "<xsl:value-of select=\".\" />\n");
+					sprintbuf(c->buf, "</dexter:group></xsl:for-each></dexter:groups>\n");
+				}
 			} else {
 				sprintbuf(c->buf, "<xsl:value-of select=\"%s\" />\n", c->expr);
 			} 
 		} else { // if c->object !string
 			if(c->array) {		// scoped
-				
-				// printf("d\n");
+
 				if(c->filter != NULL) {
 					
 					// printf("e\n");
@@ -297,7 +300,7 @@ void __dex_recurse(contextPtr context) {
 					
 					// printf("f\n");
 					sprintbuf(c->buf, "<xsl:variable name=\"%s__context\" select=\".\"/>\n", c->name);
-					tmp = myparse(astrdup(inner_key_of(c->json)));
+					tmp = myparse(astrdup(inner_key_of(c->json)), NULL);
 					sprintbuf(c->buf, "<dexter:groups><xsl:for-each select=\"%s\">\n", filter_intersection(context->magic, tmp));	
 
 

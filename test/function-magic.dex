@@ -1,0 +1,6 @@
+{
+	"magics": [{
+		"head": "h1",
+		"para(p)": ["substring-after(., ':')"]
+	}]
+}
