@@ -370,7 +370,7 @@ xsltHtmlDocLoader(const xmlChar * URI, xmlDictPtr dict, int options,
     if (pctxt->directory == NULL)
         pctxt->directory = xmlParserGetDirectory((const char *) URI);
 
-		htmlDoRead(pctxt, NULL, NULL, options | HTML_PARSE_RECOVER | , 1);
+		htmlDoRead(pctxt, NULL, NULL, options | HTML_PARSE_RECOVER, 1);
 
     if (pctxt->wellFormed) {
         doc = pctxt->myDoc;

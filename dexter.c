@@ -48,7 +48,7 @@ xmlDocPtr dex_parse_file(dexPtr dex, char* file, boolean html) {
 xmlDocPtr dex_parse_string(dexPtr dex, char* string, size_t size, boolean html) {
 	if(html) {
 		htmlParserCtxtPtr htmlCtxt = htmlNewParserCtxt();
-  	htmlDocPtr html = htmlCtxtReadMemory(htmlCtxt, string, size, "http://foo", "UTF-8", 3);
+  	htmlDocPtr html = htmlCtxtReadMemory(htmlCtxt, string, size, "http://kylemaxwell.com/dexter/memory", "UTF-8", 3);
 		if(html == NULL) {
 			asprintf(&dex->error, "Couldn't parse string\n");
 			return NULL;
@@ -56,7 +56,7 @@ xmlDocPtr dex_parse_string(dexPtr dex, char* string, size_t size, boolean html) 
 		return dex_parse_doc(dex, html);
 	} else {
 		xmlParserCtxtPtr ctxt = xmlNewParserCtxt();
- 		xmlDocPtr xml = xmlCtxtReadMemory(ctxt, string, size, "http://foo", "UTF-8", 3);
+ 		xmlDocPtr xml = xmlCtxtReadMemory(ctxt, string, size, "http://kylemaxwell.com/dexter/memory", "UTF-8", 3);
 		if(xml == NULL) {
 			asprintf(&dex->error, "Couldn't parse string\n");
 			return NULL;
@@ -115,9 +115,9 @@ dexPtr dex_compile(char* dex_str, char* incl) {
 	sprintbuf(buf, "<xsl:variable name=\"out\"><xsl:apply-templates mode=\"innertext\" select=\"exsl:node-set($in)\"/></xsl:variable>");
 	sprintbuf(buf, "<func:result select=\"$out\" /></func:function>");
 	sprintbuf(buf, "<xsl:template match=\"text()\" mode=\"innertext\"><xsl:value-of select=\".\" /></xsl:template>");
-	sprintbuf(buf, "<xsl:template match=\"br\" mode=\"innertext\"><xsl:apply-templates mode=\"innertext\" /><xsl:text>\n</xsl:text></xsl:template>");
-	sprintbuf(buf, "<xsl:template match=\"p\" mode=\"innertext\"><xsl:apply-templates mode=\"innertext\" /><xsl:text>\n\n</xsl:text></xsl:template>");
-
+	sprintbuf(buf, "<xsl:template match=\"script|style\" mode=\"innertext\"/>");
+	sprintbuf(buf, "<xsl:template match=\"br|address|blockquote|center|dir|div|form|h1|h2|h3|h4|h5|h6|hr|menu|noframes|noscript|p|pre|li|td|th|p\" mode=\"innertext\"><xsl:apply-templates mode=\"innertext\" /><xsl:text>\n</xsl:text></xsl:template>");
+	// sprintbuf(buf, "<xsl:template match=\"node()\" mode=\"innertext\"><xsl:apply-templates mode=\"innertext\" select=\"n\" /></xsl:template>");
 	sprintbuf(buf, "%s\n", incl);
 	sprintbuf(buf, "<xsl:template match=\"/\">\n");
 	sprintbuf(buf, "<dexter:root>\n");
@@ -135,7 +135,7 @@ dexPtr dex_compile(char* dex_str, char* incl) {
 	
 	if(dex->error == NULL) {
 		xmlParserCtxtPtr ctxt = xmlNewParserCtxt();
-		xmlDocPtr doc = xmlCtxtReadMemory(ctxt, buf->buf, buf->size, "http://kylemaxwell.com/some-dex", "UTF-8", 3);
+		xmlDocPtr doc = xmlCtxtReadMemory(ctxt, buf->buf, buf->size, "http://kylemaxwell.com/dexter/compiled", "UTF-8", 3);
 		dex->raw_stylesheet = strdup(buf->buf);
 		dex->stylesheet = xsltParseStylesheetDoc(doc);
 	}
