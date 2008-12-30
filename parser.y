@@ -550,7 +550,7 @@ OptS
 %%
 
 char* myparse(char* string){
-	start_debugging();
+	// start_debugging();
   prepare_parse(string);
   yyparse();
   cleanup_parse();
