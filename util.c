@@ -7,7 +7,7 @@
 FILE* dex_fopen(char* name, char* mode) {
 	FILE* fo;
 	if(!strcmp("-", name)) {
-		if(!strcmp("w", name)) {
+		if(!strcmp("w", mode)) {
 			fo = stdout;
 		} else {
 			fo = stdin;
