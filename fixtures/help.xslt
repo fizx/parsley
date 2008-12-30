@@ -3,14 +3,13 @@
 	<xsl:output method="xml" indent="yes"/>
 	<xsl:strip-space elements="*"/>
 	
-	<xsl:template match="node()">
-		<xsl:copy>
-			<xsl:attribute name="index"><xsl:value-of select="concat(count(set:intersection(following::*, //h1)), '-','')" /></xsl:attribute>
-			<xsl:apply-templates select="@*|node()" />
-		</xsl:copy>
+	<xsl:template match="/">
+		<xsl:for-each select="exsl:node-set('hello')">
+			<xsl:apply-templates select="." />
+		</xsl:for-each>
 	</xsl:template>	
 	
-	<xsl:template match="@*" mode="copy">
+	<xsl:template match="@*|node()">
 		<xsl:copy-of select="."/>
 	</xsl:template>
 </xsl:stylesheet>

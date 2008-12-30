@@ -20,9 +20,12 @@ static char* last_dex_error;
 #include <json/json.h>
 
 typedef struct __compiled_dex {
+ 	char* raw_stylesheet;
 	xsltStylesheetPtr stylesheet;
 	char* error;
 } compiled_dex;
+
+typedef compiled_dex * dexPtr;
 
 typedef struct __key_node {
 	char* name;
@@ -48,20 +51,20 @@ typedef struct __dex_context {
 	int string;
 } dex_context;
 
-typedef compiled_dex * dexPtr;
 typedef dex_context * contextPtr;
-
-static contextPtr dex_parsing_context;
 
 void dex_free(dexPtr);
 dexPtr dex_compile(char* dex, char* incl);
+
 xmlDocPtr dex_parse_file(dexPtr, char*, boolean);
 xmlDocPtr dex_parse_string(dexPtr, char*, size_t, boolean);
+xmlDocPtr dex_parse_doc(dexPtr, xmlDocPtr);
 
-static xmlDocPtr dex_parse_doc(dexPtr, xmlDocPtr);
+void* dex_alloc(int);
+void dex_collect();
 
-void print_variables(struct printbuf *, contextPtr, char*);
-void* __dex_alloc(int);
+static contextPtr dex_parsing_context;
+
 static char* full_expr(contextPtr, char*);
 static char* expr_join(char*, char*);
 static char* inner_key_of(struct json_object *);
@@ -71,17 +74,15 @@ static contextPtr init_context();
 static contextPtr clone_context(contextPtr);
 static contextPtr tagged_context(contextPtr, char*);
 
-contextPtr new_context(struct json_object *, struct printbuf *);
-contextPtr deeper_context(contextPtr, char*, struct json_object *);
+static contextPtr new_context(struct json_object *, struct printbuf *);
+static contextPtr deeper_context(contextPtr, char*, struct json_object *);
 
-static char* __tag(char* key);
-static char* __filter(char* key);
+static char* dex_key_tag(char* key);
+static char* dex_key_filter(char* key);
 static void __dex_recurse(contextPtr);
-static void __dex_keys(contextPtr);
 static char* filter_intersection(char*, char*);
 
 static char* inner_key_of(struct json_object *);
-
 static char* inner_key_each(struct json_object *);
 	
 #endif

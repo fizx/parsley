@@ -21,7 +21,7 @@ struct json_object * xml2json(xmlNodePtr xml) {
           json_object_object_add(json, child->name, xml2json(child->children));
           child = child->next;
         }
-      } else if(!strcmp(xml->ns->prefix, "dexter")) {
+      } else if(!strcmp(xml->ns->prefix, "dex")) {
         if(!strcmp(xml->name, "groups")) {
           json = json_object_new_array();          
           while(child != NULL) {

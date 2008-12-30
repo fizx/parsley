@@ -1,18 +1,23 @@
+- dexter executable argp
+- memory leaks
+# - output raw xslt
+- define stable c api
+- reorganize project (at least tests)
+- p/br support explicit
+- p/br support needs div?!
+- p/br support needs multicase handling
 - windows, linux builds
 - flags?! 
 		^ - force group-before
 		$ - force group-after
 		! - don't group?!
 		? - optional field
-- complain if empty
-- p/br support needs div?!
-- p/br support needs multicase handling
-- memory leaks
-- dexter executable bus errors
 - fix not()/set-difference
 - runtime no-match errors
+- complain if empty
 - CSS equations
 - saxon compatibility?!
-- text functions inside magic groups?!?!
+- functions inside magic groups?!?!
 - XML input converter?!
 - unfilter inside of nested explicit scope
+- kylemaxwell/foo

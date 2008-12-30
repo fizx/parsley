@@ -14,8 +14,6 @@
 #include <libxml/xmlwriter.h>
 #include <json/json.h>
 
-struct json_object * recurse(xmlNodePtr);
-
 void dex_error(char* msg){
 	fprintf(stderr, "%s\n", msg);
   exit(1);
@@ -30,13 +28,10 @@ int main (int argc, char **argv) {
   
   FILE * fd = fopen(argv[1], "r");
   printbuf_file_read(fd, buf);
-	
-  struct printbuf *incl = printbuf_new();
-  FILE * inclf = fopen("group-after.xml", "r");
-  printbuf_file_read(inclf, incl);
-
+		
+	printf("hi\n");
   
-	dexPtr dex = dex_compile(buf->buf, incl->buf);
+	dexPtr dex = dex_compile(buf->buf, "");
 	printf("hi\n");
 	
 	xmlDocPtr xml = dex_parse_file(dex, argv[2], 1);

@@ -6,7 +6,7 @@
     {
       "date": ".ieSucks .smaller",
       "user_name": ".reviewer_info a",
-      "comment": ".review_comment"
+      "comment": "dex:nl(.review_comment)"
     }
   ]
 }

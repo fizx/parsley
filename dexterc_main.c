@@ -107,8 +107,15 @@ int main (int argc, char **argv) {
 		fprintf(stderr, "%s\n", compiled->error);
 	 	exit(1);
 	}
-
-	int status = xmlSaveFormatFile(arguments.output_file, compiled->stylesheet->doc, 1);
-	return status > 0 ? 0 : 1;
+	
+	FILE* fo;
+	if(!strcmp("-", arguments.output_file)) {
+		fo = stdout;
+	} else {
+		fo = fopen(arguments.output_file, "w");
+	}
+	fprintf(fo, compiled->raw_stylesheet);
+	
+	return 0;
 }
 
