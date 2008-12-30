@@ -5,6 +5,7 @@
 #include "kstring.h"
 #include "printbuf.h"
 #include "dexter.h"
+#include "util.h"
 
 struct list_elem {
 	int has_next;
@@ -19,7 +20,7 @@ struct arguments
   char *output_file;
 };
 
-const char *argp_program_version = "dexter 0.1";
+const char *argp_program_version = "dexterc 0.1";
 const char *argp_program_bug_address = "<kyle@kylemaxwell.com>";
 static char args_doc[] = "DEX_FILE";
 static char doc[] = "Dexter is a dex to XSLT compiler";
@@ -57,6 +58,7 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state)
       arguments->dex = arg;
       break;
     case ARGP_KEY_END:
+      if (state->arg_num < 1) argp_usage (state);
       break;
     default:
       return ARGP_ERR_UNKNOWN;
@@ -84,20 +86,12 @@ int main (int argc, char **argv) {
 	struct printbuf* dex = printbuf_new();
 	struct printbuf* incl = printbuf_new();
 
-	FILE* in = (strcmp(arguments.dex, "-") == 0) ? stdout : fopen(arguments.dex, "r");
-	if(in == NULL) {		
-    fprintf(stderr, "Cannot open file %s, error %d, %s\n", arguments.dex, errno, strerror(errno));
-		exit(1);
-	}
+	FILE* in = dex_fopen(arguments.dex, "r");
 	
 	printbuf_file_read(in, dex);
 	while(elemptr->has_next) {
 		elemptr = elemptr->next;
-		FILE* f = fopen(elemptr->string, "r");
-		if(f == NULL) {		
-	    fprintf(stderr, "Cannot open file %s, error %d, %s\n", elemptr->string, errno, strerror(errno));
-			exit(1);
-		}
+		FILE* f = dex_fopen(elemptr->string, "r");
 		printbuf_file_read(f, incl);
 		fclose(f);
 	}
@@ -108,13 +102,9 @@ int main (int argc, char **argv) {
 	 	exit(1);
 	}
 	
-	FILE* fo;
-	if(!strcmp("-", arguments.output_file)) {
-		fo = stdout;
-	} else {
-		fo = fopen(arguments.output_file, "w");
-	}
+	FILE* fo = dex_fopen(arguments.output_file, "w");
 	fprintf(fo, compiled->raw_stylesheet);
+	fclose(fo);
 	
 	return 0;
 }

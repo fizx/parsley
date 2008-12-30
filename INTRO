@@ -81,6 +81,6 @@ If you instead wanted to group by date, you could use implicit grouping.  It's i
 			}]
 		}
 		
-In the next blog article, I'll talk about dex-validations, sharing, and automatic inference of dex scripts from web page structures.  Hopefully, you have a taste of what dex scripts can do, and you like it.  There's an alpha implementation	under active development at [].  I'd love to have more collaborators, bug reports, unit tests, docs, encouragement, etc.  
+In the next blog article, I'll talk about variables, crawling with dex, dex validations, sharing, and automatic inference of dex scripts from web page structures.  Hopefully, you have a taste of what dex scripts can do, and you like it.  There's an alpha implementation	under active development at [].  I'd love to have more collaborators, bug reports, unit tests, docs, encouragement, etc.  
 
 </textarea></html>
