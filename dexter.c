@@ -7,6 +7,7 @@
 #include "dexter.h"
 #include "y.tab.h"
 #include "printbuf.h"
+#include "functions.h"
 #include <string.h>
 #include <errno.h>
 #include <ctype.h>
@@ -78,6 +79,7 @@ dexPtr dex_compile(char* dex_str, char* incl) {
 	
   if(!dex_exslt_registered) {
     exsltRegisterAll();
+		dex_register_all();
 		exslt_org_regular_expressions_init();
     dex_exslt_registered = true;
   }
@@ -93,7 +95,8 @@ dexPtr dex_compile(char* dex_str, char* incl) {
 	struct printbuf* buf = printbuf_new();
 	
 	sprintbuf(buf, "<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\"");
-	sprintbuf(buf, " xmlns:dex=\"http://kylemaxwell.com/dexter\"");
+	sprintbuf(buf, " xmlns:dex=\"http://kylemaxwell.com/dexter/library\"");
+	sprintbuf(buf, " xmlns:dexter=\"http://kylemaxwell.com/dexter\"");
 	sprintbuf(buf, " xmlns:str=\"http://exslt.org/strings\"");
 	sprintbuf(buf, " xmlns:set=\"http://exslt.org/sets\"");
 	sprintbuf(buf, " xmlns:math=\"http://exslt.org/math\"");
@@ -104,7 +107,7 @@ dexPtr dex_compile(char* dex_str, char* incl) {
 	sprintbuf(buf, " xmlns:exsl=\"http://exslt.org/common\"");
 	sprintbuf(buf, " xmlns:saxon=\"http://icl.com/saxon\"");
 	sprintbuf(buf, " xmlns:regexp=\"http://exslt.org/regular-expressions\"");
-	sprintbuf(buf, " extension-element-prefixes=\"str math set func dyn exsl saxon user date regexp\"");
+	sprintbuf(buf, " extension-element-prefixes=\"dex str math set func dyn exsl saxon user date regexp\"");
 	sprintbuf(buf, ">\n");
 	sprintbuf(buf, "<xsl:output method=\"xml\" indent=\"yes\"/>\n");
 	sprintbuf(buf, "<xsl:strip-space elements=\"*\"/>\n");
@@ -117,7 +120,7 @@ dexPtr dex_compile(char* dex_str, char* incl) {
 
 	sprintbuf(buf, "%s\n", incl);
 	sprintbuf(buf, "<xsl:template match=\"/\">\n");
-	sprintbuf(buf, "<dex:root>\n");
+	sprintbuf(buf, "<dexter:root>\n");
 		
 	contextPtr context = new_context(json, buf);
 	__dex_recurse(context);
@@ -125,7 +128,7 @@ dexPtr dex_compile(char* dex_str, char* incl) {
 	json_object_put(json); // frees json
 	dex->error = last_dex_error;
 	
-	sprintbuf(buf, "</dex:root>\n");
+	sprintbuf(buf, "</dexter:root>\n");
 	sprintbuf(buf, "</xsl:template>\n");
 	sprintbuf(buf, context->key_buf->buf);
 	sprintbuf(buf, "</xsl:stylesheet>\n");
@@ -273,9 +276,9 @@ void __dex_recurse(contextPtr context) {
 		sprintbuf(c->buf, "<%s>\n", c->tag);	
 		if(c->string) {
 			if(c->array) {
-				sprintbuf(c->buf, "<dex:groups><xsl:for-each select=\"%s\"><dex:group>\n", c->expr);	
+				sprintbuf(c->buf, "<dexter:groups><xsl:for-each select=\"%s\"><dexter:group>\n", c->expr);	
 				sprintbuf(c->buf, "<xsl:value-of select=\".\" />\n");
-				sprintbuf(c->buf, "</dex:group></xsl:for-each></dex:groups>\n");
+				sprintbuf(c->buf, "</dexter:group></xsl:for-each></dexter:groups>\n");
 			} else {
 				sprintbuf(c->buf, "<xsl:value-of select=\"%s\" />\n", c->expr);
 			} 
@@ -286,15 +289,15 @@ void __dex_recurse(contextPtr context) {
 				if(c->filter != NULL) {
 					
 					// printf("e\n");
-					sprintbuf(c->buf, "<dex:groups><xsl:for-each select=\"%s\"><dex:group>\n", c->filter);	
+					sprintbuf(c->buf, "<dexter:groups><xsl:for-each select=\"%s\"><dexter:group>\n", c->filter);	
 					__dex_recurse(c);
-					sprintbuf(c->buf, "</dex:group></xsl:for-each></dex:groups>\n");
+					sprintbuf(c->buf, "</dexter:group></xsl:for-each></dexter:groups>\n");
 				} else {				// magic	
 					
 					// printf("f\n");
 					sprintbuf(c->buf, "<xsl:variable name=\"%s__context\" select=\".\"/>\n", c->name);
 					tmp = myparse(astrdup(inner_key_of(c->json)));
-					sprintbuf(c->buf, "<dex:groups><xsl:for-each select=\"%s\">\n", filter_intersection(context->magic, tmp));	
+					sprintbuf(c->buf, "<dexter:groups><xsl:for-each select=\"%s\">\n", filter_intersection(context->magic, tmp));	
 
 
 					// keys
@@ -321,9 +324,9 @@ void __dex_recurse(contextPtr context) {
 					);
 
 					sprintbuf(c->buf, "<xsl:variable name=\"%s__index\" select=\"%s\"/>\n", c->name, tmp);
-					sprintbuf(c->buf, "<xsl:for-each select=\"$%s__context\"><dex:group>\n", c->name);	
+					sprintbuf(c->buf, "<xsl:for-each select=\"$%s__context\"><dexter:group>\n", c->name);	
 					__dex_recurse(c);
-					sprintbuf(c->buf, "</dex:group></xsl:for-each></xsl:for-each></dex:groups>\n");					
+					sprintbuf(c->buf, "</dexter:group></xsl:for-each></xsl:for-each></dexter:groups>\n");					
 				}
 			} else {
 				
