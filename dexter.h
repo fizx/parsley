@@ -44,6 +44,7 @@ typedef struct __dex_context {
 	char* tag;
 	char* filter;
 	char* expr;
+	char* raw_expr;
 	char* full_expr;
 	char* name;
 	char* magic;

@@ -19,6 +19,8 @@
 		? - optional field
 - fix not()/set-difference
 - debugging options
+- fix position()
+- shortcut functions
 - complain if empty / runtime no-match errors
 - CSS equations
 - saxon compatibility?!

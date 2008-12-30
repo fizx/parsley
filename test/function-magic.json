@@ -1,1 +1,1 @@
-{ "magics": [ { "head": "head1", "para": [ " a", " b" ] }, { "head": "head2", "para": [ " Z" ] } ] }
+{ "magics": [ { "head": "head1", "para": [ " a", " b" ], "single": " a" }, { "head": "head2", "para": [ " Z" ], "single": " Z" } ] }
