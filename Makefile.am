@@ -12,3 +12,6 @@ dexterc_LDADD = libdexter.la
 
 dexter_SOURCES = dexter_main.c
 dexter_LDADD = libdexter.la
+
+check-am:
+	ruby test-all.rb

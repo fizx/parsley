@@ -1,14 +1,16 @@
 # - dexter executable argp
-- memory leaks
+# - html:document
 # - output raw xslt
 # - define stable c api
-- reorganize project (at least tests, makefile.am src?!)
 # - p/br support explicit
-- p/br support needs div?!
+# - p/br support needs div?!
 # - dex_parse_url support
 # - ruby binding for dex_parse_url
 # - relative urls
-- p/br support needs multicase handling
+# - p/br support needs multicase handling
+- reorganize project (at least tests, makefile.am src?!)
+- unfilter inside of nested explicit scope
+- memory leaks
 - windows, linux builds
 - flags?! 
 		^ - force group-before
@@ -16,12 +18,9 @@
 		! - don't group?!
 		? - optional field
 - fix not()/set-difference
-- runtime no-match errors
 - debugging options
-- complain if empty
+- complain if empty / runtime no-match errors
 - CSS equations
 - saxon compatibility?!
 - functions inside magic groups?!?!
 - XML input converter?!
-- unfilter inside of nested explicit scope
-- kylemaxwell/foo
