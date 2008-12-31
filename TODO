@@ -11,12 +11,13 @@
 # - reorganize project (at least tests, makefile.am src?!)
 # - unfilter inside of nested explicit scope
 # - functions inside magic groups?!?!
-- shortcut functions	(need c hash table)
-- fix position()
+# - shortcut functions possible	(need c hash table)
+# - fix position()
 - memory leaks
 - debugging options
 - check linux build
 - python
+- define a bunch of shortcut functions
 - fix not()/set-difference
 - complain if empty / runtime no-match errors
 - CSS equations
