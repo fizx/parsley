@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "kstring.h"
+#include <libxml/hash.h>
 
 #ifndef PARSER_Y_H_INCLUDED
 #define PARSER_Y_H_INCLUDED
@@ -18,6 +19,11 @@ void yyerror (char const *);
 void prepare_parse(char*);
 void cleanup_parse(void);
 void start_debugging(void);
+
+static xmlHashTablePtr alias_hash;
+
+char* xpath_alias(char*);
+void init_xpath_alias();
 
 int yyparse(void);
 char* myparse(char*);
@@ -223,7 +229,7 @@ PrimaryExpr
 	;
 	
 FunctionCall
-  : FunctionName LPAREN Arguments RPAREN		{ $$ = astrcat4($1, $2, $3, $4); }
+  : FunctionName LPAREN Arguments RPAREN		{ $$ = astrcat4(xpath_alias($1), $2, $3, $4); }
 	| FunctionName LPAREN Arguments						{ yyerror("unclosed parenthesis"); }
 	| FunctionName LPAREN Arguments RPAREN RPAREN { yyerror("too many parenthesis"); }
 	;
@@ -547,6 +553,16 @@ OptS
 	;
 	
 %%
+
+char* xpath_alias(char* key) {
+	char* value = (char*) xmlHashLookup(alias_hash, key);
+	return value == NULL ? key : value;
+}
+
+void init_xpath_alias() {
+	alias_hash = xmlHashCreate(100);
+	xmlHashAddEntry(alias_hash, "html", "dex:html-document");
+}
 
 char* myparse(char* string){
 	// start_debugging();

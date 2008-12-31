@@ -1,6 +1,7 @@
 #include <libxml/parser.h>
 #include <json/json.h>
 #include "xml2json.h"
+#include <string.h>
 
 /**
  * Handles a simplified xml

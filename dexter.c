@@ -80,6 +80,7 @@ dexPtr dex_compile(char* dex_str, char* incl) {
   if(!dex_exslt_registered) {
     exsltRegisterAll();
 		dex_register_all();
+		init_xpath_alias();
 		exslt_org_regular_expressions_init();
     dex_exslt_registered = true;
   }
