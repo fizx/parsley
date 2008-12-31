@@ -13,6 +13,7 @@
 # - functions inside magic groups?!?!
 # - shortcut functions possible	(need c hash table)
 # - fix position()
+- regexp tests
 - memory leaks
 - debugging options
 - check linux build

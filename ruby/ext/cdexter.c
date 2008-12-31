@@ -15,7 +15,7 @@ VALUE _new(VALUE, VALUE, VALUE);
 VALUE _parse_file(VALUE, VALUE, VALUE, VALUE);
 VALUE _parse_string(VALUE, VALUE, VALUE, VALUE);
 VALUE _parse_doc(dexPtr, xmlDocPtr, VALUE);
-VALUE recurse(xmlNodePtr xml);
+VALUE rubify_recurse(xmlNodePtr xml);
 VALUE c_dex_err;
 VALUE c_dex;
 
@@ -73,7 +73,7 @@ VALUE _parse_doc(dexPtr dex, xmlDocPtr xml, VALUE type) {
 	return output;
 }
 
-VALUE recurse(xmlNodePtr xml) {
+VALUE rubify_recurse(xmlNodePtr xml) {
   if(xml == NULL) return NULL;
   xmlNodePtr child;
   VALUE obj = Qnil;

@@ -1,0 +1,6 @@
+{
+	"match(c)": [{
+		"a": "regexp:test(string(.), 'no*', 'g')",
+		"b": "regexp:test(string(.), 'no*', 'gi')"
+	}]
+}

@@ -1,0 +1,9 @@
+{
+	"matches(c)": [{
+		"a": "regexp:replace(string(.), 'no+', '', 'yes')",
+		"b": "regexp:replace(string(.), 'no+', 'i', 'yEs')",
+		"c": "regexp:replace(string(.), 'no+', 'g', 'yes')",
+		"d": "regexp:replace(string(.), 'no+', 'gi', 'yEs')"
+	}]
+}
+

@@ -12,9 +12,12 @@ Dir[File.dirname(__FILE__) + "/test/*.dex"].each do |f|
   STDOUT.flush
   begin
     html = f.sub(/dex$/, "html")
+    xml  = f.sub(/dex$/, "xml")
+    flag = File.exists?(xml) ? "-x" : ""
+    input = File.exists?(xml) ? xml : html
+    
     expected = File.read(f.sub(/dex$/, "json")).strip
-  
-    output = `#{dexter} #{f} #{html}`.strip
+    output = `#{dexter} #{flag} #{f} #{input}`.strip
   
     if expected == output
       puts "success"
