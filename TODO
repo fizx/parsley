@@ -13,12 +13,14 @@
 # - functions inside magic groups?!?!
 # - shortcut functions possible	(need c hash table)
 # - fix position()
-- regexp tests
+# - regexp tests
+# - define a bunch of shortcut functions
+- rescope function
+- join function?!?!
 - memory leaks
 - debugging options
 - check linux build
 - python
-- define a bunch of shortcut functions
 - fix not()/set-difference
 - complain if empty / runtime no-match errors
 - CSS equations
