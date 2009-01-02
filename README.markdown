@@ -43,24 +43,24 @@ This returns JSON or XML output with the same structure.  Applying this dex to h
 
 or equivalently:
   
-    <root>
+    <dexter:root>
       <title>Amnesia</title>
       <links>
-        <group>
+        <dexter:group>
           <href>/</href>
           <text>Yelp</text>
-        </group>
-        <group>
+        </dexter:group>
+        <dexter:group>
           <href>/</href>
           <text>Welcome</text>
-        </group>
-        <group>
+        </dexter:group>
+        <dexter:group>
           <href>/signup?return_url=%2Fuser_details</href>
           <text> About Me</text>
-        </group>
+        </dexter:group>
         .....
       </links>
-    </root>      
+    </dexter:root>      
 
 This dex could also have been expressed as:
 

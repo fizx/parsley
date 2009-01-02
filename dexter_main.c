@@ -124,6 +124,10 @@ int main (int argc, char **argv) {
 	dexPtr compiled = dex_compile(buf->buf, incl->buf);
 	
 	xmlDocPtr xml = dex_parse_file(compiled, arguments.input_file, !(arguments.input_xml));
+	if(xml == NULL) {
+		fprintf(stderr, "Parsing failed: %s\n", compiled->error);
+		exit(1);
+	}
 	
 	if(arguments.output_xml) {
 		xmlSaveFormatFile(arguments.output_file, xml, 1);	

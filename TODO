@@ -16,6 +16,7 @@
 # - regexp tests
 # - define a bunch of shortcut functions
 - rescope function
+- sensible Exception/error handling
 - join function?!?!
 - memory leaks
 - debugging options

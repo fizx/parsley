@@ -1,0 +1,6 @@
+{
+	"test": [{
+		"anchor": "h1",
+		"paras(p)": ["translate(., '1', '9')"],
+	}]
+}

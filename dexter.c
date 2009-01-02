@@ -176,6 +176,8 @@ contextPtr deeper_context(contextPtr context, char* key, struct json_object * va
 	c->key_buf = context->key_buf;
 	c->keys = context->keys;
 	c->tag = dex_key_tag(key);
+	c->name = astrcat3(context->name, ".", c->tag);
+	dex_parsing_context = c;
 	
 	// printf("4\n");
 	c->array = json_object_is_type(val, json_type_array);
@@ -183,7 +185,6 @@ contextPtr deeper_context(contextPtr context, char* key, struct json_object * va
 	c->string = json_object_is_type(c->json, json_type_string);
 	c->filter = dex_key_filter(key);
 	
-	c->name = astrcat3(context->name, ".", c->tag);
 	c->magic = ((c->filter == NULL) && c->array && !(c->string)) ? c->name : context->magic;
 	if(context->filter != NULL && !c->array) c->magic = NULL;
 	c->buf = context->buf;
@@ -308,7 +309,11 @@ void __dex_recurse(contextPtr context) {
 					
 					// printf("f\n");
 					sprintbuf(c->buf, "<xsl:variable name=\"%s__context\" select=\".\"/>\n", c->name);
+					dex_parsing_context = c;
 					tmp = myparse(astrdup(inner_key_of(c->json)));
+					if(tmp == NULL) {
+						
+					}
 					sprintbuf(c->buf, "<dexter:groups><xsl:for-each select=\"%s\">\n", filter_intersection(context->magic, tmp));	
 
 
