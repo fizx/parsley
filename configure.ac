@@ -12,6 +12,7 @@ AM_PROG_LEX
 AC_PROG_YACC
 AC_PROG_LIBTOOL
 AC_CHECK_HEADER(pcre.h, , AC_MSG_ERROR([could not find pcre.h]))
+AC_CHECK_HEADER(argp.h, , AC_MSG_ERROR([could not find argp.h]))
 
 AC_PATH_PROG(XML2_CONFIG, xml2-config, , [$PATH])
 if test x$XML2_CONFIG = x ; then
@@ -31,7 +32,7 @@ fi
 
 CPPFLAGS="$CPPFLAGS $XML2_CFLAGS $XSLT_CFLAGS"
 LIBS="$LIBS $XML2_LIBS $XSLT_LIBS"
-
+AC_CHECK_FUNC(argp_parse, , [AC_CHECK_LIB(argp, argp_parse, , AC_MSG_ERROR([could not find argp]))])
 AC_CHECK_LIB(pcre, pcre_compile, , AC_MSG_ERROR([could not find pcre]))
 AC_CHECK_LIB(xslt, xsltApplyStylesheet, , AC_MSG_ERROR([could not find libxslt]))
 AC_CHECK_LIB(xml2, htmlParseFile, , AC_MSG_ERROR([could not find libxml2 with html parsing]))

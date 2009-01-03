@@ -3,17 +3,21 @@ and depends on:
 - pcre
 - libxml2
 - libxslt (with exslt)
+- bison/yacc
+- lex/flex
+- argp (comes with GNU C Lib, non-Linux OS should have argp-standalone 
+  packages)
 
 Debian/Ubuntu:
 ------------------------------------------------------------------------
-sudo apt-get install libxslt1-dev libpcre3-dev build-essential
+sudo apt-get install libxslt1-dev libpcre3-dev build-essential bison flex
 ./configure
 make
 sudo make install
 
 Mac OS X with MacPorts:
 ------------------------------------------------------------------------
-sudo port install pcre
+sudo port install pcre bison flex libxslt argp-standalone
 ./configure
 make
 sudo make install
