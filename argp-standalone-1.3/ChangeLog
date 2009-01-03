@@ -1,0 +1,323 @@
+2004-02-23  Niels Möller  <niels@s3.kth.se>
+
+	* configure.ac: Bumped version to standalone-1.3.
+
+	Portability to Mac OS X (fixes by Akim Demaille)
+
+        * argp/Makefile.am (libargp_a_SOURCES): Remove the duplicate
+        inclusion of argp-eexst.c.
+        * argp/argp-ba.c, argp/argp-pv.c, argp/argp-pvh.c: Initialize the
+        variables, otherwise on Darwin linking fails if the user does not
+        define these variables.
+
+2003-04-28  Niels Möller  <nisse@cuckoo.hack.org>
+
+	* argp-parse.c: Use standard alloca blurb from the autoconf
+	manual. 
+	* argp-help.c: Updated alloca blurb to use the same as
+	argp-parse.c. 
+
+2003-04-24  Niels Möller  <niels@s3.kth.se>
+
+	* argp.h: Added workaround for __restrict.
+
+2003-03-13  Niels Möller  <nisse@cuckoo.hack.org>
+
+	* Released argp-standalone-1.2.
+
+	* Updated copyright years.
+
+2003-03-03  Niels Möller  <nisse@cuckoo.hack.org>
+
+	* argp-fmtstream.h: Don't include config.h here, let the .c-files
+	do that. Deleted definition of PRINTF_STYLE, that's in config.h.
+	When defining or disabling i/o locking functions, use uppercase
+	macro names like PUTC_UNLOCKED. This avoids conflicts if the
+	underlying functions are really macros defined by stdio. For
+	example on freebsd. Updated the files using these functions.
+
+2003-03-02  Niels Möller  <nisse@cuckoo.hack.org>
+
+	* argp-help.c: Don't include malloc.h. If any system still needs
+	it, we need a configure test for it. 
+	(hol_entry_help): Don't use a non-constant initializer, as that's
+	a GNU C extension.
+
+2003-02-23  Niels Moller  <nisse@carduelis>
+
+	* configure.ac: Use LSH_GCC_ATTRIBUTES. Deleted the definition of
+	UNUSED from the files that used it, it's now in config.h.
+
+2003-02-16  Niels Möller  <nisse@cuckoo.hack.org>
+
+	* argp-fmtstream.h: When disabling fwrite_unlocked, #undef it first.
+
+	* testsuite/permute-test: diff -q is not portable.
+	Redirect to /dev/null instead.
+
+2003-02-12  Niels Möller  <niels@s3.kth.se>
+
+	* argp-fmtstream.h: When disabling putc_unlocked, #undef it first.
+
+2003-02-10  Niels Möller  <niels@s3.kth.se>
+
+	* configure.ac (ARGP_CHECK_FUNC): Use AS_VAR_GET. Use AH_TEMPLATE.
+
+2003-02-10  Niels Möller  <nisse@cuckoo.hack.org>
+
+	* configure.ac (ARGP_CHECK_FUNC): New macro. Use it to test for
+	putc_unlocked. 
+
+2003-02-05  Niels Möller  <nisse@lysator.liu.se>
+
+	* argp-parse.c (argp_default_options): Fixed initializer.
+	* argp-test.c (options): Likewise.
+
+	* testsuite/permute-test (die): Fixed sh-compatible function
+	definition. 
+
+	* testsuite/ex4.c: Don't use error.h and the error function.
+
+	* .bootstrap: New file.
+
+2003-02-05  Niels Möller  <niels@s3.kth.se>
+
+	* Makefile.am (all): Deleted the explicit all target.
+	(LIBOBJS): Added explicit substitution.
+
+	* testsuite/ex3.c, testsuite/ex4.c: Complete initializers, to
+	avoid warnings from gcc.
+
+	* configure.ac: Updated for current autoconf and automake.
+	Fixed AC_CONFIG_HEADER call.
+	Use AC_GNU_SOURCE.
+	Use AC_CHECK_DECLS to check for program_invocation_name and
+	program_invocation_short_name.
+	
+	* argp-test.c (sub_options): Complete initializer, to avoid
+	warnings from gcc.
+	(sub_argp): Likewise.
+	(options): Likewise.
+
+	* argp-parse.c (argp_default_parser):
+	HAVE_PROGRAM_INVOCATION_SHORT_NAME renamed to
+	HAVE_DECL_PROGRAM_INVOCATION_SHORT_NAME. 
+	(argp_default_options): Complete initializer, to avoid
+	warnings from gcc. 
+
+	* argp-help.c (uparam_names): Complete initializer, to avoid
+	warnings from gcc. 
+	(__argp_short_program_name): HAVE_PROGRAM_INVOCATION_NAME renamed
+	to HAVE_DECL_PROGRAM_INVOCATION_NAME. Similarly for
+	HAVE_PROGRAM_INVOCATION_SHORT_NAME. 
+
+	* acinclude.m4: Deleted file.
+
+2003-02-04  Niels Möller  <nisse@cuckoo.hack.org>
+
+	* configure.ac: Bumped version to standalone-1.2.
+
+	* argp-parse.c (parser_parse_next): Call exchange before
+	processing the final arguments. Fixes bug reported by Akim Demaille.
+
+	* Makefile.am (SUBDIRS): Added testsuite.
+
+	* configure.ac: Output testsuite/Makefile.
+
+	* testsuite/run-tests: Script copied from nettle.
+
+	* testsuite/permute-test: New testcase, exercising
+	argument option permuting.
+
+	* testsuite/ex1-test: New testcase.
+
+	* testsuite/ex1.c, testsuite/ex3.c,
+	testsuite/ex4.c:  Added glibc example programs.
+
+2002-07-18  Niels Möller  <niels@s3.kth.se>
+
+	* configure.ac: Don't use -ggdb3 with gcc-2.96.
+
+2002-05-06  Niels Möller  <niels@s3.kth.se>
+
+	* configure.ac: Use AH_TEMPLATE for
+	PROGRAM_INVOCATION_NAME and PROGRAM_INVOCATION_SHORT_NAME. The
+	third arg to AC_DEFINE_UNQUOTED seems not to work here. 
+
+2002-05-05  Niels Möller  <nisse@lysator.liu.se>
+
+	* acconfig.h: Deleted file.
+
+	* configure.ac: Pass no arguments to AM_INIT_AUTOMAKE.
+	Don't substitute LIBOBJS.
+
+	* acinclude.m4: Use the three-argument form of
+	AC_DEFINE_UNQUOTED. 
+
+	* configure.ac: Update for automake-1.6.
+	* configure.ac: Renamed file, used to be configure.in.
+	
+2001-03-26  Niels Möller  <nisse@cuckoo.localdomain>
+
+	* configure.in: Bumped argp version to standalone-1.1. 
+
+2001-03-26  Niels Möller  <nisse@ehand.com>
+
+	* configure.in (CPPFLAGS): Added -D_GNU_SOURCE.
+
+2001-02-18  Niels Möller  <nisse@cuckoo.localdomain>
+
+	* argp-parse.c (argp_default_parser): Let OPT_HANG print
+	the process id to stderr.
+
+2001-01-15  Niels Möller  <nisse@ehand.com>
+
+	* argp.h: #define PRINTF_STYLE, and use it instead of
+	using __attribute__ directly.
+
+2001-01-07  Niels Möller  <nisse@cuckoo.localdomain>
+
+	* argp.h: Added _argp_short_program_name and
+	__argp_short_program_name. 
+
+	* argp-parse.c (parser_init): Use
+	argp_short_program_name. 
+	(parser_parse_next): Removed old permutation handling code. 
+
+2001-01-06  Niels Möller  <nisse@cuckoo.localdomain>
+
+	* argp-namefrob.h: Added _argp_short_program_name.
+
+2001-01-02  Niels Möller  <nisse@cuckoo.localdomain>
+
+	* argp-help.c (hol_entry_help): Avoid using a
+	non-constant struct initializer.
+	(UNUSED): Define as a macro expanding to __attribute__ ..., if
+	compiling with gcc.
+
+	* argp-fmtstream.h (PRINTF_STYLE): Define this macro,
+	to expand to __attribute__ ... if compiling with gcc.
+
+	* argp-fmtstream.c (__argp_fmtstream_write,
+	__argp_fmtstream_puts, __argp_fmtstream_putc): Duplicate the
+	inline definitions in argp-fmtstream.h, for compilers that don't
+	do inlining.
+
+2000-12-28  Niels Möller  <nisse@cuckoo.localdomain>
+
+	* argp-help.c (fill_in_uparams): Use unsigned char * for
+	VAR and ARG. Fixed calls of isalnum, isspace and friends, reported
+	by Kalle Olavi Niemitalo.
+	(canon_doc_option): Fixed calls of isalnum, isspace and friends,
+	reported by Kalle Olavi Niemitalo.
+	(hol_entry_cmp): Fixed calls of tolower, reported by Kalle Olavi
+	Niemitalo.
+
+2000-12-23  Niels Möller  <nisse@lysator.liu.se>
+
+	* acinclude.m4: New file. 
+	* acinclude.m4: Reverted the definition of AC_CHECK_VAR
+	to take includes as argument, and renamed it to ARGP_CHECK_VAR.
+
+2000-12-11  Niels Möller  <nisse@cuckoo.localdomain>
+
+	* Removed getopt.c, getopt.h and getopt1.c from the src/argp
+	directory. 
+
+	* argp-parse.c (match_option, ARGP_COMPLETE): #if:ed out
+	completion code for long options.
+
+2000-11-30  Niels Möller  <nisse@cuckoo.localdomain>
+
+	* argp-parse.c (match_option): Better abbreviations.
+	Replaced try_getopt with args_only, changed calling convention for
+	parser_parse_arg. 
+
+	* configure.in: Don't check for getopt.
+
+	* argp.h: Don't include getopt.h.
+
+	* argp-parse.c (calc_sizes): Updated comment.
+
+2000-11-29  Niels Möller  <nisse@cuckoo.localdomain>
+
+	* configure.in: Use AC_REPLACE_FUNCS for mempcpy, strndup
+	and strchrnul.
+	(AC_CHECK_VAR): Changed second argument to take the type of the
+	variable. 
+
+	* argp-parse.c (struct parser): New fields
+	posixly_correct and ordering.
+	(parser_init): Choose ordering.
+	(enum arg_type): New value ARG_LONG_ONLY.
+	(parser_parse_next): Added error messages similar to getopt's. 
+
+	* argp-help.c (STRNDUP): New macro to refer to strndup
+	or __strndup, as appropriate.
+	(STRERROR): Define this macro as a wrapper for strerror or
+	sys_errlist. 
+	(__argp_basename): New function.
+
+	* argp-namefrob.h (__argp_basename): Added
+	__argp_basename. 
+
+	* Makefile.am (libargp_a_LIBADD): Include LIBOBJS in
+	libargp.a. 
+
+	* argp.h: Added prototype for _argp_basename and
+	__argp_basename. 
+
+	* strndup.c, strchrnul.c mempcpy.c:
+	Moved replacement functions to separate files.
+
+2000-11-28  Niels Möller  <nisse@cuckoo.localdomain>
+
+	* argp-parse.c: Deleted getopt-related code.
+	(struct parser): New field nextchar. Deleted fields try_getotp and long_opts.
+	(find_short_option): New function.
+	(match_option): New function.
+	(find_long_option): New function.
+	(struct parser_convert_state): Deleted field long_end.
+	(convert_options): Don't build getopt_long-style option array. 
+	(parser_convert): Deleted FLAGS arument.
+	(struct parser_sizes): Deleted field long_len.
+	(parser_init): Set short_opts to NULL, unless ARGP_LONG_ONLY is
+	used. 
+	(classify_arg): New function.
+	(parser_parse_next): Don't use getopt_long().
+
+2000-11-27  Niels Möller  <nisse@cuckoo.localdomain>
+
+	* argp-help.c (argp_doc): Use the name strndup, not
+	__strndup. That probably breaks glibc builds.
+
+2000-11-27  Niels Möller  <nisse@lysator.liu.se>
+
+	* argp-test.c (asprintf): Bug fix.
+
+	* argp.h: Dummy definition of __THROW.
+
+	* argp-test.c: Fixed asprintf implementation.
+
+	* argp-parse.c (__argp_usage, __option_is_short,
+	__option_is_end): Define these function, in case the user isn't
+	inlining them.
+
+	* argp-help.c: #define __mempcpy if needed. Use unsigned
+	arguments to the ctype macros. Handle systems where
+	program_invocation_name and program_invocation_short_name doesn't
+	exist.
+	* argp-help.c (short_program_name): New function.
+
+	* Makefile.am: Use @LIBOBJS@ when building test program. 
+
+	* configure.in: Check for getopt_long. Substitute
+	LIBOBJS. Add -I$srcdir to CPPFLAGS.
+
+	* src/argp: Added getopt.h, getopt.c and getopt1.c, which are
+	needed for separate compilation of argp.
+
+2000-11-27  Niels Möller  <nisse@cuckoo.localdomain>
+
+	* Updated argp from glibc-2.2.
+

@@ -1,0 +1,18 @@
+#! /bin/sh
+
+# Success with no args
+./ex1 || exit 1
+
+# Fail with args
+if ./ex1 foo 2>/dev/null ; then exit 1 ; fi
+
+# Respond to --help
+./ex1 --help >/dev/null || exit 1
+
+# Not using ARGP_LONG_ONLY
+if ./ex1 -help 2>/dev/null ; then exit 1 ; fi
+
+(./ex1 --help | grep Usage: >/dev/null ) || exit 1
+
+exit 0
+

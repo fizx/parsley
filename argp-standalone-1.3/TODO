@@ -1,0 +1,2 @@
+Figure out what to do about extern inline, as it's not supported by
+newer gcc-3.x.

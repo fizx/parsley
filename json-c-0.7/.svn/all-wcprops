@@ -1,0 +1,215 @@
+K 25
+svn:wc:ra_dav:version-url
+V 29
+/svn/json-c/!svn/ver/14/trunk
+END
+json_object_private.h
+K 25
+svn:wc:ra_dav:version-url
+V 51
+/svn/json-c/!svn/ver/10/trunk/json_object_private.h
+END
+printbuf.h
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/json-c/!svn/ver/10/trunk/printbuf.h
+END
+json_object.c
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/json-c/!svn/ver/14/trunk/json_object.c
+END
+json_tokener.c
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/json-c/!svn/ver/14/trunk/json_tokener.c
+END
+linkhash.c
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/json-c/!svn/ver/10/trunk/linkhash.c
+END
+Doxyfile
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/svn/json-c/!svn/ver/4/trunk/Doxyfile
+END
+json_object.h
+K 25
+svn:wc:ra_dav:version-url
+V 43
+/svn/json-c/!svn/ver/12/trunk/json_object.h
+END
+AUTHORS
+K 25
+svn:wc:ra_dav:version-url
+V 36
+/svn/json-c/!svn/ver/4/trunk/AUTHORS
+END
+json_tokener.h
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/json-c/!svn/ver/14/trunk/json_tokener.h
+END
+linkhash.h
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/json-c/!svn/ver/12/trunk/linkhash.h
+END
+json_util.c
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/json-c/!svn/ver/12/trunk/json_util.c
+END
+bits.h
+K 25
+svn:wc:ra_dav:version-url
+V 36
+/svn/json-c/!svn/ver/12/trunk/bits.h
+END
+json_util.h
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/json-c/!svn/ver/12/trunk/json_util.h
+END
+README-WIN32.html
+K 25
+svn:wc:ra_dav:version-url
+V 47
+/svn/json-c/!svn/ver/10/trunk/README-WIN32.html
+END
+INSTALL
+K 25
+svn:wc:ra_dav:version-url
+V 36
+/svn/json-c/!svn/ver/4/trunk/INSTALL
+END
+debug.c
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/svn/json-c/!svn/ver/10/trunk/debug.c
+END
+COPYING
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/svn/json-c/!svn/ver/14/trunk/COPYING
+END
+autogen.sh
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/json-c/!svn/ver/10/trunk/autogen.sh
+END
+NEWS
+K 25
+svn:wc:ra_dav:version-url
+V 33
+/svn/json-c/!svn/ver/4/trunk/NEWS
+END
+debug.h
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/svn/json-c/!svn/ver/12/trunk/debug.h
+END
+json.pc.in
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn/json-c/!svn/ver/4/trunk/json.pc.in
+END
+test1.c
+K 25
+svn:wc:ra_dav:version-url
+V 37
+/svn/json-c/!svn/ver/14/trunk/test1.c
+END
+test2.c
+K 25
+svn:wc:ra_dav:version-url
+V 36
+/svn/json-c/!svn/ver/2/trunk/test2.c
+END
+configure.in
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/json-c/!svn/ver/6/trunk/configure.in
+END
+ChangeLog
+K 25
+svn:wc:ra_dav:version-url
+V 39
+/svn/json-c/!svn/ver/14/trunk/ChangeLog
+END
+arraylist.c
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/json-c/!svn/ver/10/trunk/arraylist.c
+END
+json-c.vcproj
+K 25
+svn:wc:ra_dav:version-url
+V 42
+/svn/json-c/!svn/ver/4/trunk/json-c.vcproj
+END
+config.h.win32
+K 25
+svn:wc:ra_dav:version-url
+V 44
+/svn/json-c/!svn/ver/10/trunk/config.h.win32
+END
+README
+K 25
+svn:wc:ra_dav:version-url
+V 36
+/svn/json-c/!svn/ver/10/trunk/README
+END
+json.h
+K 25
+svn:wc:ra_dav:version-url
+V 36
+/svn/json-c/!svn/ver/10/trunk/json.h
+END
+arraylist.h
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/json-c/!svn/ver/10/trunk/arraylist.h
+END
+README.html
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/json-c/!svn/ver/12/trunk/README.html
+END
+config.h.in
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/json-c/!svn/ver/4/trunk/config.h.in
+END
+Makefile.am
+K 25
+svn:wc:ra_dav:version-url
+V 41
+/svn/json-c/!svn/ver/14/trunk/Makefile.am
+END
+printbuf.c
+K 25
+svn:wc:ra_dav:version-url
+V 40
+/svn/json-c/!svn/ver/10/trunk/printbuf.c
+END

@@ -1,0 +1,24 @@
+#! /bin/sh
+
+# Test the somewhat hairy permuting of arguments.
+
+cat >test.out <<EOF
+ARG1 = foo
+ARG2 = bar
+OUTPUT_FILE = -
+VERBOSE = yes
+SILENT = no
+EOF
+
+die () {
+    echo "$@" 1>&2
+    exit 1
+}
+
+for args in "-v foo bar" \
+            "-v -v foo bar" "-v foo -v bar" "-v foo bar -v" \
+            "foo -v bar -v" "foo bar -v -v" "foo -v -v bar" ; do
+  ./ex3 $args | diff - test.out >/dev/null || die "Test failed with args $args"
+done
+
+exit 0
