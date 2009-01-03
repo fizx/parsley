@@ -17,7 +17,7 @@ static int dex_debug_mode = 0;
 static bool dex_exslt_registered = false;
 static char* last_dex_error;
 
-#include <json/json.h>
+#include "json-c-0.7/json.h"
 
 typedef struct __compiled_dex {
  	char* raw_stylesheet;
