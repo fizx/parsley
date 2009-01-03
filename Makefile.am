@@ -17,8 +17,8 @@ port:
 	make clean
 	rm -rf /tmp/dexter-`cat VERSION`
 	cp -R . /tmp/dexter-`cat VERSION`
-	tar --exclude release --exclude .git -zcf "/tmp/dexter-`cat VERSION`.tar.gz" /tmp/dexter-`cat VERSION`
-	rsync --progress "/tmp/dexter-`cat VERSION`.tar.gz" kylemaxwell.com:/var/www/kyle_maxwell.com/dexter/
+	tar -C /tmp/  --exclude release --exclude .git -zcf "/tmp/dexter-`cat VERSION`.tar.gz" dexter-`cat VERSION`
+	rsync --progress "/tmp/dexter-`cat VERSION`.tar.gz" kylemaxwell.com:/var/www/kylemaxwell_com/dexter/
 	cat Portfile.in | sed "s/<VERSION>/`cat VERSION`/" > Portfile
 	echo "checksums \
 					md5 `md5 /tmp/dexter-\`cat VERSION\`.tar.gz | sed "s/.*= //"` \

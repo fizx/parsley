@@ -2,17 +2,17 @@
 # $Id$
 PortSystem          1.0
 name                dexter
-version             0.1.3
+version             0.1.5
 categories          net
 maintainers         kyle@kylemaxwell.com
 description					Data extractor
 long_description		Dexter is a system to extract data from HTML/XML documents
 homepage						http://github.com/fizx/dexter
 platforms           darwin
-master_sites				http://github.com/fizx/dexter/raw/master/release/
+master_sites				http://kylemaxwell.com/dexter/
 depends_lib					port:argp-standalone \
 										port:json-c \
 										port:libxslt \
 										port:pcre
 										
-checksums 				md5 0ee8966212173e2f5c4d16de5ceb6502 				sha1 52c0d3a45186ccf811a925d346da6075d02b1865 				rmd160 478542fff5dad97a8c7642d4ba93900c938c0d9b
+checksums 				md5 5e4d9080aa4ed2dfa7996c89a8e7f719 				sha1 9508eea67212d9a9620eac3fe3719c91e00e11d9 				rmd160 dfa9cee2fdb41ac750d47288d5128f1963a84334
