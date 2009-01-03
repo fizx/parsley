@@ -13,4 +13,5 @@ Gem::Specification.new do |s|
   s.files    = Dir["**/*"]
   s.rdoc_options = ["--main", "README"]
   s.extra_rdoc_files = ["README"]
+  s.add_dependency("json", ["> 0.0.0"])
 end

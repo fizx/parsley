@@ -3,7 +3,7 @@ require File.dirname(__FILE__) + "/../lib/dexterous"
 
 class TestDexterous < Test::Unit::TestCase
   def setup
-    @file = File.dirname(__FILE__) + "/../../fixtures/yelp.html"
+    @file = File.dirname(__FILE__) + "/../../test/yelp.html"
   end
   
   def test_simple

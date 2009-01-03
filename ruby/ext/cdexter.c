@@ -67,7 +67,7 @@ VALUE _parse_doc(dexPtr dex, xmlDocPtr xml, VALUE type) {
 		output = rb_str_new(str, size);
 		// free(str);
 	} else {
- 		output = recurse(xml->children->children);
+ 		output = rubify_recurse(xml->children->children);
 		if(output == NULL) output = Qnil; 
 	}
 	return output;
@@ -85,14 +85,14 @@ VALUE rubify_recurse(xmlNodePtr xml) {
         child = xml;
         obj = rb_hash_new();
         while(child != NULL) {
-          rb_hash_aset(obj, rb_str_new2(child->name), recurse(child->children));
+          rb_hash_aset(obj, rb_str_new2(child->name), rubify_recurse(child->children));
           child = child->next;
         }
       } else if(!strcmp(xml->ns->prefix, "dexter")) {
         if(!strcmp(xml->name, "groups")) {
           obj = rb_ary_new();
           while(child != NULL) {
-            rb_ary_push(obj, recurse(child->children));
+            rb_ary_push(obj, rubify_recurse(child->children));
             child = child->next;
           }          
         } else if(!strcmp(xml->name, "group")) {
