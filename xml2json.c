@@ -1,5 +1,5 @@
 #include <libxml/parser.h>
-#include <json/json.h>
+#include "json-c-0.7/json.h"
 #include "xml2json.h"
 #include <string.h>
 
