@@ -15,14 +15,15 @@ dexter_LDADD = libdexter.la
 
 port:
 	make clean
-	rm -rf release
-	mkdir release
-	tar --exclude release --exclude .git -zcf "release/dexter-`cat VERSION`.tar.gz" .
+	rm -rf /tmp/dexter-`cat VERSION`
+	cp -R . /tmp/dexter-`cat VERSION`
+	tar --exclude release --exclude .git -zcf "/tmp/dexter-`cat VERSION`.tar.gz" /tmp/dexter-`cat VERSION`
+	rsync --progress "/tmp/dexter-`cat VERSION`.tar.gz" kylemaxwell.com:/var/www/kyle_maxwell.com/dexter/
 	cat Portfile.in | sed "s/<VERSION>/`cat VERSION`/" > Portfile
 	echo "checksums \
-					md5 `md5 release/dexter-\`cat VERSION\`.tar.gz | sed "s/.*= //"` \
-					sha1 `openssl sha1 release/dexter-\`cat VERSION\`.tar.gz | sed "s/.*= //"` \
-					rmd160 `openssl rmd160 release/dexter-\`cat VERSION\`.tar.gz | sed "s/.*= //"`" \
+					md5 `md5 /tmp/dexter-\`cat VERSION\`.tar.gz | sed "s/.*= //"` \
+					sha1 `openssl sha1 /tmp/dexter-\`cat VERSION\`.tar.gz | sed "s/.*= //"` \
+					rmd160 `openssl rmd160 /tmp/dexter-\`cat VERSION\`.tar.gz | sed "s/.*= //"`" \
 					>> Portfile
 	sudo port build
 
