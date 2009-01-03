@@ -8,7 +8,6 @@ Makefile
 y.tab.c
 autom4te.cache/
 autoscan.log
-config.*
 configure.scan
 parser.c
 scanner.c

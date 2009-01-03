@@ -1,29 +1,27 @@
-Dexter depends on 
-- the JSON C library from http://oss.metaparadigm.com/json-c/ (I used 0.7)
-- argp (standard with GNU)
-- pcre (dev)
+Dexter uses the autotools (./configure && make && sudo make install ) 
+and depends on:
+- pcre
 - libxml2
 - libxslt (with exslt)
 
-GNU/Linux:
+Debian/Ubuntu:
 ------------------------------------------------------------------------
-Dexter uses autotools, so install the JSON library, and then:
-./bootstrap.sh
+sudo apt-get install libxslt1-dev libpcre3-dev build-essential
 ./configure
 make
 sudo make install
 
 Mac OS X with MacPorts:
 ------------------------------------------------------------------------
-
-The default version of Gnu M4 on OS X is broken.  You might need to 
-install the latest.
-
-sudo port install argp-standalone json-c
-./bootstrap.sh
+sudo port install pcre
 ./configure
 make
 sudo make install
+
+Windows:
+------------------------------------------------------------------------
+I've made no attempt to be Windows-friendly, yet.  I'd love some 
+contributions!
 
 Other OS/Configurations:
 ------------------------------------------------------------------------
