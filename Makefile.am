@@ -15,14 +15,14 @@ dexter_LDADD = libdexter.la
 
 port:
 	make clean
-	cd ruby/ext && ruby extconf.rb && make clean && rm Makefile
-	rm -f release/*
-	tar --exclude release --exclude .git -zcf release/development.tar.gz .
-	cp Portfile.in Portfile
+	rm -rf release
+	mkdir release
+	tar --exclude release --exclude .git -zcf "release/dexter-`cat VERSION`.tar.gz" .
+	cat Portfile.in | sed "s/<VERSION>/`cat VERSION`/" > Portfile
 	echo "checksums \
-					md5 `md5 release/development.tar.gz | sed "s/.*= //"` \
-					sha1 `openssl sha1 release/development.tar.gz | sed "s/.*= //"` \
-					rmd160 `openssl rmd160 release/development.tar.gz | sed "s/.*= //"`" \
+					md5 `md5 release/dexter-\`cat VERSION\`.tar.gz | sed "s/.*= //"` \
+					sha1 `openssl sha1 release/dexter-\`cat VERSION\`.tar.gz | sed "s/.*= //"` \
+					rmd160 `openssl rmd160 release/dexter-\`cat VERSION\`.tar.gz | sed "s/.*= //"`" \
 					>> Portfile
 	sudo port build
 

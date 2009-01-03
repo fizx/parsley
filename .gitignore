@@ -25,6 +25,7 @@ parser.h
 test.log
 ruby/dexter*.gem
 ruby/ext/cdexter.bundle
+ruby/ext/cdexter.so
 ruby/ext/Makefile
 ruby/ext/conftest.dSYM/
 work
