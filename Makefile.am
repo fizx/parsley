@@ -13,6 +13,19 @@ dexterc_LDADD = libdexter.la
 dexter_SOURCES = dexter_main.c
 dexter_LDADD = libdexter.la
 
+port:
+	make clean
+	cd ruby/ext && ruby extconf.rb && make clean && rm Makefile
+	rm -f release/*
+	tar --exclude release --exclude .git -zcf release/development.tar.gz .
+	cp Portfile.in Portfile
+	echo "checksums \
+					md5 `md5 release/development.tar.gz | sed "s/.*= //"` \
+					sha1 `openssl sha1 release/development.tar.gz | sed "s/.*= //"` \
+					rmd160 `openssl rmd160 release/development.tar.gz | sed "s/.*= //"`" \
+					>> Portfile
+	sudo port build
+
 check-am:
 	@echo "fictional..."; ./dexter test/fictional.dex test/fictional.html | diff test/fictional.json - && echo "    success."
 	@echo "function-magic..."; ./dexter test/function-magic.dex test/function-magic.html | diff test/function-magic.json - && echo "    success."

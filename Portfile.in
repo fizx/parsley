@@ -9,10 +9,9 @@ description					Data extractor
 long_description		Dexter is a system to extract data from HTML/XML documents
 homepage						http://github.com/fizx/dexter
 platforms           darwin
-master_sites				http://github.com/fizx/dexter/raw/master/release/development.tar.gz
+master_sites				http://github.com/fizx/dexter/tarball/master
 depends_lib					port:argp-standalone \
 										port:json-c \
 										port:libxslt \
 										port:pcre
 										
-checksums 				md5 57eaf56ee554583b82c7fc19e029b5f2 				sha1 fa4b846277e5d76f8da8fab53079e4ccf0725175 				rmd160 f78121d2a2d0071007cc127dee31be47053c5216
