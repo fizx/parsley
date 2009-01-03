@@ -19893,6 +19893,13 @@ fi
 echo "${ECHO_T}$ac_cv_header_argp_h" >&6; }
 
 fi
+if test $ac_cv_header_argp_h = yes; then
+  :
+else
+  { { echo "$as_me:$LINENO: error: could not find argp.h" >&5
+echo "$as_me: error: could not find argp.h" >&2;}
+   { (exit 1); exit 1; }; }
+fi
 
 
 
@@ -20077,7 +20084,9 @@ rm -f core conftest.err conftest.$ac_objext conftest_ipa8_conftest.oo \
 fi
 { echo "$as_me:$LINENO: result: $ac_cv_func_argp_parse" >&5
 echo "${ECHO_T}$ac_cv_func_argp_parse" >&6; }
-
+if test $ac_cv_func_argp_parse = yes; then
+  :
+else
 
 { echo "$as_me:$LINENO: checking for argp_parse in -largp" >&5
 echo $ECHO_N "checking for argp_parse in -largp... $ECHO_C" >&6; }
@@ -20146,6 +20155,12 @@ if test $ac_cv_lib_argp_argp_parse = yes; then
 _ACEOF
 
   LIBS="-largp $LIBS"
+
+else
+  { { echo "$as_me:$LINENO: error: could not find argp" >&5
+echo "$as_me: error: could not find argp" >&2;}
+   { (exit 1); exit 1; }; }
+fi
 
 fi
 
