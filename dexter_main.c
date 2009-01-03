@@ -12,7 +12,7 @@
 #include <libxml/HTMLparser.h>
 #include <libxml/HTMLtree.h>
 #include <libxml/xmlwriter.h>
-#include <json/json.h>
+#include "json-c-0.7/json.h"
 #include <argp.h>
 #include "util.h"
 
