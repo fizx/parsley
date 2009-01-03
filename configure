@@ -20218,13 +20218,15 @@ echo "$as_me: error: could not find pcre" >&2;}
 fi
 
 
+
 { echo "$as_me:$LINENO: checking for argp_parse in -largp" >&5
 echo $ECHO_N "checking for argp_parse in -largp... $ECHO_C" >&6; }
 if test "${ac_cv_lib_argp_argp_parse+set}" = set; then
   echo $ECHO_N "(cached) $ECHO_C" >&6
 else
   ac_check_lib_save_LIBS=$LIBS
-LIBS="-largp  $LIBS"
+LIBS="-largp in case <limits.h> declares argp_parse.
+   For example $LIBS"
 cat >conftest.$ac_ext <<_ACEOF
 /* confdefs.h.  */
 _ACEOF
@@ -20287,9 +20289,18 @@ _ACEOF
   LIBS="-largp $LIBS"
 
 else
-  { { echo "$as_me:$LINENO: error: could not find argp" >&5
-echo "$as_me: error: could not find argp" >&2;}
-   { (exit 1); exit 1; }; }
+  { echo "$as_me:$LINENO: checking for argp_parse" >&5
+echo $ECHO_N "checking for argp_parse... $ECHO_C" >&6; }
+if test "${ac_cv_func_argp_parse+set}" = set; then
+  echo $ECHO_N "(cached) $ECHO_C" >&6
+else
+  cat >conftest.$ac_ext <<_ACEOF
+/* confdefs.h.  */
+_ACEOF
+cat confdefs.h >>conftest.$ac_ext
+cat >>conftest.$ac_ext <<_ACEOF
+/* end confdefs.h.  */
+/* Define argp_parse to an innocuous variant
 fi
 
 

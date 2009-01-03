@@ -35,7 +35,12 @@ CPPFLAGS="$CPPFLAGS $XML2_CFLAGS $XSLT_CFLAGS"
 LIBS="$LIBS $XML2_LIBS $XSLT_LIBS"
 
 AC_CHECK_LIB(pcre, pcre_compile, , AC_MSG_ERROR([could not find pcre]))
-AC_CHECK_LIB(argp, argp_parse, , AC_MSG_ERROR([could not find argp]))
+
+AC_CHECK_FUNC(argp_parse, ARGP_FOUND=yes, )
+if test x$ARGP_FOUND = x ; then
+	AC_CHECK_LIB(argp, argp_parse, , AC_MSG_ERROR([could not find argp]))
+end
+
 AC_CHECK_LIB(json, json_object_new_string, , AC_MSG_ERROR([could not find the json library]))
 
 AC_CHECK_LIB(xslt, xsltApplyStylesheet, , AC_MSG_ERROR([could not find libxslt]))

@@ -1,6 +1,7 @@
 Dexter depends on 
 - the JSON C library from http://oss.metaparadigm.com/json-c/ (I used 0.7)
 - argp (standard with GNU)
+- pcre (dev)
 - libxml2
 - libxslt (with exslt)
 
