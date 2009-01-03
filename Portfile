@@ -15,4 +15,4 @@ depends_lib					port:argp-standalone \
 										port:libxslt \
 										port:pcre
 										
-checksums 				md5 50cf16419f31ae768218ba6ce7b9899d 				sha1 855dfd168015df03f03d6fcf0b671ccc3fe582f2 				rmd160 7230df8fc421680760550958bf1e5b29afb79dea
+checksums 				md5 0ee8966212173e2f5c4d16de5ceb6502 				sha1 52c0d3a45186ccf811a925d346da6075d02b1865 				rmd160 478542fff5dad97a8c7642d4ba93900c938c0d9b
