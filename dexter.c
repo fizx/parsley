@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <argp.h>
-#include "json-c-0.7/json.h"
+#include <json/json.h>
 #include "kstring.h"
 #include "obstack.h"
 #include "dexter.h"
