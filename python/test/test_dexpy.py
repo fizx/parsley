@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import unittest
+from dexpy import DexPy
 
 class TestDexPy(unittest.TestCase):
 	
