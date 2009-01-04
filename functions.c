@@ -287,7 +287,7 @@ xsltLoadHtmlDocument(xsltTransformContextPtr ctxt, const xmlChar *URI) {
 	ret = ret->next;
     }
 
-    doc = htmlReadFile(URI, NULL, ctxt->parserOptions | HTML_PARSE_RECOVER);
+    doc = htmlReadFile(URI, NULL, ctxt->parserOptions | HTML_PARSE_RECOVER | HTML_PARSE_NOERROR |HTML_PARSE_NOWARNING);
 
     if (doc == NULL)
 	return(NULL);

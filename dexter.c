@@ -28,7 +28,7 @@ int yywrap(void){
 xmlDocPtr dex_parse_file(dexPtr dex, char* file, boolean html) {
 	if(html) {
 		htmlParserCtxtPtr htmlCtxt = htmlNewParserCtxt();
-  	htmlDocPtr html = htmlCtxtReadFile(htmlCtxt, file, "UTF-8", 3);
+  	htmlDocPtr html = htmlCtxtReadFile(htmlCtxt, file, NULL, HTML_PARSE_RECOVER | HTML_PARSE_NOERROR |HTML_PARSE_NOWARNING);
 		if(html == NULL) {
 			asprintf(&dex->error, "Couldn't parse file: %s\n", file);
 			return NULL;
@@ -36,7 +36,7 @@ xmlDocPtr dex_parse_file(dexPtr dex, char* file, boolean html) {
 		return dex_parse_doc(dex, html);
 	} else {
 		xmlParserCtxtPtr ctxt = xmlNewParserCtxt();
-		xmlDocPtr xml = xmlCtxtReadFile(ctxt, file, "UTF-8", 3);
+		xmlDocPtr xml = xmlCtxtReadFile(ctxt, file, NULL, HTML_PARSE_RECOVER | HTML_PARSE_NOERROR |HTML_PARSE_NOWARNING);
 		if(xml == NULL) {
 			asprintf(&dex->error, "Couldn't parse file: %s\n", file);
 			return NULL;
@@ -48,7 +48,7 @@ xmlDocPtr dex_parse_file(dexPtr dex, char* file, boolean html) {
 xmlDocPtr dex_parse_string(dexPtr dex, char* string, size_t size, boolean html) {
 	if(html) {
 		htmlParserCtxtPtr htmlCtxt = htmlNewParserCtxt();
-  	htmlDocPtr html = htmlCtxtReadMemory(htmlCtxt, string, size, "http://kylemaxwell.com/dexter/memory", "UTF-8", 3);
+  	htmlDocPtr html = htmlCtxtReadMemory(htmlCtxt, string, size, "http://kylemaxwell.com/dexter/memory", NULL, HTML_PARSE_RECOVER | HTML_PARSE_NOERROR |HTML_PARSE_NOWARNING);
 		if(html == NULL) {
 			asprintf(&dex->error, "Couldn't parse string\n");
 			return NULL;
@@ -56,7 +56,7 @@ xmlDocPtr dex_parse_string(dexPtr dex, char* string, size_t size, boolean html) 
 		return dex_parse_doc(dex, html);
 	} else {
 		xmlParserCtxtPtr ctxt = xmlNewParserCtxt();
- 		xmlDocPtr xml = xmlCtxtReadMemory(ctxt, string, size, "http://kylemaxwell.com/dexter/memory", "UTF-8", 3);
+ 		xmlDocPtr xml = xmlCtxtReadMemory(ctxt, string, size, "http://kylemaxwell.com/dexter/memory", NULL, HTML_PARSE_RECOVER | HTML_PARSE_NOERROR |HTML_PARSE_NOWARNING);
 		if(xml == NULL) {
 			asprintf(&dex->error, "Couldn't parse string\n");
 			return NULL;
