@@ -18,12 +18,16 @@
 # - rescope function
 # - sensible Exception/error handling
 # - join function?!?!
-- memory leaks
-- debugging options
-- check linux build
-- python
-- fix not()/set-difference
+# - check linux build
+- force group key !
 - complain if empty / runtime no-match errors
+- memory leaks
+- python
+
+--------- release --------
+
+- debugging options
+- fix not()/set-difference
 - CSS equations
 - saxon compatibility?!
 - XML input converter?!
@@ -31,5 +35,3 @@
 - flags?! 
 		^ - force group-before
 		$ - force group-after
-		! - don't group?!
-		? - optional field
