@@ -12,10 +12,10 @@ A simple script, or "dex", looks like this:
 
     {
       "title": "h1",
-      "links": [
+      "links(a)": [
         {
-          "text": "a",
-          "href": "$text/@href"
+          "text": ".",
+          "href": "@href"
         }
       ]
     }
