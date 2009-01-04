@@ -30,6 +30,13 @@ sudo port install argp-standalone json-c pcre
 make
 sudo make install
 
+Ruby Binding (via Gems)
+------------------------------------------------------------------------
+# install the C version first
+cd ruby
+gem build dexterous.gemspec
+sudo gem install dexterous
+
 Other OS/Configurations:
 ------------------------------------------------------------------------
 Haven't tried.
