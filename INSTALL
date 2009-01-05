@@ -37,6 +37,13 @@ cd ruby
 gem build dexterous.gemspec
 sudo gem install dexterous
 
+Python Binding
+------------------------------------------------------------------------
+# install the C version first
+# Use Python 2.6, as this depends on the json support in Python's stdlib
+cd python
+python setup.py install
+
 Other OS/Configurations:
 ------------------------------------------------------------------------
 Haven't tried.
