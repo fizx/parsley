@@ -338,7 +338,7 @@ gives unlimited permission to copy, distribute and modify it."
 ac_pwd='/Users/kyle/Git/dexter'
 srcdir='.'
 INSTALL='/usr/bin/install -c'
-MKDIR_P='/opt/local/bin/gmkdir -p'
+MKDIR_P='./install-sh -c -d'
 # If no file are specified by the user, then we need to provide default
 # value.  By we need to know if files were specified by the user.
 ac_need_defaults=:
@@ -511,7 +511,7 @@ s,@DEFS@,|#_!!_#|-DPACKAGE_NAME=\\"dexterc\\" -DPACKAGE_TARNAME=\\"dexterc\\" -D
 s,@ECHO_C@,|#_!!_#|\\c,g
 s,@ECHO_N@,|#_!!_#|,g
 s,@ECHO_T@,|#_!!_#|,g
-s,@LIBS@,|#_!!_#|-lexslt -lxml2 -lxslt -ljson -largp -lpcre  -L/usr/lib -lxml2 -lz -lpthread -liconv -lm -L/usr/lib -lxslt -lxml2 -lz -lpthread -liconv -lm,g
+s,@LIBS@,|#_!!_#|-lexslt -lxml2 -lxslt -ljson -largp -lpcre  -L/opt/local/lib -lxml2 -lz -lpthread -L/opt/local/lib -liconv -lm -L/opt/local/lib -lxslt -lxml2 -lz -lpthread -liconv -lm,g
 s,@build_alias@,|#_!!_#|,g
 s,@host_alias@,|#_!!_#|,g
 s,@target_alias@,|#_!!_#|,g
@@ -530,7 +530,7 @@ s,@MAKEINFO@,|#_!!_#|${SHELL} /Users/kyle/Git/dexter/missing --run makeinfo,g
 s,@install_sh@,|#_!!_#|$(SHELL) /Users/kyle/Git/dexter/install-sh,g
 s,@STRIP@,|#_!!_#|strip,g
 s,@INSTALL_STRIP_PROGRAM@,|#_!!_#|$(install_sh) -c -s,g
-s,@mkdir_p@,|#_!!_#|/opt/local/bin/gmkdir -p,g
+s,@mkdir_p@,|#_!!_#|$(top_builddir)/./install-sh -c -d,g
 s,@AWK@,|#_!!_#|gawk,g
 s,@SET_MAKE@,|#_!!_#|,g
 s,@am__leading_dot@,|#_!!_#|.,g
@@ -540,7 +540,7 @@ s,@am__untar@,|#_!!_#|${AMTAR} xf -,g
 s,@CC@,|#_!!_#|gcc -std=gnu99,g
 s,@CFLAGS@,|#_!!_#|-g -O2,g
 s,@LDFLAGS@,|#_!!_#| -L/opt/local/lib,g
-s,@CPPFLAGS@,|#_!!_#| -I/opt/local/include -I/usr/include/libxml2 -I/usr/include/libxml2,g
+s,@CPPFLAGS@,|#_!!_#| -I/opt/local/include -I/opt/local/include/libxml2 -I/opt/local/include -I/opt/local/include -I/opt/local/include/libxml2,g
 s,@ac_ct_CC@,|#_!!_#|gcc,g
 s,@EXEEXT@,|#_!!_#|,g
 s,@OBJEXT@,|#_!!_#|o,g
@@ -558,14 +558,14 @@ s,@LEX_OUTPUT_ROOT@,|#_!!_#|lex.yy,g
 s,@LEXLIB@,|#_!!_#|-lfl,g
 s,@YACC@,|#_!!_#|bison -y,g
 s,@YFLAGS@,|#_!!_#|,g
-s,@build@,|#_!!_#|i686-apple-darwin9.5.1,g
+s,@build@,|#_!!_#|i686-apple-darwin9.6.0,g
 s,@build_cpu@,|#_!!_#|i686,g
 s,@build_vendor@,|#_!!_#|apple,g
-s,@build_os@,|#_!!_#|darwin9.5.1,g
-s,@host@,|#_!!_#|i686-apple-darwin9.5.1,g
+s,@build_os@,|#_!!_#|darwin9.6.0,g
+s,@host@,|#_!!_#|i686-apple-darwin9.6.0,g
 s,@host_cpu@,|#_!!_#|i686,g
 s,@host_vendor@,|#_!!_#|apple,g
-s,@host_os@,|#_!!_#|darwin9.5.1,g
+s,@host_os@,|#_!!_#|darwin9.6.0,g
 s,@GREP@,|#_!!_#|/usr/bin/grep,g
 s,@EGREP@,|#_!!_#|/usr/bin/grep -E,g
 s,@LN_S@,|#_!!_#|ln -s,g
@@ -587,8 +587,8 @@ s,@F77@,|#_!!_#|,g
 s,@FFLAGS@,|#_!!_#|,g
 s,@ac_ct_F77@,|#_!!_#|,g
 s,@LIBTOOL@,|#_!!_#|$(SHELL) $(top_builddir)/libtool,g
-s,@XML2_CONFIG@,|#_!!_#|/usr/bin/xml2-config,g
-s,@XSLT_CONFIG@,|#_!!_#|/usr/bin/xslt-config,g
+s,@XML2_CONFIG@,|#_!!_#|/opt/local/bin/xml2-config,g
+s,@XSLT_CONFIG@,|#_!!_#|/opt/local/bin/xslt-config,g
 s,@LIBOBJS@,|#_!!_#|,g
 s,@LTLIBOBJS@,|#_!!_#|,g
 :end
