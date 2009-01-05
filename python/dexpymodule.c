@@ -10,6 +10,7 @@
 #include <libxml/xmlwriter.h>
 #include <dexter.h>
 #include <string.h>
+#include <stdio.h>
 #include <json/json.h>
 #include <xml2json.h>
 
@@ -28,9 +29,15 @@ static PyMethodDef dexpy_methods[] = {
 #define PyMODINIT_FUNC void
 #endif
 
+static PyObject *jsonmodule;
+
 PyMODINIT_FUNC
 initdexpy(void) 
 {
+		jsonmodule = PyImport_ImportModule("json");
+		if(jsonmodule == NULL)
+			return NULL;
+			
     PyObject* m;
 
     dexpy_DexPyType.tp_new = PyType_GenericNew;
@@ -62,20 +69,32 @@ DexPy_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
 static int
 DexPy_init(DexPy *self, PyObject *args, PyObject *kwds)
 {
-	char *script = "";
+ 	PyObject *script;
+	char *string = "";
 	char *incl = "";
 		
-	if (!PyArg_ParseTuple(args, "S|S", &script, &incl)) {
+	if (!PyArg_ParseTuple(args, "O|S", &script, &incl)) {
 		Py_DECREF(self);
-		return NULL;
+		return -1;
 	}
 	
-	self->dex = dex_compile(script, incl);
+	PyObject *dumps = PyObject_GetAttrString(jsonmodule, "dumps");
+	if(dumps == NULL) return -1;
+	
+	if(PyDict_Check(script)){
+		script = PyObject_CallFunctionObjArgs(dumps, script, NULL);
+		if(script == NULL) return -1;
+	} 
+	
+	string = PyString_AsString(script);
+	if(string == NULL) return -1;
+
+	self->dex = dex_compile(string, incl);
 	
 	if(self->dex->error != NULL) {
 		PyErr_SetString(PyExc_RuntimeError, self->dex->error);
 		Py_DECREF(self);
-		return NULL;
+		return -1;
 	}
 	
   return 0;
@@ -86,16 +105,16 @@ static PyObject *
 pythonize_recurse(xmlNodePtr xml) {
   if(xml == NULL) return NULL;
   xmlNodePtr child;
-	static PyObject * obj = NULL;
-
+	PyObject * obj = NULL;
+	
   switch(xml->type) {
     case XML_ELEMENT_NODE:
       child = xml->children;
       if(xml->ns == NULL) {
-        child = xml;
+       	child = xml;
         obj = PyDict_New();
         while(child != NULL) {
-          PyDict_SetItem(obj, Py_BuildValue("S", child->name), pythonize_recurse(child->children));
+          PyDict_SetItemString(obj, child->name, pythonize_recurse(child->children));
           child = child->next;
         }
       } else if(!strcmp(xml->ns->prefix, "dexter")) {
@@ -111,7 +130,7 @@ pythonize_recurse(xmlNodePtr xml) {
       }
       break;
     case XML_TEXT_NODE:
-      obj = Py_BuildValue("S", xml->content);
+      obj = Py_BuildValue("s", xml->content);
       break;
   }
 	if(obj == NULL) {		
@@ -137,13 +156,13 @@ DexPy_parse_doc(dexPtr dex, xmlDocPtr xml, char *type) {
 	if(!strcmp(type, "json")) {
 		struct json_object *json = xml2json(xml->children->children);
 		char* str = json_object_to_json_string(json);
-		output = Py_BuildValue("S", str);
+		output = Py_BuildValue("s", str);
 		json_object_put(json);
 	} else if(!strcmp(type, "xml")) {
 		char* str;
 		int size;
 		xmlDocDumpMemory(xml, &str, &size);
-		output = Py_BuildValue("S", str);
+		output = Py_BuildValue("s", str);
 	} else {
  		output = pythonize_recurse(xml->children->children);
 		if(output == NULL){
@@ -159,9 +178,10 @@ DexPy_parse(DexPy *self, PyObject *args, PyObject *keywords)
 {
 	char *file = NULL;
 	char *string = NULL;
-	char *input = "python";
+	char *input = "html";
 	char *output = "python";
 	int len;
+	xmlDocPtr xml;
 	
 	static char * list[] = { "file", "string", "input", "output", NULL };
 	
@@ -170,11 +190,18 @@ DexPy_parse(DexPy *self, PyObject *args, PyObject *keywords)
 		return NULL;
 	}
 	
-	if(file != NULL) {
-		return DexPy_parse_doc(self->dex, dex_parse_file(self->dex, file, !strcmp(input, "html")), output);
-	} else {
-		return DexPy_parse_doc(self->dex, dex_parse_string(self->dex, string, len, !strcmp(input, "html")), output);
+	if(self->dex == NULL) {
+		PyErr_SetString(PyExc_RuntimeError, "dex data is NULL");
+		return NULL;
 	}
+	
+	if(file != NULL) {
+		xml = dex_parse_file(self->dex, file, !strcmp(input, "html"));
+	} else {
+		xml = dex_parse_string(self->dex, string, len, !strcmp(input, "html"));
+	}	
+	
+	return DexPy_parse_doc(self->dex, xml, output);
 }
 
 

@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import re
 from os import system
 from distutils.core import setup, Extension
