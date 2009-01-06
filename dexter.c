@@ -77,13 +77,7 @@ dexPtr dex_compile(char* dex_str, char* incl) {
 		last_dex_error = NULL;
 	}
 	
-  if(!dex_exslt_registered) {
-    exsltRegisterAll();
-		dex_register_all();
-		init_xpath_alias();
-		exslt_org_regular_expressions_init();
-    dex_exslt_registered = true;
-  }
+  registerEXSLT();
 	
 	struct json_object *json = json_tokener_parse(dex_str);
 	if(is_error(json)) {
@@ -199,60 +193,6 @@ void yyerror(const char * s) {
 	printbuf_free(buf);
 }
 
-static int dex_key_flags(char* key) {
-  char* ptr = key;
-  char* last_alnum;
-  char* last_paren;
-  while(*ptr++ != '\0'){
-    if(isalnum(*ptr)) {
-      last_alnum = ptr;
-    } else if (*ptr == ')') {
-      last_paren = ptr;
-    }
-  }
-  ptr = (last_alnum > last_paren ? last_alnum : last_paren) + 1;
-  int flags = 0;
-  while(*ptr++ != '\0'){
-    switch(*ptr){
-    case '?':
-      flags |= DEX_OPTIONAL;
-      break;
-    }
-  }
-  return flags;
-}
-
-char* dex_key_tag(char* key) {
-	char *tag = astrdup(key);
-	char *ptr = tag;
-	while(*ptr++ != '\0'){
-		if(!isalnum(*ptr) && *ptr != '_' && *ptr != '-') {
-			*ptr = 0;
-			return tag;
-		}
-	}
-	return tag;
-}
-
-char* dex_key_filter(char* key) {
-	char *expr = astrdup(key);
-	char *ptr = expr;
-  char *last_paren;
-
-	int offset = 0;
-	bool has_expr = false;
-
-	while(*ptr++ != '\0'){
-		if(!has_expr)     offset++;
-		if(*ptr == '(')   has_expr = true;
-    if(*ptr == ')')   last_paren = ptr;
-	}
-	if(!has_expr) return NULL;
-  *last_paren = 0; // clip ")"
-	expr += offset + 1; // clip "("
-  
-	return strlen(expr) == 0 ? NULL : myparse(expr);
-}
 
 void __dex_recurse(contextPtr context) {
 	// printf("a\n");

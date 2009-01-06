@@ -10,7 +10,6 @@
 
 
 static int dex_debug_mode = 0;
-static bool dex_exslt_registered = false;
 static char* last_dex_error;
 
 #include <json/json.h>
@@ -74,9 +73,6 @@ static contextPtr tagged_context(contextPtr, char*);
 static contextPtr new_context(struct json_object *, struct printbuf *);
 static contextPtr deeper_context(contextPtr, char*, struct json_object *);
 
-static int dex_key_flags(char*);
-static char* dex_key_tag(char*);
-static char* dex_key_filter(char*);
 static void __dex_recurse(contextPtr);
 static char* filter_intersection(char*, char*);
 
