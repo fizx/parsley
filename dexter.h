@@ -3,16 +3,12 @@
 
 #define DEX_BUF_SIZE 1024
 
-#include "obstack.h"
 #include <stdbool.h>
 #include <libxslt/xslt.h>
 #include <libxslt/xsltInternals.h>
 #include <libxslt/transform.h>
 
-#define obstack_chunk_alloc malloc
-#define obstack_chunk_free free
 
-static struct obstack dex_obstack;
 static int dex_debug_mode = 0;
 static bool dex_exslt_registered = false;
 static char* last_dex_error;
@@ -56,13 +52,13 @@ typedef dex_context * contextPtr;
 
 void dex_free(dexPtr);
 dexPtr dex_compile(char* dex, char* incl);
-
 xmlDocPtr dex_parse_file(dexPtr, char*, boolean);
 xmlDocPtr dex_parse_string(dexPtr, char*, size_t, boolean);
 xmlDocPtr dex_parse_doc(dexPtr, xmlDocPtr);
 
-void* dex_alloc(int);
-void dex_collect();
+enum {
+   DEX_OPTIONAL    = 1,
+};
 
 static contextPtr dex_parsing_context;
 
@@ -78,8 +74,9 @@ static contextPtr tagged_context(contextPtr, char*);
 static contextPtr new_context(struct json_object *, struct printbuf *);
 static contextPtr deeper_context(contextPtr, char*, struct json_object *);
 
-static char* dex_key_tag(char* key);
-static char* dex_key_filter(char* key);
+static int dex_key_flags(char*);
+static char* dex_key_tag(char*);
+static char* dex_key_filter(char*);
 static void __dex_recurse(contextPtr);
 static char* filter_intersection(char*, char*);
 

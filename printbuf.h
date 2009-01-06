@@ -20,8 +20,8 @@ struct printbuf {
   int size;
 };
 
-
-extern void printbuf_file_read(FILE*, struct printbuf*);
+extern void 
+printbuf_file_read(FILE*, struct printbuf *);
 
 extern struct printbuf*
 printbuf_new();

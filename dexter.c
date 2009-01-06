@@ -3,11 +3,11 @@
 #include <argp.h>
 #include <json/json.h>
 #include "kstring.h"
-#include "obstack.h"
 #include "dexter.h"
 #include "y.tab.h"
 #include "printbuf.h"
 #include "functions.h"
+#include "util.h"
 #include <string.h>
 #include <errno.h>
 #include <ctype.h>
@@ -84,8 +84,6 @@ dexPtr dex_compile(char* dex_str, char* incl) {
 		exslt_org_regular_expressions_init();
     dex_exslt_registered = true;
   }
-
-	obstack_init(&dex_obstack);
 	
 	struct json_object *json = json_tokener_parse(dex_str);
 	if(is_error(json)) {
@@ -95,30 +93,7 @@ dexPtr dex_compile(char* dex_str, char* incl) {
 
 	struct printbuf* buf = printbuf_new();
 	
-	sprintbuf(buf, "<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\"");
-	sprintbuf(buf, " xmlns:dex=\"http://kylemaxwell.com/dexter/library\"");
-	sprintbuf(buf, " xmlns:dexter=\"http://kylemaxwell.com/dexter\"");
-	sprintbuf(buf, " xmlns:str=\"http://exslt.org/strings\"");
-	sprintbuf(buf, " xmlns:set=\"http://exslt.org/sets\"");
-	sprintbuf(buf, " xmlns:math=\"http://exslt.org/math\"");
-	sprintbuf(buf, " xmlns:func=\"http://exslt.org/functions\"");
-	sprintbuf(buf, " xmlns:user=\"http://kylemaxwell.com/dexter/user-functions\"");
-	sprintbuf(buf, " xmlns:dyn=\"http://exslt.org/dynamic\"");
-	sprintbuf(buf, " xmlns:date=\"http://exslt.org/dates-and-times\"");
-	sprintbuf(buf, " xmlns:exsl=\"http://exslt.org/common\"");
-	sprintbuf(buf, " xmlns:saxon=\"http://icl.com/saxon\"");
-	sprintbuf(buf, " xmlns:regexp=\"http://exslt.org/regular-expressions\"");
-	sprintbuf(buf, " extension-element-prefixes=\"dex str math set func dyn exsl saxon user date regexp\"");
-	sprintbuf(buf, ">\n");
-	sprintbuf(buf, "<xsl:output method=\"xml\" indent=\"yes\"/>\n");
-	sprintbuf(buf, "<xsl:strip-space elements=\"*\"/>\n");
-	sprintbuf(buf, "<func:function name=\"dex:nl\"><xsl:param name=\"in\" select=\".\"/>");
-	sprintbuf(buf, "<xsl:variable name=\"out\"><xsl:apply-templates mode=\"innertext\" select=\"exsl:node-set($in)\"/></xsl:variable>");
-	sprintbuf(buf, "<func:result select=\"$out\" /></func:function>");
-	sprintbuf(buf, "<xsl:template match=\"text()\" mode=\"innertext\"><xsl:value-of select=\".\" /></xsl:template>");
-	sprintbuf(buf, "<xsl:template match=\"script|style\" mode=\"innertext\"/>");
-	sprintbuf(buf, "<xsl:template match=\"br|address|blockquote|center|dir|div|form|h1|h2|h3|h4|h5|h6|hr|menu|noframes|noscript|p|pre|li|td|th|p\" mode=\"innertext\"><xsl:apply-templates mode=\"innertext\" /><xsl:text>\n</xsl:text></xsl:template>");
-	// sprintbuf(buf, "<xsl:template match=\"node()\" mode=\"innertext\"><xsl:apply-templates mode=\"innertext\" select=\"n\" /></xsl:template>");
+  sprintbuf_dex_header(buf);
 	sprintbuf(buf, "%s\n", incl);
 	sprintbuf(buf, "<xsl:template match=\"/\">\n");
 	sprintbuf(buf, "<dexter:root>\n");
@@ -136,7 +111,7 @@ dexPtr dex_compile(char* dex_str, char* incl) {
 	
 	if(dex->error == NULL) {
 		xmlParserCtxtPtr ctxt = xmlNewParserCtxt();
-		xmlDocPtr doc = xmlCtxtReadMemory(ctxt, buf->buf, buf->size, "http://kylemaxwell.com/dexter/compiled", "UTF-8", 3);
+		xmlDocPtr doc = xmlCtxtReadMemory(ctxt, buf->buf, buf->size, "http://kylemaxwell.com/dexter/compiled", NULL, 3);
 		dex->raw_stylesheet = strdup(buf->buf);
 		dex->stylesheet = xsltParseStylesheetDoc(doc);
 	}
@@ -145,10 +120,6 @@ dexPtr dex_compile(char* dex_str, char* incl) {
 	dex_collect();
 	
 	return dex;
-}
-
-void dex_collect() {
-	obstack_free(&dex_obstack, NULL);
 }
 
 static contextPtr new_context(struct json_object * json, struct printbuf *buf) {
@@ -220,10 +191,6 @@ void dex_free(dexPtr ptr) {
 	free(ptr);
 }
 
-void * dex_alloc(int size) {
-	return obstack_alloc(&dex_obstack, size);
-}
-
 void yyerror(const char * s) {
 	struct printbuf *buf = printbuf_new();
 	if(last_dex_error !=NULL) sprintbuf(buf, "%s\n", last_dex_error);
@@ -232,11 +199,34 @@ void yyerror(const char * s) {
 	printbuf_free(buf);
 }
 
+static int dex_key_flags(char* key) {
+  char* ptr = key;
+  char* last_alnum;
+  char* last_paren;
+  while(*ptr++ != '\0'){
+    if(isalnum(*ptr)) {
+      last_alnum = ptr;
+    } else if (*ptr == ')') {
+      last_paren = ptr;
+    }
+  }
+  ptr = (last_alnum > last_paren ? last_alnum : last_paren) + 1;
+  int flags = 0;
+  while(*ptr++ != '\0'){
+    switch(*ptr){
+    case '?':
+      flags |= DEX_OPTIONAL;
+      break;
+    }
+  }
+  return flags;
+}
+
 char* dex_key_tag(char* key) {
 	char *tag = astrdup(key);
 	char *ptr = tag;
 	while(*ptr++ != '\0'){
-		if(*ptr == '(') {
+		if(!isalnum(*ptr) && *ptr != '_' && *ptr != '-') {
 			*ptr = 0;
 			return tag;
 		}
@@ -247,24 +237,21 @@ char* dex_key_tag(char* key) {
 char* dex_key_filter(char* key) {
 	char *expr = astrdup(key);
 	char *ptr = expr;
+  char *last_paren;
 
 	int offset = 0;
 	bool has_expr = false;
 
 	while(*ptr++ != '\0'){
-		offset++;
-		if(*ptr == '(') {
-			has_expr = true;
-			break;
-		}
+		if(!has_expr)     offset++;
+		if(*ptr == '(')   has_expr = true;
+    if(*ptr == ')')   last_paren = ptr;
 	}
 	if(!has_expr) return NULL;
-
+  *last_paren = 0; // clip ")"
 	expr += offset + 1; // clip "("
-	int l = strlen(expr);
-	if(l <= 1) return NULL;
-	*(expr + l - 1) = 0; // clip ")"
-	return myparse(expr);
+  
+	return strlen(expr) == 0 ? NULL : myparse(expr);
 }
 
 void __dex_recurse(contextPtr context) {

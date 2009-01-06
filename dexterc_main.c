@@ -5,6 +5,7 @@
 #include "kstring.h"
 #include "printbuf.h"
 #include "dexter.h"
+#include "vexter.h"
 #include "util.h"
 
 struct list_elem {
@@ -18,6 +19,7 @@ struct arguments
 	struct list_elem *include_files;
 	char *dex;
   char *output_file;
+  int vex;
 };
 
 const char *argp_program_version = "dexterc 0.1";
@@ -26,7 +28,8 @@ static char args_doc[] = "DEX_FILE";
 static char doc[] = "Dexter is a dex to XSLT compiler";
 
 static struct argp_option options[] = {
-	{"debug",    'd', 0, 0, 	"Turn on Bison parser debugging" },
+  {"debug",    'd', 0, 0, 	"Turn on Bison parser debugging" },
+	{"vexter",   'V', 0, 0, 	"Compile as a vex validation scrip" },
 	{"output",   'o', "FILE", 0, 	"Output to FILE instead of standard output" },
   {"include",  'i', "FILE", 0, 	"Include the contents of FILE in the produced XSLT" },
   { 0 }
@@ -46,6 +49,9 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state)
 			while(base->has_next) base = base->next;
 			base->next = e;
 			base->has_next = 1;
+      break;
+    case 'V':
+      arguments->vex = 1;
       break;
     case 'd':	
 			// dex_set_debug_mode(1);
@@ -96,7 +102,7 @@ int main (int argc, char **argv) {
 		fclose(f);
 	}
 	
-	dexPtr compiled = dex_compile(dex->buf, incl->buf);
+	dexPtr compiled = (arguments.vex ? vex_compile : dex_compile)(dex->buf, incl->buf);
 	if(compiled->error != NULL) {
 		fprintf(stderr, "%s\n", compiled->error);
 	 	exit(1);

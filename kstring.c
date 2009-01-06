@@ -4,7 +4,7 @@
 #include <stdarg.h>
 #include "kstring.h"
 #include "printbuf.h"
-#include "obstack.h"
+#include "dex_mem.h"
 #include "dexter.h"
 
 char* arepl(char* orig, char* old, char* new) {
