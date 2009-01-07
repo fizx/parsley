@@ -68,10 +68,6 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state)
 
 static struct argp argp = { options, parse_opt, args_doc, doc };
 
-void dex_error(char* msg){
-	fprintf(stderr, "%s\n", msg);
-}
-
 int main (int argc, char **argv) {
 	struct arguments arguments;
 	struct list_elem elem;

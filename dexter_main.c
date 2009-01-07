@@ -16,11 +16,6 @@
 #include <argp.h>
 #include "util.h"
 
-void dex_error(char* msg){
-	fprintf(stderr, "%s\n", msg);
-  exit(1);
-}
-
 struct arguments
 {
 	struct list_elem *include_files;
