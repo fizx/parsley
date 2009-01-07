@@ -2,7 +2,7 @@ AM_YFLAGS = -d
 BUILT_SOURCES=parser.h
 
 lib_LTLIBRARIES = libdexter.la
-libdexter_la_SOURCES = dex_mem.c xml2json.c regexp.c printbuf.c functions.c util.c kstring.c obstack.c scanner.l parser.y dexter.c vexter.c
+libdexter_la_SOURCES = dex_mem.c xml2json.c regexp.c printbuf.c functions.c util.c kstring.c obstack.c scanner.l parser.y dexter.c
 include_HEADERS = dexter.h obstack.h xml2json.h
 
 bin_PROGRAMS = dexterc dexter
@@ -29,6 +29,7 @@ port:
 
 check-am:
 	@echo "fictional..."; ./dexter test/fictional.dex test/fictional.html | diff test/fictional.json - && echo "    success."
+	@echo "fictional-opt..."; ./dexter test/fictional-opt.dex test/fictional-opt.html | diff test/fictional-opt.json - && echo "    success."
 	@echo "function-magic..."; ./dexter test/function-magic.dex test/function-magic.html | diff test/function-magic.json - && echo "    success."
 	@echo "malformed-expr..."; ./dexter test/malformed-expr.dex test/malformed-expr.html | diff test/malformed-expr.json - && echo "    success."
 	@echo "malformed-json..."; ./dexter test/malformed-json.dex test/malformed-json.html | diff test/malformed-json.json - && echo "    success."
@@ -39,4 +40,5 @@ check-am:
 	@echo "scope..."; ./dexter test/scope.dex test/scope.html | diff test/scope.json - && echo "    success."
 	@echo "test..."; ./dexter -x test/test.dex test/test.xml | diff test/test.json - && echo "    success."
 	@echo "yelp..."; ./dexter test/yelp.dex test/yelp.html | diff test/yelp.json - && echo "    success."
+	@echo "optional..."; ./dexter test/optional.dex test/optional.html | diff test/optional.json - && echo "    success."
 	

@@ -38,8 +38,8 @@ void registerEXSLT() {
 
 int dex_key_flags(char* key) {
   char* ptr = key;
-  char* last_alnum;
-  char* last_paren;
+  char* last_alnum = key;
+  char* last_paren = key;
   while(*ptr++ != '\0'){
     if(isalnum(*ptr)) {
       last_alnum = ptr;
@@ -47,7 +47,7 @@ int dex_key_flags(char* key) {
       last_paren = ptr;
     }
   }
-  ptr = (last_alnum > last_paren ? last_alnum : last_paren) + 1;
+  ptr = (last_alnum > last_paren ? last_alnum : last_paren);
   int flags = 0;
   while(*ptr++ != '\0'){
     switch(*ptr){

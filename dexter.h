@@ -45,6 +45,7 @@ typedef struct __dex_context {
 	char* magic;
 	int array;
 	int string;
+  int flags;
 } dex_context;
 
 typedef dex_context * contextPtr;
@@ -78,5 +79,7 @@ static char* filter_intersection(char*, char*);
 
 static char* inner_key_of(struct json_object *);
 static char* inner_key_each(struct json_object *);
+
+static void visit(dexPtr dex, xmlNodePtr xml, bool bubbling);
 	
 #endif
