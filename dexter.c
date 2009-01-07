@@ -25,6 +25,12 @@ int yywrap(void){
   return 1;
 }
 
+void parsed_dex_free(parsedDexPtr ptr) {
+  if(ptr->xml != NULL) xmlFree(ptr->xml);
+  if(ptr->error != NULL) free(ptr->error);
+  free(ptr);
+}
+
 xmlDocPtr dex_parse_file(dexPtr dex, char* file, boolean html) {
 	if(html) {
 		htmlParserCtxtPtr htmlCtxt = htmlNewParserCtxt();

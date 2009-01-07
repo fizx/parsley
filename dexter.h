@@ -22,7 +22,8 @@ typedef struct __compiled_dex {
 
 typedef struct __parsed_dex {
   xmlDocPtr xml;
-	char* error;
+	char *error;
+  compiled_dex *dex;
 } parsed_dex;
 
 typedef compiled_dex * dexPtr;
@@ -55,6 +56,8 @@ typedef struct __dex_context {
 } dex_context;
 
 typedef dex_context * contextPtr;
+
+void parsed_dex_free(parsedDexPtr);
 
 void dex_free(dexPtr);
 dexPtr dex_compile(char* dex, char* incl);
