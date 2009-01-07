@@ -61,9 +61,9 @@ void parsed_dex_free(parsedDexPtr);
 
 void dex_free(dexPtr);
 dexPtr dex_compile(char* dex, char* incl);
-xmlDocPtr dex_parse_file(dexPtr, char*, boolean);
-xmlDocPtr dex_parse_string(dexPtr, char*, size_t, boolean);
-xmlDocPtr dex_parse_doc(dexPtr, xmlDocPtr);
+parsedDexPtr dex_parse_file(dexPtr, char*, boolean);
+parsedDexPtr dex_parse_string(dexPtr, char*, size_t, boolean);
+parsedDexPtr dex_parse_doc(dexPtr, xmlDocPtr);
 
 enum {
    DEX_OPTIONAL    = 1,

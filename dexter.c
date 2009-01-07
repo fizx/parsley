@@ -31,7 +31,7 @@ void parsed_dex_free(parsedDexPtr ptr) {
   free(ptr);
 }
 
-xmlDocPtr dex_parse_file(dexPtr dex, char* file, boolean html) {
+parsedDexPtr dex_parse_file(dexPtr dex, char* file, boolean html) {
 	if(html) {
 		htmlParserCtxtPtr htmlCtxt = htmlNewParserCtxt();
   	htmlDocPtr html = htmlCtxtReadFile(htmlCtxt, file, NULL, HTML_PARSE_RECOVER | HTML_PARSE_NOERROR |HTML_PARSE_NOWARNING);
@@ -51,7 +51,7 @@ xmlDocPtr dex_parse_file(dexPtr dex, char* file, boolean html) {
 	}
 }
 
-xmlDocPtr dex_parse_string(dexPtr dex, char* string, size_t size, boolean html) {
+parsedDexPtr dex_parse_string(dexPtr dex, char* string, size_t size, boolean html) {
 	if(html) {
 		htmlParserCtxtPtr htmlCtxt = htmlNewParserCtxt();
   	htmlDocPtr html = htmlCtxtReadMemory(htmlCtxt, string, size, "http://kylemaxwell.com/dexter/memory", NULL, HTML_PARSE_RECOVER | HTML_PARSE_NOERROR |HTML_PARSE_NOWARNING);
@@ -129,14 +129,16 @@ visit(dexPtr dex, xmlNodePtr xml, bool bubbling) {
   }
 }
 
-xmlDocPtr dex_parse_doc(dexPtr dex, xmlDocPtr doc) {
-  xmlDocPtr xml = xsltApplyStylesheet(dex->stylesheet, doc, NULL);
-  if(xml != NULL) visit(dex, xml->children, false);
-  if(dex->error != NULL) {
-    xmlFree(xml);
-    xml = NULL;
-  }
-	return xml;
+parsedDexPtr dex_parse_doc(dexPtr dex, xmlDocPtr doc) {
+  parsedDexPtr ptr = (parsedDexPtr) calloc(sizeof(parsed_dex), 1);
+  ptr->dex = dex;
+  ptr->xml = xsltApplyStylesheet(dex->stylesheet, doc, NULL);
+  if(ptr->xml != NULL) visit(dex, ptr->xml->children, false);
+  // if(dex->error != NULL) {
+  //   xmlFree(xml);
+  //   xml = NULL;
+  // }
+	return ptr;
 }
 
 dexPtr dex_compile(char* dex_str, char* incl) {

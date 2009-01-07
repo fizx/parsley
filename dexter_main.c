@@ -118,16 +118,16 @@ int main (int argc, char **argv) {
 		
 	dexPtr compiled = dex_compile(buf->buf, incl->buf);
 	
-	xmlDocPtr xml = dex_parse_file(compiled, arguments.input_file, !(arguments.input_xml));
-	if(xml == NULL) {
-		fprintf(stderr, "Parsing failed: %s\n", compiled->error);
+	parsedDexPtr ptr = dex_parse_file(compiled, arguments.input_file, !(arguments.input_xml));
+	if(ptr->error != NULL) {
+		fprintf(stderr, "Parsing failed: %s\n", ptr->error);
 		exit(1);
 	}
 	
 	if(arguments.output_xml) {
-		xmlSaveFormatFile(arguments.output_file, xml, 1);	
+		xmlSaveFormatFile(arguments.output_file, ptr->xml, 1);	
 	} else {
-	  struct json_object *json = xml2json(xml->children->children);
+	  struct json_object *json = xml2json(ptr->xml->children->children);
 		FILE* f = dex_fopen(arguments.output_file, "w");
 	  fprintf(f, "%s\n", json_object_to_json_string(json));
 		fclose(f);
