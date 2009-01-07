@@ -20,7 +20,13 @@ typedef struct __compiled_dex {
 	char* error;
 } compiled_dex;
 
+typedef struct __parsed_dex {
+  xmlDocPtr xml;
+	char* error;
+} parsed_dex;
+
 typedef compiled_dex * dexPtr;
+typedef parsed_dex * parsedDexPtr;
 
 typedef struct __key_node {
 	char* name;
