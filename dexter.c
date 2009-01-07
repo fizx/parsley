@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <argp.h>
+#include <stdarg.h>
 #include <json/json.h>
 #include "kstring.h"
 #include "dexter.h"
@@ -34,7 +35,10 @@ void parsed_dex_free(parsedDexPtr ptr) {
 static parsedDexPtr parse_error(char* format, ...) {
   parsedDexPtr ptr = (parsedDexPtr) calloc(sizeof(parsed_dex), 1);
   ptr->xml = NULL;
-  ptr->error = strdup("ERR!");
+	va_list args;
+	va_start(args, format);
+  vasprintf(ptr->error, format, args);
+	va_end(args);
   return ptr;
 }
 
@@ -146,6 +150,7 @@ dexPtr dex_compile(char* dex_str, char* incl) {
 	struct json_object *json = json_tokener_parse(dex_str);
 	if(is_error(json)) {
 		dex->error = strdup("Your dex is not valid json.");
+		json_object_put(json); // frees json
 		return dex;
 	}
 
@@ -170,6 +175,7 @@ dexPtr dex_compile(char* dex_str, char* incl) {
 	if(dex->error == NULL) {
 		xmlParserCtxtPtr ctxt = xmlNewParserCtxt();
 		xmlDocPtr doc = xmlCtxtReadMemory(ctxt, buf->buf, buf->size, "http://kylemaxwell.com/dexter/compiled", NULL, 3);
+		xmlFreeParserCtxt(ctxt);
 		dex->raw_stylesheet = strdup(buf->buf);
 		dex->stylesheet = xsltParseStylesheetDoc(doc);
 	}
@@ -201,7 +207,6 @@ static contextPtr new_context(struct json_object * json, struct printbuf *buf) {
 }
 
 contextPtr deeper_context(contextPtr context, char* key, struct json_object * val) {
-	// printf("1\n");
 	contextPtr c = dex_alloc(sizeof(dex_context));
 	c->key_buf = context->key_buf;
 	c->keys = context->keys;
@@ -209,29 +214,19 @@ contextPtr deeper_context(contextPtr context, char* key, struct json_object * va
   c->flags = dex_key_flags(key);
 	c->name = astrcat3(context->name, ".", c->tag);
 	dex_parsing_context = c;
-	
-  // printf("%s %d\n", key, c->flags);
-	
-	// printf("4\n");
 	c->array = json_object_is_type(val, json_type_array);
 	c->json = c->array ? json_object_array_get_idx(val, 0) : val;
 	c->string = json_object_is_type(c->json, json_type_string);
 	c->filter = dex_key_filter(key);
-	
 	c->magic = ((c->filter == NULL) && c->array && !(c->string)) ? c->name : context->magic;
 	if(context->filter != NULL && !c->array) c->magic = NULL;
 	c->buf = context->buf;
-	// printf("%d\n", c->string);
 	c->raw_expr = c->string ? myparse(astrdup(json_object_get_string(c->json))) : NULL;
-	
-	// printf("5\n");
 	c->full_expr = full_expr(context, c->filter);
 	c->full_expr = full_expr(c, c->raw_expr);
-	
 	c->expr = filter_intersection(c->magic, c->raw_expr);
 	c->filter = filter_intersection(c->magic, c->filter);
 	c->parent = context;
-	// printf("2\n");
 	return c;
 }
 

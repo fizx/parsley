@@ -167,6 +167,7 @@ DexPy_parse_doc(parsedDexPtr ptr, char *type) {
 			return Py_None;
 		}
 	}
+	parsed_dex_free(ptr);
 	return output;
 }
 
