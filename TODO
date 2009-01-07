@@ -20,11 +20,12 @@
 # - join function?!?!
 # - check linux build
 # - python
+# - complain if empty / runtime no-match errors
 - memory leaks
-- complain if empty / runtime no-match errors
 
 --------- release --------
 
+- no-prune
 - force group key !
 - debugging options
 - fix not()/set-difference
