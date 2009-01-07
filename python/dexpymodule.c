@@ -141,30 +141,27 @@ pythonize_recurse(xmlNodePtr xml) {
 }
 
 static PyObject *
-DexPy_parse_doc(dexPtr dex, xmlDocPtr xml, char *type) {
-	if(xml == NULL) {
-		if(dex->error == NULL) {
-			dex->error = strdup("Unknown dex error");
-		}
-		PyErr_SetString(PyExc_RuntimeError, dex->error);
-		free(dex->error);
-		dex->error = NULL;
+DexPy_parse_doc(parsedDexPtr ptr, char *type) {
+	if(ptr->error != NULL || ptr->xml == NULL) {
+		if(ptr->error == NULL) ptr->error = strdup("Unknown dex error");
+		PyErr_SetString(PyExc_RuntimeError, ptr->error);
+    parsed_dex_free(ptr);
 		return NULL;
 	}
 	
  	PyObject *output;
 	if(!strcmp(type, "json")) {
-		struct json_object *json = xml2json(xml->children->children);
+		struct json_object *json = xml2json(ptr->xml->children->children);
 		char* str = json_object_to_json_string(json);
 		output = Py_BuildValue("s", str);
 		json_object_put(json);
 	} else if(!strcmp(type, "xml")) {
 		char* str;
 		int size;
-		xmlDocDumpMemory(xml, &str, &size);
+		xmlDocDumpMemory(ptr->xml, &str, &size);
 		output = Py_BuildValue("s", str);
 	} else {
- 		output = pythonize_recurse(xml->children->children);
+ 		output = pythonize_recurse(ptr->xml->children->children);
 		if(output == NULL){
 			Py_INCREF(Py_None);
 			return Py_None;
@@ -181,7 +178,7 @@ DexPy_parse(DexPy *self, PyObject *args, PyObject *keywords)
 	char *input = "html";
 	char *output = "python";
 	int len;
-	xmlDocPtr xml;
+	parsedDexPtr ptr;
 	
 	static char * list[] = { "file", "string", "input", "output", NULL };
 	
@@ -196,12 +193,12 @@ DexPy_parse(DexPy *self, PyObject *args, PyObject *keywords)
 	}
 	
 	if(file != NULL) {
-		xml = dex_parse_file(self->dex, file, !strcmp(input, "html"));
+		ptr = dex_parse_file(self->dex, file, !strcmp(input, "html"));
 	} else {
-		xml = dex_parse_string(self->dex, string, len, !strcmp(input, "html"));
+		ptr = dex_parse_string(self->dex, string, len, !strcmp(input, "html"));
 	}	
 	
-	return DexPy_parse_doc(self->dex, xml, output);
+	return DexPy_parse_doc(ptr, output);
 }
 
 

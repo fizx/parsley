@@ -1,13 +1,17 @@
 require File.dirname(__FILE__) + "/../ext/cdexter"
 require "rubygems"
 require "json"
+require "thread"
 
 class Dexterous
   def initialize(dex, incl = "")
     if(dex.is_a?(Hash))
       dex = dex.to_json 
     end
-    @dex = CDexter.new(dex, incl)
+    @@mutex ||= Mutex.new
+    @@mutex.synchronize do
+      @dex = CDexter.new(dex, incl)
+    end
   end
   
   # Valid options:

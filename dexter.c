@@ -31,46 +31,42 @@ void parsed_dex_free(parsedDexPtr ptr) {
   free(ptr);
 }
 
-parsedDexPtr dex_parse_file(dexPtr dex, char* file, boolean html) {
+static parsedDexPtr parse_error(char* format, ...) {
+  parsedDexPtr ptr = (parsedDexPtr) calloc(sizeof(parsed_dex), 1);
+  ptr->xml = NULL;
+  ptr->error = strdup("ERR!");
+  return ptr;
+}
+
+parsedDexPtr dex_parse_file(dexPtr dex, char* file, bool html) {
 	if(html) {
 		htmlParserCtxtPtr htmlCtxt = htmlNewParserCtxt();
   	htmlDocPtr html = htmlCtxtReadFile(htmlCtxt, file, NULL, HTML_PARSE_RECOVER | HTML_PARSE_NOERROR |HTML_PARSE_NOWARNING);
-		if(html == NULL) {
-			asprintf(&dex->error, "Couldn't parse file: %s\n", file);
-			return NULL;
-		}
+    htmlFreeParserCtxt(htmlCtxt);
+    if(html == NULL) return parse_error("Couldn't parse file: %s\n", file);
 		return dex_parse_doc(dex, html);
 	} else {
 		xmlParserCtxtPtr ctxt = xmlNewParserCtxt();
 		xmlDocPtr xml = xmlCtxtReadFile(ctxt, file, NULL, HTML_PARSE_RECOVER | HTML_PARSE_NOERROR |HTML_PARSE_NOWARNING);
-		if(xml == NULL) {
-			asprintf(&dex->error, "Couldn't parse file: %s\n", file);
-			return NULL;
-		}
+		xmlFreeParserCtxt(ctxt);
+		if(xml == NULL) return parse_error("Couldn't parse file: %s\n", file);
 		return dex_parse_doc(dex, xml);
 	}
 }
 
-parsedDexPtr dex_parse_string(dexPtr dex, char* string, size_t size, boolean html) {
+parsedDexPtr dex_parse_string(dexPtr dex, char* string, size_t size, bool html) {
 	if(html) {
 		htmlParserCtxtPtr htmlCtxt = htmlNewParserCtxt();
   	htmlDocPtr html = htmlCtxtReadMemory(htmlCtxt, string, size, "http://kylemaxwell.com/dexter/memory", NULL, HTML_PARSE_RECOVER | HTML_PARSE_NOERROR |HTML_PARSE_NOWARNING);
-		if(html == NULL) {
-			asprintf(&dex->error, "Couldn't parse string\n");
-			return NULL;
-		}
+    if(html == NULL) return parse_error("Couldn't parse string");
 		return dex_parse_doc(dex, html);
 	} else {
 		xmlParserCtxtPtr ctxt = xmlNewParserCtxt();
  		xmlDocPtr xml = xmlCtxtReadMemory(ctxt, string, size, "http://kylemaxwell.com/dexter/memory", NULL, HTML_PARSE_RECOVER | HTML_PARSE_NOERROR |HTML_PARSE_NOWARNING);
-		if(xml == NULL) {
-			asprintf(&dex->error, "Couldn't parse string\n");
-			return NULL;
-		}
+		if(xml == NULL) return parse_error("Couldn't parse string");
 		return dex_parse_doc(dex, xml);
 	}
 }
-
 
 static char *
 xpath_of(xmlNodePtr node) {
@@ -100,31 +96,31 @@ unlink(xmlNodePtr xml) {
 }
 
 static void 
-prune(dexPtr dex, xmlNodePtr xml, char* err) {   
+prune(parsedDexPtr ptr, xmlNodePtr xml, char* err) {   
   bool optional = ((xmlElementPtr )xml)->attributes != NULL;
   if(optional) {
     unlink(xml);
-    visit(dex, xml->parent, true);
+    visit(ptr, xml->parent, true);
     return;
   } else {
     if(err == NULL) asprintf(&err, "%s was empty", xpath_of(xml));
     if(xml->parent != xml->doc->children) {
-      prune(dex, xml->parent, err);
+      prune(ptr, xml->parent, err);
     } else {
-      dex->error = err;
+      ptr->error = err;
     }
   }
 }
 
 static void
-visit(dexPtr dex, xmlNodePtr xml, bool bubbling) { 
+visit(parsedDexPtr ptr, xmlNodePtr xml, bool bubbling) { 
   if(xml->type != XML_ELEMENT_NODE) return;
   xmlNodePtr child = xml->children;
   xmlNodePtr parent = xml->parent;
   if(parent == NULL) return;
-  if(child == NULL) prune(dex, xml, NULL);
+  if(child == NULL) prune(ptr, xml, NULL);
   while(!bubbling && child != NULL){
-    visit(dex, child, bubbling);
+    visit(ptr, child, bubbling);
     child = child->next;
   }
 }
@@ -133,11 +129,7 @@ parsedDexPtr dex_parse_doc(dexPtr dex, xmlDocPtr doc) {
   parsedDexPtr ptr = (parsedDexPtr) calloc(sizeof(parsed_dex), 1);
   ptr->dex = dex;
   ptr->xml = xsltApplyStylesheet(dex->stylesheet, doc, NULL);
-  if(ptr->xml != NULL) visit(dex, ptr->xml->children, false);
-  // if(dex->error != NULL) {
-  //   xmlFree(xml);
-  //   xml = NULL;
-  // }
+  if(ptr->xml != NULL && ptr->error == NULL) visit(ptr, ptr->xml->children, false);
 	return ptr;
 }
 

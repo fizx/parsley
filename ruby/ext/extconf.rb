@@ -55,7 +55,13 @@ else
   version = try_constant('LIBXML_VERSION', 'libxml/xmlversion.h')
 end
 
-have_header('dexter.h')
-have_library('dexter', 'dex_compile')
+myincl = %w[/usr/local/include /opt/local/include /usr/include]
+mylib = %w[/usr/local/lib /opt/local/lib /usr/lib]
+
+find_header('json/json.h', INCLUDEDIR, *myincl) or abort "need json/json.h"
+find_library('json', 'json_object_new_string', LIBDIR, *mylib) or abort "need libjson"
+
+find_header('dexter.h', INCLUDEDIR, *myincl) or abort "need dexter.h"
+find_library('dexter', 'dex_compile', LIBDIR, *mylib) or abort "need libdexter"
 
 create_makefile('cdexter')

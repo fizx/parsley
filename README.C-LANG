@@ -10,6 +10,11 @@ You will also need passing familiarity with libxml2 and json-c to print, manipul
 From dexter.h
 =============
 
+parsedDexPtr -- a struct that contains the following elements:
+  - xmlDocPtr xml -- the output of a dex document parse, as a libxml2 document
+	- char *error -- an error message, or NULL if no error
+  - compiled_dex *dex -- reference to the dex that did the parsing
+
 dexPtr dex_compile(char* dex, char* incl)
 
 	Arguments:
@@ -26,8 +31,12 @@ dexPtr dex_compile(char* dex, char* incl)
 void dex_free(dexPtr);
 
 	Frees the dexPtr's memory.
+	
+void parsed_dex_free(parsedDexPtr);
 
-xmlDocPtr dex_parse_file(dexPtr dex, char* file_name, boolean html);
+  Frees the parsedDexPtr's memory.
+
+parsedDexPtr dex_parse_file(dexPtr dex, char* file_name, boolean html);
 
 	Arguments:
 	- dexPtr dex -- Compiled dex struct
@@ -39,12 +48,12 @@ xmlDocPtr dex_parse_file(dexPtr dex, char* file_name, boolean html);
 	like xmlSaveFormatFile().  If you want json output, look below for xml2json 
 	docs.  
 
-xmlDocPtr dex_parse_string(dexPtr dex, char* string, size_t len, boolean html);
+parsedDexPtr dex_parse_string(dexPtr dex, char* string, size_t len, boolean html);
 
 	Parses the in-memory string/length combination given.  See dex_parse_file 
 	docs.
 	
-xmlDocPtr dex_parse_doc(dexPtr dex, xmlDocPtr doc);
+parsedDexPtr dex_parse_doc(dexPtr dex, xmlDocPtr doc);
 
 	Uses the dex parser to parse a libxml2 document.  
 

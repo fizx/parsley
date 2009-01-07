@@ -14,7 +14,7 @@
 VALUE _new(VALUE, VALUE, VALUE);
 VALUE _parse_file(VALUE, VALUE, VALUE, VALUE);
 VALUE _parse_string(VALUE, VALUE, VALUE, VALUE);
-VALUE _parse_doc(dexPtr, xmlDocPtr, VALUE);
+VALUE _parse_doc(parsedDexPtr, VALUE);
 VALUE rubify_recurse(xmlNodePtr xml);
 VALUE c_dex_err;
 VALUE c_dex;
@@ -30,46 +30,53 @@ void Init_cdexter()
 
 VALUE _new(VALUE self, VALUE dex, VALUE incl){
 	dexPtr ptr = dex_compile(STR2CSTR(dex), STR2CSTR(incl));
+	if(ptr->error != NULL) {
+	  rb_raise(c_dex_err, ptr->error);
+    dex_free(ptr);
+    return Qnil;
+	}
  	return Data_Wrap_Struct(c_dex, 0, dex_free, ptr);
 }
 
 VALUE _parse_file(VALUE self, VALUE name, VALUE input, VALUE output){
 	dexPtr dex;
 	Data_Get_Struct(self, dexPtr, dex);
-	return _parse_doc(dex, dex_parse_file(dex, STR2CSTR(name), input == ID2SYM(rb_intern("html"))), output);
+	return _parse_doc(dex_parse_file(dex, STR2CSTR(name), input == ID2SYM(rb_intern("html"))), output);
 }
 
 VALUE _parse_string(VALUE self, VALUE string, VALUE input, VALUE output) {
 	dexPtr dex;
 	Data_Get_Struct(self, dexPtr, dex);
 	char* cstr = STR2CSTR(string);
-	return _parse_doc(dex, dex_parse_string(dex, cstr, strlen(string), input == ID2SYM(rb_intern("html"))), output);
+	return _parse_doc(dex_parse_string(dex, cstr, strlen(string), input == ID2SYM(rb_intern("html"))), output);
 }
 
-VALUE _parse_doc(dexPtr dex, xmlDocPtr xml, VALUE type) {
-	if(xml == NULL) {
-		rb_raise(c_dex_err, dex->error);
-		free(dex->error);
-		dex->error = NULL;
+VALUE _parse_doc(parsedDexPtr ptr, VALUE type) {
+	if(ptr->error != NULL || ptr->xml == NULL) {
+    if(ptr->error == NULL) ptr->error = strdup("Unknown dex error");
+		rb_raise(c_dex_err, ptr->error);
+    parsed_dex_free(ptr);
 		return Qnil;
 	}
 	
 	VALUE output;
 	if(type == ID2SYM(rb_intern("json"))) {
-		struct json_object *json = xml2json(xml->children->children);
+		struct json_object *json = xml2json(ptr->xml->children->children);
 		char* str = json_object_to_json_string(json);
 		output = rb_str_new2(str);
 		json_object_put(json);
 	} else if(type == ID2SYM(rb_intern("xml"))) {
 		char* str;
 		int size;
-		xmlDocDumpMemory(xml, &str, &size);
+		xmlDocDumpMemory(ptr->xml, &str, &size);
 		output = rb_str_new(str, size);
-		// free(str);
 	} else {
- 		output = rubify_recurse(xml->children->children);
+ 		output = rubify_recurse(ptr->xml->children->children);
 		if(output == NULL) output = Qnil; 
 	}
+	
+  parsed_dex_free(ptr);
+  
 	return output;
 }
 

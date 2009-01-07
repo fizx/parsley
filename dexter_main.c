@@ -117,6 +117,10 @@ int main (int argc, char **argv) {
 	}
 		
 	dexPtr compiled = dex_compile(buf->buf, incl->buf);
+	if(compiled->error != NULL) {
+		fprintf(stderr, "%s\n", compiled->error);
+		exit(1);
+	}
 	
 	parsedDexPtr ptr = dex_parse_file(compiled, arguments.input_file, !(arguments.input_xml));
 	if(ptr->error != NULL) {

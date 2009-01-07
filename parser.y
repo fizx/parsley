@@ -230,8 +230,8 @@ PrimaryExpr
 	
 FunctionCall
   : FunctionName LPAREN Arguments RPAREN		{ $$ = astrcat4(xpath_alias($1), $2, $3, $4); }
-	| FunctionName LPAREN Arguments						{ yyerror("unclosed parenthesis"); }
-	| FunctionName LPAREN Arguments RPAREN RPAREN { yyerror("too many parenthesis"); }
+	| FunctionName LPAREN Arguments						{ yyerror("Unclosed parenthesis"); }
+	| FunctionName LPAREN Arguments RPAREN RPAREN { yyerror("Too many parenthesis"); }
 	;
 Arguments
 	: ArgumentSet

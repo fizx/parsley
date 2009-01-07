@@ -61,8 +61,8 @@ void parsed_dex_free(parsedDexPtr);
 
 void dex_free(dexPtr);
 dexPtr dex_compile(char* dex, char* incl);
-parsedDexPtr dex_parse_file(dexPtr, char*, boolean);
-parsedDexPtr dex_parse_string(dexPtr, char*, size_t, boolean);
+parsedDexPtr dex_parse_file(dexPtr, char*, bool);
+parsedDexPtr dex_parse_string(dexPtr, char*, size_t, bool);
 parsedDexPtr dex_parse_doc(dexPtr, xmlDocPtr);
 
 enum {
@@ -89,6 +89,6 @@ static char* filter_intersection(char*, char*);
 static char* inner_key_of(struct json_object *);
 static char* inner_key_each(struct json_object *);
 
-static void visit(dexPtr dex, xmlNodePtr xml, bool bubbling);
+static void visit(parsedDexPtr ptr, xmlNodePtr xml, bool bubbling);
 	
 #endif
