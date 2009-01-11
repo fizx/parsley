@@ -1,0 +1,31 @@
+Abstract
+================================================================
+A common programming task is data extraction from xml and html documents.  I introduce dex, an embedded language (ala SQL, regular expressions) that improves the usability and/or speed of current extraction techniques.
+
+Introduction
+================================================================
+
+- current techniques
+- benefits of standardization
+- best of current
+
+Features
+================================================================
+- integrated grammars
+  - with some expression examples
+- multiple elements, one pass / context switching
+- exslt / standard library
+- pruning
+- language integration
+- structural parsing
+
+Examples
+- Ruby/python/json
+- structural parse
+- 
+
+Benchmarks
+- size comparision with XSLT
+- speed comparision with nokogiri, hpricot
+
+Conclusion
