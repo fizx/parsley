@@ -565,6 +565,8 @@ void init_xpath_alias() {
 	xmlHashAddEntry(alias_hash, "match", "regexp:match");
 	xmlHashAddEntry(alias_hash, "replace", "regexp:replace");
 	xmlHashAddEntry(alias_hash, "test", "regexp:test");
+	xmlHashAddEntry(alias_hash, "with-newlines", "dex:nl");
+	
 }
 
 char* myparse(char* string){

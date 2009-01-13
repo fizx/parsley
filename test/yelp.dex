@@ -6,53 +6,7 @@
     {
       "date": ".ieSucks .smaller",
       "user_name": ".reviewer_info a",
-      "comment": "dex:nl(.review_comment)"
-    }
-  ]
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-{
-  "name": "test(., '.{2,}')",
-  "phone": "test(., '\\(\\d+\\) \\d+\\-\\d+')",
-  "address": "test(. ,'Neighborhoods')",
-  "reviews(count(.//dexter:group) > 0)": [
-    {
-      "date": "test(., '\\d+/\\d+/\\d+')",
-      "user_name": "test(., .{5,})",
-      "comment": "true()"
+      "comment": "with-newlines(.review_comment)"
     }
   ]
 }
