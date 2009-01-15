@@ -1,3 +1,5 @@
+<a name="start-readme"></a>
+
 ### Overview
 
 Dexter is a simple language for data-extraction from XML-like documents (including HTML).  Dexter is:
