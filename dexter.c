@@ -37,7 +37,7 @@ static parsedDexPtr parse_error(char* format, ...) {
   ptr->xml = NULL;
 	va_list args;
 	va_start(args, format);
-  vasprintf(ptr->error, format, args);
+  vasprintf(&ptr->error, format, args);
 	va_end(args);
   return ptr;
 }
