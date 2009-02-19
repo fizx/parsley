@@ -11,6 +11,11 @@ class TestDexterous < Test::Unit::TestCase
     assert_equal({"hi" => "Nick's Crispy Tacos"}, @dex.parse(:file => @file))
   end
   
+  def test_simple_string
+    @dex = Dexterous.new("hi" => "h1")
+    assert_equal({"hi" => "Nick's Crispy Tacos"}, @dex.parse(:string => "<html><body><h1>Nick's Crispy Tacos</h1></body></html>"))
+  end  
+  
   def test_xml
     @dex = Dexterous.new("hi" => "h1")
     xml = "<?xml version=\"1.0\"?>\n<dexter:root xmlns:dexter=\"http://kylemaxwell.com/dexter\"><hi>Nick's Crispy Tacos</hi></dexter:root>\n"

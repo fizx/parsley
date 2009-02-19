@@ -48,7 +48,7 @@ VALUE _parse_string(VALUE self, VALUE string, VALUE input, VALUE output) {
 	dexPtr dex;
 	Data_Get_Struct(self, dexPtr, dex);
 	char* cstr = STR2CSTR(string);
-	return _parse_doc(dex_parse_string(dex, cstr, strlen(string), input == ID2SYM(rb_intern("html"))), output);
+	return _parse_doc(dex_parse_string(dex, cstr, strlen(cstr), input == ID2SYM(rb_intern("html"))), output);
 }
 
 VALUE _parse_doc(parsedDexPtr ptr, VALUE type) {
