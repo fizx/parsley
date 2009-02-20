@@ -409,9 +409,14 @@ NCName
 	;
 
 selectors_group
-	: selector COMMA OptS selectors_group		{ $$ = astrcat4(".//", $1, "|", $4); }
-	| selector 	{ $$ = astrcat(".//", $1); }
+	: attribute_extended_selector COMMA OptS selectors_group		{ $$ = astrcat4(".//", $1, "|", $4); }
+	| attribute_extended_selector 	{ $$ = astrcat(".//", $1); }
   ;
+
+attribute_extended_selector
+	: selector
+	| selector S AT NAME	{ $$ = astrcat3($1, "/@", $4); }
+	;
 
 selector
   : simple_selector_sequence combinator selector						{ $$ = astrcat3($1, $2, $3); }

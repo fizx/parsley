@@ -33,6 +33,7 @@ check-am:
 	@echo "function-magic..."; ./dexter test/function-magic.dex test/function-magic.html | diff test/function-magic.json - && echo "    success."
 	@echo "malformed-expr..."; ./dexter test/malformed-expr.dex test/malformed-expr.html | diff test/malformed-expr.json - && echo "    success."
 	@echo "malformed-json..."; ./dexter test/malformed-json.dex test/malformed-json.html | diff test/malformed-json.json - && echo "    success."
+	@echo "css_attr..."; ./dexter -x test/css_attr.dex test/css_attr.html | diff test/css_attr.json - && echo "    success."
 	@echo "match..."; ./dexter -x test/match.dex test/match.xml | diff test/match.json - && echo "    success."
 	@echo "position..."; ./dexter test/position.dex test/position.html | diff test/position.json - && echo "    success."
 	@echo "remote..."; ./dexter test/remote.dex test/remote.html | diff test/remote.json - && echo "    success."
