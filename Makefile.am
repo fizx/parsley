@@ -13,6 +13,9 @@ dexterc_LDADD = libdexter.la
 dexter_SOURCES = dexter_main.c
 dexter_LDADD = libdexter.la
 
+bisect:
+	./bootstrap.sh && ./configure && make clean && make check
+
 port:
 	make clean
 	rm -rf /tmp/dexter-`cat VERSION`
