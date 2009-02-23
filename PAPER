@@ -5,6 +5,10 @@ A common programming task is data extraction from xml and html documents.  I int
 Introduction
 ================================================================
 
+Today, developers use a couple toolsets to do data extraction.  Many developers use libraries like Hpricot for Ruby and Beautiful Soup for Python.  These libraries allow extraction of xml subtrees via XPath or CSS selectors.  These subtrees are futher refined using the scripting language, often with the help of regular expressions.
+
+Other developers use XSLT.  While fast, mature, and conceptually elegant, XSLT
+
 - current techniques
 - benefits of standardization
 - best of current
@@ -15,8 +19,9 @@ Features
   - with some expression examples
 - multiple elements, one pass / context switching
 - exslt / standard library
-- pruning
+- json
 - language integration
+- pruning
 - structural parsing
 
 Examples

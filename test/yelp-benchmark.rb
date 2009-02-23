@@ -5,12 +5,14 @@ require "dexterous"
 require "benchmark"
 require "pp"
 
+YELP_HTML = File.dirname(__FILE__) + "/yelp.html"
+
 def noko
-  parse Nokogiri.Hpricot(File.open("yelp.html"))
+  parse Nokogiri.Hpricot(File.open(YELP_HTML))
 end
 
 def hpri
-  parse Hpricot(File.open("yelp.html"))  
+  parse Hpricot(File.open(YELP_HTML))  
 end
 
 def parse(doc)
@@ -40,7 +42,7 @@ def dext
       }
     ]
   })
-  dex.parse(:file => "yelp.html")
+  dex.parse(:file => YELP_HTML)
 end
 
 Benchmark.bm do |x|
