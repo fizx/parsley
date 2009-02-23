@@ -122,11 +122,22 @@ visit(parsedDexPtr ptr, xmlNodePtr xml, bool bubbling) {
   xmlNodePtr child = xml->children;
   xmlNodePtr parent = xml->parent;
   if(parent == NULL) return;
-  if(child == NULL) prune(ptr, xml, NULL);
+  if(xml_empty(xml)) prune(ptr, xml, NULL);
   while(!bubbling && child != NULL){
     visit(ptr, child, bubbling);
     child = child->next;
   }
+}
+
+static bool
+xml_empty(xmlNodePtr xml) {  
+  xmlNodePtr child = xml->children;
+  while(child != NULL) {
+    if(child->type != XML_TEXT_NODE) return false;
+    if(strlen(child->content)) return false;
+    child = child->next;
+  }
+  return true;
 }
 
 parsedDexPtr dex_parse_doc(dexPtr dex, xmlDocPtr doc) {
