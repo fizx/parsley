@@ -150,7 +150,7 @@ dexPtr dex_compile(char* dex_str, char* incl) {
 	struct json_object *json = json_tokener_parse(dex_str);
 	if(is_error(json)) {
 		dex->error = strdup("Your dex is not valid json.");
-		json_object_put(json); // frees json
+    // json_object_put(json); // frees json
 		return dex;
 	}
 
