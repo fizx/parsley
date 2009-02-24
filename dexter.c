@@ -101,6 +101,7 @@ unlink(xmlNodePtr xml) {
 
 static void 
 prune(parsedDexPtr ptr, xmlNodePtr xml, char* err) {   
+	if(xml == NULL) return;
   bool optional = ((xmlElementPtr )xml)->attributes != NULL;
   if(optional) {
     unlink(xml);
