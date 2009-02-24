@@ -99,6 +99,11 @@ unlink(xmlNodePtr xml) {
   }
 }
 
+static bool 
+is_root(xmlElementPtr xml) {
+	return xml != NULL && xml->name != NULL && xml->prefix !=NULL && !strcmp(xml->name, "root") && !strcmp(xml->prefix, "dexter");
+}
+
 static void 
 prune(parsedDexPtr ptr, xmlNodePtr xml, char* err) {   
 	if(xml == NULL) return;

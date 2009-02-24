@@ -3,10 +3,7 @@
 #include "xml2json.h"
 #include <string.h>
 
-/**
- * Handles a simplified xml
- */
-struct json_object * xml2json(xmlNodePtr xml) {
+static struct json_object * _xml2json(xmlNodePtr xml) {
   if(xml == NULL) return NULL;
   
   xmlNodePtr child;
@@ -39,4 +36,13 @@ struct json_object * xml2json(xmlNodePtr xml) {
       break;
   }
   return json;
+}
+
+/**
+ * Handles a simplified xml
+ */
+struct json_object * xml2json(xmlNodePtr xml) {
+	struct json_object * json = _xml2json(xml);
+	if(json == NULL) json = json_object_new_object();
+	return json;
 }
