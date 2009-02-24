@@ -1,7 +1,7 @@
 {
   "row(tr)": [
     {
-      "class": "str:replace(td:nth-child(1), 'w', 'W')",
+      "class": "sfdsadsfd:rfsdaeplace(td:nth-child(1), 'w', 'W')",
       "default": "td:nth-child(3)"
     }
   ]
