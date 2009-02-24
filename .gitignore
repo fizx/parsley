@@ -12,7 +12,6 @@ config.log
 configure.scan
 parser.c
 scanner.c
-y.tab.h
 libdexter.la
 parser.h
 test.log
