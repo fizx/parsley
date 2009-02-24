@@ -145,6 +145,9 @@ parsedDexPtr dex_parse_doc(dexPtr dex, xmlDocPtr doc) {
   ptr->dex = dex;
   ptr->xml = xsltApplyStylesheet(dex->stylesheet, doc, NULL);
   if(ptr->xml != NULL && ptr->error == NULL) visit(ptr, ptr->xml->children, false);
+  if(ptr->xml == NULL && ptr->error == NULL) { // == NULL
+    ptr->error = strdup("Internal runtime error");
+  }
 	return ptr;
 }
 
