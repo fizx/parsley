@@ -46,4 +46,5 @@ check-am:
 	@echo "yelp..."; ./dexter test/yelp.dex test/yelp.html | diff test/yelp.json - && echo "    success."
 	@echo "optional..."; ./dexter test/optional.dex test/optional.html | diff test/optional.json - && echo "    success."
 	@echo "malformed-function..."; ./dexter test/malformed-function.dex test/malformed-function.html | diff test/malformed-function.json - && echo "    success."
+	@echo "empty..."; ./dexter test/empty.dex test/empty.html | diff test/empty.json - && echo "    success."
 	
