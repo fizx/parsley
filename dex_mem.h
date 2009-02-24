@@ -6,4 +6,8 @@
 
 #include "obstack.h"
 
+void dex_collect();
+void * dex_alloc(int size);
+
+
 #endif
