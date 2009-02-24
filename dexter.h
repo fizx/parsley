@@ -90,5 +90,6 @@ static char* inner_key_of(struct json_object *);
 static char* inner_key_each(struct json_object *);
 
 static void visit(parsedDexPtr ptr, xmlNodePtr xml, bool bubbling);
+static bool xml_empty(xmlNodePtr xml);
 	
 #endif

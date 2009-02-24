@@ -123,6 +123,7 @@ int main (int argc, char **argv) {
 	}
 	
 	parsedDexPtr ptr = dex_parse_file(compiled, arguments.input_file, !(arguments.input_xml));
+	
 	if(ptr->error != NULL) {
 		fprintf(stderr, "Parsing failed: %s\n", ptr->error);
 		exit(1);
