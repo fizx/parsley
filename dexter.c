@@ -223,6 +223,7 @@ static contextPtr new_context(struct json_object * json, struct printbuf *buf) {
 	c->string = 0;
 	c->flags = 0;
 	c->keys = NULL;
+  c->zipped = 0;
 	return c;
 }
 
@@ -280,6 +281,14 @@ static char* optional(contextPtr c) {
   return (c->flags & DEX_OPTIONAL) ? " optional=\"true\"" : "";
 }
 
+static bool 
+all_strings(struct json_object * json) {  
+	json_object_object_foreach(json, key, val) {
+    if(!json_object_is_type(val, json_type_string)) return false;
+  }
+  return true;
+}
+
 void __dex_recurse(contextPtr context) {
 	// printf("a\n");
 	char* tmp;
@@ -290,79 +299,89 @@ void __dex_recurse(contextPtr context) {
 		c = deeper_context(context, key, val);
 		sprintbuf(c->buf, "<%s%s>\n", c->tag, optional(c));	
 		if(c->string) {
-			if(c->array) {
+			if(c->array || context->zipped) {
 				if(c->filter){
+      	  // printf("b\n");
 					sprintbuf(c->buf, "<dexter:groups optional=\"true\"><xsl:for-each select=\"%s\"><dexter:group optional=\"true\">\n", c->filter);	
 					sprintbuf(c->buf, "<xsl:value-of select=\"%s\" />\n", c->raw_expr);
 					sprintbuf(c->buf, "</dexter:group></xsl:for-each></dexter:groups>\n");
 				} else {
+        	// printf("c\n");
 					sprintbuf(c->buf, "<dexter:groups optional=\"true\"><xsl:for-each select=\"%s\"><dexter:group optional=\"true\">\n", c->expr);	
 					sprintbuf(c->buf, "<xsl:value-of select=\".\" />\n");
 					sprintbuf(c->buf, "</dexter:group></xsl:for-each></dexter:groups>\n");
 				}
 			} else {
 				if(c->filter){
+      	  // printf("d\n");
 					sprintbuf(c->buf, "<xsl:for-each select=\"%s\"><xsl:if test=\"position()=1\">\n", c->filter);	
 					sprintbuf(c->buf, "<xsl:value-of select=\"%s\" />\n", c->raw_expr);
 					sprintbuf(c->buf, "</xsl:if></xsl:for-each>\n");
 				} else {
+        	// printf("e\n");
 					sprintbuf(c->buf, "<xsl:value-of select=\"%s\" />\n", c->expr);
 				}
 			} 
 		} else { // if c->object !string
 			if(c->array) {		// scoped
-
 				if(c->filter != NULL) {
-					
-					// printf("e\n");
+        	// printf("f\n");
 					sprintbuf(c->buf, "<dexter:groups optional=\"true\"><xsl:for-each select=\"%s\"><dexter:group optional=\"true\">\n", c->filter);	
 					__dex_recurse(c);
 					sprintbuf(c->buf, "</dexter:group></xsl:for-each></dexter:groups>\n");
-				} else {				// magic	
-					
-					// printf("f\n");
-					sprintbuf(c->buf, "<xsl:variable name=\"%s__context\" select=\".\"/>\n", c->name);
-					dex_parsing_context = c;
-          char * str = inner_key_of(c->json);
-					if(str != NULL) {
-  					tmp = myparse(astrdup(str));
-					  sprintbuf(c->buf, "<dexter:groups optional=\"true\"><xsl:for-each select=\"%s\">\n", filter_intersection(context->magic, tmp));	
+				} else {				// magic	  
+					if(all_strings(c->json)) {
+            c->magic = NULL;
+            c->zipped = 1;
+  					sprintbuf(c->buf, "<dexter:zipped>\n");
+            __dex_recurse(c);
+  					sprintbuf(c->buf, "</dexter:zipped>\n");
+					} else {
+  				  // printf("h\n");
+  					sprintbuf(c->buf, "<xsl:variable name=\"%s__context\" select=\".\"/>\n", c->name);
+  					dex_parsing_context = c;
+            char * str = inner_key_of(c->json);
+  					if(str != NULL) {
+    				  // printf("i\n");
+    					tmp = myparse(astrdup(str));
+  					  sprintbuf(c->buf, "<dexter:groups optional=\"true\"><xsl:for-each select=\"%s\">\n", filter_intersection(context->magic, tmp));	
 
-  					// keys
-  					keys = dex_alloc(sizeof(key_node));
-  					keys->name = c->name;
-  					keys->use = full_expr(c, tmp);
-  					keys->next = c->keys;
-  					c->keys = keys;
+    					// keys
+    					keys = dex_alloc(sizeof(key_node));
+    					keys->name = c->name;
+    					keys->use = full_expr(c, tmp);
+    					keys->next = c->keys;
+    					c->keys = keys;
 					
-  					buf = printbuf_new();
+    					buf = printbuf_new();
 					
-  					sprintbuf(buf, "concat(");
-  					while(keys != NULL){
-  						sprintbuf(buf, "count(set:intersection(following::*, %s)), '-',", keys->use);
-  						keys = keys->next;
-  					}
-  					sprintbuf(buf, "'')");
-  					tmp = astrdup(buf->buf);
-  					printbuf_free(buf);
+    					sprintbuf(buf, "concat(");
+    					while(keys != NULL){
+    						sprintbuf(buf, "count(set:intersection(following::*, %s)), '-',", keys->use);
+    						keys = keys->next;
+    					}
+    					sprintbuf(buf, "'')");
+    					tmp = astrdup(buf->buf);
+    					printbuf_free(buf);
 					
-  					sprintbuf(c->key_buf, "<xsl:key name=\"%s__key\" match=\"%s\" use=\"%s\"/>\n", c->name, 
-  						full_expr(c, "./descendant-or-self::*"),
-  						tmp
-  					);
+    					sprintbuf(c->key_buf, "<xsl:key name=\"%s__key\" match=\"%s\" use=\"%s\"/>\n", c->name, 
+    						full_expr(c, "./descendant-or-self::*"),
+    						tmp
+    					);
 
-  					sprintbuf(c->buf, "<xsl:variable name=\"%s__index\" select=\"%s\"/>\n", c->name, tmp);
-  					sprintbuf(c->buf, "<xsl:for-each select=\"$%s__context\"><dexter:group optional=\"true\">\n", c->name);	
-  					__dex_recurse(c);
-  					sprintbuf(c->buf, "</dexter:group></xsl:for-each></xsl:for-each></dexter:groups>\n");	
-  				}				
+    					sprintbuf(c->buf, "<xsl:variable name=\"%s__index\" select=\"%s\"/>\n", c->name, tmp);
+    					sprintbuf(c->buf, "<xsl:for-each select=\"$%s__context\"><dexter:group optional=\"true\">\n", c->name);	
+    					__dex_recurse(c);
+    					sprintbuf(c->buf, "</dexter:group></xsl:for-each></xsl:for-each></dexter:groups>\n");	
+    				}				
+  				}
 				}
 			} else {
-				
-				// printf("c\n");
+				// printf("j\n");
 				if(c->filter == NULL) {
 					__dex_recurse(c);
-				} else {	
+				} else {
+				  // printf("k\n");	
 					sprintbuf(c->buf, "<xsl:for-each select=\"%s\"><xsl:if test=\"position() = 1\">\n", c->filter);	
 					__dex_recurse(c);
 					sprintbuf(c->buf, "</xsl:if></xsl:for-each>\n");

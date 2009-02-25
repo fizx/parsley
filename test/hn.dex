@@ -1,0 +1,8 @@
+{
+	"articles": [ {
+			"title": ".title a",
+			"link": ".title a @href",
+			"comment_count(.subtext a:nth-child(3))": "number(regex:match(., '[0-9]+', ''))",
+			"comment_link": ".subtext a:nth-child(3) @href"
+		} ]
+}

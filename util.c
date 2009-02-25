@@ -107,7 +107,8 @@ char* sprintbuf_dex_header(struct printbuf *buf) {
 	sprintbuf(buf, " xmlns:exsl=\"http://exslt.org/common\"");
 	sprintbuf(buf, " xmlns:saxon=\"http://icl.com/saxon\"");
 	sprintbuf(buf, " xmlns:regexp=\"http://exslt.org/regular-expressions\"");
-	sprintbuf(buf, " extension-element-prefixes=\"dex str math set func dyn exsl saxon user date regexp\"");
+	sprintbuf(buf, " xmlns:regex=\"http://exslt.org/regular-expressions\"");
+	sprintbuf(buf, " extension-element-prefixes=\"dex str math set func dyn exsl saxon user date regexp regex\"");
 	sprintbuf(buf, ">\n");
 	sprintbuf(buf, "<xsl:output method=\"xml\" indent=\"yes\"/>\n");
 	sprintbuf(buf, "<xsl:strip-space elements=\"*\"/>\n");

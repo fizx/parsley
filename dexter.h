@@ -53,6 +53,7 @@ typedef struct __dex_context {
 	int array;
 	int string;
   int flags;
+	int zipped;
 } dex_context;
 
 typedef dex_context * contextPtr;
