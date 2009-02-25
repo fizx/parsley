@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2.6
 import unittest
 from dexpy import DexPy
 from inspect import currentframe

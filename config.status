@@ -359,8 +359,8 @@ gives unlimited permission to copy, distribute and modify it."
 
 ac_pwd='/Users/kyle/Git/dexter'
 srcdir='.'
-INSTALL='/opt/local/bin/ginstall -c'
-MKDIR_P='/opt/local/bin/gmkdir -p'
+INSTALL='/usr/bin/install -c'
+MKDIR_P='./install-sh -c -d'
 AWK='awk'
 test -n "$AWK" || AWK=awk
 # The default lists apply if the user does not specify any file.
@@ -696,7 +696,7 @@ echo 'BEGIN {' >"$tmp/subs1.awk" &&
 cat >>"$tmp/subs1.awk" <<\_ACAWK &&
 S["LTLIBOBJS"]=""
 S["LIBOBJS"]=""
-S["XSLT_CONFIG"]="/usr/bin/xslt-config"
+S["XSLT_CONFIG"]="/opt/local/bin/xslt-config"
 S["XML2_CONFIG"]="/opt/local/bin/xml2-config"
 S["CPP"]="gcc -std=gnu99 -E"
 S["OTOOL64"]=":"
@@ -743,7 +743,7 @@ S["DEPDIR"]=".deps"
 S["OBJEXT"]="o"
 S["EXEEXT"]=""
 S["ac_ct_CC"]="gcc"
-S["CPPFLAGS"]=" -I/opt/local/include -I/opt/local/include/libxml2 -I/opt/local/include/libxml2"
+S["CPPFLAGS"]=" -I/opt/local/include -I/opt/local/include/libxml2 -I/opt/local/include -I/opt/local/include/libxml2"
 S["LDFLAGS"]=" -L/opt/local/lib"
 S["CFLAGS"]="-g -O2"
 S["CC"]="gcc -std=gnu99"
@@ -753,8 +753,8 @@ S["AMTAR"]="${SHELL} /Users/kyle/Git/dexter/missing --run tar"
 S["am__leading_dot"]="."
 S["SET_MAKE"]=""
 S["AWK"]="awk"
-S["mkdir_p"]="/opt/local/bin/gmkdir -p"
-S["MKDIR_P"]="/opt/local/bin/gmkdir -p"
+S["mkdir_p"]="$(top_builddir)/./install-sh -c -d"
+S["MKDIR_P"]="./install-sh -c -d"
 S["INSTALL_STRIP_PROGRAM"]="$(install_sh) -c -s"
 S["STRIP"]="strip"
 S["install_sh"]="$(SHELL) /Users/kyle/Git/dexter/install-sh"
@@ -773,7 +773,8 @@ S["INSTALL_PROGRAM"]="${INSTALL}"
 S["target_alias"]=""
 S["host_alias"]=""
 S["build_alias"]=""
-S["LIBS"]="-lexslt -lxml2 -lxslt -ljson -largp -lpcre  -L/opt/local/lib -lxml2 -lz -lpthread -liconv -lm -L/usr/lib -lxslt -lxml2 -lz -lpthread -licucore -lm"
+S["LIBS"]="-lexslt -lxml2 -lxslt -ljson -largp -lpcre  -L/opt/local/lib -lxml2 -lz -lpthread -liconv -lm -L/opt/local/lib -lxslt -lxml2 -lz -lpthread -liconv -"\
+"lm"
 S["ECHO_T"]=""
 S["ECHO_N"]=""
 S["ECHO_C"]="\\c"
