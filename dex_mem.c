@@ -16,5 +16,11 @@ void * dex_alloc(int size) {
 		obstack_init(&dex_obstack);
 		dex_obstack_initialized = true;
 	}
-	return obstack_alloc(&dex_obstack, size);
+  void * mem = obstack_alloc(&dex_obstack, size);
+  void * ptr = mem;
+  for(int i = 0; i < size; i++)
+  {
+    *(char *)(mem + i) = '\0';
+  }
+  return mem;
 }

@@ -10,6 +10,7 @@ class Dexterous
     end
     @@mutex ||= Mutex.new
     @@mutex.synchronize do
+      puts dex
       @dex = CDexter.new(dex, incl)
     end
   end

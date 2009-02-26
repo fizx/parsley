@@ -1,4 +1,5 @@
 #include "ruby.h"
+#include <stdio.h>
 #include <libxslt/xslt.h>
 #include <libexslt/exslt.h>
 #include <libxslt/xsltInternals.h>
@@ -35,6 +36,7 @@ VALUE _new(VALUE self, VALUE dex, VALUE incl){
     dex_free(ptr);
     return Qnil;
 	}
+	
  	return Data_Wrap_Struct(c_dex, 0, dex_free, ptr);
 }
 

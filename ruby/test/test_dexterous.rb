@@ -12,6 +12,11 @@ class TestDexterous < Test::Unit::TestCase
     assert_equal "/c/sf/shopping", out["categories"][0]["href"]
   end
   
+  def test_yelp_xml
+    @dex = Dexterous.new(File.read(File.dirname(__FILE__) + "/../../test/yelp-home.dex"))
+    out = @dex.parse(:file => File.dirname(__FILE__) + "/../../test/yelp-home.html", :output => :xml)
+  end
+  
   def test_simple
     @dex = Dexterous.new("hi" => "h1")
     assert_equal({"hi" => "Nick's Crispy Tacos"}, @dex.parse(:file => @file))
