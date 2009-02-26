@@ -21,3 +21,4 @@ ruby/ext/cdexter.so
 ruby/ext/Makefile
 ruby/ext/conftest.dSYM/
 work
+ruby/ext/mkmf.log

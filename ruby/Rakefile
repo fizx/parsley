@@ -4,12 +4,16 @@ task :test => :build do
   Dir["test/*test*.rb"].each {|f| load f }
 end
 
-task :build => :clean do 
-  "cd ext && ruby extconf.rb && make"
+task :build => :configure do 
+  system "cd ext && make"
 end
 
-task :clean do
-  "cd ext && make clean"
+task :clean => :configure do
+  system "cd ext && make clean"
+end
+
+task :configure do
+  system "cd ext && ruby extconf.rb" unless File.exists?("ext/Makefile")
 end
 
 task :install do 
