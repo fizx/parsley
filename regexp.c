@@ -129,11 +129,16 @@ exsltRegexpMatchFunction (xmlXPathParserContextPtr ctxt, int nargs)
         return;
     }
 
-    flagstr = xmlXPathPopString(ctxt);
-    if (xmlXPathCheckError(ctxt) || (flagstr == NULL)) {
-        return;
-    }
 
+    if (nargs > 2) {
+      flagstr = xmlXPathPopString(ctxt);
+      if (xmlXPathCheckError(ctxt) || (flagstr == NULL)) {
+          return;
+      }
+    } else {
+     flagstr = xmlStrdup("");
+    }
+    
     regexp = xmlXPathPopString(ctxt);
     if (xmlXPathCheckError(ctxt) || (regexp == NULL)) {
         xmlFree(flagstr);
@@ -314,9 +319,13 @@ exsltRegexpTestFunction (xmlXPathParserContextPtr ctxt, int nargs)
         return;
     }
 
+    if(nargs > 2) {
     flagstr = xmlXPathPopString(ctxt);
-    if (xmlXPathCheckError(ctxt) || (flagstr == NULL)) {
-        return;
+      if (xmlXPathCheckError(ctxt) || (flagstr == NULL)) {
+          return;
+      }
+    } else {
+      flagstr = xmlStrdup("");
     }
 
     regexp_middle = xmlXPathPopString(ctxt);

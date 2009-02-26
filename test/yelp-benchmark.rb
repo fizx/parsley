@@ -42,7 +42,7 @@ def dext
       }
     ]
   })
-  dex.parse(:file => YELP_HTML)
+  pp dex.parse(:file => YELP_HTML)
 end
 
 Benchmark.bm do |x|
