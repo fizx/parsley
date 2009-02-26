@@ -47,5 +47,7 @@ check-am:
 	@echo "optional..."; ./dexter test/optional.dex test/optional.html | diff test/optional.json - && echo "    success."
 	@echo "malformed-function..."; ./dexter test/malformed-function.dex test/malformed-function.html | diff test/malformed-function.json - && echo "    success."
 	@echo "empty..."; ./dexter test/empty.dex test/empty.html | diff test/empty.json - && echo "    success."
+	@echo "trivial..."; ./dexter test/trivial.dex test/trivial.html | diff test/trivial.json - && echo "    success."
+	@echo "trivial2..."; ./dexter test/trivial2.dex test/trivial2.html | diff test/trivial2.json - && echo "    success."
+	@echo "craigs-simple..."; ./dexter test/craigs-simple.dex test/craigs-simple.html | diff test/craigs-simple.json - && echo "    success."
 	@echo "hn..."; ./dexter test/hn.dex test/hn.html | diff test/hn.json - && echo "    success."
-	

@@ -1,0 +1,18 @@
+task :default => :test
+
+task :test => :build do
+  Dir["test/*test*.rb"].each {|f| load f }
+end
+
+task :build => :clean do 
+  "cd ext && ruby extconf.rb && make"
+end
+
+task :clean do
+  "cd ext && make clean"
+end
+
+task :install do 
+  system "gem build dexterous.gemspec"
+  system "gem install dexterous"
+end
