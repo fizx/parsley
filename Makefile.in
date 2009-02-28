@@ -733,6 +733,9 @@ port:
 					>> Portfile
 	sudo port build
 
+install-all:
+	./bootstrap.sh && ./configure && make && make install && cd ruby && rake install && cd ../python && python setup.py install
+
 check-am:
 	@echo "fictional..."; ./dexter test/fictional.dex test/fictional.html | diff test/fictional.json - && echo "    success."
 	@echo "fictional-opt..."; ./dexter test/fictional-opt.dex test/fictional-opt.html | diff test/fictional-opt.json - && echo "    success."
