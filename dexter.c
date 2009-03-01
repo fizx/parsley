@@ -235,9 +235,9 @@ contextPtr deeper_context(contextPtr context, char* key, struct json_object * va
   c->flags = dex_key_flags(key);
 	c->name = astrcat3(context->name, ".", c->tag);
 	dex_parsing_context = c;
-	c->array = json_object_is_type(val, json_type_array);
+	c->array = val != NULL && json_object_is_type(val, json_type_array);
 	c->json = c->array ? json_object_array_get_idx(val, 0) : val;
-	c->string = json_object_is_type(c->json, json_type_string);
+	c->string = val != NULL && json_object_is_type(c->json, json_type_string);
 	c->filter = dex_key_filter(key);
 	c->magic = ((c->filter == NULL) && c->array && !(c->string)) ? c->name : context->magic;
 	if(context->filter != NULL && !c->array) c->magic = NULL;
@@ -284,7 +284,7 @@ static char* optional(contextPtr c) {
 static bool 
 all_strings(struct json_object * json) {  
 	json_object_object_foreach(json, key, val) {
-    if(!json_object_is_type(val, json_type_string)) return false;
+    if(val == NULL || !json_object_is_type(val, json_type_string)) return false;
   }
   return true;
 }
@@ -295,6 +295,7 @@ void __dex_recurse(contextPtr context) {
 	struct printbuf * buf;
 	keyPtr keys;
 	contextPtr c;
+	if(context->json == NULL) return;
 	json_object_object_foreach(context->json, key, val) {
 		c = deeper_context(context, key, val);
 		sprintbuf(c->buf, "<%s%s>\n", c->tag, optional(c));	
