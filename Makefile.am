@@ -42,7 +42,6 @@ check-am:
 	@echo "css_attr..."; ./dexter -x test/css_attr.dex test/css_attr.html | diff test/css_attr.json - && echo "    success."
 	@echo "match..."; ./dexter -x test/match.dex test/match.xml | diff test/match.json - && echo "    success."
 	@echo "position..."; ./dexter test/position.dex test/position.html | diff test/position.json - && echo "    success."
-	@echo "remote..."; ./dexter test/remote.dex test/remote.html | diff test/remote.json - && echo "    success."
 	@echo "replace..."; ./dexter -x test/replace.dex test/replace.xml | diff test/replace.json - && echo "    success."
 	@echo "scope..."; ./dexter test/scope.dex test/scope.html | diff test/scope.json - && echo "    success."
 	@echo "test..."; ./dexter -x test/test.dex test/test.xml | diff test/test.json - && echo "    success."
@@ -53,5 +52,4 @@ check-am:
 	@echo "trivial..."; ./dexter test/trivial.dex test/trivial.html | diff test/trivial.json - && echo "    success."
 	@echo "trivial2..."; ./dexter test/trivial2.dex test/trivial2.html | diff test/trivial2.json - && echo "    success."
 	@echo "craigs-simple..."; ./dexter test/craigs-simple.dex test/craigs-simple.html | diff test/craigs-simple.json - && echo "    success."
-	@echo "hn..."; ./dexter test/hn.dex test/hn.html | diff test/hn.json - && echo "    success."
 	@echo "yelp-home..."; ./dexter test/yelp-home.dex test/yelp-home.html | diff test/yelp-home.json - && echo "    success."
