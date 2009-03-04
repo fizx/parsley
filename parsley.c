@@ -194,7 +194,7 @@ parsleyPtr parsley_compile(char* parsley_str, char* incl) {
 	
 	if(parsley->error == NULL) {
 		xmlParserCtxtPtr ctxt = xmlNewParserCtxt();
-		xmlDocPtr doc = xmlCtxtReadMemory(ctxt, buf->buf, buf->size, "http://kylemaxwell.com/parsley/compiled", NULL, 3);
+		xmlDocPtr doc = xmlCtxtReadMemory(ctxt, buf->buf, buf->size, "http://parslets.com/compiled", NULL, 3);
 		xmlFreeParserCtxt(ctxt);
 		parsley->raw_stylesheet = strdup(buf->buf);
 		parsley->stylesheet = xsltParseStylesheetDoc(doc);

@@ -96,7 +96,7 @@ char* parsley_key_filter(char* key) {
 char* sprintbuf_parsley_header(struct printbuf *buf) {
 	sprintbuf(buf, "<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\"");
 	sprintbuf(buf, " xmlns:lib=\"http://parslets.com/stdlib\"");
-	sprintbuf(buf, " xmlns:parslet=\"http://parslets.com/json\"");
+	sprintbuf(buf, " xmlns:parsley=\"http://parslets.com/json\"");
 	sprintbuf(buf, " xmlns:str=\"http://exslt.org/strings\"");
 	sprintbuf(buf, " xmlns:set=\"http://exslt.org/sets\"");
 	sprintbuf(buf, " xmlns:math=\"http://exslt.org/math\"");

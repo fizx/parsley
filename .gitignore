@@ -3,6 +3,8 @@
 *.lo
 dexterc
 dexter
+parsleyc
+parsley
 .deps/
 Makefile
 y.tab.c
@@ -12,12 +14,12 @@ config.log
 configure.scan
 parser.c
 scanner.c
-libdexter.la
+libparsley.la
 parser.h
 test.log
-ruby/dexter*.gem
-ruby/ext/cdexter.bundle
-ruby/ext/cdexter.so
+ruby/parsley*.gem
+ruby/ext/cparsley.bundle
+ruby/ext/cparsley.so
 ruby/ext/Makefile
 ruby/ext/conftest.dSYM/
 work
