@@ -1,6 +1,6 @@
 AC_PREREQ(2.59)
 
-AC_INIT([dexterc], [1.0], [kyle@kylemaxwell.com])
+AC_INIT([parsleyc], [1.0], [kyle@kylemaxwell.com])
 
 AM_INIT_AUTOMAKE([1.9 foreign])
 
