@@ -4,13 +4,13 @@
 #include <stdio.h>
 #include <json/json.h>
 
-FILE* dex_fopen(char*, char*);
-char* sprintbuf_dex_header(struct printbuf *);
+FILE* parsley_fopen(char*, char*);
+char* sprintbuf_parsley_header(struct printbuf *);
 void registerEXSLT();
 
-int dex_key_flags(char*);
-char* dex_key_tag(char*);
-char* dex_key_filter(char*);
+int parsley_key_flags(char*);
+char* parsley_key_tag(char*);
+char* parsley_key_filter(char*);
 
 
 #endif

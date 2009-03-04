@@ -1,6 +1,6 @@
 Abstract
 ================================================================
-A common programming task is data extraction from xml and html documents.  I introduce dex, an embedded language (ala SQL, regular expressions) that improves the usability and/or speed of current extraction techniques.
+A common programming task is data extraction from xml and html documents.  I introduce parsley, an embedded language (ala SQL, regular expressions) that improves the usability and/or speed of current extraction techniques.
 
 Introduction
 ================================================================

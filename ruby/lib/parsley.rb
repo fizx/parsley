@@ -1,16 +1,16 @@
-require File.dirname(__FILE__) + "/../ext/cdexter"
+require File.dirname(__FILE__) + "/../ext/cparsley"
 require "rubygems"
 require "json"
 require "thread"
 
-class Dexterous
-  def initialize(dex, incl = "")
-    if(dex.is_a?(Hash))
-      dex = dex.to_json 
+class Parsley
+  def initialize(parsley, incl = "")
+    if(parsley.is_a?(Hash))
+      parsley = parsley.to_json 
     end
     @@mutex ||= Mutex.new
     @@mutex.synchronize do
-      @dex = CDexter.new(dex, incl)
+      @parsley = CParsley.new(parsley, incl)
     end
   end
   
@@ -31,9 +31,9 @@ class Dexterous
     options[:input] ||= :html
     options[:output]||= :ruby
     if options[:file]
-      @dex.parse_file options[:file], options[:input], options[:output]
+      @parsley.parse_file options[:file], options[:input], options[:output]
     else
-      @dex.parse_string options[:string], options[:input], options[:output]
+      @parsley.parse_string options[:string], options[:input], options[:output]
     end
   end
 end

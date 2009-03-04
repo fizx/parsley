@@ -564,11 +564,11 @@ char* xpath_alias(char* key) {
 
 void init_xpath_alias() {
 	alias_hash = xmlHashCreate(100);
-	xmlHashAddEntry(alias_hash, "html", "dex:html-document");
+	xmlHashAddEntry(alias_hash, "html", "lib:html-document");
 	xmlHashAddEntry(alias_hash, "match", "regexp:match");
 	xmlHashAddEntry(alias_hash, "replace", "regexp:replace");
 	xmlHashAddEntry(alias_hash, "test", "regexp:test");
-	xmlHashAddEntry(alias_hash, "with-newlines", "dex:nl");
+	xmlHashAddEntry(alias_hash, "with-newlines", "lib:nl");
 	
 }
 

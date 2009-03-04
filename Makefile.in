@@ -60,7 +60,7 @@ am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(bindir)" \
 libLTLIBRARIES_INSTALL = $(INSTALL)
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libdexter_la_LIBADD =
-am_libdexter_la_OBJECTS = dex_mem.lo xml2json.lo regexp.lo printbuf.lo \
+am_libdexter_la_OBJECTS = parsley_mem.lo xml2json.lo regexp.lo printbuf.lo \
 	functions.lo util.lo kstring.lo obstack.lo scanner.lo \
 	parser.lo dexter.lo
 libdexter_la_OBJECTS = $(am_libdexter_la_OBJECTS)
@@ -229,7 +229,7 @@ top_srcdir = @top_srcdir@
 AM_YFLAGS = -d
 BUILT_SOURCES = parser.h
 lib_LTLIBRARIES = libdexter.la
-libdexter_la_SOURCES = dex_mem.c xml2json.c regexp.c printbuf.c functions.c util.c kstring.c obstack.c scanner.l parser.y dexter.c
+libdexter_la_SOURCES = parsley_mem.c xml2json.c regexp.c printbuf.c functions.c util.c kstring.c obstack.c scanner.l parser.y dexter.c
 include_HEADERS = dexter.h obstack.h xml2json.h
 dexterc_SOURCES = dexterc_main.c
 dexterc_LDADD = libdexter.la
@@ -348,7 +348,7 @@ mostlyclean-compile:
 distclean-compile:
 	-rm -f *.tab.c
 
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dex_mem.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parsley_mem.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dexter.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dexter_main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/dexterc_main.Po@am__quote@

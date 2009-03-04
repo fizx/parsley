@@ -1,14 +1,14 @@
 <h3>Overview<a name="start-readme">&nbsp;</a></h3>
 
-Dexter is a simple language for data-extraction from XML-like documents (including HTML).  Dexter is:
+parsley is a simple language for data-extraction from XML-like documents (including HTML).  parsley is:
 
 1. Blazing fast -- Typical HTML parses are sub-50ms.
-2. Easy to write and understand -- Dexter uses your current knowledge of JSON, CSS, and XPath.
-3. Powerful.  Dexter can understand full XPath, including standard and user-defined functions.
+2. Easy to write and understand -- parsley uses your current knowledge of JSON, CSS, and XPath.
+3. Powerful.  parsley can understand full XPath, including standard and user-defined functions.
 
 ### Examples
 
-A simple script, or "dex", looks like this:
+A simple script, or "parslet", looks like this:
 
     {
       "title": "h1",
@@ -20,7 +20,7 @@ A simple script, or "dex", looks like this:
       ]
     }
 
-This returns JSON or XML output with the same structure.  Applying this dex to http://www.yelp.com/biz/amnesia-san-francisco yields either:
+This returns JSON or XML output with the same structure.  Applying this parslet to http://www.yelp.com/biz/amnesia-san-francisco yields either:
 
     {
       "title": "Amnesia",
@@ -43,26 +43,26 @@ This returns JSON or XML output with the same structure.  Applying this dex to h
 
 or equivalently:
   
-    <dexter:root>
+    <parsley:root>
       <title>Amnesia</title>
       <links>
-        <dexter:group>
+        <parsley:group>
           <href>/</href>
           <text>Yelp</text>
-        </dexter:group>
-        <dexter:group>
+        </parsley:group>
+        <parsley:group>
           <href>/</href>
           <text>Welcome</text>
-        </dexter:group>
-        <dexter:group>
+        </parsley:group>
+        <parsley:group>
           <href>/signup?return_url=%2Fuser_details</href>
           <text> About Me</text>
-        </dexter:group>
+        </parsley:group>
         .....
       </links>
-    </dexter:root>      
+    </parsley:root>      
 
-This dex could also have been expressed as:
+This parslet could also have been expressed as:
 
     {
       "title": "h1",
@@ -74,7 +74,7 @@ This dex could also have been expressed as:
       ]
     }
 
-The "a" in links(a) is a "key selector" -- an explicit grouping (with scope) for the array.  You can use any XPath 1.0 or CSS3 expression as a value or a key selector.  Dexter will try to be smart, and figure out which you are using.  You can use CSS selectors inside XPath functions -- "substring-after(h1>a, ':')" is a valid expression.
+The "a" in links(a) is a "key selector" -- an explicit grouping (with scope) for the array.  You can use any XPath 1.0 or CSS3 expression as a value or a key selector.  Parsley will try to be smart, and figure out which you are using.  You can use CSS selectors inside XPath functions -- "substring-after(h1>a, ':')" is a valid expression.
 
 ### Variables
 

@@ -4,7 +4,7 @@
 #include <string.h>
 #include "kstring.h"
 #include "printbuf.h"
-#include "dexter.h"
+#include "parsley.h"
 #include "util.h"
 
 struct list_elem {
@@ -16,14 +16,14 @@ struct list_elem {
 struct arguments
 {
 	struct list_elem *include_files;
-	char *dex;
+	char *parsley;
   char *output_file;
 };
 
-const char *argp_program_version = "dexterc 0.1";
+const char *argp_program_version = "parsleyc 0.1";
 const char *argp_program_bug_address = "<kyle@kylemaxwell.com>";
 static char args_doc[] = "DEX_FILE";
-static char doc[] = "Dexter is a dex to XSLT compiler";
+static char doc[] = "Parsleyc is a parslet to XSLT compiler";
 
 static struct argp_option options[] = {
   {"debug",    'd', 0, 0, 	"Turn on Bison parser debugging" },
@@ -48,14 +48,14 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state)
 			base->has_next = 1;
       break;
     case 'd':	
-			// dex_set_debug_mode(1);
+			// parsley_set_debug_mode(1);
 			break;
     case 'o':
       arguments->output_file = arg;
       break;
     case ARGP_KEY_ARG:
       if (state->arg_num >= 1) argp_usage (state);
-      arguments->dex = arg;
+      arguments->parsley = arg;
       break;
     case ARGP_KEY_END:
       if (state->arg_num < 1) argp_usage (state);
@@ -76,29 +76,29 @@ int main (int argc, char **argv) {
 	
 	arguments.include_files = elemptr;
 	arguments.output_file = "-";
-	arguments.dex = "-";
+	arguments.parsley = "-";
 	argp_parse (&argp, argc, argv, 0, 0, &arguments);
 	
-	struct printbuf* dex = printbuf_new();
+	struct printbuf* parsley = printbuf_new();
 	struct printbuf* incl = printbuf_new();
 
-	FILE* in = dex_fopen(arguments.dex, "r");
+	FILE* in = parsley_fopen(arguments.parsley, "r");
 	
-	printbuf_file_read(in, dex);
+	printbuf_file_read(in, parsley);
 	while(elemptr->has_next) {
 		elemptr = elemptr->next;
-		FILE* f = dex_fopen(elemptr->string, "r");
+		FILE* f = parsley_fopen(elemptr->string, "r");
 		printbuf_file_read(f, incl);
 		fclose(f);
 	}
 	
-	dexPtr compiled = dex_compile(dex->buf, incl->buf);
+	parsleyPtr compiled = parsley_compile(parsley->buf, incl->buf);
 	if(compiled->error != NULL) {
 		fprintf(stderr, "%s\n", compiled->error);
 	 	exit(1);
 	}
 	
-	FILE* fo = dex_fopen(arguments.output_file, "w");
+	FILE* fo = parsley_fopen(arguments.output_file, "w");
 	fprintf(fo, compiled->raw_stylesheet);
 	fclose(fo);
 	

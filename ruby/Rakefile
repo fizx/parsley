@@ -17,6 +17,6 @@ task :configure do
 end
 
 task :install do 
-  system "gem build dexterous.gemspec"
-  system "gem install dexterous"
+  system "gem build parsley-ruby.gemspec"
+  system "gem install parsley-ruby"
 end

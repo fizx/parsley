@@ -1,7 +1,7 @@
-#ifndef DEXTER_H_INCLUDED
-#define DEXTER_H_INCLUDED
+#ifndef PARSLEY_H_INCLUDED
+#define PARSLEY_H_INCLUDED
 
-#define DEX_BUF_SIZE 1024
+#define PARSLEY_BUF_SIZE 1024
 
 #include <stdbool.h>
 #include <libxslt/xslt.h>
@@ -9,25 +9,25 @@
 #include <libxslt/transform.h>
 
 
-static int dex_debug_mode = 0;
-static char* last_dex_error;
+static int parsley_debug_mode = 0;
+static char* last_parsley_error;
 
 #include <json/json.h>
 
-typedef struct __compiled_dex {
+typedef struct __compiled_parsley {
  	char* raw_stylesheet;
 	xsltStylesheetPtr stylesheet;
 	char* error;
-} compiled_dex;
+} compiled_parsley;
 
-typedef struct __parsed_dex {
+typedef struct __parsed_parsley {
   xmlDocPtr xml;
 	char *error;
-  compiled_dex *dex;
-} parsed_dex;
+  compiled_parsley *parsley;
+} parsed_parsley;
 
-typedef compiled_dex * dexPtr;
-typedef parsed_dex * parsedDexPtr;
+typedef compiled_parsley * parsleyPtr;
+typedef parsed_parsley * parsedParsleyPtr;
 
 typedef struct __key_node {
 	char* name;
@@ -37,12 +37,12 @@ typedef struct __key_node {
 
 typedef key_node * keyPtr;
 
-typedef struct __dex_context {
+typedef struct __parsley_context {
 	struct printbuf * buf;
 	struct printbuf * key_buf;
  	keyPtr keys;
 	struct json_object * json;
-	struct __dex_context * parent;
+	struct __parsley_context * parent;
 	char* tag;
 	char* filter;
 	char* expr;
@@ -54,23 +54,23 @@ typedef struct __dex_context {
 	int string;
   int flags;
 	int zipped;
-} dex_context;
+} parsley_context;
 
-typedef dex_context * contextPtr;
+typedef parsley_context * contextPtr;
 
-void parsed_dex_free(parsedDexPtr);
+void parsed_parsley_free(parsedParsleyPtr);
 
-void dex_free(dexPtr);
-dexPtr dex_compile(char* dex, char* incl);
-parsedDexPtr dex_parse_file(dexPtr, char*, bool);
-parsedDexPtr dex_parse_string(dexPtr, char*, size_t, bool);
-parsedDexPtr dex_parse_doc(dexPtr, xmlDocPtr);
+void parsley_free(parsleyPtr);
+parsleyPtr parsley_compile(char* parsley, char* incl);
+parsedParsleyPtr parsley_parse_file(parsleyPtr, char*, bool);
+parsedParsleyPtr parsley_parse_string(parsleyPtr, char*, size_t, bool);
+parsedParsleyPtr parsley_parse_doc(parsleyPtr, xmlDocPtr);
 
 enum {
-   DEX_OPTIONAL    = 1,
+   PARSLEY_OPTIONAL    = 1,
 };
 
-static contextPtr dex_parsing_context;
+static contextPtr parsley_parsing_context;
 
 static char* full_expr(contextPtr, char*);
 static char* expr_join(char*, char*);
@@ -84,13 +84,13 @@ static contextPtr tagged_context(contextPtr, char*);
 static contextPtr new_context(struct json_object *, struct printbuf *);
 static contextPtr deeper_context(contextPtr, char*, struct json_object *);
 
-static void __dex_recurse(contextPtr);
+static void __parsley_recurse(contextPtr);
 static char* filter_intersection(char*, char*);
 
 static char* inner_key_of(struct json_object *);
 static char* inner_key_each(struct json_object *);
 
-static void visit(parsedDexPtr ptr, xmlNodePtr xml, bool bubbling);
+static void visit(parsedParsleyPtr ptr, xmlNodePtr xml, bool bubbling);
 static bool xml_empty(xmlNodePtr xml);
 	
 #endif

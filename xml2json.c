@@ -23,7 +23,7 @@ static struct json_object * _xml2json(xmlNodePtr xml) {
           json_object_object_add(json, child->name, xml2json(child->children));
           child = child->next;
         }
-      } else if(!strcmp(xml->ns->prefix, "dexter")) {
+      } else if(!strcmp(xml->ns->prefix, "parsley")) {
         if(!strcmp(xml->name, "zipped")) {
           int len = 0;
           xmlNodePtr ptr = xml->children;
@@ -66,7 +66,7 @@ static struct json_object * _xml2json(xmlNodePtr xml) {
             child = child->next;
           }          
         } else if(!strcmp(xml->name, "group")) {
-          // Implicitly handled by dexter:groups handler
+          // Implicitly handled by parsley:groups handler
         }
       }
       break;

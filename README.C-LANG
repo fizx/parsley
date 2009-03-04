@@ -1,45 +1,45 @@
-To use dexter from C, the following functions are available from dexter.h.  In
+To use parsley from C, the following functions are available from parsley.h.  In
 addition, there is a function to convert xml documents of the type returned by
-dexter into json.  
+parsley into json.  
 
 You will also need passing familiarity with libxml2 and json-c to print, manipulate, and free some of the generated objects.
 
 - http://svn.metaparadigm.com/svn/json-c/trunk
 - http://xmlsoft.org/
 
-From dexter.h
+From parsley.h
 =============
 
-parsedDexPtr -- a struct that contains the following elements:
-  - xmlDocPtr xml -- the output of a dex document parse, as a libxml2 document
+parsedParsleyPtr -- a struct that contains the following elements:
+  - xmlDocPtr xml -- the output of a parslet document parse, as a libxml2 document
 	- char *error -- an error message, or NULL if no error
-  - compiled_dex *dex -- reference to the dex that did the parsing
+  - compiled_parsley *parsley -- reference to the parsley that did the parsing
 
-dexPtr dex_compile(char* dex, char* incl)
+parsleyPtr parsley_compile(char* parsley, char* incl)
 
 	Arguments:
-	- char* dex -- a string of dex to compile.
+	- char* parsley -- a string of parsley to compile.
 	- char* incl -- arbitrary XSLT to inject directly into the stylesheet, 
 		outside any templates.
 		
-	Returns: A structure that you can pass to dex_parse_* to do the actual
+	Returns: A structure that you can pass to parsley_parse_* to do the actual
 	parsing.  This structure contains the compiled XSLT.
 	
-	Notes: This is *NOT* thread-safe. (Usage of the dex via dex_parse_* *IS* 
+	Notes: This is *NOT* thread-safe. (Usage of the parslet via parsley_parse_* *IS* 
 	thread-safe, however.)
 	
-void dex_free(dexPtr);
+void parsley_free(parsleyPtr);
 
-	Frees the dexPtr's memory.
+	Frees the parsleyPtr's memory.
 	
-void parsed_dex_free(parsedDexPtr);
+void parsed_parsley_free(parsedParsleyPtr);
 
-  Frees the parsedDexPtr's memory.
+  Frees the parsedParsleyPtr's memory.
 
-parsedDexPtr dex_parse_file(dexPtr dex, char* file_name, boolean html);
+parsedParsleyPtr parsley_parse_file(parsleyPtr parsley, char* file_name, boolean html);
 
 	Arguments:
-	- dexPtr dex -- Compiled dex struct
+	- parsleyPtr parsley -- Compiled parsley struct
 	- char* file_name -- file to parse
 	- boolean html -- Use the html parser? (instead of xml)
 	
@@ -48,14 +48,14 @@ parsedDexPtr dex_parse_file(dexPtr dex, char* file_name, boolean html);
 	like xmlSaveFormatFile().  If you want json output, look below for xml2json 
 	docs.  
 
-parsedDexPtr dex_parse_string(dexPtr dex, char* string, size_t len, boolean html);
+parsedParsleyPtr parsley_parse_string(parsleyPtr parsley, char* string, size_t len, boolean html);
 
-	Parses the in-memory string/length combination given.  See dex_parse_file 
+	Parses the in-memory string/length combination given.  See parsley_parse_file 
 	docs.
 	
-parsedDexPtr dex_parse_doc(dexPtr dex, xmlDocPtr doc);
+parsedParsleyPtr parsley_parse_doc(parsleyPtr parsley, xmlDocPtr doc);
 
-	Uses the dex parser to parse a libxml2 document.  
+	Uses the parsley parser to parse a libxml2 document.  
 
 From xml2json.h
 ===============
@@ -63,13 +63,13 @@ From xml2json.h
 struct json_object * xml2json(xmlNodePtr);
 
 	Converts an xml subtree to json.  The xml should be in the format returned
-	by dexter.  Basically, xml attributes get ignored, and if you want an array 	
+	by parsley.  Basically, xml attributes get ignored, and if you want an array 	
 	like [a,b], use:
 	
-		<dex:groups> 
-			<dex:group>a</dex:group>
-			<dex:group>b</dex:group>
-		</dex:groups>
+		<parsley:groups> 
+			<parsley:group>a</parsley:group>
+			<parsley:group>b</parsley:group>
+		</parsley:groups>
 		
 	To get a null-terminated string out, use:
 	

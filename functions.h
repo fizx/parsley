@@ -1,5 +1,5 @@
-#ifndef DEX_FUNCTIONS_H_INCLUDED
-#define DEX_FUNCTIONS_H_INCLUDED
+#ifndef PARSLEY_FUNCTIONS_H_INCLUDED
+#define PARSLEY_FUNCTIONS_H_INCLUDED
 
 #include <libxml/xpath.h>
 #include <libxml/HTMLparser.h>
@@ -8,7 +8,7 @@
 #include <libxslt/transform.h>
 #include <libxslt/documents.h>
 
-void dex_register_all();
+void parsley_register_all();
 
 static void xsltHtmlDocumentFunction(xmlXPathParserContextPtr, int);
 static void xsltHtmlDocumentFunctionLoadDocument(xmlXPathParserContextPtr, xmlChar*);

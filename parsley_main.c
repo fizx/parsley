@@ -3,7 +3,7 @@
 #include <string.h>
 #include "kstring.h"
 #include "printbuf.h"
-#include "dexter.h"
+#include "parsley.h"
 #include "xml2json.h"
 #include <libxslt/xslt.h>
 #include <libxslt/xsltInternals.h>
@@ -21,7 +21,7 @@ struct arguments
 	struct list_elem *include_files;
 	int input_xml;
 	int output_xml;
-	char *dex;
+	char *parsley;
   char *input_file;
   char *output_file;
 };
@@ -32,10 +32,10 @@ struct list_elem {
 	char *string;
 };
 
-const char *argp_program_version = "dexter 0.1";
+const char *argp_program_version = "parsley 0.1";
 const char *argp_program_bug_address = "<kyle@kylemaxwell.com>";
 static char args_doc[] = "DEX_FILE FILE_TO_PARSE";
-static char doc[] = "Dexter is a dex parser.";
+static char doc[] = "Parsley is a parslet parser.";
 
 static struct argp_option options[] = {
 	{"input-xml",       'x', 0, 0, 	"Use the XML parser (not HTML)" },
@@ -72,7 +72,7 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state)
     case ARGP_KEY_ARG:
 			switch(state->arg_num){
 			case 0:
-				arguments->dex = arg;
+				arguments->parsley = arg;
 				break;
 			case 1:
 				arguments->input_file = arg;
@@ -106,23 +106,23 @@ int main (int argc, char **argv) {
  	struct printbuf *buf = printbuf_new();
  	struct printbuf *incl = printbuf_new();
   
-  FILE * fd = dex_fopen(arguments.dex, "r");
+  FILE * fd = parsley_fopen(arguments.parsley, "r");
   printbuf_file_read(fd, buf);
 
 	while(elemptr->has_next) {
 		elemptr = elemptr->next;
-		FILE* f = dex_fopen(elemptr->string, "r");
+		FILE* f = parsley_fopen(elemptr->string, "r");
 		printbuf_file_read(f, incl);
 		fclose(f);
 	}
 		
-	dexPtr compiled = dex_compile(buf->buf, incl->buf);
+	parsleyPtr compiled = parsley_compile(buf->buf, incl->buf);
 	if(compiled->error != NULL) {
 		fprintf(stderr, "%s\n", compiled->error);
 		exit(1);
 	}
 	
-	parsedDexPtr ptr = dex_parse_file(compiled, arguments.input_file, !(arguments.input_xml));
+	parsedParsleyPtr ptr = parsley_parse_file(compiled, arguments.input_file, !(arguments.input_xml));
 	
 	if(ptr->error != NULL) {
 		fprintf(stderr, "Parsing failed: %s\n", ptr->error);
@@ -133,7 +133,7 @@ int main (int argc, char **argv) {
 		xmlSaveFormatFile(arguments.output_file, ptr->xml, 1);	
 	} else {
 	  struct json_object *json = xml2json(ptr->xml->children->children);
-		FILE* f = dex_fopen(arguments.output_file, "w");
+		FILE* f = parsley_fopen(arguments.output_file, "w");
 	  fprintf(f, "%s\n", json_object_to_json_string(json));
 		fclose(f);
 	}

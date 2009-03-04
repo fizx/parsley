@@ -1,5 +1,5 @@
 #include <Python.h>
-#include <dexter.h>
+#include <parsley.h>
 #include <libxslt/xslt.h>
 #include <libexslt/exslt.h>
 #include <libxslt/xsltInternals.h>
@@ -8,7 +8,6 @@
 #include <libxml/HTMLparser.h>
 #include <libxml/HTMLtree.h>
 #include <libxml/xmlwriter.h>
-#include <dexter.h>
 #include <string.h>
 #include <stdio.h>
 #include <json/json.h>
@@ -16,12 +15,12 @@
 
 typedef struct {
 	PyObject_HEAD
-	dexPtr dex;
-} DexPy;
+	parsleyPtr parsley;
+} PyParsley;
 
-static PyTypeObject dexpy_DexPyType;
+static PyTypeObject pyparsley_PyParsleyType;
 
-static PyMethodDef dexpy_methods[] = {
+static PyMethodDef pyparsley_methods[] = {
     {NULL}  /* Sentinel */
 };
 
@@ -32,7 +31,7 @@ static PyMethodDef dexpy_methods[] = {
 static PyObject *jsonmodule;
 
 PyMODINIT_FUNC
-initdexpy(void) 
+initpyparsley(void) 
 {
 		jsonmodule = PyImport_ImportModule("json");
 		if(jsonmodule == NULL)
@@ -40,34 +39,34 @@ initdexpy(void)
 			
     PyObject* m;
 
-    dexpy_DexPyType.tp_new = PyType_GenericNew;
-    if (PyType_Ready(&dexpy_DexPyType) < 0)
+    pyparsley_PyParsleyType.tp_new = PyType_GenericNew;
+    if (PyType_Ready(&pyparsley_PyParsleyType) < 0)
         return;
 
-    m = Py_InitModule3("dexpy", dexpy_methods,
-                       "Python binding for dexter");
+    m = Py_InitModule3("pyparsley", pyparsley_methods,
+                       "Python binding for parsley");
 
-    Py_INCREF(&dexpy_DexPyType);
-    PyModule_AddObject(m, "DexPy", (PyObject *)&dexpy_DexPyType);
+    Py_INCREF(&pyparsley_PyParsleyType);
+    PyModule_AddObject(m, "PyParsley", (PyObject *)&pyparsley_PyParsleyType);
 }
 
 static void
-DexPy_dealloc(DexPy* self)
+PyParsley_dealloc(PyParsley* self)
 {
-		if(self->dex != NULL) dex_free(self->dex);
+		if(self->parsley != NULL) parsley_free(self->parsley);
     self->ob_type->tp_free((PyObject*)self);
 }
 
 static PyObject *
-DexPy_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
+PyParsley_new(PyTypeObject *type, PyObject *args, PyObject *kwds)
 {
-	DexPy *self;
-	self = (DexPy *)type->tp_alloc(type, 0);
+	PyParsley *self;
+	self = (PyParsley *)type->tp_alloc(type, 0);
 	return (PyObject *)self;	
 }
 
 static int
-DexPy_init(DexPy *self, PyObject *args, PyObject *kwds)
+PyParsley_init(PyParsley *self, PyObject *args, PyObject *kwds)
 {
  	PyObject *script;
 	char *string = "";
@@ -89,10 +88,10 @@ DexPy_init(DexPy *self, PyObject *args, PyObject *kwds)
 	string = PyString_AsString(script);
 	if(string == NULL) return -1;
 
-	self->dex = dex_compile(string, incl);
+	self->parsley = parsley_compile(string, incl);
 	
-	if(self->dex->error != NULL) {
-		PyErr_SetString(PyExc_RuntimeError, self->dex->error);
+	if(self->parsley->error != NULL) {
+		PyErr_SetString(PyExc_RuntimeError, self->parsley->error);
 		Py_DECREF(self);
 		return -1;
 	}
@@ -117,7 +116,7 @@ pythonize_recurse(xmlNodePtr xml) {
           PyDict_SetItemString(obj, child->name, pythonize_recurse(child->children));
           child = child->next;
         }
-      } else if(!strcmp(xml->ns->prefix, "dexter")) {
+      } else if(!strcmp(xml->ns->prefix, "parsley")) {
         if(!strcmp(xml->name, "groups")) {
           obj = PyList_New(0);
           while(child != NULL) {
@@ -125,7 +124,7 @@ pythonize_recurse(xmlNodePtr xml) {
             child = child->next;
           }          
         } else if(!strcmp(xml->name, "group")) {
-          // Implicitly handled by dexter:groups handler
+          // Implicitly handled by parsley:groups handler
         }
       }
       break;
@@ -141,11 +140,11 @@ pythonize_recurse(xmlNodePtr xml) {
 }
 
 static PyObject *
-DexPy_parse_doc(parsedDexPtr ptr, char *type) {
+PyParsley_parse_doc(parsedParsleyPtr ptr, char *type) {
 	if(ptr->error != NULL || ptr->xml == NULL) {
-		if(ptr->error == NULL) ptr->error = strdup("Unknown dex error");
+		if(ptr->error == NULL) ptr->error = strdup("Unknown parsley error");
 		PyErr_SetString(PyExc_RuntimeError, ptr->error);
-    parsed_dex_free(ptr);
+    parsed_parsley_free(ptr);
 		return NULL;
 	}
 	
@@ -167,19 +166,19 @@ DexPy_parse_doc(parsedDexPtr ptr, char *type) {
 			return Py_None;
 		}
 	}
-	parsed_dex_free(ptr);
+	parsed_parsley_free(ptr);
 	return output;
 }
 
 static PyObject *
-DexPy_parse(DexPy *self, PyObject *args, PyObject *keywords)
+PyParsley_parse(PyParsley *self, PyObject *args, PyObject *keywords)
 {
 	char *file = NULL;
 	char *string = NULL;
 	char *input = "html";
 	char *output = "python";
 	int len;
-	parsedDexPtr ptr;
+	parsedParsleyPtr ptr;
 	
 	static char * list[] = { "file", "string", "input", "output", NULL };
 	
@@ -188,41 +187,41 @@ DexPy_parse(DexPy *self, PyObject *args, PyObject *keywords)
 		return NULL;
 	}
 	
-	if(self->dex == NULL) {
-		PyErr_SetString(PyExc_RuntimeError, "dex data is NULL");
+	if(self->parsley == NULL) {
+		PyErr_SetString(PyExc_RuntimeError, "parsley data is NULL");
 		return NULL;
 	}
 	
 	if(file != NULL) {
-		ptr = dex_parse_file(self->dex, file, !strcmp(input, "html"));
+		ptr = parsley_parse_file(self->parsley, file, !strcmp(input, "html"));
 	} else {
-		ptr = dex_parse_string(self->dex, string, len, !strcmp(input, "html"));
+		ptr = parsley_parse_string(self->parsley, string, len, !strcmp(input, "html"));
 	}	
 	
-	return DexPy_parse_doc(ptr, output);
+	return PyParsley_parse_doc(ptr, output);
 }
 
 
-static PyMethodDef DexPy_methods[] = {	
-	  {"parse", (PyCFunction)DexPy_parse, METH_VARARGS | METH_KEYWORDS,
+static PyMethodDef PyParsley_methods[] = {	
+	  {"parse", (PyCFunction)PyParsley_parse, METH_VARARGS | METH_KEYWORDS,
 	   "Parses with a variety of options"
 	  },
-    // {"parse_string", (PyCFunction)DexPy_parse_string, METH_VARARGS,
-    //  "Parses an in-memory string with the current dex"
+    // {"parse_string", (PyCFunction)PyParsley_parse_string, METH_VARARGS,
+    //  "Parses an in-memory string with the current parslet"
     // },
-    // {"parse_file", (PyCFunction)DexPy_parse_file, METH_VARARGS,
-    //  "Parses file or url with the current dex"
+    // {"parse_file", (PyCFunction)PyParsley_parse_file, METH_VARARGS,
+    //  "Parses file or url with the current parslet"
     // },
     {NULL}  /* Sentinel */
 };
 
-static PyTypeObject dexpy_DexPyType = {
+static PyTypeObject pyparsley_PyParsleyType = {
     PyObject_HEAD_INIT(NULL)
     0,                         /*ob_size*/
-    "dexpy.DexPy",           /*tp_name*/
-    sizeof(DexPy), /*tp_basicsize*/
+    "pyparsley.PyParsley",           /*tp_name*/
+    sizeof(PyParsley), /*tp_basicsize*/
     0,                         /*tp_itemsize*/
-    (destructor) DexPy_dealloc,                         /*tp_dealloc*/
+    (destructor) PyParsley_dealloc,                         /*tp_dealloc*/
     0,                         /*tp_print*/
     0,                         /*tp_getattr*/
     0,                         /*tp_setattr*/
@@ -238,14 +237,14 @@ static PyTypeObject dexpy_DexPyType = {
     0,                         /*tp_setattro*/
     0,                         /*tp_as_buffer*/
     Py_TPFLAGS_DEFAULT | Py_TPFLAGS_BASETYPE,        /*tp_flags*/
-    "DexPy objects",           /* tp_doc */
+    "PyParsley objects",           /* tp_doc */
 		0,		               /* tp_traverse */
     0,		               /* tp_clear */
     0,		               /* tp_richcompare */
     0,		               /* tp_weaklistoffset */
     0,		               /* tp_iter */
     0,		               /* tp_iternext */
-		DexPy_methods,             /* tp_methods */
+		PyParsley_methods,             /* tp_methods */
     0,             /* tp_members */
     0,                         /* tp_getset */
     0,                         /* tp_base */
@@ -253,7 +252,7 @@ static PyTypeObject dexpy_DexPyType = {
     0,                         /* tp_descr_get */
     0,                         /* tp_descr_set */
     0,                         /* tp_dictoffset */
-    (initproc)DexPy_init,      /* tp_init */
+    (initproc)PyParsley_init,      /* tp_init */
     0,                         /* tp_alloc */
-    DexPy_new,                 /* tp_new */
+    PyParsley_new,                 /* tp_new */
 };

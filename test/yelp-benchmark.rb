@@ -1,7 +1,7 @@
 require "rubygems"
 require "nokogiri"
 require "hpricot"
-require "dexterous"
+require "parsley"
 require "benchmark"
 require "pp"
 
@@ -29,8 +29,8 @@ def parse(doc)
   end
 end
 
-def dext
-  dex = Dexterous.new({
+def pars
+  parslet = Parsley.new({
     "name" => "h1",
     "phone" => "#bizPhone",
     "address" => "address",
@@ -42,12 +42,12 @@ def dext
       }
     ]
   })
-  pp dex.parse(:file => YELP_HTML)
+  pp parslet.parse(:file => YELP_HTML)
 end
 
 Benchmark.bm do |x|
   x.report("nokogiri: ")  { 3.times { noko } }
   x.report("hpricot: ")   { 3.times { hpri } }
-  x.report("dexterous: ") { 3.times { dext } }
+  x.report("parsley: ") { 3.times { pars } }
 end
 

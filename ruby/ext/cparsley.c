@@ -8,56 +8,56 @@
 #include <libxml/HTMLparser.h>
 #include <libxml/HTMLtree.h>
 #include <libxml/xmlwriter.h>
-#include <dexter.h>
+#include <parsley.h>
 #include <json/json.h>
 #include <xml2json.h>
 
 VALUE _new(VALUE, VALUE, VALUE);
 VALUE _parse_file(VALUE, VALUE, VALUE, VALUE);
 VALUE _parse_string(VALUE, VALUE, VALUE, VALUE);
-VALUE _parse_doc(parsedDexPtr, VALUE);
+VALUE _parse_doc(parsedParsleyPtr, VALUE);
 VALUE rubify_recurse(xmlNodePtr xml);
-VALUE c_dex_err;
-VALUE c_dex;
+VALUE c_parsley_err;
+VALUE c_parsley;
 
-void Init_cdexter()
+void Init_cparsley()
 {
-	c_dex = rb_define_class("CDexter", rb_cObject);
-	c_dex_err = rb_define_class("DexError", rb_eRuntimeError);
-	rb_define_singleton_method(c_dex, "new", _new, 2);
-	rb_define_method(c_dex, "parse_file", _parse_file, 3);
-	rb_define_method(c_dex, "parse_string", _parse_string, 3);
+	c_parsley = rb_define_class("CParsley", rb_cObject);
+	c_parsley_err = rb_define_class("ParsleyError", rb_eRuntimeError);
+	rb_define_singleton_method(c_parsley, "new", _new, 2);
+	rb_define_method(c_parsley, "parse_file", _parse_file, 3);
+	rb_define_method(c_parsley, "parse_string", _parse_string, 3);
 }
 
-VALUE _new(VALUE self, VALUE dex, VALUE incl){
-	dexPtr ptr = dex_compile(STR2CSTR(dex), STR2CSTR(incl));
+VALUE _new(VALUE self, VALUE parsley, VALUE incl){
+	parsleyPtr ptr = parsley_compile(STR2CSTR(parsley), STR2CSTR(incl));
 	if(ptr->error != NULL) {
-	  rb_raise(c_dex_err, ptr->error);
-    dex_free(ptr);
+	  rb_raise(c_parsley_err, ptr->error);
+    parsley_free(ptr);
     return Qnil;
 	}
 	
- 	return Data_Wrap_Struct(c_dex, 0, dex_free, ptr);
+ 	return Data_Wrap_Struct(c_parsley, 0, parsley_free, ptr);
 }
 
 VALUE _parse_file(VALUE self, VALUE name, VALUE input, VALUE output){
-	dexPtr dex;
-	Data_Get_Struct(self, dexPtr, dex);
-	return _parse_doc(dex_parse_file(dex, STR2CSTR(name), input == ID2SYM(rb_intern("html"))), output);
+	parsleyPtr parsley;
+	Data_Get_Struct(self, parsleyPtr, parsley);
+	return _parse_doc(parsley_parse_file(parsley, STR2CSTR(name), input == ID2SYM(rb_intern("html"))), output);
 }
 
 VALUE _parse_string(VALUE self, VALUE string, VALUE input, VALUE output) {
-	dexPtr dex;
-	Data_Get_Struct(self, dexPtr, dex);
+	parsleyPtr parsley;
+	Data_Get_Struct(self, parsleyPtr, parsley);
 	char* cstr = STR2CSTR(string);
-	return _parse_doc(dex_parse_string(dex, cstr, strlen(cstr), input == ID2SYM(rb_intern("html"))), output);
+	return _parse_doc(parsley_parse_string(parsley, cstr, strlen(cstr), input == ID2SYM(rb_intern("html"))), output);
 }
 
-VALUE _parse_doc(parsedDexPtr ptr, VALUE type) {
+VALUE _parse_doc(parsedParsleyPtr ptr, VALUE type) {
 	if(ptr->error != NULL || ptr->xml == NULL) {
-    if(ptr->error == NULL) ptr->error = strdup("Unknown dex error");
-		rb_raise(c_dex_err, ptr->error);
-    parsed_dex_free(ptr);
+    if(ptr->error == NULL) ptr->error = strdup("Unknown parsley error");
+		rb_raise(c_parsley_err, ptr->error);
+    parsed_parsley_free(ptr);
 		return Qnil;
 	}
 	
@@ -77,7 +77,7 @@ VALUE _parse_doc(parsedDexPtr ptr, VALUE type) {
 		if(output == NULL) output = Qnil; 
 	}
 	
-  parsed_dex_free(ptr);
+  parsed_parsley_free(ptr);
   
 	return output;
 }
@@ -97,7 +97,7 @@ VALUE rubify_recurse(xmlNodePtr xml) {
           rb_hash_aset(obj, rb_str_new2(child->name), rubify_recurse(child->children));
           child = child->next;
         }
-      } else if(!strcmp(xml->ns->prefix, "dexter")) {
+      } else if(!strcmp(xml->ns->prefix, "parsley")) {
         if(!strcmp(xml->name, "groups")) {
           obj = rb_ary_new();
           while(child != NULL) {
@@ -105,7 +105,7 @@ VALUE rubify_recurse(xmlNodePtr xml) {
             child = child->next;
           }          
         } else if(!strcmp(xml->name, "group")) {
-          // Implicitly handled by dexter:groups handler
+          // Implicitly handled by parsley:groups handler
         }
       }
       break;

@@ -1,11 +1,11 @@
 Gem::Specification.new do |s|
-  s.name     = "dexterous"
+  s.name     = "parsley-ruby"
   s.version  = "0.1.0"
   s.date     = "2008-08-10"
-  s.summary  = "Ruby binding for dexter"
+  s.summary  = "Ruby binding for parsley"
   s.email    = "kyle@kylemaxwell.com"
-  s.homepage = "http://github.com/fizx/robots"
-  s.description = "Ruby binding for dexter"
+  s.homepage = "http://github.com/fizx/parsley-ruby"
+  s.description = "Ruby binding for parsley"
   s.has_rdoc = true
   s.require_paths = ["lib", "ext"]
   s.extensions = "ext/extconf.rb"

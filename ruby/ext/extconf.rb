@@ -61,7 +61,7 @@ mylib = %w[/usr/local/lib /opt/local/lib /usr/lib]
 find_header('json/json.h', INCLUDEDIR, *myincl) or abort "need json/json.h"
 find_library('json', 'json_object_new_string', LIBDIR, *mylib) or abort "need libjson"
 
-find_header('dexter.h', INCLUDEDIR, *myincl) or abort "need dexter.h"
-find_library('dexter', 'dex_compile', LIBDIR, *mylib) or abort "need libdexter"
+find_header('parsley.h', INCLUDEDIR, *myincl) or abort "need parsley.h"
+find_library('parsley', 'parsley_compile', LIBDIR, *mylib) or abort "need libparsley"
 
-create_makefile('cdexter')
+create_makefile('cparsley')

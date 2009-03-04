@@ -4,7 +4,7 @@
 #include <stdarg.h>
 #include <json/json.h>
 #include "kstring.h"
-#include "dexter.h"
+#include "parsley.h"
 #include "y.tab.h"
 #include "printbuf.h"
 #include "functions.h"
@@ -26,14 +26,14 @@ int yywrap(void){
   return 1;
 }
 
-void parsed_dex_free(parsedDexPtr ptr) {
+void parsed_parsley_free(parsedParsleyPtr ptr) {
   if(ptr->xml != NULL) xmlFree(ptr->xml);
   if(ptr->error != NULL) free(ptr->error);
   free(ptr);
 }
 
-static parsedDexPtr parse_error(char* format, ...) {
-  parsedDexPtr ptr = (parsedDexPtr) calloc(sizeof(parsed_dex), 1);
+static parsedParsleyPtr parse_error(char* format, ...) {
+  parsedParsleyPtr ptr = (parsedParsleyPtr) calloc(sizeof(parsed_parsley), 1);
   ptr->xml = NULL;
 	va_list args;
 	va_start(args, format);
@@ -42,33 +42,33 @@ static parsedDexPtr parse_error(char* format, ...) {
   return ptr;
 }
 
-parsedDexPtr dex_parse_file(dexPtr dex, char* file, bool html) {
+parsedParsleyPtr parsley_parse_file(parsleyPtr parsley, char* file, bool html) {
 	if(html) {
 		htmlParserCtxtPtr htmlCtxt = htmlNewParserCtxt();
   	htmlDocPtr html = htmlCtxtReadFile(htmlCtxt, file, NULL, HTML_PARSE_RECOVER | HTML_PARSE_NOERROR |HTML_PARSE_NOWARNING);
     htmlFreeParserCtxt(htmlCtxt);
     if(html == NULL) return parse_error("Couldn't parse file: %s\n", file);
-		return dex_parse_doc(dex, html);
+		return parsley_parse_doc(parsley, html);
 	} else {
 		xmlParserCtxtPtr ctxt = xmlNewParserCtxt();
 		xmlDocPtr xml = xmlCtxtReadFile(ctxt, file, NULL, HTML_PARSE_RECOVER | HTML_PARSE_NOERROR |HTML_PARSE_NOWARNING);
 		xmlFreeParserCtxt(ctxt);
 		if(xml == NULL) return parse_error("Couldn't parse file: %s\n", file);
-		return dex_parse_doc(dex, xml);
+		return parsley_parse_doc(parsley, xml);
 	}
 }
 
-parsedDexPtr dex_parse_string(dexPtr dex, char* string, size_t size, bool html) {
+parsedParsleyPtr parsley_parse_string(parsleyPtr parsley, char* string, size_t size, bool html) {
 	if(html) {
 		htmlParserCtxtPtr htmlCtxt = htmlNewParserCtxt();
-  	htmlDocPtr html = htmlCtxtReadMemory(htmlCtxt, string, size, "http://kylemaxwell.com/dexter/memory", NULL, HTML_PARSE_RECOVER | HTML_PARSE_NOERROR |HTML_PARSE_NOWARNING);
+  	htmlDocPtr html = htmlCtxtReadMemory(htmlCtxt, string, size, "http://parslets.com/in-memory-string", NULL, HTML_PARSE_RECOVER | HTML_PARSE_NOERROR |HTML_PARSE_NOWARNING);
     if(html == NULL) return parse_error("Couldn't parse string");
-		return dex_parse_doc(dex, html);
+		return parsley_parse_doc(parsley, html);
 	} else {
 		xmlParserCtxtPtr ctxt = xmlNewParserCtxt();
- 		xmlDocPtr xml = xmlCtxtReadMemory(ctxt, string, size, "http://kylemaxwell.com/dexter/memory", NULL, HTML_PARSE_RECOVER | HTML_PARSE_NOERROR |HTML_PARSE_NOWARNING);
+ 		xmlDocPtr xml = xmlCtxtReadMemory(ctxt, string, size, "http://parslets.com/in-memory-string", NULL, HTML_PARSE_RECOVER | HTML_PARSE_NOERROR |HTML_PARSE_NOWARNING);
 		if(xml == NULL) return parse_error("Couldn't parse string");
-		return dex_parse_doc(dex, xml);
+		return parsley_parse_doc(parsley, xml);
 	}
 }
 
@@ -101,11 +101,11 @@ unlink(xmlNodePtr xml) {
 
 static bool 
 is_root(xmlElementPtr xml) {
-	return xml != NULL && xml->name != NULL && xml->prefix !=NULL && !strcmp(xml->name, "root") && !strcmp(xml->prefix, "dexter");
+	return xml != NULL && xml->name != NULL && xml->prefix !=NULL && !strcmp(xml->name, "root") && !strcmp(xml->prefix, "parsley");
 }
 
 static void 
-prune(parsedDexPtr ptr, xmlNodePtr xml, char* err) {   
+prune(parsedParsleyPtr ptr, xmlNodePtr xml, char* err) {   
 	if(xml == NULL) return;
   bool optional = ((xmlElementPtr )xml)->attributes != NULL;
   if(optional) {
@@ -123,7 +123,7 @@ prune(parsedDexPtr ptr, xmlNodePtr xml, char* err) {
 }
 
 static void
-visit(parsedDexPtr ptr, xmlNodePtr xml, bool bubbling) { 
+visit(parsedParsleyPtr ptr, xmlNodePtr xml, bool bubbling) { 
   if(xml->type != XML_ELEMENT_NODE) return;
   xmlNodePtr child = xml->children;
   xmlNodePtr parent = xml->parent;
@@ -146,10 +146,10 @@ xml_empty(xmlNodePtr xml) {
   return true;
 }
 
-parsedDexPtr dex_parse_doc(dexPtr dex, xmlDocPtr doc) {
-  parsedDexPtr ptr = (parsedDexPtr) calloc(sizeof(parsed_dex), 1);
-  ptr->dex = dex;
-  ptr->xml = xsltApplyStylesheet(dex->stylesheet, doc, NULL);
+parsedParsleyPtr parsley_parse_doc(parsleyPtr parsley, xmlDocPtr doc) {
+  parsedParsleyPtr ptr = (parsedParsleyPtr) calloc(sizeof(parsed_parsley), 1);
+  ptr->parsley = parsley;
+  ptr->xml = xsltApplyStylesheet(parsley->stylesheet, doc, NULL);
   if(ptr->xml != NULL && ptr->error == NULL) visit(ptr, ptr->xml->children, false);
   if(ptr->xml == NULL && ptr->error == NULL) { // == NULL
     ptr->error = strdup("Internal runtime error");
@@ -157,57 +157,57 @@ parsedDexPtr dex_parse_doc(dexPtr dex, xmlDocPtr doc) {
 	return ptr;
 }
 
-dexPtr dex_compile(char* dex_str, char* incl) {
-	dexPtr dex = (dexPtr) calloc(sizeof(compiled_dex), 1);
+parsleyPtr parsley_compile(char* parsley_str, char* incl) {
+	parsleyPtr parsley = (parsleyPtr) calloc(sizeof(compiled_parsley), 1);
 	
-	if(last_dex_error != NULL) {
-		free(last_dex_error);
-		last_dex_error = NULL;
+	if(last_parsley_error != NULL) {
+		free(last_parsley_error);
+		last_parsley_error = NULL;
 	}
 	
   registerEXSLT();
 	
-	struct json_object *json = json_tokener_parse(dex_str);
+	struct json_object *json = json_tokener_parse(parsley_str);
 	if(is_error(json)) {
-		dex->error = strdup("Your dex is not valid json.");
+		parsley->error = strdup("Your parslet is not valid json.");
     // json_object_put(json); // frees json
-		return dex;
+		return parsley;
 	}
 
 	struct printbuf* buf = printbuf_new();
 	
-  sprintbuf_dex_header(buf);
+  sprintbuf_parsley_header(buf);
 	sprintbuf(buf, "%s\n", incl);
 	sprintbuf(buf, "<xsl:template match=\"/\">\n");
-	sprintbuf(buf, "<dexter:root>\n");
+	sprintbuf(buf, "<parsley:root>\n");
 		
 	contextPtr context = new_context(json, buf);
-	__dex_recurse(context);
+	__parsley_recurse(context);
 	
 	json_object_put(json); // frees json
-	dex->error = last_dex_error;
+	parsley->error = last_parsley_error;
 	
-	sprintbuf(buf, "</dexter:root>\n");
+	sprintbuf(buf, "</parsley:root>\n");
 	sprintbuf(buf, "</xsl:template>\n");
 	sprintbuf(buf, context->key_buf->buf);
 	sprintbuf(buf, "</xsl:stylesheet>\n");
 	
-	if(dex->error == NULL) {
+	if(parsley->error == NULL) {
 		xmlParserCtxtPtr ctxt = xmlNewParserCtxt();
-		xmlDocPtr doc = xmlCtxtReadMemory(ctxt, buf->buf, buf->size, "http://kylemaxwell.com/dexter/compiled", NULL, 3);
+		xmlDocPtr doc = xmlCtxtReadMemory(ctxt, buf->buf, buf->size, "http://kylemaxwell.com/parsley/compiled", NULL, 3);
 		xmlFreeParserCtxt(ctxt);
-		dex->raw_stylesheet = strdup(buf->buf);
-		dex->stylesheet = xsltParseStylesheetDoc(doc);
+		parsley->raw_stylesheet = strdup(buf->buf);
+		parsley->stylesheet = xsltParseStylesheetDoc(doc);
 	}
 	
 	printbuf_free(buf);
-	dex_collect();
+	parsley_collect();
 	
-	return dex;
+	return parsley;
 }
 
 static contextPtr new_context(struct json_object * json, struct printbuf *buf) {
-	contextPtr c = dex_alloc(sizeof(dex_context));
+	contextPtr c = parsley_alloc(sizeof(parsley_context));
 	c->key_buf = printbuf_new();
 	sprintbuf(c->key_buf, "");
 	c->name = "root";
@@ -228,17 +228,17 @@ static contextPtr new_context(struct json_object * json, struct printbuf *buf) {
 }
 
 contextPtr deeper_context(contextPtr context, char* key, struct json_object * val) {
-	contextPtr c = dex_alloc(sizeof(dex_context));
+	contextPtr c = parsley_alloc(sizeof(parsley_context));
 	c->key_buf = context->key_buf;
 	c->keys = context->keys;
-	c->tag = dex_key_tag(key);
-  c->flags = dex_key_flags(key);
+	c->tag = parsley_key_tag(key);
+  c->flags = parsley_key_flags(key);
 	c->name = astrcat3(context->name, ".", c->tag);
-	dex_parsing_context = c;
+	parsley_parsing_context = c;
 	c->array = val != NULL && json_object_is_type(val, json_type_array);
 	c->json = c->array ? json_object_array_get_idx(val, 0) : val;
 	c->string = val != NULL && json_object_is_type(c->json, json_type_string);
-	c->filter = dex_key_filter(key);
+	c->filter = parsley_key_filter(key);
 	c->magic = ((c->filter == NULL) && c->array && !(c->string)) ? c->name : context->magic;
 	if(context->filter != NULL && !c->array) c->magic = NULL;
 	c->buf = context->buf;
@@ -259,7 +259,7 @@ static char* filter_intersection(char* key, char* expr) {
 	}
 }
 
-void dex_free(dexPtr ptr) {
+void parsley_free(parsleyPtr ptr) {
 	if(ptr->error != NULL) 						
 			free(ptr->error);
 	if(ptr->raw_stylesheet != NULL)
@@ -271,14 +271,14 @@ void dex_free(dexPtr ptr) {
 
 void yyerror(const char * s) {
 	struct printbuf *buf = printbuf_new();
-	if(last_dex_error !=NULL) sprintbuf(buf, "%s\n", last_dex_error);
-  sprintbuf(buf, "%s in key: %s", s, dex_parsing_context->name);
-	last_dex_error = strdup(buf->buf);
+	if(last_parsley_error !=NULL) sprintbuf(buf, "%s\n", last_parsley_error);
+  sprintbuf(buf, "%s in key: %s", s, parsley_parsing_context->name);
+	last_parsley_error = strdup(buf->buf);
 	printbuf_free(buf);
 }
 
 static char* optional(contextPtr c) {
-  return (c->flags & DEX_OPTIONAL) ? " optional=\"true\"" : "";
+  return (c->flags & PARSLEY_OPTIONAL) ? " optional=\"true\"" : "";
 }
 
 static bool 
@@ -289,7 +289,7 @@ all_strings(struct json_object * json) {
   return true;
 }
 
-void __dex_recurse(contextPtr context) {
+void __parsley_recurse(contextPtr context) {
 	// printf("a\n");
 	char* tmp;
 	struct printbuf * buf;
@@ -303,14 +303,14 @@ void __dex_recurse(contextPtr context) {
 			if(c->array || context->zipped) {
 				if(c->filter){
       	  // printf("b\n");
-					sprintbuf(c->buf, "<dexter:groups optional=\"true\"><xsl:for-each select=\"%s\"><dexter:group optional=\"true\">\n", c->filter);	
+					sprintbuf(c->buf, "<parsley:groups optional=\"true\"><xsl:for-each select=\"%s\"><parsley:group optional=\"true\">\n", c->filter);	
 					sprintbuf(c->buf, "<xsl:value-of select=\"%s\" />\n", c->raw_expr);
-					sprintbuf(c->buf, "</dexter:group></xsl:for-each></dexter:groups>\n");
+					sprintbuf(c->buf, "</parsley:group></xsl:for-each></parsley:groups>\n");
 				} else {
         	// printf("c\n");
-					sprintbuf(c->buf, "<dexter:groups optional=\"true\"><xsl:for-each select=\"%s\"><dexter:group optional=\"true\">\n", c->expr);	
+					sprintbuf(c->buf, "<parsley:groups optional=\"true\"><xsl:for-each select=\"%s\"><parsley:group optional=\"true\">\n", c->expr);	
 					sprintbuf(c->buf, "<xsl:value-of select=\".\" />\n");
-					sprintbuf(c->buf, "</dexter:group></xsl:for-each></dexter:groups>\n");
+					sprintbuf(c->buf, "</parsley:group></xsl:for-each></parsley:groups>\n");
 				}
 			} else {
 				if(c->filter){
@@ -327,28 +327,28 @@ void __dex_recurse(contextPtr context) {
 			if(c->array) {		// scoped
 				if(c->filter != NULL) {
         	// printf("f\n");
-					sprintbuf(c->buf, "<dexter:groups optional=\"true\"><xsl:for-each select=\"%s\"><dexter:group optional=\"true\">\n", c->filter);	
-					__dex_recurse(c);
-					sprintbuf(c->buf, "</dexter:group></xsl:for-each></dexter:groups>\n");
+					sprintbuf(c->buf, "<parsley:groups optional=\"true\"><xsl:for-each select=\"%s\"><parsley:group optional=\"true\">\n", c->filter);	
+					__parsley_recurse(c);
+					sprintbuf(c->buf, "</parsley:group></xsl:for-each></parsley:groups>\n");
 				} else {				// magic	  
 					if(all_strings(c->json)) {
             c->magic = NULL;
             c->zipped = 1;
-  					sprintbuf(c->buf, "<dexter:zipped>\n");
-            __dex_recurse(c);
-  					sprintbuf(c->buf, "</dexter:zipped>\n");
+  					sprintbuf(c->buf, "<parsley:zipped>\n");
+            __parsley_recurse(c);
+  					sprintbuf(c->buf, "</parsley:zipped>\n");
 					} else {
   				  // printf("h\n");
   					sprintbuf(c->buf, "<xsl:variable name=\"%s__context\" select=\".\"/>\n", c->name);
-  					dex_parsing_context = c;
+  					parsley_parsing_context = c;
             char * str = inner_key_of(c->json);
   					if(str != NULL) {
     				  // printf("i\n");
     					tmp = myparse(astrdup(str));
-  					  sprintbuf(c->buf, "<dexter:groups optional=\"true\"><xsl:for-each select=\"%s\">\n", filter_intersection(context->magic, tmp));	
+  					  sprintbuf(c->buf, "<parsley:groups optional=\"true\"><xsl:for-each select=\"%s\">\n", filter_intersection(context->magic, tmp));	
 
     					// keys
-    					keys = dex_alloc(sizeof(key_node));
+    					keys = parsley_alloc(sizeof(key_node));
     					keys->name = c->name;
     					keys->use = full_expr(c, tmp);
     					keys->next = c->keys;
@@ -371,20 +371,20 @@ void __dex_recurse(contextPtr context) {
     					);
 
     					sprintbuf(c->buf, "<xsl:variable name=\"%s__index\" select=\"%s\"/>\n", c->name, tmp);
-    					sprintbuf(c->buf, "<xsl:for-each select=\"$%s__context\"><dexter:group optional=\"true\">\n", c->name);	
-    					__dex_recurse(c);
-    					sprintbuf(c->buf, "</dexter:group></xsl:for-each></xsl:for-each></dexter:groups>\n");	
+    					sprintbuf(c->buf, "<xsl:for-each select=\"$%s__context\"><parsley:group optional=\"true\">\n", c->name);	
+    					__parsley_recurse(c);
+    					sprintbuf(c->buf, "</parsley:group></xsl:for-each></xsl:for-each></parsley:groups>\n");	
     				}				
   				}
 				}
 			} else {
 				// printf("j\n");
 				if(c->filter == NULL) {
-					__dex_recurse(c);
+					__parsley_recurse(c);
 				} else {
 				  // printf("k\n");	
 					sprintbuf(c->buf, "<xsl:for-each select=\"%s\"><xsl:if test=\"position() = 1\">\n", c->filter);	
-					__dex_recurse(c);
+					__parsley_recurse(c);
 					sprintbuf(c->buf, "</xsl:if></xsl:for-each>\n");
 				}
 			}

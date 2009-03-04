@@ -4,8 +4,8 @@
 # - define stable c api
 # - p/br support explicit
 # - p/br support needs div?!
-# - dex_parse_url support
-# - ruby binding for dex_parse_url
+# - parsley_parse_url support
+# - ruby binding for parsley_parse_url
 # - relative urls
 # - p/br support needs multicase handling
 # - reorganize project (at least tests, makefile.am src?!)

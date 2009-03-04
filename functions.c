@@ -17,8 +17,8 @@
 #include "functions.h"
 
 
-void dex_register_all(){
-	xsltRegisterExtModuleFunction ((const xmlChar *) "html-document", "http://kylemaxwell.com/dexter/library",
+void parsley_register_all(){
+	xsltRegisterExtModuleFunction ((const xmlChar *) "html-document", "http://parslets.com/stdlib",
 		   xsltHtmlDocumentFunction);
 }
 
