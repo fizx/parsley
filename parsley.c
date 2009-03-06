@@ -134,7 +134,7 @@ visit(parsedParsleyPtr ptr, xmlNodePtr xml, char* err) {
     if(err == NULL) asprintf(&err, "%s was empty", xpath_of(xml));
     prune(ptr, xml, err);
   } else if(err != NULL) {
-    // free(err);
+    free(err);
   }
   while(err == NULL && child != NULL){
     visit(ptr, child, err);
