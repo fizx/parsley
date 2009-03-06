@@ -76,7 +76,9 @@ static char *
 xpath_of(xmlNodePtr node) {
   char *out = NULL;
   while(node->name != NULL && node->parent != NULL) {
-    out = out == NULL ? node->name : astrcat3(node->name, "/", out);
+    if(node->ns == NULL) {
+      out = out == NULL ? node->name : astrcat3(node->name, "/", out);
+    }
     node = node->parent;
   }
   return astrcat("/", out);
@@ -110,7 +112,7 @@ prune(parsedParsleyPtr ptr, xmlNodePtr xml, char* err) {
   bool optional = ((xmlElementPtr )xml)->attributes != NULL;
   if(optional) {
     unlink(xml);
-    visit(ptr, xml->parent, true);
+    visit(ptr, xml->parent, err);
     return;
   } else {
     if(err == NULL) asprintf(&err, "%s was empty", xpath_of(xml));
@@ -123,14 +125,19 @@ prune(parsedParsleyPtr ptr, xmlNodePtr xml, char* err) {
 }
 
 static void
-visit(parsedParsleyPtr ptr, xmlNodePtr xml, bool bubbling) { 
+visit(parsedParsleyPtr ptr, xmlNodePtr xml, char* err) { 
   if(xml->type != XML_ELEMENT_NODE) return;
   xmlNodePtr child = xml->children;
   xmlNodePtr parent = xml->parent;
   if(parent == NULL) return;
-  if(xml_empty(xml)) prune(ptr, xml, NULL);
-  while(!bubbling && child != NULL){
-    visit(ptr, child, bubbling);
+  if(xml_empty(xml)) {
+    if(err == NULL) asprintf(&err, "%s was empty", xpath_of(xml));
+    prune(ptr, xml, err);
+  } else if(err != NULL) {
+    // free(err);
+  }
+  while(err == NULL && child != NULL){
+    visit(ptr, child, err);
     child = child->next;
   }
 }
@@ -148,9 +155,10 @@ xml_empty(xmlNodePtr xml) {
 
 parsedParsleyPtr parsley_parse_doc(parsleyPtr parsley, xmlDocPtr doc) {
   parsedParsleyPtr ptr = (parsedParsleyPtr) calloc(sizeof(parsed_parsley), 1);
+  ptr->error = NULL;
   ptr->parsley = parsley;
   ptr->xml = xsltApplyStylesheet(parsley->stylesheet, doc, NULL);
-  if(ptr->xml != NULL && ptr->error == NULL) visit(ptr, ptr->xml->children, false);
+  if(ptr->xml != NULL && ptr->error == NULL) visit(ptr, ptr->xml->children, NULL);
   if(ptr->xml == NULL && ptr->error == NULL) { // == NULL
     ptr->error = strdup("Internal runtime error");
   }

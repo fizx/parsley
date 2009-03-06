@@ -90,7 +90,7 @@ static char* filter_intersection(char*, char*);
 static char* inner_key_of(struct json_object *);
 static char* inner_key_each(struct json_object *);
 
-static void visit(parsedParsleyPtr ptr, xmlNodePtr xml, bool bubbling);
+static void visit(parsedParsleyPtr ptr, xmlNodePtr xml, char* err);
 static bool xml_empty(xmlNodePtr xml);
 	
 #endif

@@ -1,0 +1,11 @@
+{
+  "video(.video-cell)": [ {
+      "thumbnail": ".vimg120 @src",
+      "title": ".video-short-title a",
+      "link": ".video-short-title a @href",
+      "posted": ".video-date-added",
+      "views": ".video-view-count",
+      "length": ".video-time span",
+      "rating": ".ratingVS @title"
+    } ]
+}
