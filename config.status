@@ -357,7 +357,7 @@ Copyright (C) 2008 Free Software Foundation, Inc.
 This config.status script is free software; the Free Software Foundation
 gives unlimited permission to copy, distribute and modify it."
 
-ac_pwd='/Users/kyle/Git/dexter'
+ac_pwd='/Users/kyle/Git/parsley'
 srcdir='.'
 INSTALL='/usr/bin/install -c'
 MKDIR_P='./install-sh -c -d'
@@ -749,7 +749,7 @@ S["CFLAGS"]="-g -O2"
 S["CC"]="gcc -std=gnu99"
 S["am__untar"]="${AMTAR} xf -"
 S["am__tar"]="${AMTAR} chof - \"$$tardir\""
-S["AMTAR"]="${SHELL} /Users/kyle/Git/dexter/missing --run tar"
+S["AMTAR"]="${SHELL} /Users/kyle/Git/parsley/missing --run tar"
 S["am__leading_dot"]="."
 S["SET_MAKE"]=""
 S["AWK"]="awk"
@@ -757,12 +757,12 @@ S["mkdir_p"]="$(top_builddir)/./install-sh -c -d"
 S["MKDIR_P"]="./install-sh -c -d"
 S["INSTALL_STRIP_PROGRAM"]="$(install_sh) -c -s"
 S["STRIP"]="strip"
-S["install_sh"]="$(SHELL) /Users/kyle/Git/dexter/install-sh"
-S["MAKEINFO"]="${SHELL} /Users/kyle/Git/dexter/missing --run makeinfo"
-S["AUTOHEADER"]="${SHELL} /Users/kyle/Git/dexter/missing --run autoheader"
-S["AUTOMAKE"]="${SHELL} /Users/kyle/Git/dexter/missing --run automake-1.10"
-S["AUTOCONF"]="${SHELL} /Users/kyle/Git/dexter/missing --run autoconf"
-S["ACLOCAL"]="${SHELL} /Users/kyle/Git/dexter/missing --run aclocal-1.10"
+S["install_sh"]="$(SHELL) /Users/kyle/Git/parsley/install-sh"
+S["MAKEINFO"]="${SHELL} /Users/kyle/Git/parsley/missing --run makeinfo"
+S["AUTOHEADER"]="${SHELL} /Users/kyle/Git/parsley/missing --run autoheader"
+S["AUTOMAKE"]="${SHELL} /Users/kyle/Git/parsley/missing --run automake-1.10"
+S["AUTOCONF"]="${SHELL} /Users/kyle/Git/parsley/missing --run autoconf"
+S["ACLOCAL"]="${SHELL} /Users/kyle/Git/parsley/missing --run aclocal-1.10"
 S["VERSION"]="1.0"
 S["PACKAGE"]="parsleyc"
 S["CYGPATH_W"]="echo"

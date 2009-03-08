@@ -1,0 +1,9 @@
+{
+	"days": [ {
+			"day": ".day",
+			"links(a)": [ {
+					"title": ".",
+					"url": "@href"
+				} ]
+		} ]
+}

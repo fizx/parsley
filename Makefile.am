@@ -39,3 +39,4 @@ check-am:
 	@echo "trivial2..."; ./parsley test/trivial2.let test/trivial2.html | diff test/trivial2.json - && echo "    success."
 	@echo "craigs-simple..."; ./parsley test/craigs-simple.let test/craigs-simple.html | diff test/craigs-simple.json - && echo "    success."
 	@echo "yelp-home..."; ./parsley test/yelp-home.let test/yelp-home.html | diff test/yelp-home.json - && echo "    success."
+	@echo "cool..."; perl -e 'alarm shift @ARGV; exec @ARGV' 1 ./parsley test/cool.let test/cool.html | diff test/cool.json - && echo "    success."
