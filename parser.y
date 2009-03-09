@@ -28,18 +28,16 @@ int yyparse(void);
 pxpathPtr myparse(char*);
 void answer(pxpathPtr);
 
-#define BIN_OP     pxpath_cat_paths(3, $1, PXP($2), $3);
-#define PREP_OP    pxpath_cat_paths(2, PXPIZE, $2)
-#define PXPIZE     pxpath_new_path(1, $1)
-#define PXP(A)     pxpath_new_path(1, A)
-#define APPEND(A)  pxpath_cat_paths(2, $1, PXP(A)); 
-#define PREPEND(A) pxpath_cat_paths(2, PXP(A), $1); 
-#define PXPWRAP    pxpath_cat_paths(3, PXP($1), $2, PXP($3))
-#define PATTERN4(A, B)      pxpath_cat_paths(4, $1, PXP(A), $3, PXP(B))
-#define PATTERN4A(A, B)     pxpath_cat_paths(4, $1, PXP(A), $4, PXP(B))
-#define PATTERN4B(A, B)     pxpath_cat_paths(4, PXP(A), $4, PXP(B), $1)
-#define PATTERN6(A, B, C)   pxpath_cat_paths(6, $1, PXP(A), $3, PXP(B), $7, PXP(C));
-#define INPUT_TYPE(A)   APPEND("[lower-case(name())='input' and lower-case(@type)='" #A "']")
+#define BIN_OP(A, B, C)               pxpath_cat_paths(3, A, PXP(B), C);
+#define PREP_OP(A, B)                 pxpath_cat_paths(2, PXP(A), B)
+#define PXP(A)                        pxpath_new_path(1, A)
+#define APPEND(A, S)                  pxpath_cat_paths(2, A, PXP(S)); 
+#define PREPEND(A, S)                 pxpath_cat_paths(2, PXP(S), A); 
+#define PXPWRAP(A, B, C)              pxpath_cat_paths(3, PXP(A), B, PXP(C))
+#define P4E(A, B, C, D)               pxpath_cat_paths(4, A, PXP(B), C, PXP(D))
+#define P4O(A, B, C, D)               pxpath_cat_paths(4, PXP(A), B, PXP(C), D)
+#define P6E(A, B, C, D, E, F)         pxpath_cat_paths(6, A, PXP(B), C, PXP(D), E, PXP(F));
+#define INPUT_TYPE(A, S)              APPEND(A, "[lower-case(name())='input' and lower-case(@type)='" #S "']")
 
 #endif
   
@@ -224,26 +222,26 @@ LocationPath
 	;
 	
 AbsoluteLocationPath
-  : SLASH RelativeLocationPath				{ $$ = PREP_OP; }
-	| SLASH                             { $$ = PXPIZE; }
+  : SLASH RelativeLocationPath				{ $$ = PREP_OP($1, $2); }
+	| SLASH                             { $$ = PXP($1); }
 	| AbbreviatedAbsoluteLocationPath
 	;
 	
 RelativeLocationPath
   : Step 
-  | RelativeLocationPath SLASH Step		{ $$ = BIN_OP; }
+  | RelativeLocationPath SLASH Step		{ $$ = BIN_OP($1, $2, $3); }
 	| AbbreviatedRelativeLocationPath
 	;
 	
 Step
   : AxisSpecifier NodeTest						{ $$ = pxpath_cat_paths(2, $1, $2); }
 	| AxisSpecifier NodeTest Predicate  { $$ = pxpath_cat_paths(3, $1, $2, $3); }
-	| AbbreviatedStep                   { $$ = PXPIZE; }
+	| AbbreviatedStep                   { $$ = PXP($1); }
 	;
 	
 AxisSpecifier
   : AxisName DBLCOLON									{ $$ = pxpath_new_path(2, $1, $2); } 
-	| AbbreviatedAxisSpecifier          { $$ = PXPIZE; }
+	| AbbreviatedAxisSpecifier          { $$ = PXP($1); }
 	;
 AxisName
 	: XANCESTOR 		
@@ -268,7 +266,7 @@ NodeTest
 	;
 	
 Predicate
-  : LBRA PredicateExpr RBRA						 { $$ = PXPWRAP; }
+  : LBRA PredicateExpr RBRA						 { $$ = PXPWRAP($1, $2, $3); }
 	;
 	
 PredicateExpr
@@ -276,11 +274,11 @@ PredicateExpr
 	;
 	
 AbbreviatedAbsoluteLocationPath
-  : DBLSLASH RelativeLocationPath			{ $$ = PREP_OP; }
+  : DBLSLASH RelativeLocationPath			{ $$ = PREP_OP($1, $2); }
 	;
 	
 AbbreviatedRelativeLocationPath
-  : RelativeLocationPath DBLSLASH Step	{ $$ = BIN_OP; }
+  : RelativeLocationPath DBLSLASH Step	{ $$ = BIN_OP($1, $2, $3); }
 	;
 	
 AbbreviatedStep
@@ -293,13 +291,13 @@ AbbreviatedAxisSpecifier
 	|				{ $$ = ""; }
 	;
 Expr
-  : LPAREN Expr RPAREN %dprec 2  { $$ = PXPWRAP;    }  
-  | OrExpr						 %dprec 1
+  : LPAREN Expr RPAREN %dprec 2  { $$ = PXPWRAP($1, $2, $3);    }  
+  | OrExpr						 %dprec 1 
 	;
 PrimaryExpr
   : VariableReference 
-	| LPAREN Expr RPAREN 				 	{ $$ = PXPWRAP;     }  
-	| Literal                     { $$ = PXPIZE; }
+	| LPAREN Expr RPAREN 				 	{ $$ = PXPWRAP($1, $2, $3);     }  
+  | Literal                     { $$ = PXP($1);  }
   | Number 
 	| FunctionCall
 	;
@@ -312,7 +310,7 @@ Arguments
 	|										{ $$ = NULL; }
 	;
 ArgumentSet
-  :	Argument COMMA ArgumentSet	 	  %dprec 2		{ $$ = $1; $1->next = $2; }
+  :	Argument COMMA ArgumentSet	 	  %dprec 2		{ $$ = $1; $1->next = $3; }
 	| Argument												%dprec 1
 	;
 Argument
@@ -320,14 +318,14 @@ Argument
 	;
 UnionExpr
   : PathExpr 
-	| UnionExpr PIPE PathExpr							{ $$ = BIN_OP; }
+	| UnionExpr PIPE PathExpr							{ $$ = BIN_OP($1, $2, $3); }
 	;
 	
 PathExpr
   : LocationPath 
-	| FilterExpr
-	| FilterExpr SLASH RelativeLocationPath					{ $$ = BIN_OP; }
-	| FilterExpr DBLSLASH RelativeLocationPath			{ $$ = BIN_OP; }
+	| FilterExpr                                    
+	| FilterExpr SLASH RelativeLocationPath					{ $$ = BIN_OP($1, $2, $3); }
+	| FilterExpr DBLSLASH RelativeLocationPath			{ $$ = BIN_OP($1, $2, $3); }
 	;
 	
 FilterExpr
@@ -337,51 +335,51 @@ FilterExpr
 	
 OrExpr
   : AndExpr 
-	| OrExpr XOR AndExpr						{ $$ = BIN_OP; }
+	| OrExpr XOR AndExpr						{ $$ = BIN_OP($1, $2, $3); }
 	;
 	
 AndExpr
   : EqualityExpr 
-	| AndExpr XAND EqualityExpr			{ $$ = BIN_OP; }
+	| AndExpr XAND EqualityExpr			{ $$ = BIN_OP($1, $2, $3); }
 	;
 	
 EqualityExpr
   : RelationalExpr 
-	| EqualityExpr EQ RelationalExpr				{ $$ = BIN_OP; }
-	| EqualityExpr CXOPNE RelationalExpr		{ $$ = BIN_OP; }	
+	| EqualityExpr EQ RelationalExpr				{ $$ = BIN_OP($1, $2, $3); }
+	| EqualityExpr CXOPNE RelationalExpr		{ $$ = BIN_OP($1, $2, $3); }	
 	;
 	
 RelationalExpr
   : AdditiveExpr
-  | RelationalExpr LT AdditiveExpr        { $$ = BIN_OP; }
-  | RelationalExpr GT AdditiveExpr        { $$ = BIN_OP; }
-  | RelationalExpr LTE AdditiveExpr       { $$ = BIN_OP; }
-  | RelationalExpr GTE AdditiveExpr       { $$ = BIN_OP; }
+  | RelationalExpr LT AdditiveExpr        { $$ = BIN_OP($1, $2, $3); }
+  | RelationalExpr GT AdditiveExpr        { $$ = BIN_OP($1, $2, $3); }
+  | RelationalExpr LTE AdditiveExpr       { $$ = BIN_OP($1, $2, $3); }
+  | RelationalExpr GTE AdditiveExpr       { $$ = BIN_OP($1, $2, $3); }
 	;
 	
 AdditiveExpr
   : MultiplicativeExpr
-	| AdditiveExpr PLUS MultiplicativeExpr		{ $$ = BIN_OP; }
-	| AdditiveExpr DASH MultiplicativeExpr		{ $$ = BIN_OP; }
+	| AdditiveExpr PLUS MultiplicativeExpr		{ $$ = BIN_OP($1, $2, $3); }
+	| AdditiveExpr DASH MultiplicativeExpr		{ $$ = BIN_OP($1, $2, $3); }
 	;
 	
 MultiplicativeExpr
   : UnaryExpr
-  | MultiplicativeExpr MultiplyOperator UnaryExpr		{ $$ = BIN_OP; }
-  | MultiplicativeExpr XDIV UnaryExpr               { $$ = BIN_OP; }
-  | MultiplicativeExpr XMOD UnaryExpr               { $$ = BIN_OP; }
+  | MultiplicativeExpr MultiplyOperator UnaryExpr		{ $$ = BIN_OP($1, $2, $3); }
+  | MultiplicativeExpr XDIV UnaryExpr               { $$ = BIN_OP($1, $2, $3); }
+  | MultiplicativeExpr XMOD UnaryExpr               { $$ = BIN_OP($1, $2, $3); }
 	;
 	
 UnaryExpr
   : UnionExpr 
-	| DASH UnaryExpr		{ $$ = PREP_OP; }
+	| DASH UnaryExpr		{ $$ = PREP_OP($1, $2); }
 	;
 	
 Literal
   : STRING
 	;
 Number
-  : NUMBER                { $$ = PXPIZE; }
+  : NUMBER                { $$ = PXP($1); }
 	| NUMBER DOT						{ $$ = pxpath_new_path(2, $1, $2); }
 	| NUMBER DOT NUMBER			{ $$ = pxpath_new_path(3, $1, $2, $3); }
 	| DOT NUMBER						{ $$ = pxpath_new_path(2, $1, $2); }
@@ -392,11 +390,11 @@ MultiplyOperator
 	;
 	
 VariableReference
-  : DOLLAR QName				{	$$ = PREP_OP; }
+  : DOLLAR QName				{	$$ = PREP_OP($1, $2); }
 	;
 	
 NameTest
-  : SPLAT               { $$ = PXPIZE; }
+  : SPLAT               { $$ = PXP($1); }
 	| NCName COLON SPLAT 	{ $$ = pxpath_new_path(3, $1, $2, $3); }
 	| QName
 	;
@@ -414,7 +412,7 @@ FunctionName
 
 QName
 	: PrefixedName
-	| UnprefixedName      { $$ = PXPIZE; }
+	| UnprefixedName      { $$ = PXP($1); }
 	;
 
 PrefixedName
@@ -444,11 +442,11 @@ selectors_group
 
 attribute_extended_selector
 	: selector
-	| selector S AT NAME	{ $$ = APPEND(pxpath_new_path(2, "/@", $4)); }
+	| selector S AT NAME	{ $$ = pxpath_cat_paths(3, $1, PXP("/@"), PXP($4)); }
 	;
 
 selector
-  : simple_selector_sequence combinator selector						{ $$ = pxpath_cat_paths(3, $1, $2, $3); }
+  : simple_selector_sequence combinator selector						{ $$ = pxpath_cat_paths(3, $1, PXP($2), $3); }
 	| simple_selector_sequence
   ;
 	
@@ -461,53 +459,53 @@ combinator
 
 simple_selector_sequence
 	: simple_selector_anchor                        
-	| possibly_empty_sequence HASH Ident		                                                              { $$ = PATTERN4("[@id='", "']"); }
-	| possibly_empty_sequence DOT Ident		                                                                { $$ = PATTERN4("[contains(concat( ' ', @class, ' ' ), concat( ' ', '",  "', ' ' ))]"); }
-	| possibly_empty_sequence LBRA	type_selector RBRA                                                    { $$ = PATTERN4("[@", "]"); }
-	| possibly_empty_sequence LBRA	type_selector OptS EQ OptS StringLike OptS RBRA                       { $$ = PATTERN6("[@", " = ", "]"); }
 	| possibly_empty_sequence LBRA	type_selector OptS CXOPHE OptS StringLike OptS RBRA                   { $$ = pxpath_cat_paths(10, $1, PXP("[@"), $3, PXP(" = "), $7, PXP(" or starts-with(@"), $3, PXP(", concat("), $7, PXP(", '-' ))]")); }
-	| possibly_empty_sequence LBRA	type_selector OptS CXOPNE OptS StringLike OptS RBRA                   { $$ = PATTERN6("[@", " != ", "]"); }
-	| possibly_empty_sequence LBRA	type_selector OptS CXOPSTARTEQ OptS StringLike OptS RBRA              { $$ = PATTERN6("[starts-with(@", ", ", ")]"); }
-	| possibly_empty_sequence LBRA	type_selector OptS CXOPENDEQ OptS StringLike OptS RBRA                { $$ = PATTERN6("[ends-with(@", ", ", ")]"); }
-	| possibly_empty_sequence LBRA	type_selector OptS CXOPCONTAINS OptS StringLike OptS RBRA             { $$ = PATTERN6("[contains(@", ", ", ")]"); }
-	| possibly_empty_sequence LBRA	type_selector OptS CXOPCONTAINS2 OptS StringLike OptS RBRA            { $$ = PATTERN6("[contains(@", ", ", ")]"); }
-	| possibly_empty_sequence CXFIRST	                                                                    { $$ = APPEND("[1]"); }
-	| possibly_empty_sequence CXLAST	                                                                  	{ $$ = APPEND("[last()]"); }
 	| possibly_empty_sequence CXNOT LPAREN selectors_group RPAREN		                                      { $$ = pxpath_cat_paths(5, PXP("set-difference("), $1, PXP(", "), $4, PXP(")")); }
-	| possibly_empty_sequence CXEVEN		                                                                  { $$ = APPEND("[position() % 2 = 0]"); }
-	| possibly_empty_sequence CXODD		                                                                    { $$ = APPEND("[position() % 2 = 1]"); }
-	| possibly_empty_sequence CXEQ LPAREN NumberLike RPAREN			                                          { $$ = PATTERN4A("[position() = ", "]"); }
-	| possibly_empty_sequence CXGT LPAREN NumberLike RPAREN			                                          { $$ = PATTERN4A("[position() > ", "]"); }
-	| possibly_empty_sequence CXLT LPAREN NumberLike RPAREN			                                          { $$ = PATTERN4A("[position() < ", "]"); }
-	| possibly_empty_sequence CXHEADER		                                                                { $$ = APPEND("[contains('h1 h2 h3 h4 h5 h6', lower-case(local-name()))]"); }
-	| possibly_empty_sequence CXCONTAINS	LPAREN StringLike RPAREN                                        { $$ = PATTERN4A("[contains(., ", "]"); }
-	| possibly_empty_sequence CXEMPTY		                                                                  { $$ = APPEND("[not(node())]"); }
-	| possibly_empty_sequence CXHAS LPAREN selectors_group RPAREN		                                      { $$ = PATTERN4A("[", "]"); }
-	| possibly_empty_sequence CXPARENT		                                                                { $$ = APPEND("[node()]"); }
-	| possibly_empty_sequence CXNTHCH LPAREN NumberLike RPAREN 	                                          { $$ = PATTERN4B("*[", "]/self::"); }
-	| possibly_empty_sequence CXNTHLASTCH LPAREN NumberLike RPAREN 	                                      { $$ = PATTERN4B("*[last() - ", "]/self::"); }
-	| possibly_empty_sequence CXNTHTYPE LPAREN NumberLike RPAREN		                                    	{ $$ = PATTERN4A("[position() = ", PXP("]"); }
-	| possibly_empty_sequence CXNTHLASTTYPE LPAREN NumberLike RPAREN			                                { $$ = PATTERN4A("[position() = last() - ", "]"); }
-	| possibly_empty_sequence CXFIRSTCH 	                                                                { $$ = PREPEND("*[1]/self::"); }
-	| possibly_empty_sequence CXLASTCH 	                                                                  { $$ = PREPEND("*[last()]/self::"); }
-	| possibly_empty_sequence CXFIRSTTYPE                                                                 { $$ = APPEND("[1]"); }
-	| possibly_empty_sequence CXLASTTYPE                                                                  { $$ = APPEND("[last()]"); }
-	| possibly_empty_sequence CXONLYCH 		                                                                { $$ = PREPEND("*[count()=1]/self::"); }
-	| possibly_empty_sequence CXONLYTYPE 	                                                                { $$ = APPEND("[count()=1]"); }
-	| possibly_empty_sequence CXINPUT 		                                                                { $$ = APPEND("[lower-case(name())='input']"); }
-  | possibly_empty_sequence CXTEXT 			                                                                { $$ = INPUT_TYPE(text); }
-	| possibly_empty_sequence CXPASSWORD 	                                                                { $$ = INPUT_TYPE(password); }
-	| possibly_empty_sequence CXRADIO 		                                                                { $$ = INPUT_TYPE(radio); }
-	| possibly_empty_sequence CXCHECKBOX 	                                                                { $$ = INPUT_TYPE(checkbox); }
-	| possibly_empty_sequence CXSUBMIT 		                                                                { $$ = INPUT_TYPE(submit); }
-	| possibly_empty_sequence CXIMAGE 		                                                                { $$ = INPUT_TYPE(image); }
-	| possibly_empty_sequence CXRESET 		                                                                { $$ = INPUT_TYPE(reset); }
-	| possibly_empty_sequence CXBUTTON 		                                                                { $$ = INPUT_TYPE(button); }
-	| possibly_empty_sequence CXFILE 			                                                                { $$ = INPUT_TYPE(file); }
-	| possibly_empty_sequence CXENABLED 	                                                                { $$ = APPEND("[lower-case(name())='input' and not(@disabled)]"); }
-	| possibly_empty_sequence CXDISABLED 	                                                                { $$ = APPEND("[lower-case(name())='input' and @disabled]"); }
-	| possibly_empty_sequence CXCHECKED 	                                                                { $$ = APPEND("[@checked]"); }
-	| possibly_empty_sequence CXSELECTED 	                                                                { $$ = APPEND("[@selected]"); }
+	| possibly_empty_sequence HASH Ident		                                                              { $$ = P4E($1, "[@id='", $3, "']"); }
+	| possibly_empty_sequence DOT Ident		                                                                { $$ = P4E($1, "[contains(concat( ' ', @class, ' ' ), concat( ' ', '", $3, "', ' ' ))]"); }
+	| possibly_empty_sequence LBRA	type_selector RBRA                                                    { $$ = P4E($1, "[@", $3, "]"); }
+	| possibly_empty_sequence CXEQ LPAREN NumberLike RPAREN			                                          { $$ = P4E($1, "[position() = ", $3, "]"); }
+	| possibly_empty_sequence CXGT LPAREN NumberLike RPAREN			                                          { $$ = P4E($1, "[position() > ", $3, "]"); }
+	| possibly_empty_sequence CXLT LPAREN NumberLike RPAREN			                                          { $$ = P4E($1, "[position() < ", $3, "]"); }
+	| possibly_empty_sequence CXCONTAINS	LPAREN StringLike RPAREN                                        { $$ = P4E($1, "[contains(., ", $3, "]"); }
+	| possibly_empty_sequence CXHAS LPAREN selectors_group RPAREN		                                      { $$ = P4E($1, "[", $3, "]"); }
+	| possibly_empty_sequence CXNTHTYPE LPAREN NumberLike RPAREN		                                    	{ $$ = P4E($1, "[position() = ", $3, "]"); }
+	| possibly_empty_sequence CXNTHLASTTYPE LPAREN NumberLike RPAREN			                                { $$ = P4E($1, "[position() = last() - ", $3, "]"); }
+	| possibly_empty_sequence LBRA	type_selector OptS EQ OptS StringLike OptS RBRA                       { $$ = P6($1, "[@", $3, " = ", $7, "]"); }
+	| possibly_empty_sequence LBRA	type_selector OptS CXOPNE OptS StringLike OptS RBRA                   { $$ = P6($1, "[@", $3, " != ", "]"); }
+	| possibly_empty_sequence LBRA	type_selector OptS CXOPSTARTEQ OptS StringLike OptS RBRA              { $$ = P6($1, "[starts-with(@", $3, ", ", $7, ")]"); }
+	| possibly_empty_sequence LBRA	type_selector OptS CXOPENDEQ OptS StringLike OptS RBRA                { $$ = P6($1, "[ends-with(@", $3, ", ", $7, ")]"); }
+	| possibly_empty_sequence LBRA	type_selector OptS CXOPCONTAINS OptS StringLike OptS RBRA             { $$ = P6($1, "[contains(@", $3, ", ", $7, ")]"); }
+	| possibly_empty_sequence LBRA	type_selector OptS CXOPCONTAINS2 OptS StringLike OptS RBRA            { $$ = P6($1, "[contains(@", $3, ", ", $7, ")]"); }
+	| possibly_empty_sequence CXNTHCH LPAREN NumberLike RPAREN 	                                          { $$ = P4O("*[", $4,  "]/self::", $1); }
+	| possibly_empty_sequence CXNTHLASTCH LPAREN NumberLike RPAREN 	                                      { $$ = P4O("*[last() - ", $4, "]/self::", $1); }
+	| possibly_empty_sequence CXFIRST	                                                                    { $$ = APPEND($1, "[1]"); }
+	| possibly_empty_sequence CXLAST	                                                                  	{ $$ = APPEND($1, "[last()]"); }
+	| possibly_empty_sequence CXEVEN		                                                                  { $$ = APPEND($1, "[position() % 2 = 0]"); }
+	| possibly_empty_sequence CXODD		                                                                    { $$ = APPEND($1, "[position() % 2 = 1]"); }
+	| possibly_empty_sequence CXHEADER		                                                                { $$ = APPEND($1, "[contains('h1 h2 h3 h4 h5 h6', lower-case(local-name()))]"); }
+	| possibly_empty_sequence CXEMPTY		                                                                  { $$ = APPEND($1, "[not(node())]"); }
+	| possibly_empty_sequence CXPARENT		                                                                { $$ = APPEND($1, "[node()]"); }
+	| possibly_empty_sequence CXFIRSTTYPE                                                                 { $$ = APPEND($1, "[1]"); }
+	| possibly_empty_sequence CXLASTTYPE                                                                  { $$ = APPEND($1, "[last()]"); }
+	| possibly_empty_sequence CXONLYTYPE 	                                                                { $$ = APPEND($1, "[count()=1]"); }
+	| possibly_empty_sequence CXINPUT 		                                                                { $$ = APPEND($1, "[lower-case(name())='input']"); }
+	| possibly_empty_sequence CXENABLED 	                                                                { $$ = APPEND($1, "[lower-case(name())='input' and not(@disabled)]"); }
+	| possibly_empty_sequence CXDISABLED 	                                                                { $$ = APPEND($1, "[lower-case(name())='input' and @disabled]"); }
+	| possibly_empty_sequence CXCHECKED 	                                                                { $$ = APPEND($1, "[@checked]"); }
+	| possibly_empty_sequence CXSELECTED 	                                                                { $$ = APPEND($1, "[@selected]"); }
+	| possibly_empty_sequence CXFIRSTCH 	                                                                { $$ = PREPEND($1, "*[1]/self::"); }
+	| possibly_empty_sequence CXLASTCH 	                                                                  { $$ = PREPEND($1, "*[last()]/self::"); }
+	| possibly_empty_sequence CXONLYCH 		                                                                { $$ = PREPEND($1, "*[count()=1]/self::"); }
+  | possibly_empty_sequence CXTEXT 			                                                                { $$ = INPUT_TYPE($1, text); }
+	| possibly_empty_sequence CXPASSWORD 	                                                                { $$ = INPUT_TYPE($1, password); }
+	| possibly_empty_sequence CXRADIO 		                                                                { $$ = INPUT_TYPE($1, radio); }
+	| possibly_empty_sequence CXCHECKBOX 	                                                                { $$ = INPUT_TYPE($1, checkbox); }
+	| possibly_empty_sequence CXSUBMIT 		                                                                { $$ = INPUT_TYPE($1, submit); }
+	| possibly_empty_sequence CXIMAGE 		                                                                { $$ = INPUT_TYPE($1, image); }
+	| possibly_empty_sequence CXRESET 		                                                                { $$ = INPUT_TYPE($1, reset); }
+	| possibly_empty_sequence CXBUTTON 		                                                                { $$ = INPUT_TYPE($1, button); }
+	| possibly_empty_sequence CXFILE 			                                                                { $$ = INPUT_TYPE($1, file); }
 	;
 	
 possibly_empty_sequence
@@ -537,19 +535,19 @@ element_name
 
 universal
   : namespace_prefix SPLAT { $$ = astrcat3($1, ":", $2); }
-  | SPLAT                   { $$ = PXPIZE; }
+  | SPLAT                   { $$ = PXP($1); }
   ;
 
 NumberLike
-	: NUMBER                  { $$ = PXPIZE; }
+	: NUMBER                  { $$ = PXP($1); }
   ;
 
 Ident
-	: NAME                { $$ = PXPIZE; }
-	| BSLASHLIT						{ $$ = pxpath_new_literal(1, &(*$1 + 1)); }
+	: NAME                { $$ = PXP($1); }
+	| BSLASHLIT						{ $$ = PXP($1 + 1); }
 	| NAME Ident					{ $$ = pxpath_new_literal(2, $1, $2); }
 	| BSLASHLIT Ident			{ $$ = pxpath_new_literal(2, "\\", $2); }
-	| keyword             { $$ = PXPIZE; }
+	| keyword             { $$ = PXP($1); }
 	;
 	
 keyword
@@ -603,7 +601,7 @@ void init_xpath_alias() {
 	
 }
 
-char* myparse(char* string){
+pxpathPtr myparse(char* string){
 	// start_debugging();
   prepare_parse(string);
   yyparse();
@@ -611,7 +609,7 @@ char* myparse(char* string){
 	return pxpath_to_string(parsed_answer);
 }
 
-void answer(char* a){
+void answer(pxpathPtr a){
 	parsed_answer = a;
 }
 

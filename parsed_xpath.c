@@ -20,7 +20,7 @@
 #include "printbuf.h"
 
 pxpathPtr pxpath_new(int type, char* value) {
-	pxpathPtr ptr = (pxpathPtr) malloc(sizeof(pxpath_node));
+	pxpathPtr ptr = (pxpathPtr) calloc(sizeof(pxpath_node), 1);
 	ptr->value = strdup(value);
 	ptr->type = type;
 	ptr->next = NULL;
@@ -54,16 +54,10 @@ _pxpath_to_string(pxpathPtr ptr, struct printbuf *buf) {
 
 static char * 
 format_n(int n) {
-  char * out = calloc(n + 1, 1);
+  char * out = calloc(2 * n + 1, 1);
   for(int i =0; i < n; i++) {
     strcat(out, "%s");
   }
-}
-
-static char * vacat(int n, va_list va) {
-  char * value;
-  vasprintf(&value, format_n(n), va);
-  return value;
 }
 
 char* pxpath_to_string(pxpathPtr ptr) {
@@ -109,7 +103,10 @@ pxpathPtr pxpath_cat_paths(int n, ...) {
 
 pxpathPtr pxpath_new_path(int n, ...) {
   va_list va;
-  char * value = vacat(n, va);
+  char * value;
+  va_start(va, n);
+  vasprintf(&value, format_n(n), va);
+  va_end(va);
   pxpathPtr ptr = pxpath_new(PXPATH_PATH, value);
   free(value);
   return ptr;
@@ -117,7 +114,10 @@ pxpathPtr pxpath_new_path(int n, ...) {
 
 pxpathPtr pxpath_new_literal(int n, ...) {
   va_list va;
-  char * value = vacat(n, va);
+  char * value;
+  va_start(va, n);
+  vasprintf(&value, format_n(n), va);
+  va_end(va);
   pxpathPtr ptr = pxpath_new(PXPATH_LITERAL, value);
   free(value);
   return ptr;
