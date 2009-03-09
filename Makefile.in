@@ -60,9 +60,9 @@ am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(bindir)" \
 libLTLIBRARIES_INSTALL = $(INSTALL)
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libparsley_la_LIBADD =
-am_libparsley_la_OBJECTS = parsley_mem.lo xml2json.lo regexp.lo \
-	printbuf.lo functions.lo util.lo kstring.lo obstack.lo \
-	scanner.lo parser.lo parsley.lo
+am_libparsley_la_OBJECTS = parsed_xpath.lo parsley_mem.lo xml2json.lo \
+	regexp.lo printbuf.lo functions.lo util.lo kstring.lo \
+	obstack.lo scanner.lo parser.lo parsley.lo
 libparsley_la_OBJECTS = $(am_libparsley_la_OBJECTS)
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
@@ -230,7 +230,7 @@ top_srcdir = @top_srcdir@
 AM_YFLAGS = -d
 BUILT_SOURCES = parser.h
 lib_LTLIBRARIES = libparsley.la
-libparsley_la_SOURCES = parsley_mem.c xml2json.c regexp.c printbuf.c functions.c util.c kstring.c obstack.c scanner.l parser.y parsley.c
+libparsley_la_SOURCES = parsed_xpath.c parsley_mem.c xml2json.c regexp.c printbuf.c functions.c util.c kstring.c obstack.c scanner.l parser.y parsley.c
 include_HEADERS = parsley.h obstack.h xml2json.h
 parsleyc_SOURCES = parsleyc_main.c
 parsleyc_LDADD = libparsley.la
@@ -352,6 +352,7 @@ distclean-compile:
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/functions.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kstring.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/obstack.Plo@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parsed_xpath.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parser.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parsley.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parsley_main.Po@am__quote@
@@ -743,7 +744,7 @@ check-am:
 	@echo "trivial2..."; ./parsley test/trivial2.let test/trivial2.html | diff test/trivial2.json - && echo "    success."
 	@echo "craigs-simple..."; ./parsley test/craigs-simple.let test/craigs-simple.html | diff test/craigs-simple.json - && echo "    success."
 	@echo "yelp-home..."; ./parsley test/yelp-home.let test/yelp-home.html | diff test/yelp-home.json - && echo "    success."
-	@echo "cool..."; perl -e 'alarm shift @ARGV; exec @ARGV' 100 ./parsley test/cool.let test/cool.html | diff test/cool.json - && echo "    success."
+	@echo "cool..."; perl -e 'alarm shift @ARGV; exec @ARGV' 1 ./parsley test/cool.let test/cool.html | diff test/cool.json - && echo "    success."
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

@@ -152,8 +152,6 @@
 #ifndef PARSER_Y_H_INCLUDED
 #define PARSER_Y_H_INCLUDED
 
-#define YYSTYPE char *
-
 static char* parsed_answer;
 
 int yylex (void);
@@ -177,7 +175,14 @@ void answer(char*);
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+typedef union YYSTYPE 
+#line 38 "parser.y"
+{
+	char* string;
+}
+/* Line 2616 of glr.c.  */
+#line 185 "y.tab.h"
+	YYSTYPE;
 # define YYSTYPE_IS_DECLARED 1
 # define YYSTYPE_IS_TRIVIAL 1
 #endif

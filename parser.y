@@ -9,8 +9,6 @@
 #ifndef PARSER_Y_H_INCLUDED
 #define PARSER_Y_H_INCLUDED
 
-#define YYSTYPE char *
-
 static char* parsed_answer;
 
 int yylex (void);
@@ -37,104 +35,169 @@ void answer(char*);
 %token_table
 %debug
 
-%token NUMBER
-%token S
-%token AT
-%token LPAREN
-%token RPAREN
-%token PIPE
-%token LT
-%token SLASH
-%token DBLSLASH
-%token BANG
-%token COLON
-%token DBLCOLON
-%token QUERY
-%token HASH
-%token COMMA
-%token DOT
-%token DBLDOT
-%token GT
-%token LBRA
-%token RBRA
-%token TILDE
-%token SPLAT
-%token PLUS
-%token DASH
-%token EQ
-%token LTE
-%token GTE
-%token DOLLAR
-%token BSLASHLIT
-%token OTHER
-%token XANCESTOR
-%token XANCESTORSELF
-%token XATTR
-%token XCHILD
-%token XDESC
-%token XDESCSELF
-%token XFOLLOW
-%token XFOLLOWSIB
-%token XNS
-%token XPARENT
-%token XPRE
-%token XPRESIB
-%token XSELF
-%token XOR
-%token XAND
-%token XDIV
-%token XMOD
-%token XCOMMENT
-%token XTEXT 
-%token XPI		
-%token XNODE	
-%token CXEQUATION
-%token CXOPHE
-%token CXOPNE
-%token CXOPSTARTEQ
-%token CXOPENDEQ
-%token CXOPCONTAINS
-%token CXOPCONTAINS2
-%token CXFIRST
-%token CXLAST
-%token CXNOT
-%token CXEVEN
-%token CXODD
-%token CXEQ
-%token CXGT
-%token CXLT
-%token CXHEADER
-%token CXCONTAINS
-%token CXEMPTY
-%token CXHAS
-%token CXPARENT
-%token CXNTHCH
-%token CXNTHLASTCH
-%token CXNTHTYPE
-%token CXNTHLASTTYPE
-%token CXFIRSTCH
-%token CXLASTCH
-%token CXFIRSTTYPE
-%token CXLASTTYPE
-%token CXONLYCH
-%token CXONLYTYPE
-%token CXINPUT
-%token CXTEXT
-%token CXPASSWORD
-%token CXRADIO
-%token CXCHECKBOX
-%token CXSUBMIT
-%token CXIMAGE
-%token CXRESET
-%token CXBUTTON
-%token CXFILE
-%token CXENABLED
-%token CXDISABLED
-%token CXCHECKED
-%token CXSELECTED
-%token NAME
-%token STRING
+%union {
+	char* string;
+}
 
+%token <string> NUMBER
+%token <string> S
+%token <string> AT
+%token <string> LPAREN
+%token <string> RPAREN
+%token <string> PIPE
+%token <string> LT
+%token <string> SLASH
+%token <string> DBLSLASH
+%token <string> BANG
+%token <string> COLON
+%token <string> DBLCOLON
+%token <string> QUERY
+%token <string> HASH
+%token <string> COMMA
+%token <string> DOT
+%token <string> DBLDOT
+%token <string> GT
+%token <string> LBRA
+%token <string> RBRA
+%token <string> TILDE
+%token <string> SPLAT
+%token <string> PLUS
+%token <string> DASH
+%token <string> EQ
+%token <string> LTE
+%token <string> GTE
+%token <string> DOLLAR
+%token <string> BSLASHLIT
+%token <string> OTHER
+%token <string> XANCESTOR
+%token <string> XANCESTORSELF
+%token <string> XATTR
+%token <string> XCHILD
+%token <string> XDESC
+%token <string> XDESCSELF
+%token <string> XFOLLOW
+%token <string> XFOLLOWSIB
+%token <string> XNS
+%token <string> XPARENT
+%token <string> XPRE
+%token <string> XPRESIB
+%token <string> XSELF
+%token <string> XOR
+%token <string> XAND
+%token <string> XDIV
+%token <string> XMOD
+%token <string> XCOMMENT
+%token <string> XTEXT 
+%token <string> XPI		
+%token <string> XNODE	
+%token <string> CXEQUATION
+%token <string> CXOPHE
+%token <string> CXOPNE
+%token <string> CXOPSTARTEQ
+%token <string> CXOPENDEQ
+%token <string> CXOPCONTAINS
+%token <string> CXOPCONTAINS2
+%token <string> CXFIRST
+%token <string> CXLAST
+%token <string> CXNOT
+%token <string> CXEVEN
+%token <string> CXODD
+%token <string> CXEQ
+%token <string> CXGT
+%token <string> CXLT
+%token <string> CXHEADER
+%token <string> CXCONTAINS
+%token <string> CXEMPTY
+%token <string> CXHAS
+%token <string> CXPARENT
+%token <string> CXNTHCH
+%token <string> CXNTHLASTCH
+%token <string> CXNTHTYPE
+%token <string> CXNTHLASTTYPE
+%token <string> CXFIRSTCH
+%token <string> CXLASTCH
+%token <string> CXFIRSTTYPE
+%token <string> CXLASTTYPE
+%token <string> CXONLYCH
+%token <string> CXONLYTYPE
+%token <string> CXINPUT
+%token <string> CXTEXT
+%token <string> CXPASSWORD
+%token <string> CXRADIO
+%token <string> CXCHECKBOX
+%token <string> CXSUBMIT
+%token <string> CXIMAGE
+%token <string> CXRESET
+%token <string> CXBUTTON
+%token <string> CXFILE
+%token <string> CXENABLED
+%token <string> CXDISABLED
+%token <string> CXCHECKED
+%token <string> CXSELECTED
+%token <string> NAME
+%token <string> STRING
+%type <string> Root
+%type <string> OptS
+%type <string> LocationPath
+%type <string> AbsoluteLocationPath
+%type <string> RelativeLocationPath
+%type <string> Step
+%type <string> AxisSpecifier
+%type <string> AxisName
+%type <string> NodeTest
+%type <string> Predicate
+%type <string> PredicateExpr
+%type <string> AbbreviatedAbsoluteLocationPath
+%type <string> AbbreviatedRelativeLocationPath
+%type <string> AbbreviatedStep
+%type <string> AbbreviatedAxisSpecifier
+%type <string> Expr
+%type <string> NumberLike
+%type <string> PrimaryExpr
+%type <string> FunctionCall
+%type <string> Arguments
+%type <string> ArgumentSet
+%type <string> PrefixedName
+%type <string> Argument
+%type <string> UnionExpr
+%type <string> PathExpr
+%type <string> FunctionName
+%type <string> FilterExpr
+%type <string> OrExpr
+%type <string> AndExpr
+%type <string> EqualityExpr
+%type <string> RelationalExpr
+%type <string> AdditiveExpr
+%type <string> MultiplicativeExpr
+%type <string> UnaryExpr
+%type <string> ExprToken
+%type <string> Literal
+%type <string> Number
+%type <string> Operator
+%type <string> OperatorName
+%type <string> MultiplyOperator
+%type <string> VariableReference
+%type <string> NameTest
+%type <string> NodeType
+%type <string> ExprWhitespace
+%type <string> UnprefixedName
+%type <string> combinator
+%type <string> possibly_empty_sequence
+%type <string> keyword
+%type <string> StringLike
+%type <string> selectors_group
+%type <string> QName
+%type <string> NCName
+%type <string> Prefix
+%type <string> LocalPart
+%type <string> attribute_extended_selector
+%type <string> Ident
+%type <string> universal
+%type <string> selector
+%type <string> namespace_prefix
+%type <string> type_selector
+%type <string> element_name
+%type <string> simple_selector_sequence
 %%
 
 Root
