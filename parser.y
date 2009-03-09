@@ -4,6 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "kstring.h"
+#include "parsed_xpath.h"
 #include <libxml/hash.h>
 
 #ifndef PARSER_Y_H_INCLUDED
@@ -170,16 +171,13 @@ void answer(char*);
 %type <string> AdditiveExpr
 %type <string> MultiplicativeExpr
 %type <string> UnaryExpr
-%type <string> ExprToken
 %type <string> Literal
 %type <string> Number
-%type <string> Operator
-%type <string> OperatorName
+%type <string> simple_selector_anchor
 %type <string> MultiplyOperator
 %type <string> VariableReference
 %type <string> NameTest
 %type <string> NodeType
-%type <string> ExprWhitespace
 %type <string> UnprefixedName
 %type <string> combinator
 %type <string> possibly_empty_sequence
@@ -364,26 +362,6 @@ UnaryExpr
 	| DASH UnaryExpr		{ $$ = astrcat($1, $2); }
 	;
 	
-ExprToken
-  : LPAREN
-	| RPAREN
-	| LBRA
-	| RBRA
-	| DOT
-	| DBLDOT
-	| AT
-	| COMMA
-	| DBLCOLON
-	| NameTest 
-	| NodeType 
-	| Operator 
-	| FunctionName
-	| AxisName 
-	| Literal 
-	| Number 
-	| VariableReference
-	;
-	
 Literal
   : STRING
 	;
@@ -392,29 +370,6 @@ Number
 	| NUMBER DOT						{ $$ = astrcat($1, $2); }
 	| NUMBER DOT NUMBER			{ $$ = astrcat3($1, $2, $3); }
 	| DOT NUMBER						{ $$ = astrcat($1, $2); }
-	;
-	
-Operator
-  : OperatorName 
-	| MultiplyOperator 
-	| SLASH
-	| DBLSLASH
-	| PIPE
-	| PLUS
-	| DASH
-	| EQ
-	| CXOPNE
-	| LT
-	| LTE
-	| GT 
-	| GTE
-	;
-	
-OperatorName
-  : XAND 
-	| XOR 
-	| XMOD 
-	| XDIV
 	;
 	
 MultiplyOperator
@@ -437,9 +392,6 @@ NodeType
 	| XNODE
 	;
 	
-ExprWhitespace
-  : S
-
 FunctionName
   : QName
 	;

@@ -147,6 +147,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include "kstring.h"
+#include "parsed_xpath.h"
 #include <libxml/hash.h>
 
 #ifndef PARSER_Y_H_INCLUDED
@@ -176,12 +177,12 @@ void answer(char*);
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE 
-#line 38 "parser.y"
+#line 39 "parser.y"
 {
 	char* string;
 }
-/* Line 2616 of glr.c.  */
-#line 185 "y.tab.h"
+/* Line 2604 of glr.c.  */
+#line 186 "y.tab.h"
 	YYSTYPE;
 # define YYSTYPE_IS_DECLARED 1
 # define YYSTYPE_IS_TRIVIAL 1
