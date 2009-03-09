@@ -153,7 +153,7 @@
 #ifndef PARSER_Y_H_INCLUDED
 #define PARSER_Y_H_INCLUDED
 
-static char* parsed_answer;
+static pxpathPtr parsed_answer;
 
 int yylex (void);
 void yyerror (char const *);
@@ -168,8 +168,21 @@ char* xpath_alias(char*);
 void init_xpath_alias();
 
 int yyparse(void);
-char* myparse(char*);
-void answer(char*);
+pxpathPtr myparse(char*);
+void answer(pxpathPtr);
+
+#define BIN_OP     pxpath_cat_paths(3, $1, PXP($2), $3);
+#define PREP_OP    pxpath_cat_paths(2, PXPIZE, $2)
+#define PXPIZE     pxpath_new_path(1, $1)
+#define PXP(A)     pxpath_new_path(1, A)
+#define APPEND(A)  pxpath_cat_paths(2, $1, PXP(A)); 
+#define PREPEND(A) pxpath_cat_paths(2, PXP(A), $1); 
+#define PXPWRAP    pxpath_cat_paths(3, PXP($1), $2, PXP($3))
+#define PATTERN4(A, B)      pxpath_cat_paths(4, $1, PXP(A), $3, PXP(B))
+#define PATTERN4A(A, B)     pxpath_cat_paths(4, $1, PXP(A), $4, PXP(B))
+#define PATTERN4B(A, B)     pxpath_cat_paths(4, PXP(A), $4, PXP(B), $1)
+#define PATTERN6(A, B, C)   pxpath_cat_paths(6, $1, PXP(A), $3, PXP(B), $7, PXP(C));
+#define INPUT_TYPE(A)   APPEND("[lower-case(name())='input' and lower-case(@type)='" #A "']")
 
 #endif
   
@@ -177,12 +190,14 @@ void answer(char*);
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE 
-#line 39 "parser.y"
+#line 52 "parser.y"
 {
+  int empty;
 	char* string;
+  pxpathPtr node;
 }
 /* Line 2604 of glr.c.  */
-#line 186 "y.tab.h"
+#line 201 "y.tab.h"
 	YYSTYPE;
 # define YYSTYPE_IS_DECLARED 1
 # define YYSTYPE_IS_TRIVIAL 1

@@ -10,7 +10,7 @@
 #ifndef PARSER_Y_H_INCLUDED
 #define PARSER_Y_H_INCLUDED
 
-static char* parsed_answer;
+static pxpathPtr parsed_answer;
 
 int yylex (void);
 void yyerror (char const *);
@@ -25,8 +25,21 @@ char* xpath_alias(char*);
 void init_xpath_alias();
 
 int yyparse(void);
-char* myparse(char*);
-void answer(char*);
+pxpathPtr myparse(char*);
+void answer(pxpathPtr);
+
+#define BIN_OP     pxpath_cat_paths(3, $1, PXP($2), $3);
+#define PREP_OP    pxpath_cat_paths(2, PXPIZE, $2)
+#define PXPIZE     pxpath_new_path(1, $1)
+#define PXP(A)     pxpath_new_path(1, A)
+#define APPEND(A)  pxpath_cat_paths(2, $1, PXP(A)); 
+#define PREPEND(A) pxpath_cat_paths(2, PXP(A), $1); 
+#define PXPWRAP    pxpath_cat_paths(3, PXP($1), $2, PXP($3))
+#define PATTERN4(A, B)      pxpath_cat_paths(4, $1, PXP(A), $3, PXP(B))
+#define PATTERN4A(A, B)     pxpath_cat_paths(4, $1, PXP(A), $4, PXP(B))
+#define PATTERN4B(A, B)     pxpath_cat_paths(4, PXP(A), $4, PXP(B), $1)
+#define PATTERN6(A, B, C)   pxpath_cat_paths(6, $1, PXP(A), $3, PXP(B), $7, PXP(C));
+#define INPUT_TYPE(A)   APPEND("[lower-case(name())='input' and lower-case(@type)='" #A "']")
 
 #endif
   
@@ -37,7 +50,9 @@ void answer(char*);
 %debug
 
 %union {
+  int empty;
 	char* string;
+  pxpathPtr node;
 }
 
 %token <string> NUMBER
@@ -137,65 +152,65 @@ void answer(char*);
 %token <string> CXSELECTED
 %token <string> NAME
 %token <string> STRING
-%type <string> Root
-%type <string> OptS
-%type <string> LocationPath
-%type <string> AbsoluteLocationPath
-%type <string> RelativeLocationPath
-%type <string> Step
-%type <string> AxisSpecifier
+%type <node> Root
+%type <empty> OptS
+%type <node> LocationPath
+%type <node> AbsoluteLocationPath
+%type <node> RelativeLocationPath
+%type <node> Step
+%type <node> AxisSpecifier
 %type <string> AxisName
-%type <string> NodeTest
-%type <string> Predicate
-%type <string> PredicateExpr
-%type <string> AbbreviatedAbsoluteLocationPath
-%type <string> AbbreviatedRelativeLocationPath
+%type <node> NodeTest
+%type <node> Predicate
+%type <node> PredicateExpr
+%type <node> AbbreviatedAbsoluteLocationPath
+%type <node> AbbreviatedRelativeLocationPath
 %type <string> AbbreviatedStep
 %type <string> AbbreviatedAxisSpecifier
-%type <string> Expr
-%type <string> NumberLike
-%type <string> PrimaryExpr
-%type <string> FunctionCall
-%type <string> Arguments
-%type <string> ArgumentSet
-%type <string> PrefixedName
-%type <string> Argument
-%type <string> UnionExpr
-%type <string> PathExpr
-%type <string> FunctionName
-%type <string> FilterExpr
-%type <string> OrExpr
-%type <string> AndExpr
-%type <string> EqualityExpr
-%type <string> RelationalExpr
-%type <string> AdditiveExpr
-%type <string> MultiplicativeExpr
-%type <string> UnaryExpr
+%type <node> Expr
+%type <node> NumberLike
+%type <node> PrimaryExpr
+%type <node> FunctionCall
+%type <node> Arguments
+%type <node> ArgumentSet
+%type <node> PrefixedName
+%type <node> Argument
+%type <node> UnionExpr
+%type <node> PathExpr
+%type <node> FunctionName
+%type <node> FilterExpr
+%type <node> OrExpr
+%type <node> AndExpr
+%type <node> EqualityExpr
+%type <node> RelationalExpr
+%type <node> AdditiveExpr
+%type <node> MultiplicativeExpr
+%type <node> UnaryExpr
 %type <string> Literal
-%type <string> Number
-%type <string> simple_selector_anchor
+%type <node> Number
+%type <node> simple_selector_anchor
 %type <string> MultiplyOperator
-%type <string> VariableReference
-%type <string> NameTest
+%type <node> VariableReference
+%type <node> NameTest
 %type <string> NodeType
 %type <string> UnprefixedName
 %type <string> combinator
-%type <string> possibly_empty_sequence
+%type <node> possibly_empty_sequence
 %type <string> keyword
-%type <string> StringLike
-%type <string> selectors_group
-%type <string> QName
+%type <node> StringLike
+%type <node> selectors_group
+%type <node> QName
 %type <string> NCName
 %type <string> Prefix
 %type <string> LocalPart
-%type <string> attribute_extended_selector
-%type <string> Ident
-%type <string> universal
-%type <string> selector
-%type <string> namespace_prefix
-%type <string> type_selector
-%type <string> element_name
-%type <string> simple_selector_sequence
+%type <node> attribute_extended_selector
+%type <node> Ident
+%type <node> universal
+%type <node> selector
+%type <node> namespace_prefix
+%type <node> type_selector
+%type <node> element_name
+%type <node> simple_selector_sequence
 %%
 
 Root
@@ -209,26 +224,26 @@ LocationPath
 	;
 	
 AbsoluteLocationPath
-  : SLASH RelativeLocationPath				{ $$ = astrcat($1, $2); }
-	| SLASH
+  : SLASH RelativeLocationPath				{ $$ = PREP_OP; }
+	| SLASH                             { $$ = PXPIZE; }
 	| AbbreviatedAbsoluteLocationPath
 	;
 	
 RelativeLocationPath
   : Step 
-	| RelativeLocationPath SLASH Step		{ $$ = astrcat3($1, $2, $3); }
+  | RelativeLocationPath SLASH Step		{ $$ = BIN_OP; }
 	| AbbreviatedRelativeLocationPath
 	;
 	
 Step
-  : AxisSpecifier NodeTest						{ $$ = astrcat($1, $2); }
-	| AxisSpecifier NodeTest Predicate  { $$ = astrcat3($1, $2, $3); }
-	| AbbreviatedStep
+  : AxisSpecifier NodeTest						{ $$ = pxpath_cat_paths(2, $1, $2); }
+	| AxisSpecifier NodeTest Predicate  { $$ = pxpath_cat_paths(3, $1, $2, $3); }
+	| AbbreviatedStep                   { $$ = PXPIZE; }
 	;
 	
 AxisSpecifier
-  : AxisName DBLCOLON									{ $$ = astrcat($1, $2); } 
-	| AbbreviatedAxisSpecifier
+  : AxisName DBLCOLON									{ $$ = pxpath_new_path(2, $1, $2); } 
+	| AbbreviatedAxisSpecifier          { $$ = PXPIZE; }
 	;
 AxisName
 	: XANCESTOR 		
@@ -248,12 +263,12 @@ AxisName
 	
 NodeTest
   : NameTest 
-	| NodeType LPAREN RPAREN						 { $$ = astrcat3($1, $2, $3); }
-	| XPI LPAREN Literal RPAREN					 { $$ = astrcat4($1, $2, $3, $4); }
+	| NodeType LPAREN RPAREN						 { $$ = pxpath_new_path(3, $1, $2, $3); }
+	| XPI LPAREN Literal RPAREN					 { $$ = pxpath_new_path(4, $1, $2, $3, $4); }
 	;
 	
 Predicate
-  : LBRA PredicateExpr RBRA						 { $$ = astrcat3($1, $2, $3); }
+  : LBRA PredicateExpr RBRA						 { $$ = PXPWRAP; }
 	;
 	
 PredicateExpr
@@ -261,11 +276,11 @@ PredicateExpr
 	;
 	
 AbbreviatedAbsoluteLocationPath
-  : DBLSLASH RelativeLocationPath			{ $$ = astrcat($1, $2); }
+  : DBLSLASH RelativeLocationPath			{ $$ = PREP_OP; }
 	;
 	
 AbbreviatedRelativeLocationPath
-  : RelativeLocationPath DBLSLASH Step	{ $$ = astrcat3($1, $2, $3); }
+  : RelativeLocationPath DBLSLASH Step	{ $$ = BIN_OP; }
 	;
 	
 AbbreviatedStep
@@ -278,26 +293,26 @@ AbbreviatedAxisSpecifier
 	|				{ $$ = ""; }
 	;
 Expr
-	: LPAREN Expr RPAREN %dprec 2  { $$ = $2; }  
+  : LPAREN Expr RPAREN %dprec 2  { $$ = PXPWRAP;    }  
   | OrExpr						 %dprec 1
 	;
 PrimaryExpr
   : VariableReference 
-	| LPAREN Expr RPAREN 									{ $$ = astrcat3($1, $2, $3); }
-	| Literal
+	| LPAREN Expr RPAREN 				 	{ $$ = PXPWRAP;     }  
+	| Literal                     { $$ = PXPIZE; }
   | Number 
 	| FunctionCall
 	;
 	
 FunctionCall
-  : FunctionName LPAREN Arguments RPAREN		{ $$ = astrcat4(xpath_alias($1), $2, $3, $4); }
+  : FunctionName LPAREN Arguments RPAREN		{ $$ = pxpath_new_func(xpath_alias(pxpath_to_string($1)), $3); }
 	;
 Arguments
 	: ArgumentSet
-	|										{ $$ = ""; }
+	|										{ $$ = NULL; }
 	;
 ArgumentSet
-	:	Argument COMMA ArgumentSet		%dprec 2		{ $$ = astrcat3($1, $2, $3); }
+  :	Argument COMMA ArgumentSet	 	  %dprec 2		{ $$ = $1; $1->next = $2; }
 	| Argument												%dprec 1
 	;
 Argument
@@ -305,71 +320,71 @@ Argument
 	;
 UnionExpr
   : PathExpr 
-	| UnionExpr PIPE PathExpr							{ $$ = astrcat3($1, $2, $3); }
+	| UnionExpr PIPE PathExpr							{ $$ = BIN_OP; }
 	;
 	
 PathExpr
   : LocationPath 
 	| FilterExpr
-	| FilterExpr SLASH RelativeLocationPath					{ $$ = astrcat3($1, $2, $3); }
-	| FilterExpr DBLSLASH RelativeLocationPath				{ $$ = astrcat3($1, $2, $3); }		
+	| FilterExpr SLASH RelativeLocationPath					{ $$ = BIN_OP; }
+	| FilterExpr DBLSLASH RelativeLocationPath			{ $$ = BIN_OP; }
 	;
 	
 FilterExpr
   : PrimaryExpr 
-	| FilterExpr Predicate				{ $$ = astrcat($1, $2); }
+	| FilterExpr Predicate				{ $$ = pxpath_cat_paths(2, $1, $2); }
 	;
 	
 OrExpr
   : AndExpr 
-	| OrExpr XOR AndExpr						{ $$ = astrcat3($1, $2, $3); }
+	| OrExpr XOR AndExpr						{ $$ = BIN_OP; }
 	;
 	
 AndExpr
   : EqualityExpr 
-	| AndExpr XAND EqualityExpr			{ $$ = astrcat3($1, $2, $3); }
+	| AndExpr XAND EqualityExpr			{ $$ = BIN_OP; }
 	;
 	
 EqualityExpr
   : RelationalExpr 
-	| EqualityExpr EQ RelationalExpr				{ $$ = astrcat3($1, $2, $3); }
-	| EqualityExpr CXOPNE RelationalExpr		{ $$ = astrcat3($1, $2, $3); }	
+	| EqualityExpr EQ RelationalExpr				{ $$ = BIN_OP; }
+	| EqualityExpr CXOPNE RelationalExpr		{ $$ = BIN_OP; }	
 	;
 	
 RelationalExpr
   : AdditiveExpr
-  | RelationalExpr LT AdditiveExpr        { $$ = astrcat3($1, $2, $3); }
-  | RelationalExpr GT AdditiveExpr        { $$ = astrcat3($1, $2, $3); }
-  | RelationalExpr LTE AdditiveExpr       { $$ = astrcat3($1, $2, $3); }
-  | RelationalExpr GTE AdditiveExpr       { $$ = astrcat3($1, $2, $3); }
+  | RelationalExpr LT AdditiveExpr        { $$ = BIN_OP; }
+  | RelationalExpr GT AdditiveExpr        { $$ = BIN_OP; }
+  | RelationalExpr LTE AdditiveExpr       { $$ = BIN_OP; }
+  | RelationalExpr GTE AdditiveExpr       { $$ = BIN_OP; }
 	;
 	
 AdditiveExpr
   : MultiplicativeExpr
-	| AdditiveExpr PLUS MultiplicativeExpr		{ $$ = astrcat3($1, $2, $3); }
-	| AdditiveExpr DASH MultiplicativeExpr		{ $$ = astrcat3($1, $2, $3); }
+	| AdditiveExpr PLUS MultiplicativeExpr		{ $$ = BIN_OP; }
+	| AdditiveExpr DASH MultiplicativeExpr		{ $$ = BIN_OP; }
 	;
 	
 MultiplicativeExpr
   : UnaryExpr
-  | MultiplicativeExpr MultiplyOperator UnaryExpr		{ $$ = astrcat3($1, $2, $3); }
-  | MultiplicativeExpr XDIV UnaryExpr              { $$ = astrcat3($1, $2, $3); }
-  | MultiplicativeExpr XMOD UnaryExpr              { $$ = astrcat3($1, $2, $3); }
+  | MultiplicativeExpr MultiplyOperator UnaryExpr		{ $$ = BIN_OP; }
+  | MultiplicativeExpr XDIV UnaryExpr               { $$ = BIN_OP; }
+  | MultiplicativeExpr XMOD UnaryExpr               { $$ = BIN_OP; }
 	;
 	
 UnaryExpr
   : UnionExpr 
-	| DASH UnaryExpr		{ $$ = astrcat($1, $2); }
+	| DASH UnaryExpr		{ $$ = PREP_OP; }
 	;
 	
 Literal
   : STRING
 	;
 Number
-  : NUMBER
-	| NUMBER DOT						{ $$ = astrcat($1, $2); }
-	| NUMBER DOT NUMBER			{ $$ = astrcat3($1, $2, $3); }
-	| DOT NUMBER						{ $$ = astrcat($1, $2); }
+  : NUMBER                { $$ = PXPIZE; }
+	| NUMBER DOT						{ $$ = pxpath_new_path(2, $1, $2); }
+	| NUMBER DOT NUMBER			{ $$ = pxpath_new_path(3, $1, $2, $3); }
+	| DOT NUMBER						{ $$ = pxpath_new_path(2, $1, $2); }
 	;
 	
 MultiplyOperator
@@ -377,14 +392,15 @@ MultiplyOperator
 	;
 	
 VariableReference
-  : DOLLAR QName				{	$$ = astrcat($1, $2); }
+  : DOLLAR QName				{	$$ = PREP_OP; }
 	;
 	
 NameTest
-  : SPLAT
-	| NCName COLON SPLAT 	{ $$ = astrcat3($1, $2, $3); }
+  : SPLAT               { $$ = PXPIZE; }
+	| NCName COLON SPLAT 	{ $$ = pxpath_new_path(3, $1, $2, $3); }
 	| QName
 	;
+	
 NodeType
   : XCOMMENT 
 	| XTEXT 
@@ -398,11 +414,11 @@ FunctionName
 
 QName
 	: PrefixedName
-	| UnprefixedName
+	| UnprefixedName      { $$ = PXPIZE; }
 	;
 
 PrefixedName
-	: Prefix COLON LocalPart  { $$ = astrcat3($1, $2, $3); }
+	: Prefix COLON LocalPart  { $$ = pxpath_new_path(3, $1, $2, $3); }
 	;
 	
 UnprefixedName
@@ -422,17 +438,17 @@ NCName
 	;
 
 selectors_group
-	: attribute_extended_selector COMMA OptS selectors_group		{ $$ = astrcat4(".//", $1, "|", $4); }
-	| attribute_extended_selector 	{ $$ = astrcat(".//", $1); }
+	: attribute_extended_selector COMMA OptS selectors_group		{ $$ = pxpath_cat_paths(4, pxpath_new_literal(1, ".//"), $1, pxpath_new_literal(1, "|"), $4); }
+	| attribute_extended_selector 	{ $$ = pxpath_cat_paths(2, pxpath_new_literal(1, ".//"), $1); }
   ;
 
 attribute_extended_selector
 	: selector
-	| selector S AT NAME	{ $$ = astrcat3($1, "/@", $4); }
+	| selector S AT NAME	{ $$ = APPEND(pxpath_new_path(2, "/@", $4)); }
 	;
 
 selector
-  : simple_selector_sequence combinator selector						{ $$ = astrcat3($1, $2, $3); }
+  : simple_selector_sequence combinator selector						{ $$ = pxpath_cat_paths(3, $1, $2, $3); }
 	| simple_selector_sequence
   ;
 	
@@ -444,59 +460,59 @@ combinator
   ;
 
 simple_selector_sequence
-	: simple_selector_anchor
-	| possibly_empty_sequence HASH Ident		{ $$ = astrcat4($1, "[@id='", $3,"']"); }
-	| possibly_empty_sequence DOT Ident		{ $$ = astrcat4($1, "[contains(concat( ' ', @class, ' ' ), concat( ' ', '", $3, "', ' ' ))]"); }
-	| possibly_empty_sequence LBRA	type_selector RBRA { $$ = astrcat4($1, "[@", $3, "]"); }
-	| possibly_empty_sequence LBRA	type_selector OptS EQ OptS StringLike OptS RBRA { $$ = astrcat6($1, "[@", $3, " = ", $7, "]"); }
-	| possibly_empty_sequence LBRA	type_selector OptS CXOPHE OptS StringLike OptS RBRA { $$ = astrcat10($1, "[@", $3, " = ", $7, " or starts-with(@", $3, ", concat(", $7, ", '-' ))]"); }
-	| possibly_empty_sequence LBRA	type_selector OptS CXOPNE OptS StringLike OptS RBRA { $$ = astrcat6($1, "[@", $3, " != ", $7, "]"); }
-	| possibly_empty_sequence LBRA	type_selector OptS CXOPSTARTEQ OptS StringLike OptS RBRA { $$ = astrcat6($1, "[starts-with(@", $3, ", ", $7, ")]"); }
-	| possibly_empty_sequence LBRA	type_selector OptS CXOPENDEQ OptS StringLike OptS RBRA { $$ = astrcat6($1, "[ends-with(@", $3, ", ", $7, ")]"); }
-	| possibly_empty_sequence LBRA	type_selector OptS CXOPCONTAINS OptS StringLike OptS RBRA { $$ = astrcat6($1, "[contains(@", $3, ", ", $7, ")]"); }
-	| possibly_empty_sequence LBRA	type_selector OptS CXOPCONTAINS2 OptS StringLike OptS RBRA { $$ = astrcat6($1, "[contains(@", $3, ", ", $7, ")]"); }
-	| possibly_empty_sequence CXFIRST	{ $$ = astrcat($1, "[1]"); }
-	| possibly_empty_sequence CXLAST		{ $$ = astrcat($1, "[last()]"); }
-	| possibly_empty_sequence CXNOT LPAREN selectors_group RPAREN		{ $$ = astrcat5("set-difference(", $1, ", ", $4, ")"); }
-	| possibly_empty_sequence CXEVEN		{ $$ = astrcat($1, "[position() % 2 = 0]"); }
-	| possibly_empty_sequence CXODD		{ $$ = astrcat($1, "[position() % 2 = 1]"); }
-	| possibly_empty_sequence CXEQ LPAREN NumberLike RPAREN			{ $$ = astrcat4($1, "[position() = ", $4, "]"); }
-	| possibly_empty_sequence CXGT LPAREN NumberLike RPAREN			{ $$ = astrcat4($1, "[position() > ", $4, "]"); }
-	| possibly_empty_sequence CXLT LPAREN NumberLike RPAREN			{ $$ = astrcat4($1, "[position() < ", $4, "]"); }
-	| possibly_empty_sequence CXHEADER		{ $$ = astrcat($1, "[contains('h1 h2 h3 h4 h5 h6', lower-case(local-name()))]"); }
-	| possibly_empty_sequence CXCONTAINS	LPAREN StringLike RPAREN { $$ = astrcat4($1, "[contains(., ", $4, "]"); }
-	| possibly_empty_sequence CXEMPTY		{ $$ = astrcat($1, "[not(node())]"); }
-	| possibly_empty_sequence CXHAS LPAREN selectors_group RPAREN		{ $$ = astrcat4($1, "[", $4, "]"); }
-	| possibly_empty_sequence CXPARENT		{ $$ = astrcat($1, "[node()]"); }
-	| possibly_empty_sequence CXNTHCH LPAREN NumberLike RPAREN 	{ $$ = astrcat4("*[", $4, "]/self::", $1); }
-	| possibly_empty_sequence CXNTHLASTCH LPAREN NumberLike RPAREN 	{ $$ = astrcat4("*[last() - ", $4, "]/self::", $1); }
-	| possibly_empty_sequence CXNTHTYPE LPAREN NumberLike RPAREN			{ $$ = astrcat4($1, "[position() = ", $4, "]"); }
-	| possibly_empty_sequence CXNTHLASTTYPE LPAREN NumberLike RPAREN			{ $$ = astrcat4($1, "[position() = last() - ", $4, "]"); }
-	| possibly_empty_sequence CXFIRSTCH 	{ $$ = astrcat("*[1]/self::", $1); }
-	| possibly_empty_sequence CXLASTCH 	{ $$ = astrcat("*[last()]/self::", $1); }
-	| possibly_empty_sequence CXFIRSTTYPE 	{ $$ = astrcat($1, "[1]"); }
-	| possibly_empty_sequence CXLASTTYPE  	{ $$ = astrcat($1, "[last()]"); }
-	| possibly_empty_sequence CXONLYCH 		{ $$ = astrcat("*[count()=1]/self::", $1); }
-	| possibly_empty_sequence CXONLYTYPE 	{ $$ = astrcat($1, "[count()=1]"); }
-	| possibly_empty_sequence CXINPUT 			{ $$ = astrcat($1, "[lower-case(name)='input']"); }
-	| possibly_empty_sequence CXTEXT 			{ $$ = astrcat($1, "[lower-case(name)='input' and lower-case(@type)='text']"); }
-	| possibly_empty_sequence CXPASSWORD 	{ $$ = astrcat($1, "[lower-case(name)='input' and lower-case(@type)='password']"); }
-	| possibly_empty_sequence CXRADIO 			{ $$ = astrcat($1, "[lower-case(name)='input' and lower-case(@type)='radio']"); }
-	| possibly_empty_sequence CXCHECKBOX 	{ $$ = astrcat($1, "[lower-case(name)='input' and lower-case(@type)='checkbox']"); }
-	| possibly_empty_sequence CXSUBMIT 		{ $$ = astrcat($1, "[lower-case(name)='input' and lower-case(@type)='submit']"); }
-	| possibly_empty_sequence CXIMAGE 			{ $$ = astrcat($1, "[lower-case(name)='input' and lower-case(@type)='image']"); }
-	| possibly_empty_sequence CXRESET 			{ $$ = astrcat($1, "[lower-case(name)='input' and lower-case(@type)='reset']"); }
-	| possibly_empty_sequence CXBUTTON 		{ $$ = astrcat($1, "[lower-case(name)='input' and lower-case(@type)='button']"); }
-	| possibly_empty_sequence CXFILE 			{ $$ = astrcat($1, "[lower-case(name)='input' and lower-case(@type)='file']"); }
-	| possibly_empty_sequence CXENABLED 		{ $$ = astrcat($1, "[lower-case(name)='input' and not(@disabled)]"); }
-	| possibly_empty_sequence CXDISABLED 	{ $$ = astrcat($1, "[lower-case(name)='input' and @disabled]"); }
-	| possibly_empty_sequence CXCHECKED 		{ $$ = astrcat($1, "[@checked]"); }
-	| possibly_empty_sequence CXSELECTED 	{ $$ = astrcat($1, "[@selected]"); }
+	: simple_selector_anchor                        
+	| possibly_empty_sequence HASH Ident		                                                              { $$ = PATTERN4("[@id='", "']"); }
+	| possibly_empty_sequence DOT Ident		                                                                { $$ = PATTERN4("[contains(concat( ' ', @class, ' ' ), concat( ' ', '",  "', ' ' ))]"); }
+	| possibly_empty_sequence LBRA	type_selector RBRA                                                    { $$ = PATTERN4("[@", "]"); }
+	| possibly_empty_sequence LBRA	type_selector OptS EQ OptS StringLike OptS RBRA                       { $$ = PATTERN6("[@", " = ", "]"); }
+	| possibly_empty_sequence LBRA	type_selector OptS CXOPHE OptS StringLike OptS RBRA                   { $$ = pxpath_cat_paths(10, $1, PXP("[@"), $3, PXP(" = "), $7, PXP(" or starts-with(@"), $3, PXP(", concat("), $7, PXP(", '-' ))]")); }
+	| possibly_empty_sequence LBRA	type_selector OptS CXOPNE OptS StringLike OptS RBRA                   { $$ = PATTERN6("[@", " != ", "]"); }
+	| possibly_empty_sequence LBRA	type_selector OptS CXOPSTARTEQ OptS StringLike OptS RBRA              { $$ = PATTERN6("[starts-with(@", ", ", ")]"); }
+	| possibly_empty_sequence LBRA	type_selector OptS CXOPENDEQ OptS StringLike OptS RBRA                { $$ = PATTERN6("[ends-with(@", ", ", ")]"); }
+	| possibly_empty_sequence LBRA	type_selector OptS CXOPCONTAINS OptS StringLike OptS RBRA             { $$ = PATTERN6("[contains(@", ", ", ")]"); }
+	| possibly_empty_sequence LBRA	type_selector OptS CXOPCONTAINS2 OptS StringLike OptS RBRA            { $$ = PATTERN6("[contains(@", ", ", ")]"); }
+	| possibly_empty_sequence CXFIRST	                                                                    { $$ = APPEND("[1]"); }
+	| possibly_empty_sequence CXLAST	                                                                  	{ $$ = APPEND("[last()]"); }
+	| possibly_empty_sequence CXNOT LPAREN selectors_group RPAREN		                                      { $$ = pxpath_cat_paths(5, PXP("set-difference("), $1, PXP(", "), $4, PXP(")")); }
+	| possibly_empty_sequence CXEVEN		                                                                  { $$ = APPEND("[position() % 2 = 0]"); }
+	| possibly_empty_sequence CXODD		                                                                    { $$ = APPEND("[position() % 2 = 1]"); }
+	| possibly_empty_sequence CXEQ LPAREN NumberLike RPAREN			                                          { $$ = PATTERN4A("[position() = ", "]"); }
+	| possibly_empty_sequence CXGT LPAREN NumberLike RPAREN			                                          { $$ = PATTERN4A("[position() > ", "]"); }
+	| possibly_empty_sequence CXLT LPAREN NumberLike RPAREN			                                          { $$ = PATTERN4A("[position() < ", "]"); }
+	| possibly_empty_sequence CXHEADER		                                                                { $$ = APPEND("[contains('h1 h2 h3 h4 h5 h6', lower-case(local-name()))]"); }
+	| possibly_empty_sequence CXCONTAINS	LPAREN StringLike RPAREN                                        { $$ = PATTERN4A("[contains(., ", "]"); }
+	| possibly_empty_sequence CXEMPTY		                                                                  { $$ = APPEND("[not(node())]"); }
+	| possibly_empty_sequence CXHAS LPAREN selectors_group RPAREN		                                      { $$ = PATTERN4A("[", "]"); }
+	| possibly_empty_sequence CXPARENT		                                                                { $$ = APPEND("[node()]"); }
+	| possibly_empty_sequence CXNTHCH LPAREN NumberLike RPAREN 	                                          { $$ = PATTERN4B("*[", "]/self::"); }
+	| possibly_empty_sequence CXNTHLASTCH LPAREN NumberLike RPAREN 	                                      { $$ = PATTERN4B("*[last() - ", "]/self::"); }
+	| possibly_empty_sequence CXNTHTYPE LPAREN NumberLike RPAREN		                                    	{ $$ = PATTERN4A("[position() = ", PXP("]"); }
+	| possibly_empty_sequence CXNTHLASTTYPE LPAREN NumberLike RPAREN			                                { $$ = PATTERN4A("[position() = last() - ", "]"); }
+	| possibly_empty_sequence CXFIRSTCH 	                                                                { $$ = PREPEND("*[1]/self::"); }
+	| possibly_empty_sequence CXLASTCH 	                                                                  { $$ = PREPEND("*[last()]/self::"); }
+	| possibly_empty_sequence CXFIRSTTYPE                                                                 { $$ = APPEND("[1]"); }
+	| possibly_empty_sequence CXLASTTYPE                                                                  { $$ = APPEND("[last()]"); }
+	| possibly_empty_sequence CXONLYCH 		                                                                { $$ = PREPEND("*[count()=1]/self::"); }
+	| possibly_empty_sequence CXONLYTYPE 	                                                                { $$ = APPEND("[count()=1]"); }
+	| possibly_empty_sequence CXINPUT 		                                                                { $$ = APPEND("[lower-case(name())='input']"); }
+  | possibly_empty_sequence CXTEXT 			                                                                { $$ = INPUT_TYPE(text); }
+	| possibly_empty_sequence CXPASSWORD 	                                                                { $$ = INPUT_TYPE(password); }
+	| possibly_empty_sequence CXRADIO 		                                                                { $$ = INPUT_TYPE(radio); }
+	| possibly_empty_sequence CXCHECKBOX 	                                                                { $$ = INPUT_TYPE(checkbox); }
+	| possibly_empty_sequence CXSUBMIT 		                                                                { $$ = INPUT_TYPE(submit); }
+	| possibly_empty_sequence CXIMAGE 		                                                                { $$ = INPUT_TYPE(image); }
+	| possibly_empty_sequence CXRESET 		                                                                { $$ = INPUT_TYPE(reset); }
+	| possibly_empty_sequence CXBUTTON 		                                                                { $$ = INPUT_TYPE(button); }
+	| possibly_empty_sequence CXFILE 			                                                                { $$ = INPUT_TYPE(file); }
+	| possibly_empty_sequence CXENABLED 	                                                                { $$ = APPEND("[lower-case(name())='input' and not(@disabled)]"); }
+	| possibly_empty_sequence CXDISABLED 	                                                                { $$ = APPEND("[lower-case(name())='input' and @disabled]"); }
+	| possibly_empty_sequence CXCHECKED 	                                                                { $$ = APPEND("[@checked]"); }
+	| possibly_empty_sequence CXSELECTED 	                                                                { $$ = APPEND("[@selected]"); }
 	;
 	
 possibly_empty_sequence
 	: simple_selector_sequence
-	|											{ $$ = "*"; }
+	|											{ $$ = PXP("*"); }
 	;
 
 simple_selector_anchor
@@ -505,14 +521,14 @@ simple_selector_anchor
 	;
 
 type_selector
-  : namespace_prefix element_name	{	$$ = astrcat3($1, ":", $2); }
+  : namespace_prefix element_name	{	$$ = pxpath_cat_paths(3, $1, PXP(":"), $2); }
   | element_name				
   ;
 
 namespace_prefix
-  : SPLAT PIPE			{ $$ = "*"; }
+  : SPLAT PIPE			{ $$ = PXP("*"); }
   | Ident PIPE			{	$$ = $1;  }
-  | PIPE						{ $$ = "*"; }
+  | PIPE						{ $$ = PXP("*"); }
   ;
 
 element_name
@@ -521,19 +537,19 @@ element_name
 
 universal
   : namespace_prefix SPLAT { $$ = astrcat3($1, ":", $2); }
-  | SPLAT
+  | SPLAT                   { $$ = PXPIZE; }
   ;
 
 NumberLike
-	: NUMBER
+	: NUMBER                  { $$ = PXPIZE; }
   ;
 
 Ident
-	: NAME
-	| BSLASHLIT						{ *$$ = *astrdup($1) + 1; }
-	| NAME Ident					{ $$ = strcat($1, $2); }
-	| BSLASHLIT Ident			{ *$$ = (*astrcat($1, $2) + 1); }
-	| keyword
+	: NAME                { $$ = PXPIZE; }
+	| BSLASHLIT						{ $$ = pxpath_new_literal(1, &(*$1 + 1)); }
+	| NAME Ident					{ $$ = pxpath_new_literal(2, $1, $2); }
+	| BSLASHLIT Ident			{ $$ = pxpath_new_literal(2, "\\", $2); }
+	| keyword             { $$ = PXPIZE; }
 	;
 	
 keyword
@@ -561,13 +577,13 @@ keyword
 	;
 	
 StringLike
-	: Ident 			{ $$ = astrcat3("'", $1, "'"); }
-	| STRING
+	: Ident 			
+	| STRING      { $$ = pxpath_new_literal(1, $1); }
 	;
 
 OptS
-	: S								{ $$ = " "; }
-	|									{ $$ = "";  }
+  : S			      { $$ = 0; }					
+	|							{ $$ = 0; }
 	;
 	
 %%
@@ -602,4 +618,4 @@ void answer(char* a){
 void start_debugging(){
   yydebug = 1;
   return;
-}
+}   
