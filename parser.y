@@ -608,7 +608,7 @@ char* myparse(char* string){
   prepare_parse(string);
   yyparse();
   cleanup_parse();
-	return parsed_answer;
+	return pxpath_to_string(parsed_answer);
 }
 
 void answer(char* a){
