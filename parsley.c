@@ -3,7 +3,6 @@
 #include <argp.h>
 #include <stdarg.h>
 #include <json/json.h>
-#include "kstring.h"
 #include "parsley.h"
 #include "y.tab.h"
 #include "printbuf.h"
@@ -72,16 +71,39 @@ parsedParsleyPtr parsley_parse_string(parsleyPtr parsley, char* string, size_t s
 	}
 }
 
+static struct ll {
+  xmlChar *name;
+  struct ll *next;
+};
+
 static char *
 xpath_of(xmlNodePtr node) {
-  char *out = NULL;
+  if(node == NULL || node->name == NULL && node->parent == NULL) return strdup("/");
+  
+  struct ll * ptr = (struct ll *) calloc(sizeof(struct ll *), 1);
+  
   while(node->name != NULL && node->parent != NULL) {
     if(node->ns == NULL) {
-      out = out == NULL ? node->name : astrcat3(node->name, "/", out);
+      struct ll * tmp = (struct ll *) calloc(sizeof(struct ll *), 1);
+      tmp->name = node->name;
+      tmp->next = ptr;
+      ptr = tmp;
     }
     node = node->parent;
   }
-  return astrcat("/", out);
+  
+  struct printbuf *buf = printbuf_new();
+  while(ptr->name != NULL) {
+    sprintbuf(buf, "/%s", ptr->name);
+    struct ll * last = ptr;
+    ptr = ptr->next;
+    free(last);
+  }
+  free(ptr);
+  
+  char *str = strdup(buf->buf);
+  printbuf_free(buf);
+  return str;
 }
 
 static void 
@@ -215,7 +237,7 @@ parsleyPtr parsley_compile(char* parsley_str, char* incl) {
 }
 
 static contextPtr new_context(struct json_object * json, struct printbuf *buf) {
-	contextPtr c = parsley_alloc(sizeof(parsley_context));
+	contextPtr c = calloc(sizeof(parsley_context), 1);
 	c->key_buf = printbuf_new();
 	sprintbuf(c->key_buf, "");
 	c->name = "root";
@@ -236,12 +258,12 @@ static contextPtr new_context(struct json_object * json, struct printbuf *buf) {
 }
 
 contextPtr deeper_context(contextPtr context, char* key, struct json_object * val) {
-	contextPtr c = parsley_alloc(sizeof(parsley_context));
+	contextPtr c = calloc(sizeof(parsley_context), 1);
 	c->key_buf = context->key_buf;
 	c->keys = context->keys;
 	c->tag = parsley_key_tag(key);
   c->flags = parsley_key_flags(key);
-	c->name = astrcat3(context->name, ".", c->tag);
+  asprintf(&(c->name), "%s.%s", context->name, c->tag);
 	parsley_parsing_context = c;
 	c->array = val != NULL && json_object_is_type(val, json_type_array);
 	c->json = c->array ? json_object_array_get_idx(val, 0) : val;
@@ -250,7 +272,7 @@ contextPtr deeper_context(contextPtr context, char* key, struct json_object * va
 	c->magic = ((c->filter == NULL) && c->array && !(c->string)) ? c->name : context->magic;
 	if(context->filter != NULL && !c->array) c->magic = NULL;
 	c->buf = context->buf;
-	c->raw_expr = c->string ? myparse(astrdup(json_object_get_string(c->json))) : NULL;
+	c->raw_expr = c->string ? myparse(strdup(json_object_get_string(c->json))) : NULL;
 	c->full_expr = full_expr(context, c->filter);
 	c->full_expr = full_expr(c, c->raw_expr);
 	c->expr = filter_intersection(c->magic, c->raw_expr);
@@ -261,7 +283,9 @@ contextPtr deeper_context(contextPtr context, char* key, struct json_object * va
 
 static char* filter_intersection(char* key, char* expr) {
 	if(key != NULL && expr != NULL) {
-		return astrcat7("set:intersection(key('", key, "__key', $", key, "__index), ", expr, ")");
+    char * tmp;
+    asprintf(&tmp, "set:intersection(key('%s__key', $%s__index), %s)", key, key, expr);
+    return tmp;
 	} else {
 		return expr;
 	}
@@ -352,11 +376,11 @@ void __parsley_recurse(contextPtr context) {
             char * str = inner_key_of(c->json);
   					if(str != NULL) {
     				  // printf("i\n");
-    					tmp = myparse(astrdup(str));
+    					tmp = myparse(strdup(str));
   					  sprintbuf(c->buf, "<parsley:groups optional=\"true\"><xsl:for-each select=\"%s\">\n", filter_intersection(context->magic, tmp));	
 
     					// keys
-    					keys = parsley_alloc(sizeof(key_node));
+    					keys = calloc(sizeof(key_node), 1);
     					keys->name = c->name;
     					keys->use = full_expr(c, tmp);
     					keys->next = c->keys;
@@ -370,7 +394,7 @@ void __parsley_recurse(contextPtr context) {
     						keys = keys->next;
     					}
     					sprintbuf(buf, "'')");
-    					tmp = astrdup(buf->buf);
+    					tmp = strdup(buf->buf);
     					printbuf_free(buf);
 					
     					sprintbuf(c->key_buf, "<xsl:key name=\"%s__key\" match=\"%s\" use=\"%s\"/>\n", c->name, 

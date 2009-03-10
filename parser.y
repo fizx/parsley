@@ -3,7 +3,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "kstring.h"
 #include "parsed_xpath.h"
 #include <libxml/hash.h>
 
@@ -411,7 +410,7 @@ FunctionName
 	;
 
 QName
-	: PrefixedName
+  : PrefixedName
 	| UnprefixedName      { $$ = PXP($1); }
 	;
 
@@ -534,7 +533,7 @@ element_name
   ;
 
 universal
-  : namespace_prefix SPLAT { $$ = astrcat3($1, ":", $2); }
+  : namespace_prefix SPLAT { $$ = pxpath_cat_paths(3, $1, PXP(":"), PXP($2)); }
   | SPLAT                   { $$ = PXP($1); }
   ;
 

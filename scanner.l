@@ -1,6 +1,5 @@
 %{
 #include <stdio.h>
-#include "kstring.h"
 #include "parser.h"
 
 YY_BUFFER_STATE mybuffer;

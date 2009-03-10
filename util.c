@@ -60,7 +60,7 @@ int parsley_key_flags(char* key) {
 }
 
 char* parsley_key_tag(char* key) {
-	char *tag = astrdup(key);
+	char *tag = strdup(key);
 	char *ptr = tag;
 	while(*ptr++ != '\0'){
 		if(!isalnum(*ptr) && *ptr != '_' && *ptr != '-') {
@@ -72,7 +72,7 @@ char* parsley_key_tag(char* key) {
 }
 
 char* parsley_key_filter(char* key) {
-	char *expr = astrdup(key);
+	char *expr = strdup(key);
 	char *ptr = expr;
   char *last_paren;
 

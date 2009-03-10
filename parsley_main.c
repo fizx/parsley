@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "kstring.h"
 #include "printbuf.h"
 #include "parsley.h"
 #include "xml2json.h"

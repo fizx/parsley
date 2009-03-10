@@ -102,23 +102,27 @@ pxpathPtr pxpath_cat_paths(int n, ...) {
 }
 
 pxpathPtr pxpath_new_path(int n, ...) {
+	struct printbuf *buf = printbuf_new();
   va_list va;
-  char * value;
   va_start(va, n);
-  vasprintf(&value, format_n(n), va);
+  for(int i = 0; i < n; i++) {
+    sprintbuf(buf, "%s", va_arg(va, char *));
+  }
   va_end(va);
-  pxpathPtr ptr = pxpath_new(PXPATH_PATH, value);
-  free(value);
+  pxpathPtr ptr = pxpath_new(PXPATH_PATH, buf->buf);
+  printbuf_free(buf);
   return ptr;
 }
 
 pxpathPtr pxpath_new_literal(int n, ...) {
+	struct printbuf *buf = printbuf_new();
   va_list va;
-  char * value;
   va_start(va, n);
-  vasprintf(&value, format_n(n), va);
+  for(int i = 0; i < n; i++) {
+    sprintbuf(buf, "%s", va_arg(va, char *));
+  }
   va_end(va);
-  pxpathPtr ptr = pxpath_new(PXPATH_LITERAL, value);
-  free(value);
+  pxpathPtr ptr = pxpath_new(PXPATH_LITERAL, buf->buf);
+  printbuf_free(buf);
   return ptr;
 }

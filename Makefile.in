@@ -60,9 +60,9 @@ am__installdirs = "$(DESTDIR)$(libdir)" "$(DESTDIR)$(bindir)" \
 libLTLIBRARIES_INSTALL = $(INSTALL)
 LTLIBRARIES = $(lib_LTLIBRARIES)
 libparsley_la_LIBADD =
-am_libparsley_la_OBJECTS = parsed_xpath.lo parsley_mem.lo xml2json.lo \
-	regexp.lo printbuf.lo functions.lo util.lo kstring.lo \
-	obstack.lo scanner.lo parser.lo parsley.lo
+am_libparsley_la_OBJECTS = parsed_xpath.lo xml2json.lo regexp.lo \
+	printbuf.lo functions.lo util.lo scanner.lo parser.lo \
+	parsley.lo
 libparsley_la_OBJECTS = $(am_libparsley_la_OBJECTS)
 binPROGRAMS_INSTALL = $(INSTALL_PROGRAM)
 PROGRAMS = $(bin_PROGRAMS)
@@ -230,8 +230,8 @@ top_srcdir = @top_srcdir@
 AM_YFLAGS = -d
 BUILT_SOURCES = parser.h
 lib_LTLIBRARIES = libparsley.la
-libparsley_la_SOURCES = parsed_xpath.c parsley_mem.c xml2json.c regexp.c printbuf.c functions.c util.c kstring.c obstack.c scanner.l parser.y parsley.c
-include_HEADERS = parsley.h obstack.h xml2json.h
+libparsley_la_SOURCES = parsed_xpath.c xml2json.c regexp.c printbuf.c functions.c util.c scanner.l parser.y parsley.c
+include_HEADERS = parsley.h xml2json.h
 parsleyc_SOURCES = parsleyc_main.c
 parsleyc_LDADD = libparsley.la
 parsley_SOURCES = parsley_main.c
@@ -350,13 +350,10 @@ distclean-compile:
 	-rm -f *.tab.c
 
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/functions.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/kstring.Plo@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/obstack.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parsed_xpath.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parser.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parsley.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parsley_main.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parsley_mem.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/parsleyc_main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/printbuf.Plo@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@./$(DEPDIR)/regexp.Plo@am__quote@

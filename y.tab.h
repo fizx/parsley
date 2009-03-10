@@ -146,7 +146,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "kstring.h"
 #include "parsed_xpath.h"
 #include <libxml/hash.h>
 
@@ -188,14 +187,14 @@ void answer(pxpathPtr);
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE 
-#line 50 "parser.y"
+#line 49 "parser.y"
 {
   int empty;
 	char* string;
   pxpathPtr node;
 }
 /* Line 2604 of glr.c.  */
-#line 199 "y.tab.h"
+#line 198 "y.tab.h"
 	YYSTYPE;
 # define YYSTYPE_IS_DECLARED 1
 # define YYSTYPE_IS_TRIVIAL 1
