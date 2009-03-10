@@ -219,7 +219,6 @@ parsleyPtr parsley_compile(char* parsley_str, char* incl) {
 	
 	sprintbuf(buf, "</parsley:root>\n");
 	sprintbuf(buf, "</xsl:template>\n");
-	sprintbuf(buf, context->key_buf->buf);
 	sprintbuf(buf, "</xsl:stylesheet>\n");
 	
 	if(parsley->error == NULL) {
@@ -237,57 +236,43 @@ parsleyPtr parsley_compile(char* parsley_str, char* incl) {
 
 static contextPtr new_context(struct json_object * json, struct printbuf *buf) {
 	contextPtr c = calloc(sizeof(parsley_context), 1);
-	c->key_buf = printbuf_new();
-	sprintbuf(c->key_buf, "");
-	c->name = "root";
 	c->tag = "root";
-	c->full_expr = "/";
-	c->expr = NULL;
-	c->magic = NULL;
-	c->filter = NULL;
+	c->expr = pxpath_new_path(1, "/");
 	c->buf = buf;
 	c->json = json;
-	c->parent = NULL;
-	c->array = 0;
-	c->string = 0;
-	c->flags = 0;
-	c->keys = NULL;
-  c->zipped = 0;
 	return c;
 }
 
 contextPtr deeper_context(contextPtr context, char* key, struct json_object * val) {
 	contextPtr c = calloc(sizeof(parsley_context), 1);
-	c->key_buf = context->key_buf;
-	c->keys = context->keys;
 	c->tag = parsley_key_tag(key);
   c->flags = parsley_key_flags(key);
-  asprintf(&(c->name), "%s.%s", context->name, c->tag);
 	parsley_parsing_context = c;
 	c->array = val != NULL && json_object_is_type(val, json_type_array);
 	c->json = c->array ? json_object_array_get_idx(val, 0) : val;
 	c->string = val != NULL && json_object_is_type(c->json, json_type_string);
 	c->filter = parsley_key_filter(key);
-	c->magic = ((c->filter == NULL) && c->array && !(c->string)) ? c->name : context->magic;
-	if(context->filter != NULL && !c->array) c->magic = NULL;
+	c->magic = context->array && context->filter == NULL;
 	c->buf = context->buf;
-	c->raw_expr = c->string ? myparse(strdup(json_object_get_string(c->json))) : NULL;
-	c->full_expr = full_expr(context, c->filter);
-	c->full_expr = full_expr(c, c->raw_expr);
-	c->expr = filter_intersection(c->magic, c->raw_expr);
-	c->filter = filter_intersection(c->magic, c->filter);
+	c->expr = c->string ? myparse(strdup(json_object_get_string(c->json))) : NULL;
 	c->parent = context;
+	if(context->child == NULL) {
+		context->child = c;
+	} else {
+		contextPtr tmp = context->child;
+		while(tmp->next != NULL) tmp = tmp->next;
+		tmp->next = c;
+	}
 	return c;
 }
 
-static char* filter_intersection(char* key, char* expr) {
-	if(key != NULL && expr != NULL) {
-    char * tmp;
-    asprintf(&tmp, "set:intersection(key('%s__key', $%s__index), %s)", key, key, expr);
-    return tmp;
-	} else {
-		return expr;
-	}
+void context_free(contextPtr c) {
+	if(c->tag != NULL) free(c->tag);
+	if(c->filter != NULL) pxpath_free(c->filter);
+	if(c->expr != NULL) pxpath_free(c->expr);
+	if(c->child != NULL) context_free(c->child);
+	if(c->next != NULL) context_free(c->next);
+	free(c);
 }
 
 void parsley_free(parsleyPtr ptr) {
@@ -303,7 +288,7 @@ void parsley_free(parsleyPtr ptr) {
 void yyerror(const char * s) {
 	struct printbuf *buf = printbuf_new();
 	if(last_parsley_error !=NULL) sprintbuf(buf, "%s\n", last_parsley_error);
-  sprintbuf(buf, "%s in key: %s", s, parsley_parsing_context->name);
+  sprintbuf(buf, "%s in key: %s", s, full_key_name(parsley_parsing_context));
 	last_parsley_error = strdup(buf->buf);
 	printbuf_free(buf);
 }
@@ -331,11 +316,11 @@ void __parsley_recurse(contextPtr context) {
 		c = deeper_context(context, key, val);
 		sprintbuf(c->buf, "<%s%s>\n", c->tag, optional(c));	
 		if(c->string) {
-			if(c->array || context->zipped) {
+			if(c->array || context->magic) {
 				if(c->filter){
       	  // printf("b\n");
 					sprintbuf(c->buf, "<parsley:groups optional=\"true\"><xsl:for-each select=\"%s\"><parsley:group optional=\"true\">\n", c->filter);	
-					sprintbuf(c->buf, "<xsl:value-of select=\"%s\" />\n", c->raw_expr);
+					sprintbuf(c->buf, "<xsl:value-of select=\"%s\" />\n", pxpath_to_string(c->expr));
 					sprintbuf(c->buf, "</parsley:group></xsl:for-each></parsley:groups>\n");
 				} else {
         	// printf("c\n");
@@ -347,7 +332,7 @@ void __parsley_recurse(contextPtr context) {
 				if(c->filter){
       	  // printf("d\n");
 					sprintbuf(c->buf, "<xsl:for-each select=\"%s\"><xsl:if test=\"position()=1\">\n", c->filter);	
-					sprintbuf(c->buf, "<xsl:value-of select=\"%s\" />\n", c->raw_expr);
+					sprintbuf(c->buf, "<xsl:value-of select=\"%s\" />\n", pxpath_to_string(c->expr));
 					sprintbuf(c->buf, "</xsl:if></xsl:for-each>\n");
 				} else {
         	// printf("e\n");
@@ -362,51 +347,49 @@ void __parsley_recurse(contextPtr context) {
 					__parsley_recurse(c);
 					sprintbuf(c->buf, "</parsley:group></xsl:for-each></parsley:groups>\n");
 				} else {				// magic	  
-					if(all_strings(c->json)) {
-            c->magic = NULL;
-            c->zipped = 1;
+					// if(all_strings(c->json)) {
   					sprintbuf(c->buf, "<parsley:zipped>\n");
             __parsley_recurse(c);
   					sprintbuf(c->buf, "</parsley:zipped>\n");
-					} else {
-  				  // printf("h\n");
-  					sprintbuf(c->buf, "<xsl:variable name=\"%s__context\" select=\".\"/>\n", c->name);
-  					parsley_parsing_context = c;
-            char * str = inner_key_of(c->json);
-  					if(str != NULL) {
-    				  // printf("i\n");
-    					tmp = myparse(strdup(str));
-  					  sprintbuf(c->buf, "<parsley:groups optional=\"true\"><xsl:for-each select=\"%s\">\n", filter_intersection(context->magic, tmp));	
-
-    					// keys
-    					keys = calloc(sizeof(key_node), 1);
-    					keys->name = c->name;
-    					keys->use = full_expr(c, tmp);
-    					keys->next = c->keys;
-    					c->keys = keys;
-					
-    					buf = printbuf_new();
-					
-    					sprintbuf(buf, "concat(");
-    					while(keys != NULL){
-    						sprintbuf(buf, "count(set:intersection(following::*, %s)), '-',", keys->use);
-    						keys = keys->next;
-    					}
-    					sprintbuf(buf, "'')");
-    					tmp = strdup(buf->buf);
-    					printbuf_free(buf);
-					
-    					sprintbuf(c->key_buf, "<xsl:key name=\"%s__key\" match=\"%s\" use=\"%s\"/>\n", c->name, 
-    						full_expr(c, "./descendant-or-self::*"),
-    						tmp
-    					);
-
-    					sprintbuf(c->buf, "<xsl:variable name=\"%s__index\" select=\"%s\"/>\n", c->name, tmp);
-    					sprintbuf(c->buf, "<xsl:for-each select=\"$%s__context\"><parsley:group optional=\"true\">\n", c->name);	
-    					__parsley_recurse(c);
-    					sprintbuf(c->buf, "</parsley:group></xsl:for-each></xsl:for-each></parsley:groups>\n");	
-    				}				
-  				}
+					// } else {
+					//   				  // printf("h\n");
+					//   					sprintbuf(c->buf, "<xsl:variable name=\"%s__context\" select=\".\"/>\n", c->name);
+					//   					parsley_parsing_context = c;
+					//             char * str = inner_key_of(c->json);
+					//   					if(str != NULL) {
+					//     				  // printf("i\n");
+					//     					tmp = myparse(strdup(str));
+					//   					  sprintbuf(c->buf, "<parsley:groups optional=\"true\"><xsl:for-each select=\"%s\">\n", filter_intersection(context->magic, tmp));	
+					// 
+					//     					// keys
+					//     					keys = calloc(sizeof(key_node), 1);
+					//     					keys->name = c->name;
+					//     					keys->use = full_expr(c, tmp);
+					//     					keys->next = c->keys;
+					//     					c->keys = keys;
+					// 
+					//     					buf = printbuf_new();
+					// 
+					//     					sprintbuf(buf, "concat(");
+					//     					while(keys != NULL){
+					//     						sprintbuf(buf, "count(set:intersection(following::*, %s)), '-',", keys->use);
+					//     						keys = keys->next;
+					//     					}
+					//     					sprintbuf(buf, "'')");
+					//     					tmp = strdup(buf->buf);
+					//     					printbuf_free(buf);
+					// 
+					//     					sprintbuf(c->key_buf, "<xsl:key name=\"%s__key\" match=\"%s\" use=\"%s\"/>\n", c->name, 
+					//     						full_expr(c, "./descendant-or-self::*"),
+					//     						tmp
+					//     					);
+					// 
+					//     					sprintbuf(c->buf, "<xsl:variable name=\"%s__index\" select=\"%s\"/>\n", c->name, tmp);
+					//     					sprintbuf(c->buf, "<xsl:for-each select=\"$%s__context\"><parsley:group optional=\"true\">\n", c->name);	
+					//     					__parsley_recurse(c);
+					//     					sprintbuf(c->buf, "</parsley:group></xsl:for-each></xsl:for-each></parsley:groups>\n");	
+					//     				}				
+					//   				}
 				}
 			} else {
 				// printf("j\n");
@@ -444,11 +427,11 @@ arepl(char* orig, char* old, char* new) {
 	return ptr;
 }
 
-static char* full_expr(contextPtr context, char* expr) {
-	if(expr == NULL) return context->full_expr;
-	char* merged = arepl(expr, ".", context->full_expr);
-	return arepl(merged, "///", "//");
-}
+// static char* full_expr(contextPtr context, char* expr) {
+// 	if(expr == NULL) return context->full_expr;
+// 	char* merged = arepl(expr, ".", context->full_expr);
+// 	return arepl(merged, "///", "//");
+// }
 
 static char* inner_key_of(struct json_object * json) {
 	switch(json_object_get_type(json)) {

@@ -7,12 +7,13 @@
 #include <libxslt/xslt.h>
 #include <libxslt/xsltInternals.h>
 #include <libxslt/transform.h>
+#include <json/json.h>
+#include "parsed_xpath.h"
 
 
 static int parsley_debug_mode = 0;
 static char* last_parsley_error;
 
-#include <json/json.h>
 
 typedef struct __compiled_parsley {
  	char* raw_stylesheet;
@@ -39,20 +40,17 @@ typedef key_node * keyPtr;
 
 typedef struct __parsley_context {
 	struct printbuf * buf;
-	struct printbuf * key_buf;
- 	keyPtr keys;
 	struct json_object * json;
-	struct __parsley_context * parent;
 	char* tag;
-	char* filter;
-	char* expr;
-	char* raw_expr;
-	char* full_expr;
-	char* name;
+	pxpathPtr filter;
+	pxpathPtr expr;
 	bool magic;
 	bool array;
 	bool string;
   int flags;  //bitmask over following enum
+	struct __parsley_context * parent;
+	struct __parsley_context *child;
+	struct __parsley_context *next;
 } parsley_context;
 
 enum {
@@ -72,7 +70,6 @@ parsedParsleyPtr parsley_parse_doc(parsleyPtr, xmlDocPtr);
 
 static contextPtr parsley_parsing_context;
 
-static char* full_expr(contextPtr, char*);
 static char* expr_join(char*, char*);
 static char* inner_key_of(struct json_object *);
 static char* inner_key_each(struct json_object *);

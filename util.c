@@ -71,9 +71,10 @@ char* parsley_key_tag(char* key) {
 	return tag;
 }
 
-char* parsley_key_filter(char* key) {
+pxpathPtr parsley_key_filter(char* key) {
 	char *expr = strdup(key);
 	char *ptr = expr;
+	char *orig = expr;
   char *last_paren;
 
 	int offset = 0;
@@ -87,8 +88,10 @@ char* parsley_key_filter(char* key) {
 	if(!has_expr) return NULL;
   *last_paren = 0; // clip ")"
 	expr += offset + 1; // clip "("
-  
-	return strlen(expr) == 0 ? NULL : myparse(expr);
+
+	pxpathPtr out = strlen(expr) == 0 ? NULL : myparse(expr);
+	free(orig);
+	return out;
 }
 
 
