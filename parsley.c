@@ -231,7 +231,6 @@ parsleyPtr parsley_compile(char* parsley_str, char* incl) {
 	}
 	
 	printbuf_free(buf);
-	parsley_collect();
 	
 	return parsley;
 }
@@ -423,6 +422,26 @@ void __parsley_recurse(contextPtr context) {
 		}
 		sprintbuf(c->buf, "</%s>\n", c->tag);
 	}
+}
+
+static char* 
+arepl(char* orig, char* old, char* new) {
+	// printf("y\n");
+	char* ptr = strdup(orig);
+	int nlen = strlen(new);
+	int olen = strlen(old);
+	char* i;
+	struct printbuf * buf = printbuf_new();
+	while((i = strstr(ptr, old)) != NULL) {
+		printbuf_memappend(buf, ptr, i - ptr);
+		printbuf_memappend(buf, new, nlen);
+		ptr = i + olen;
+	}
+	printbuf_memappend(buf, ptr, strlen(ptr));
+	ptr = strdup(buf->buf);
+	printbuf_free(buf);
+	// printf("z\n");
+	return ptr;
 }
 
 static char* full_expr(contextPtr context, char* expr) {
