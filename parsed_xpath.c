@@ -37,6 +37,7 @@ pxpathPtr pxpath_new(int type, char* value) {
 
 static void
 _pxpath_to_string(pxpathPtr ptr, struct printbuf *buf) {	
+  if(ptr == NULL) return;
 	if(ptr->type == PXPATH_FUNCTION) {
 		sprintbuf(buf, "%s(", ptr->value);
 		pxpathPtr next = ptr->child;
@@ -61,6 +62,7 @@ format_n(int n) {
 }
 
 char* pxpath_to_string(pxpathPtr ptr) {
+  if(ptr == NULL) return NULL;
 	struct printbuf *buf = printbuf_new();
 	_pxpath_to_string(ptr, buf);
 	char *out = strdup(buf->buf);
@@ -68,12 +70,22 @@ char* pxpath_to_string(pxpathPtr ptr) {
 	return out;
 }
 
+pxpathPtr pxpath_dup(pxpathPtr p) {
+  if(p == NULL) return NULL;
+  pxpathPtr dup = (pxpathPtr) calloc(sizeof(pxpath_node), 1);
+  dup->type = p->type;
+  dup->value = strdup(p->value);
+  dup->next = pxpath_dup(p->next);
+  dup->child = pxpath_dup(p->child);
+  return dup;
+}
+
 void pxpath_free(pxpathPtr ptr) {
-	if(ptr == NULL) return;
-	free(ptr->value);
-	pxpath_free(ptr->next);
-	pxpath_free(ptr->child);
-	free(ptr);
+  if(ptr == NULL) return;
+  free(ptr->value);
+  pxpath_free(ptr->next);
+  pxpath_free(ptr->child);
+  free(ptr);
 }
 
 pxpathPtr pxpath_new_func(char* value, pxpathPtr child) {

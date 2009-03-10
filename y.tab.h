@@ -163,6 +163,7 @@ void start_debugging(void);
 
 static xmlHashTablePtr alias_hash;
 
+
 char* xpath_alias(char*);
 void init_xpath_alias();
 
@@ -180,6 +181,7 @@ void answer(pxpathPtr);
 #define P4O(A, B, C, D)               pxpath_cat_paths(4, PXP(A), B, PXP(C), D)
 #define P6E(A, B, C, D, E, F)         pxpath_cat_paths(6, A, PXP(B), C, PXP(D), E, PXP(F));
 #define INPUT_TYPE(A, S)              APPEND(A, "[lower-case(name())='input' and lower-case(@type)='" #S "']")
+#define TRACE(A, B)                   fprintf(stderr, "trace(%s): ", A); fprintf(stderr, "%s\n", pxpath_to_string(B));
 
 #endif
   
@@ -187,14 +189,14 @@ void answer(pxpathPtr);
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE 
-#line 49 "parser.y"
+#line 51 "parser.y"
 {
   int empty;
 	char* string;
   pxpathPtr node;
 }
-/* Line 2616 of glr.c.  */
-#line 198 "y.tab.h"
+/* Line 2604 of glr.c.  */
+#line 200 "y.tab.h"
 	YYSTYPE;
 # define YYSTYPE_IS_DECLARED 1
 # define YYSTYPE_IS_TRIVIAL 1

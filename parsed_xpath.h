@@ -13,15 +13,16 @@ typedef struct __pxpath_node {
 typedef pxpath_node * pxpathPtr;
 
 enum {
-   PXPATH_FUNCTION,
-	 PXPATH_PATH,
-	 PXPATH_LITERAL
+   PXPATH_FUNCTION = 1,
+	 PXPATH_PATH = 2,
+	 PXPATH_LITERAL = 3
 };
 
 pxpathPtr pxpath_new(int type, char* value);
 pxpathPtr pxpath_new_func(char* value, pxpathPtr child);
 pxpathPtr pxpath_cat_paths(int n, ...);
 pxpathPtr pxpath_new_path(int n, ...);
+pxpathPtr pxpath_dup(pxpathPtr p);
 pxpathPtr pxpath_new_literal(int n, ...);
 void pxpath_free(pxpathPtr ptr);
 char* pxpath_to_string(pxpathPtr ptr);

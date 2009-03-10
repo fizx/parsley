@@ -20,6 +20,7 @@ void start_debugging(void);
 
 static xmlHashTablePtr alias_hash;
 
+
 char* xpath_alias(char*);
 void init_xpath_alias();
 
@@ -37,6 +38,7 @@ void answer(pxpathPtr);
 #define P4O(A, B, C, D)               pxpath_cat_paths(4, PXP(A), B, PXP(C), D)
 #define P6E(A, B, C, D, E, F)         pxpath_cat_paths(6, A, PXP(B), C, PXP(D), E, PXP(F));
 #define INPUT_TYPE(A, S)              APPEND(A, "[lower-case(name())='input' and lower-case(@type)='" #S "']")
+#define TRACE(A, B)                   fprintf(stderr, "trace(%s): ", A); fprintf(stderr, "%s\n", pxpath_to_string(B));
 
 #endif
   
@@ -211,7 +213,7 @@ void answer(pxpathPtr);
 %%
 
 Root
-	:	Expr OptS		{ answer($1); }
+  :	Expr OptS		{ answer($1); }
 	;
 
 LocationPath
@@ -291,7 +293,7 @@ AbbreviatedAxisSpecifier
 	;
 Expr
   : LPAREN Expr RPAREN %dprec 2  { $$ = PXPWRAP($1, $2, $3);    }  
-  | OrExpr						 %dprec 1 
+  | OrExpr						 %dprec 1
 	;
 PrimaryExpr
   : VariableReference 
@@ -470,12 +472,12 @@ simple_selector_sequence
 	| possibly_empty_sequence CXHAS LPAREN selectors_group RPAREN		                                      { $$ = P4E($1, "[", $3, "]"); }
 	| possibly_empty_sequence CXNTHTYPE LPAREN NumberLike RPAREN		                                    	{ $$ = P4E($1, "[position() = ", $3, "]"); }
 	| possibly_empty_sequence CXNTHLASTTYPE LPAREN NumberLike RPAREN			                                { $$ = P4E($1, "[position() = last() - ", $3, "]"); }
-	| possibly_empty_sequence LBRA	type_selector OptS EQ OptS StringLike OptS RBRA                       { $$ = P6($1, "[@", $3, " = ", $7, "]"); }
-	| possibly_empty_sequence LBRA	type_selector OptS CXOPNE OptS StringLike OptS RBRA                   { $$ = P6($1, "[@", $3, " != ", "]"); }
-	| possibly_empty_sequence LBRA	type_selector OptS CXOPSTARTEQ OptS StringLike OptS RBRA              { $$ = P6($1, "[starts-with(@", $3, ", ", $7, ")]"); }
-	| possibly_empty_sequence LBRA	type_selector OptS CXOPENDEQ OptS StringLike OptS RBRA                { $$ = P6($1, "[ends-with(@", $3, ", ", $7, ")]"); }
-	| possibly_empty_sequence LBRA	type_selector OptS CXOPCONTAINS OptS StringLike OptS RBRA             { $$ = P6($1, "[contains(@", $3, ", ", $7, ")]"); }
-	| possibly_empty_sequence LBRA	type_selector OptS CXOPCONTAINS2 OptS StringLike OptS RBRA            { $$ = P6($1, "[contains(@", $3, ", ", $7, ")]"); }
+	| possibly_empty_sequence LBRA	type_selector OptS EQ OptS StringLike OptS RBRA                       { $$ = P6E($1, "[@", $3, " = ", $7, "]"); }
+	| possibly_empty_sequence LBRA	type_selector OptS CXOPNE OptS StringLike OptS RBRA                   { $$ = P6E($1, "[@", $3, " != ", $7, "]"); }
+	| possibly_empty_sequence LBRA	type_selector OptS CXOPSTARTEQ OptS StringLike OptS RBRA              { $$ = P6E($1, "[starts-with(@", $3, ", ", $7, ")]"); }
+	| possibly_empty_sequence LBRA	type_selector OptS CXOPENDEQ OptS StringLike OptS RBRA                { $$ = P6E($1, "[ends-with(@", $3, ", ", $7, ")]"); }
+	| possibly_empty_sequence LBRA	type_selector OptS CXOPCONTAINS OptS StringLike OptS RBRA             { $$ = P6E($1, "[contains(@", $3, ", ", $7, ")]"); }
+	| possibly_empty_sequence LBRA	type_selector OptS CXOPCONTAINS2 OptS StringLike OptS RBRA            { $$ = P6E($1, "[contains(@", $3, ", ", $7, ")]"); }
 	| possibly_empty_sequence CXNTHCH LPAREN NumberLike RPAREN 	                                          { $$ = P4O("*[", $4,  "]/self::", $1); }
 	| possibly_empty_sequence CXNTHLASTCH LPAREN NumberLike RPAREN 	                                      { $$ = P4O("*[last() - ", $4, "]/self::", $1); }
 	| possibly_empty_sequence CXFIRST	                                                                    { $$ = APPEND($1, "[1]"); }
@@ -529,7 +531,7 @@ namespace_prefix
   ;
 
 element_name
-  : Ident
+  : Ident  { $$ = $1; }
   ;
 
 universal
@@ -544,8 +546,8 @@ NumberLike
 Ident
 	: NAME                { $$ = PXP($1); }
 	| BSLASHLIT						{ $$ = PXP($1 + 1); }
-	| NAME Ident					{ $$ = pxpath_new_literal(2, $1, $2); }
-	| BSLASHLIT Ident			{ $$ = pxpath_new_literal(2, "\\", $2); }
+	| NAME Ident					{ $$ = pxpath_cat_paths(2, PXP($1), $2); }
+	| BSLASHLIT Ident			{ $$ = pxpath_cat_paths(2, PXP($1 + 1), $2); }
 	| keyword             { $$ = PXP($1); }
 	;
 	
@@ -601,11 +603,11 @@ void init_xpath_alias() {
 }
 
 pxpathPtr myparse(char* string){
-	// start_debugging();
+  // start_debugging();
   prepare_parse(string);
   yyparse();
   cleanup_parse();
-	return pxpath_to_string(parsed_answer);
+	return parsed_answer;
 }
 
 void answer(pxpathPtr a){
