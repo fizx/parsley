@@ -193,7 +193,7 @@ typedef union YYSTYPE
 	char* string;
   pxpathPtr node;
 }
-/* Line 2604 of glr.c.  */
+/* Line 2616 of glr.c.  */
 #line 198 "y.tab.h"
 	YYSTYPE;
 # define YYSTYPE_IS_DECLARED 1

@@ -49,12 +49,15 @@ typedef struct __parsley_context {
 	char* raw_expr;
 	char* full_expr;
 	char* name;
-	char* magic;
-	int array;
-	int string;
-  int flags;
-	int zipped;
+	bool magic;
+	bool array;
+	bool string;
+  int flags;  //bitmask over following enum
 } parsley_context;
+
+enum {
+   PARSLEY_OPTIONAL    = 1,
+};
 
 typedef parsley_context * contextPtr;
 
@@ -66,9 +69,6 @@ parsedParsleyPtr parsley_parse_file(parsleyPtr, char*, bool);
 parsedParsleyPtr parsley_parse_string(parsleyPtr, char*, size_t, bool);
 parsedParsleyPtr parsley_parse_doc(parsleyPtr, xmlDocPtr);
 
-enum {
-   PARSLEY_OPTIONAL    = 1,
-};
 
 static contextPtr parsley_parsing_context;
 
