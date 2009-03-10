@@ -2,8 +2,8 @@ AM_YFLAGS = -d
 BUILT_SOURCES=parser.h
 
 lib_LTLIBRARIES = libparsley.la
-libparsley_la_SOURCES = parsed_xpath.c parsley_mem.c xml2json.c regexp.c printbuf.c functions.c util.c kstring.c obstack.c scanner.l parser.y parsley.c
-include_HEADERS = parsley.h obstack.h xml2json.h
+libparsley_la_SOURCES = parsed_xpath.c xml2json.c regexp.c printbuf.c functions.c util.c scanner.l parser.y parsley.c
+include_HEADERS = parsley.h xml2json.h
 
 bin_PROGRAMS = parsleyc parsley
 

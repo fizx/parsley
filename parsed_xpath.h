@@ -14,14 +14,15 @@ typedef pxpath_node * pxpathPtr;
 
 enum {
    PXPATH_FUNCTION,
-	 PXPATH_PATH
+	 PXPATH_PATH,
+	 PXPATH_LITERAL
 };
 
 pxpathPtr pxpath_new(int type, char* value);
 pxpathPtr pxpath_new_func(char* value, pxpathPtr child);
-pxpathPtr pxpath_new_path(char* value);
-pxpathPtr pxpath_cat_paths(int n, va_list);
-pxpathPtr pxpath_new_paths(int n, va_list);
+pxpathPtr pxpath_cat_paths(int n, ...);
+pxpathPtr pxpath_new_path(int n, ...);
+pxpathPtr pxpath_new_literal(int n, ...);
 void pxpath_free(pxpathPtr ptr);
 char* pxpath_to_string(pxpathPtr ptr);
 

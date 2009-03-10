@@ -146,13 +146,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "kstring.h"
+#include "parsed_xpath.h"
 #include <libxml/hash.h>
 
 #ifndef PARSER_Y_H_INCLUDED
 #define PARSER_Y_H_INCLUDED
 
-static char* parsed_answer;
+static pxpathPtr parsed_answer;
 
 int yylex (void);
 void yyerror (char const *);
@@ -167,8 +167,19 @@ char* xpath_alias(char*);
 void init_xpath_alias();
 
 int yyparse(void);
-char* myparse(char*);
-void answer(char*);
+pxpathPtr myparse(char*);
+void answer(pxpathPtr);
+
+#define BIN_OP(A, B, C)               pxpath_cat_paths(3, A, PXP(B), C);
+#define PREP_OP(A, B)                 pxpath_cat_paths(2, PXP(A), B)
+#define PXP(A)                        pxpath_new_path(1, A)
+#define APPEND(A, S)                  pxpath_cat_paths(2, A, PXP(S)); 
+#define PREPEND(A, S)                 pxpath_cat_paths(2, PXP(S), A); 
+#define PXPWRAP(A, B, C)              pxpath_cat_paths(3, PXP(A), B, PXP(C))
+#define P4E(A, B, C, D)               pxpath_cat_paths(4, A, PXP(B), C, PXP(D))
+#define P4O(A, B, C, D)               pxpath_cat_paths(4, PXP(A), B, PXP(C), D)
+#define P6E(A, B, C, D, E, F)         pxpath_cat_paths(6, A, PXP(B), C, PXP(D), E, PXP(F));
+#define INPUT_TYPE(A, S)              APPEND(A, "[lower-case(name())='input' and lower-case(@type)='" #S "']")
 
 #endif
   
@@ -176,12 +187,14 @@ void answer(char*);
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE 
-#line 38 "parser.y"
+#line 49 "parser.y"
 {
+  int empty;
 	char* string;
+  pxpathPtr node;
 }
-/* Line 2616 of glr.c.  */
-#line 185 "y.tab.h"
+/* Line 2604 of glr.c.  */
+#line 198 "y.tab.h"
 	YYSTYPE;
 # define YYSTYPE_IS_DECLARED 1
 # define YYSTYPE_IS_TRIVIAL 1

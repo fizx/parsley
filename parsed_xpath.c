@@ -20,7 +20,7 @@
 #include "printbuf.h"
 
 pxpathPtr pxpath_new(int type, char* value) {
-	pxpathPtr ptr = (pxpathPtr) malloc(sizeof(pxpath_node));
+	pxpathPtr ptr = (pxpathPtr) calloc(sizeof(pxpath_node), 1);
 	ptr->value = strdup(value);
 	ptr->type = type;
 	ptr->next = NULL;
@@ -35,7 +35,7 @@ pxpathPtr pxpath_new(int type, char* value) {
 // 	
 // }
 
-static
+static void
 _pxpath_to_string(pxpathPtr ptr, struct printbuf *buf) {	
 	if(ptr->type == PXPATH_FUNCTION) {
 		sprintbuf(buf, "%s(", ptr->value);
@@ -50,6 +50,14 @@ _pxpath_to_string(pxpathPtr ptr, struct printbuf *buf) {
 	} else {
 		sprintbuf(buf, "%s", ptr->value);
 	}
+}
+
+static char * 
+format_n(int n) {
+  char * out = calloc(2 * n + 1, 1);
+  for(int i =0; i < n; i++) {
+    strcat(out, "%s");
+  }
 }
 
 char* pxpath_to_string(pxpathPtr ptr) {
@@ -73,6 +81,48 @@ pxpathPtr pxpath_new_func(char* value, pxpathPtr child) {
 	ptr->child = child;
 	return ptr;
 }
-pxpathPtr pxpath_new_path(char* value) {
-	return pxpath_new_paths(1, value);
+
+pxpathPtr pxpath_cat_paths(int n, ...) {
+	struct printbuf *buf = printbuf_new();
+  va_list va;
+  va_start(va, n);
+  pxpathPtr last;
+  pxpathPtr first;
+  for(int i = 0; i < n; i++) {
+    pxpathPtr ptr = va_arg(va, pxpathPtr);
+    sprintbuf(buf, "%s", pxpath_to_string(ptr));
+    if(i == 0) first = ptr;
+    if(i != 0) last->next = ptr;
+    last = ptr;
+  }
+  pxpathPtr out = pxpath_new(PXPATH_PATH, buf->buf);
+  printbuf_free(buf);
+  out->child = first;
+  return out;
+}
+
+pxpathPtr pxpath_new_path(int n, ...) {
+	struct printbuf *buf = printbuf_new();
+  va_list va;
+  va_start(va, n);
+  for(int i = 0; i < n; i++) {
+    sprintbuf(buf, "%s", va_arg(va, char *));
+  }
+  va_end(va);
+  pxpathPtr ptr = pxpath_new(PXPATH_PATH, buf->buf);
+  printbuf_free(buf);
+  return ptr;
+}
+
+pxpathPtr pxpath_new_literal(int n, ...) {
+	struct printbuf *buf = printbuf_new();
+  va_list va;
+  va_start(va, n);
+  for(int i = 0; i < n; i++) {
+    sprintbuf(buf, "%s", va_arg(va, char *));
+  }
+  va_end(va);
+  pxpathPtr ptr = pxpath_new(PXPATH_LITERAL, buf->buf);
+  printbuf_free(buf);
+  return ptr;
 }

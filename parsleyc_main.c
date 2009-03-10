@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <argp.h>
 #include <string.h>
-#include "kstring.h"
 #include "printbuf.h"
 #include "parsley.h"
 #include "util.h"
