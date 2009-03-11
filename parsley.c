@@ -383,7 +383,7 @@ render(contextPtr c) {
   if(filtered && !multiple)   sprintbuf(c->buf, "<xsl:if test=\"position()=1\">\n");
   if(multiple)                sprintbuf(c->buf, "<parsley:group>\n");
   
-  sprintbuf(c->buf, "<xsl:attribute name=\"position\"><xsl:value-of select=\"count(preceding::.) + count(ancestor::.)\"/></xsl:attribute>\n");
+  sprintbuf(c->buf, "<xsl:attribute name=\"position\"><xsl:value-of select=\"count(preceding::*) + count(ancestor::*)\"/></xsl:attribute>\n");
   
   if(c->string) {
     sprintbuf(c->buf, "<xsl:value-of select=\"%s\" />\n", expr);
