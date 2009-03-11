@@ -15,6 +15,7 @@
 #include <libxslt/xslt.h>
 #include <libxslt/xsltInternals.h>
 #include <libxslt/transform.h>
+#include <libxml/tree.h>
 #include <libxml/parser.h>
 #include <libxml/HTMLparser.h>
 #include <libxml/HTMLtree.h>
@@ -156,6 +157,17 @@ _xmlAddChild(xmlNodePtr parent, xmlNodePtr child) {
 	node->next = child;
 }
 
+static int 
+_xmlChildElementCount(xmlNodePtr n) {
+  xmlNodePtr child = n->children;
+  int i = 0;
+  while(child != NULL) {
+    i++;
+    child = child->next;
+  }
+  return i;
+}
+
 static void 
 collate(xmlNodePtr xml) { 
 	// return ;
@@ -163,7 +175,7 @@ collate(xmlNodePtr xml) {
   if(xml->ns != NULL && !strcmp(xml->ns->prefix, "parsley") && !strcmp(xml->name, "zipped")){
     xmlNodePtr parent = xml->parent;
     xmlNodePtr child = xml->children;
-    int n = xmlChildElementCount(xml);
+    int n = _xmlChildElementCount(xml);
     
     xmlChar** names = malloc(n * sizeof(xmlChar*));
     xmlNodePtr* lists = malloc(n * sizeof(xmlNodePtr));
@@ -180,7 +192,7 @@ collate(xmlNodePtr xml) {
         multi[i] = true;
       }
 			lists[i]->parent->extra = i;
-			len += xmlChildElementCount(lists[i]->parent);
+			len += _xmlChildElementCount(lists[i]->parent);
       child = child->next;
     }
     xml->children = NULL;
