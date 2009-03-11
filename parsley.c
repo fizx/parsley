@@ -34,9 +34,9 @@ static struct ll {
 
 static char *
 full_key_name(contextPtr c) {  
-  if(c == NULL) return strdup("/");
+  if(c == NULL || c->parent == NULL) return strdup("/");
   static struct ll * last = NULL;
-  while(c != NULL) {
+  while(c->parent != NULL) {
     if(c->tag != NULL) {
       struct ll * ptr = calloc(sizeof(struct ll), 1);
       ptr->name = c->tag;
@@ -401,6 +401,7 @@ static contextPtr new_context(struct json_object * json, struct printbuf *buf) {
 
 contextPtr deeper_context(contextPtr context, char* key, struct json_object * val) {
 	contextPtr c = (contextPtr) calloc(sizeof(parsley_context), 1);
+	c->parent = context;
 	c->tag = parsley_key_tag(key);
   c->flags = parsley_key_flags(key);
 	parsley_parsing_context = c;
@@ -411,7 +412,6 @@ contextPtr deeper_context(contextPtr context, char* key, struct json_object * va
 	c->magic = context->array && context->filter == NULL;
 	c->buf = context->buf;
 	c->expr = c->string ? myparse(json_object_get_string(c->json)) : NULL;
-	c->parent = context;
 	if(context->child == NULL) {
 		context->child = c;
 	} else {
