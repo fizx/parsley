@@ -125,8 +125,57 @@ unlink(xmlNodePtr xml) {
 
 static bool 
 is_root(xmlElementPtr xml) {
-	return xml != NULL && xml->name != NULL && xml->prefix !=NULL && !strcmp(xml->name, "root") && !strcmp(xml->prefix, "parsley");
+	return xml != NULL && xml->name != NULL && xml->prefix != NULL && !strcmp(xml->name, "root") && !strcmp(xml->prefix, "parsley");
 }
+
+static void 
+collate(xmlNodePtr xml) { 
+  return; // TODO: remove
+  if(xml->type != XML_ELEMENT_NODE) return;
+  if(xml->ns != NULL && !strcmp(xml->prefix, "parsley") && !strcmp(xml->name, "zipped")){
+    xmlNodePtr parent = xml->parent;
+    xmlNodePtr child = xml->child;
+    int n = xmlChildElementCount(xml);
+    
+    xmlChar*[] names = malloc(n * sizeof(xmlChar*));
+    xmlNodePtr[] lists = malloc(n * sizeof(xmlNodePtr));
+    bool[] empty = malloc(n * sizeof(bool));
+    bool[] multi = malloc(n * sizeof(bool));
+    
+    for(int i = 0; i < n; i++) {
+      names = child->name;
+      lists[i] = child->child;
+      if(lists[i] != NULL && !strcmp(lists[i]->name, "groups")) {
+        lists[i] = lists[i]->child;
+        multi[i] = true;
+      }
+      child = child->next;
+    }
+    xml->children = NULL;
+    xmlNodePtr groups = xmlNewChild(xml, xml->ns, "groups"), NULL);
+    
+    
+    while(     ) {
+      xmlNodePtr group = xmlNewChild(groups, xml->ns, "group"), NULL); //new group
+      
+      // TODO: ********************** implement
+      
+    }
+    free(names);
+    free(lists);
+    free(empty);
+    free(multi);
+    
+    collate(parent);
+  } else {
+    xmlNodePtr child = xml->children;
+    while(err == NULL && child != NULL){
+      collate(child);
+      child = child->next;
+    }
+  }
+}
+
 
 static void 
 prune(parsedParsleyPtr ptr, xmlNodePtr xml, char* err) {   
@@ -180,7 +229,10 @@ parsedParsleyPtr parsley_parse_doc(parsleyPtr parsley, xmlDocPtr doc) {
   ptr->error = NULL;
   ptr->parsley = parsley;
   ptr->xml = xsltApplyStylesheet(parsley->stylesheet, doc, NULL);
-  if(ptr->xml != NULL && ptr->error == NULL) visit(ptr, ptr->xml->children, NULL);
+  if(ptr->xml != NULL && ptr->error == NULL) {
+    collate(ptr->xml->children);
+    visit(ptr, ptr->xml->children, NULL);
+  }
   if(ptr->xml == NULL && ptr->error == NULL) { // == NULL
     ptr->error = strdup("Internal runtime error");
   }
