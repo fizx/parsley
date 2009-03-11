@@ -27,6 +27,34 @@ int yywrap(void){
   return 1;
 }
 
+static struct ll {
+  xmlChar *name;
+  struct ll *next;
+};
+
+static char *
+full_key_name(contextPtr c) {  
+  if(c == NULL) return strdup("/");
+  static struct ll * last = NULL;
+  while(c != NULL) {
+    if(c->tag != NULL) {
+      struct ll * ptr = calloc(sizeof(struct ll), 1);
+      ptr->name = c->tag;
+      ptr->next = last;
+      last = ptr;
+    }
+    c = c->parent;
+  }
+  struct printbuf *buf = printbuf_new();
+  while(last != NULL) {
+    sprintbuf(buf, "/%s", last->name);
+    last = last->next;
+  }
+  char *out = strdup(buf->buf);
+  printbuf_free(buf);
+  return out;
+}
+
 void parsed_parsley_free(parsedParsleyPtr ptr) {
   if(ptr->xml != NULL) xmlFree(ptr->xml);
   if(ptr->error != NULL) free(ptr->error);
@@ -73,11 +101,6 @@ parsedParsleyPtr parsley_parse_string(parsleyPtr parsley, char* string, size_t s
 	}
 }
 
-static struct ll {
-  xmlChar *name;
-  struct ll *next;
-};
-
 static char *
 xpath_of(xmlNodePtr node) {
   if(node == NULL || node->name == NULL && node->parent == NULL) return strdup("/");
@@ -118,7 +141,7 @@ unlink(xmlNodePtr xml) {
   }
   while(sibling != NULL) {
     if(sibling == xml) {
-      xml->prev->next = xml->next;
+      if(xml->prev) xml->prev->next = xml->next;
       if(xml->next) xml->next->prev = xml->prev;
     }    
     sibling = sibling->next;
@@ -177,16 +200,18 @@ collate(xmlNodePtr xml) {
     xmlNodePtr child = xml->children;
     int n = _xmlChildElementCount(xml);
     
-    xmlChar** names = malloc(n * sizeof(xmlChar*));
+    xmlNodePtr** name_nodes = malloc(n * sizeof(xmlNodePtr));
     xmlNodePtr* lists = malloc(n * sizeof(xmlNodePtr));
     bool* empty = malloc(n * sizeof(bool));
     bool* multi = malloc(n * sizeof(bool));
+    bool* optional = malloc(n * sizeof(bool));
     
 		int len = 0;
     for(int i = 0; i < n; i++) {
-      names[i] = child->name;
+      name_nodes[i] = xmlCopyNode(child, 2); // 2 means props, ns, no kids
       lists[i] = child->children;
 			multi[i] = false;
+      optional[i] = xmlGetProp(name_nodes[i], "optional") != NULL;
       if(lists[i] != NULL && !strcmp(lists[i]->name, "groups")) {
         lists[i] = lists[i]->children;
         multi[i] = true;
@@ -222,23 +247,23 @@ collate(xmlNodePtr xml) {
 		
 		for(j = 0; j < len; j++) {
 			int i = sortable[j]->parent->extra;
-			if (j == 0 || (!empty[i] && !multi[i])) { // first or full
+			if (j == 0 || (!empty[i] && !multi[i] && !optional[i])) { // first or full
 				xmlNodePtr group = xmlNewChild(groups, xml->ns, "group", NULL); //new group
 				xmlSetProp(group, "optional", "true");
 				for(int k = 0; k < n; k++) {
 					empty[k] = true;
-					targets[k] = xmlNewNode(NULL, names[k]);
+					targets[k] = xmlCopyNode(name_nodes[k], 2);
 					_xmlAddChild(group, targets[k]);
 					if(multi[k]) targets[k] = xmlNewChild(targets[k], xml->ns, "groups", NULL);
 				}
 			}
 			
 			if(!multi[i]) sortable[j] = sortable[j]->children;
-			_xmlAddChild(targets[i], sortable[j]);
+			if(empty[i] || multi[i]) _xmlAddChild(targets[i], sortable[j]);
 			empty[i] = false;
 		}
 
-    free(names);
+    free(name_nodes);
     free(lists);
     free(empty);
     free(multi);

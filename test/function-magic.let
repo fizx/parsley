@@ -2,6 +2,7 @@
 	"magics": [{
 		"head": "h1",
 		"para(p)": ["substring-after(., ':')"],
-		"single(p)": "substring-after(., ':')"
+		"single?": "substring-after(p, ':')"
 	}]
 }
+  
