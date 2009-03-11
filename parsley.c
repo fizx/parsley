@@ -19,6 +19,7 @@
 #include <libxml/HTMLparser.h>
 #include <libxml/HTMLtree.h>
 #include <libxml/xmlwriter.h>
+#include <libxml/debugXML.h>
 #include <libexslt/exslt.h>
 
 int yywrap(void){
@@ -128,66 +129,130 @@ is_root(xmlElementPtr xml) {
 	return xml != NULL && xml->name != NULL && xml->prefix != NULL && !strcmp(xml->name, "root") && !strcmp(xml->prefix, "parsley");
 }
 
+// static bool
+// is_root(xmlNodePtr node) {
+// 	return !strcmp(node->ns->prefix, "parsley") && !strcmp(node->name, "root");
+// }
+// 
+
+
+int compare_pos (const void * a, const void * b)
+{
+	char* as = xmlGetProp(*(xmlNodePtr*)a, "position");
+	char* bs = xmlGetProp(*(xmlNodePtr*)b, "position");
+	return atoi(as) - atoi(bs);
+}
+
+static void 
+_xmlAddChild(xmlNodePtr parent, xmlNodePtr child) {
+	xmlNodePtr node = parent->children;
+	if(node == NULL) {
+		parent->children = child;
+		return;
+	}
+	while(node->next != NULL){
+		node = node->next;
+	}
+	node->next = child;
+}
+
 static void 
 collate(xmlNodePtr xml) { 
-  return; // TODO: remove
+	// return ;
   if(xml->type != XML_ELEMENT_NODE) return;
-  if(xml->ns != NULL && !strcmp(xml->prefix, "parsley") && !strcmp(xml->name, "zipped")){
+  if(xml->ns != NULL && !strcmp(xml->ns->prefix, "parsley") && !strcmp(xml->name, "zipped")){
     xmlNodePtr parent = xml->parent;
-    xmlNodePtr child = xml->child;
+    xmlNodePtr child = xml->children;
     int n = xmlChildElementCount(xml);
     
-    xmlChar*[] names = malloc(n * sizeof(xmlChar*));
-    xmlNodePtr[] lists = malloc(n * sizeof(xmlNodePtr));
-    bool[] empty = malloc(n * sizeof(bool));
-    bool[] multi = malloc(n * sizeof(bool));
+    xmlChar** names = malloc(n * sizeof(xmlChar*));
+    xmlNodePtr* lists = malloc(n * sizeof(xmlNodePtr));
+    bool* empty = malloc(n * sizeof(bool));
+    bool* multi = malloc(n * sizeof(bool));
     
+		int len = 0;
     for(int i = 0; i < n; i++) {
-      names = child->name;
-      lists[i] = child->child;
+      names[i] = child->name;
+      lists[i] = child->children;
+			multi[i] = false;
       if(lists[i] != NULL && !strcmp(lists[i]->name, "groups")) {
-        lists[i] = lists[i]->child;
+        lists[i] = lists[i]->children;
         multi[i] = true;
       }
+			lists[i]->parent->extra = i;
+			len += xmlChildElementCount(lists[i]->parent);
       child = child->next;
     }
     xml->children = NULL;
-    xmlNodePtr groups = xmlNewChild(xml, xml->ns, "groups"), NULL);
-    
-    
-    while(     ) {
-      xmlNodePtr group = xmlNewChild(groups, xml->ns, "group"), NULL); //new group
-      
-      // TODO: ********************** implement
-      
-    }
+
+		xmlNodePtr* sortable = malloc(len * sizeof(xmlNodePtr));
+		int j = 0;
+		
+		for(int i = 0; i < n; i++) {
+			xmlNodePtr node = lists[i];
+			while(node != NULL){
+				sortable[j++] = node;
+				// printf("%d/%d: %d/%d\n", i, n, j, len);
+				node = node->next;
+			}
+		}
+		
+		for(int i = 0; i < len; i++) {
+			sortable[i]->next = NULL;
+		}
+		
+		qsort(sortable, len, sizeof(xmlNodePtr), compare_pos);
+		
+		xmlNodePtr groups = xml->parent;
+		groups->children = NULL;
+		xmlNodePtr group;
+		xmlNodePtr* targets = malloc(n * sizeof(xmlNodePtr));
+		
+		for(j = 0; j < len; j++) {
+			int i = sortable[j]->parent->extra;
+			if (j == 0 || (!empty[i] && !multi[i])) { // first or full
+				xmlNodePtr group = xmlNewChild(groups, xml->ns, "group", NULL); //new group
+				xmlSetProp(group, "optional", "true");
+				for(int k = 0; k < n; k++) {
+					empty[k] = true;
+					targets[k] = xmlNewNode(NULL, names[k]);
+					_xmlAddChild(group, targets[k]);
+					if(multi[k]) targets[k] = xmlNewChild(targets[k], xml->ns, "groups", NULL);
+				}
+			}
+			
+			if(!multi[i]) sortable[j] = sortable[j]->children;
+			_xmlAddChild(targets[i], sortable[j]);
+			empty[i] = false;
+		}
+
     free(names);
     free(lists);
     free(empty);
     free(multi);
     
-    collate(parent);
+    collate(groups);
+		// TODO: done? figure out what the recursion target needs to be and reimplement
   } else {
     xmlNodePtr child = xml->children;
-    while(err == NULL && child != NULL){
+    while(child != NULL){
       collate(child);
       child = child->next;
     }
   }
 }
 
-
 static void 
 prune(parsedParsleyPtr ptr, xmlNodePtr xml, char* err) {   
 	if(xml == NULL) return;
-  bool optional = ((xmlElementPtr )xml)->attributes != NULL;
+  bool optional = xmlGetProp(xml, "optional") != NULL;
   if(optional) {
     unlink(xml);
     visit(ptr, xml->parent, err);
     return;
   } else {
     if(err == NULL) asprintf(&err, "%s was empty", xpath_of(xml));
-    if(xml->parent != xml->doc->children) {
+    if(!is_root(xml->parent)) {
       prune(ptr, xml->parent, err);
     } else {
       ptr->error = err;
@@ -208,19 +273,21 @@ visit(parsedParsleyPtr ptr, xmlNodePtr xml, char* err) {
     free(err);
   }
   while(err == NULL && child != NULL){
+		child->parent = xml;
     visit(ptr, child, err);
     child = child->next;
   }
 }
 
 static bool
-xml_empty(xmlNodePtr xml) {  
+xml_empty(xmlNodePtr xml) { 
   xmlNodePtr child = xml->children;
   while(child != NULL) {
     if(child->type != XML_TEXT_NODE) return false;
     if(strlen(child->content)) return false;
     child = child->next;
   }
+	// printf("hello!\n");
   return true;
 }
 
@@ -315,7 +382,7 @@ contextPtr deeper_context(contextPtr context, char* key, struct json_object * va
 		while(tmp->next != NULL) tmp = tmp->next;
 		tmp->next = c;
 	}
-  fprintf(stderr, "tag:    %s\nexpr:   %s\nfilter: %s\n\n", c->tag, pxpath_to_string(c->expr), pxpath_to_string(c->filter));
+  // fprintf(stderr, "tag:    %s\nexpr:   %s\nfilter: %s\n\n", c->tag, pxpath_to_string(c->expr), pxpath_to_string(c->filter));
 	return c;
 }
 
@@ -430,10 +497,10 @@ render(contextPtr c) {
   bool filtered = filter != NULL;
   bool multiple = (c->array || c->magic) && !magic_children;
   
-  if(c->array)                sprintbuf(c->buf, "<parsley:groups optional=\"true\">\n");
+  if(c->array)                sprintbuf(c->buf, "<parsley:groups>\n");
   if(filtered)                sprintbuf(c->buf, "<xsl:for-each select=\"%s\">\n", filter);
   if(filtered && !multiple)   sprintbuf(c->buf, "<xsl:if test=\"position()=1\">\n");
-  if(multiple)                sprintbuf(c->buf, "<parsley:group>\n");
+  if(multiple)                sprintbuf(c->buf, "<parsley:group optional=\"true\">\n");
   
   sprintbuf(c->buf, "<xsl:attribute name=\"position\"><xsl:value-of select=\"count(preceding::*) + count(ancestor::*)\"/></xsl:attribute>\n");
   
