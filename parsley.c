@@ -511,7 +511,7 @@ inner_path_to_dot(pxpathPtr p) {
 
 static bool
 inner_path_transform(contextPtr c) {
-  return c->filter == NULL && c->expr != NULL;
+  return c->filter == NULL && c->expr != NULL && inner_path_to_dot(c->expr) != NULL;
 }
 
 static char * 
