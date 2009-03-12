@@ -107,6 +107,7 @@ int main (int argc, char **argv) {
   
   FILE * fd = parsley_fopen(arguments.parsley, "r");
   printbuf_file_read(fd, buf);
+  fclose(fd);
 
 	while(elemptr->has_next) {
 		elemptr = elemptr->next;
@@ -118,6 +119,7 @@ int main (int argc, char **argv) {
 	parsleyPtr compiled = parsley_compile(buf->buf, incl->buf);
 	if(compiled->error != NULL) {
 		fprintf(stderr, "%s\n", compiled->error);
+    parsley_free(compiled);
 		exit(1);
 	}
 	
@@ -125,6 +127,7 @@ int main (int argc, char **argv) {
 	
 	if(ptr->error != NULL) {
 		fprintf(stderr, "Parsing failed: %s\n", ptr->error);
+		parsley_free(compiled);
 		exit(1);
 	}
 	
@@ -137,5 +140,6 @@ int main (int argc, char **argv) {
 		fclose(f);
 	}
 	
+	parsley_free(compiled);
 	return 0;
 }

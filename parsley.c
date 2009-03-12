@@ -105,11 +105,11 @@ static char *
 xpath_of(xmlNodePtr node) {
   if(node == NULL || node->name == NULL || node->parent == NULL) return strdup("/");
   
-  struct ll * ptr = (struct ll *) calloc(sizeof(struct ll *), 1);
+  struct ll * ptr = (struct ll *) calloc(sizeof(struct ll), 1);
   
   while(node->name != NULL && node->parent != NULL) {
     if(node->ns == NULL) {
-      struct ll * tmp = (struct ll *) calloc(sizeof(struct ll *), 1);
+      struct ll * tmp = (struct ll *) calloc(sizeof(struct ll), 1);
       tmp->name = node->name;
       tmp->next = ptr;
       ptr = tmp;
@@ -264,6 +264,7 @@ collate(xmlNodePtr xml) {
 
     free(name_nodes);
     free(lists);
+    free(optional);
     free(empty);
     free(multi);
     
