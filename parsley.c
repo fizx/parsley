@@ -27,7 +27,7 @@ int yywrap(void){
   return 1;
 }
 
-static struct ll {
+struct ll {
   xmlChar *name;
   struct ll *next;
 };
@@ -199,7 +199,7 @@ collate(xmlNodePtr xml) {
     xmlNodePtr child = xml->children;
     int n = _xmlChildElementCount(xml);
     
-    xmlNodePtr** name_nodes = malloc(n * sizeof(xmlNodePtr));
+    xmlNodePtr* name_nodes = malloc(n * sizeof(xmlNodePtr));
     xmlNodePtr* lists = malloc(n * sizeof(xmlNodePtr));
     bool* empty = malloc(n * sizeof(bool));
     bool* multi = malloc(n * sizeof(bool));

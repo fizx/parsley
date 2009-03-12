@@ -1,9 +1,4 @@
 #include "util.h"
-#include "parsley.h"
-#include <stdio.h>
-#include <string.h>
-#include <errno.h>
-#include <stdbool.h>
 
 static bool parsley_exslt_registered = false;
 
