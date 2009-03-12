@@ -1,4 +1,12 @@
 .libs/
+json-c-0.8/config.h
+json-c-0.8/json.pc
+json-c-0.8/libjson.la
+json-c-0.8/libtool
+json-c-0.8/stamp-h1
+json-c-0.8/test1
+json-c-0.8/test2
+json-c-0.8/test3
 printbuf.loT
 *.o
 *.lo
