@@ -275,6 +275,7 @@ collate(xmlNodePtr xml) {
     free(optional);
     free(empty);
     free(multi);
+    free(sortable);
     
     collate(groups);
 		// TODO: done? figure out what the recursion target needs to be and reimplement
