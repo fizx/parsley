@@ -7,15 +7,11 @@ parsleyc
 parsley
 .deps/
 Makefile
-y.tab.c
 autom4te.cache/
 autoscan.log
 config.log
 configure.scan
-parser.c
-scanner.c
 libparsley.la
-parser.h
 test.log
 ruby/parsley*.gem
 ruby/ext/cparsley.bundle
