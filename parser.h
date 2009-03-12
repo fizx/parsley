@@ -163,7 +163,6 @@ void start_debugging(void);
 
 static xmlHashTablePtr alias_hash;
 
-
 char* xpath_alias(char*);
 void init_xpath_alias();
 
@@ -189,14 +188,14 @@ void answer(pxpathPtr);
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE 
-#line 51 "parser.y"
+#line 50 "parser.y"
 {
   int empty;
 	char* string;
   pxpathPtr node;
 }
 /* Line 2604 of glr.c.  */
-#line 200 "parser.h"
+#line 199 "parser.h"
 	YYSTYPE;
 # define YYSTYPE_IS_DECLARED 1
 # define YYSTYPE_IS_TRIVIAL 1

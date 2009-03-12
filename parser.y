@@ -20,7 +20,6 @@ void start_debugging(void);
 
 static xmlHashTablePtr alias_hash;
 
-
 char* xpath_alias(char*);
 void init_xpath_alias();
 
@@ -604,6 +603,7 @@ void init_xpath_alias() {
 
 pxpathPtr myparse(char* string){
   // start_debugging();
+  parsed_answer = NULL;
   prepare_parse(string);
   yyparse();
   cleanup_parse();

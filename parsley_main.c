@@ -115,19 +115,21 @@ int main (int argc, char **argv) {
 		printbuf_file_read(f, incl);
 		fclose(f);
 	}
-		
+	
+  // printf("a\n"); 
 	parsleyPtr compiled = parsley_compile(buf->buf, incl->buf);
+  // printf("b\n");
+
 	if(compiled->error != NULL) {
 		fprintf(stderr, "%s\n", compiled->error);
-    parsley_free(compiled);
 		exit(1);
 	}
 	
 	parsedParsleyPtr ptr = parsley_parse_file(compiled, arguments.input_file, !(arguments.input_xml));
+
 	
 	if(ptr->error != NULL) {
 		fprintf(stderr, "Parsing failed: %s\n", ptr->error);
-		parsley_free(compiled);
 		exit(1);
 	}
 	
@@ -135,11 +137,15 @@ int main (int argc, char **argv) {
 		xmlSaveFormatFile(arguments.output_file, ptr->xml, 1);	
 	} else {
 	  struct json_object *json = xml2json(ptr->xml->children->children);
+    char * json_string = json_object_to_json_string(json);
 		FILE* f = parsley_fopen(arguments.output_file, "w");
-	  fprintf(f, "%s\n", json_object_to_json_string(json));
+	  fprintf(f, "%s\n", json_string);
+    free(json_string);
 		fclose(f);
 	}
 	
+  printbuf_free(buf);
+  printbuf_free(incl);
 	parsley_free(compiled);
 	return 0;
 }

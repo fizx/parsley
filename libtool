@@ -30,10 +30,10 @@
 # the same distribution terms that you use for the rest of that program.
 
 # A sed program that does not truncate output.
-SED="/bin/sed"
+SED="/usr/bin/sed"
 
 # Sed that helps us avoid accidentally triggering echo(1) options like -n.
-Xsed="/bin/sed -e 1s/^X//"
+Xsed="/usr/bin/sed -e 1s/^X//"
 
 # The HP-UX ksh and POSIX shell print the target directory to stdout
 # if CDPATH is set.
@@ -44,7 +44,7 @@ available_tags=" CXX"
 
 # ### BEGIN LIBTOOL CONFIG
 
-# Libtool was configured on host debian:
+# Libtool was configured on host 111.flood.pivotallabs.com:
 
 # Shell to use when invoking shell scripts.
 SHELL="/bin/sh"
@@ -62,20 +62,20 @@ build_libtool_need_lc=no
 allow_libtool_libs_with_static_runtimes=no
 
 # Whether or not to optimize for fast installation.
-fast_install=yes
+fast_install=needless
 
 # The host system.
 host_alias=
-host=i686-pc-linux-gnu
-host_os=linux-gnu
+host=i686-apple-darwin9.6.0
+host_os=darwin9.6.0
 
 # The build system.
 build_alias=
-build=i686-pc-linux-gnu
-build_os=linux-gnu
+build=i686-apple-darwin9.6.0
+build_os=darwin9.6.0
 
 # An echo program that does not interpret backslashes.
-echo="echo"
+echo="/bin/echo"
 
 # The archiver.
 AR="ar"
@@ -94,16 +94,16 @@ CC="gcc -std=gnu99"
 with_gcc=yes
 
 # An ERE matcher.
-EGREP="/bin/grep -E"
+EGREP="/usr/bin/grep -E"
 
 # The linker used to build libraries.
-LD="/usr/bin/ld"
+LD="/usr/libexec/gcc/i686-apple-darwin9/4.0.1/ld"
 
 # Whether we need hard or soft links.
 LN_S="ln -s"
 
 # A BSD-compatible nm program.
-NM="/usr/bin/nm -B"
+NM="/usr/bin/nm -p"
 
 # A symbol stripping program
 STRIP="strip"
@@ -125,7 +125,7 @@ objdir=.libs
 
 # How to create reloadable object files.
 reload_flag=" -r"
-reload_cmds="\$LD\$reload_flag -o \$output\$reload_objs"
+reload_cmds="\$LTCC \$LTCFLAGS -nostdlib \${wl}-r -o \$output\$reload_objs"
 
 # How to pass a linker flag through the compiler.
 wl="-Wl,"
@@ -137,17 +137,17 @@ objext="o"
 libext="a"
 
 # Shared library suffix (normally ".so").
-shrext_cmds='.so'
+shrext_cmds='`test .$module = .yes && echo .so || echo .dylib`'
 
 # Executable file suffix (normally "").
 exeext=""
 
 # Additional compiler flags for building library objects.
-pic_flag=" -fPIC -DPIC"
+pic_flag=" -fno-common -DPIC"
 pic_mode=default
 
 # What is the maximum length of a command?
-max_cmd_len=98304
+max_cmd_len=196608
 
 # Does compiler simultaneously support -c and -o options?
 compiler_c_o="yes"
@@ -171,32 +171,32 @@ dlopen_self=unknown
 dlopen_self_static=unknown
 
 # Compiler flag to prevent dynamic linking.
-link_static_flag="-static"
+link_static_flag=""
 
 # Compiler flag to turn off builtin functions.
 no_builtin_flag=" -fno-builtin"
 
 # Compiler flag to allow reflexive dlopens.
-export_dynamic_flag_spec="\${wl}--export-dynamic"
+export_dynamic_flag_spec=""
 
 # Compiler flag to generate shared objects directly from archives.
-whole_archive_flag_spec="\${wl}--whole-archive\$convenience \${wl}--no-whole-archive"
+whole_archive_flag_spec=""
 
 # Compiler flag to generate thread-safe objects.
 thread_safe_flag_spec=""
 
 # Library versioning type.
-version_type=linux
+version_type=darwin
 
 # Format of library name prefix.
 libname_spec="lib\$name"
 
 # List of archive names.  First name is the real one, the rest are links.
 # The last name is the one that the linker finds with -lNAME.
-library_names_spec="\${libname}\${release}\${shared_ext}\$versuffix \${libname}\${release}\${shared_ext}\$major \$libname\${shared_ext}"
+library_names_spec="\${libname}\${release}\${versuffix}\$shared_ext \${libname}\${release}\${major}\$shared_ext \${libname}\$shared_ext"
 
 # The coded name of the library, if different from the real name.
-soname_spec="\${libname}\${release}\${shared_ext}\$major"
+soname_spec="\${libname}\${release}\${major}\$shared_ext"
 
 # Commands used to build and install an old-style archive.
 RANLIB="ranlib"
@@ -211,21 +211,18 @@ old_archive_from_new_cmds=""
 old_archive_from_expsyms_cmds=""
 
 # Commands used to build and install a shared archive.
-archive_cmds="\$CC -shared \$libobjs \$deplibs \$compiler_flags \${wl}-soname \$wl\$soname -o \$lib"
-archive_expsym_cmds="\$echo \\\"{ global:\\\" > \$output_objdir/\$libname.ver~
-  cat \$export_symbols | sed -e \\\"s/\\\\(.*\\\\)/\\\\1;/\\\" >> \$output_objdir/\$libname.ver~
-  \$echo \\\"local: *; };\\\" >> \$output_objdir/\$libname.ver~
-	  \$CC -shared \$libobjs \$deplibs \$compiler_flags \${wl}-soname \$wl\$soname \${wl}-version-script \${wl}\$output_objdir/\$libname.ver -o \$lib"
+archive_cmds="\$CC -dynamiclib \$allow_undefined_flag -o \$lib \$libobjs \$deplibs \$compiler_flags -install_name \$rpath/\$soname \$verstring \$single_module~dsymutil \$lib || :"
+archive_expsym_cmds="sed 's,^,_,' < \$export_symbols > \$output_objdir/\${libname}-symbols.expsym~\$CC -dynamiclib \$allow_undefined_flag -o \$lib \$libobjs \$deplibs \$compiler_flags -install_name \$rpath/\$soname \$verstring \$single_module \${wl}-exported_symbols_list,\$output_objdir/\${libname}-symbols.expsym~dsymutil \$lib || :"
 postinstall_cmds=""
 postuninstall_cmds=""
 
 # Commands used to build a loadable module (assumed same as above if empty)
-module_cmds=""
-module_expsym_cmds=""
+module_cmds="\$CC \$allow_undefined_flag -o \$lib -bundle \$libobjs \$deplibs \$compiler_flags~dsymutil \$lib || :"
+module_expsym_cmds="sed -e 's,^,_,' < \$export_symbols > \$output_objdir/\${libname}-symbols.expsym~\$CC \$allow_undefined_flag -o \$lib -bundle \$libobjs \$deplibs \$compiler_flags \${wl}-exported_symbols_list,\$output_objdir/\${libname}-symbols.expsym~dsymutil \$lib || :"
 
 # Commands to strip libraries.
-old_striplib="strip --strip-debug"
-striplib="strip --strip-unneeded"
+old_striplib="strip -S"
+striplib="strip -x"
 
 # Dependencies to place before the objects being linked to create a
 # shared library.
@@ -258,19 +255,19 @@ deplibs_check_method="pass_all"
 file_magic_cmd="\$MAGIC_CMD"
 
 # Flag that allows shared libraries with undefined symbols to be built.
-allow_undefined_flag=""
+allow_undefined_flag="\${wl}-flat_namespace \${wl}-undefined \${wl}suppress"
 
 # Flag that forces no undefined symbols.
 no_undefined_flag=""
 
 # Commands used to finish a libtool library installation in a directory.
-finish_cmds="PATH=\\\"\\\$PATH:/sbin\\\" ldconfig -n \$libdir"
+finish_cmds=""
 
 # Same as above, but a single script fragment to be evaled but not shown.
 finish_eval=""
 
 # Take the output of nm and produce a listing of raw symbols and C names.
-global_symbol_pipe="sed -n -e 's/^.*[ 	]\\([ABCDGIRSTW][ABCDGIRSTW]*\\)[ 	][ 	]*\\([_A-Za-z][_A-Za-z0-9]*\\)\$/\\1 \\2 \\2/p'"
+global_symbol_pipe="sed -n -e 's/^.*[ 	]\\([BCDEGRST][BCDEGRST]*\\)[ 	][ 	]*_\\([_A-Za-z][_A-Za-z0-9]*\\)\$/\\1 _\\2 \\2/p'"
 
 # Transform the output of nm in a proper C declaration
 global_symbol_to_cdecl="sed -n -e 's/^. .* \\(.*\\)\$/extern int \\1;/p'"
@@ -279,23 +276,23 @@ global_symbol_to_cdecl="sed -n -e 's/^. .* \\(.*\\)\$/extern int \\1;/p'"
 global_symbol_to_c_name_address="sed -n -e 's/^: \\([^ ]*\\) \$/  {\\\"\\1\\\", (lt_ptr) 0},/p' -e 's/^[BCDEGRST] \\([^ ]*\\) \\([^ ]*\\)\$/  {\"\\2\", (lt_ptr) \\&\\2},/p'"
 
 # This is the shared library runtime path variable.
-runpath_var=LD_RUN_PATH
+runpath_var=
 
 # This is the shared library path variable.
-shlibpath_var=LD_LIBRARY_PATH
+shlibpath_var=DYLD_LIBRARY_PATH
 
 # Is shlibpath searched before the hard-coded library search path?
-shlibpath_overrides_runpath=no
+shlibpath_overrides_runpath=yes
 
 # How to hardcode a shared library path into an executable.
 hardcode_action=immediate
 
 # Whether we should hardcode library paths into libraries.
-hardcode_into_libs=yes
+hardcode_into_libs=no
 
 # Flag to hardcode $libdir into a binary during linking.
 # This must work even if $libdir does not exist.
-hardcode_libdir_flag_spec="\${wl}--rpath \${wl}\$libdir"
+hardcode_libdir_flag_spec=""
 
 # If ld is used when linking, flag to hardcode $libdir into
 # a binary during linking. This must work even if $libdir does
@@ -319,20 +316,20 @@ hardcode_shlibpath_var=unsupported
 
 # Set to yes if building a shared library automatically hardcodes DIR into the library
 # and all subsequent libraries and executables linked against it.
-hardcode_automatic=no
+hardcode_automatic=yes
 
 # Variables whose values should be saved in libtool wrapper scripts and
 # restored at relink time.
-variables_saved_for_relink="PATH LD_LIBRARY_PATH LD_RUN_PATH GCC_EXEC_PREFIX COMPILER_PATH LIBRARY_PATH"
+variables_saved_for_relink="PATH DYLD_LIBRARY_PATH  GCC_EXEC_PREFIX COMPILER_PATH LIBRARY_PATH"
 
 # Whether libtool must link a program against all its dependency libraries.
-link_all_deplibs=no
+link_all_deplibs=yes
 
 # Compile-time system search path for libraries
-sys_lib_search_path_spec="/usr/lib/gcc/i486-linux-gnu/4.3.2 /usr/lib /lib"
+sys_lib_search_path_spec="/usr/lib/i686-apple-darwin9/4.0.1 /usr/lib /usr/lib/gcc/i686-apple-darwin9/4.0.1 /usr/local/lib"
 
 # Run-time system search path for libraries
-sys_lib_dlsearch_path_spec="/lib /usr/lib /lib/i486-linux-gnu /usr/lib/i486-linux-gnu /usr/local/lib "
+sys_lib_dlsearch_path_spec="/usr/local/lib /lib /usr/lib"
 
 # Fix the shell variable $srcfile for the compiler.
 fix_srcfile_path=""
@@ -357,8 +354,8 @@ include_expsyms=""
 # ltmain.sh - Provide generalized library-building support services.
 # NOTE: Changing this file will not affect anything until you rerun configure.
 #
-# Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005, 2006,
-# 2007, 2008  Free Software Foundation, Inc.
+# Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005
+# Free Software Foundation, Inc.
 # Originally by Gordon Matzigkeit <gord@gnu.ai.mit.edu>, 1996
 #
 # This program is free software; you can redistribute it and/or modify
@@ -399,22 +396,14 @@ EXIT_FAILURE=1
 
 PROGRAM=ltmain.sh
 PACKAGE=libtool
-VERSION="1.5.26 Debian 1.5.26-4"
-TIMESTAMP=" (1.1220.2.493 2008/02/01 16:58:18)"
+VERSION=1.5.22
+TIMESTAMP=" (1.1220.2.365 2005/12/18 22:14:06)"
 
-# Be Bourne compatible (taken from Autoconf:_AS_BOURNE_COMPATIBLE).
-if test -n "${ZSH_VERSION+set}" && (emulate sh) >/dev/null 2>&1; then
-  emulate sh
-  NULLCMD=:
-  # Zsh 3.x and 4.x performs word splitting on ${1+"$@"}, which
-  # is contrary to our usage.  Disable this feature.
-  alias -g '${1+"$@"}'='"$@"'
+# See if we are running on zsh, and set the options which allow our
+# commands through without removal of \ escapes.
+if test -n "${ZSH_VERSION+set}" ; then
   setopt NO_GLOB_SUBST
-else
-  case `(set -o) 2>/dev/null` in *posix*) set -o posix;; esac
 fi
-BIN_SH=xpg4; export BIN_SH # for Tru64
-DUALCASE=1; export DUALCASE # for MKS sh
 
 # Check that we have a working $echo.
 if test "X$1" = X--no-reexec; then
@@ -469,19 +458,11 @@ esac
 # These must not be set unconditionally because not all systems understand
 # e.g. LANG=C (notably SCO).
 # We save the old values to restore during execute mode.
-lt_env=
-for lt_var in LANG LANGUAGE LC_ALL LC_CTYPE LC_COLLATE LC_MESSAGES
-do
-  eval "if test \"\${$lt_var+set}\" = set; then
-	  save_$lt_var=\$$lt_var
-	  lt_env=\"$lt_var=\$$lt_var \$lt_env\"
-	  $lt_var=C
-	  export $lt_var
-	fi"
-done
-
-if test -n "$lt_env"; then
-  lt_env="env $lt_env"
+if test "${LC_ALL+set}" = set; then
+  save_LC_ALL="$LC_ALL"; LC_ALL=C; export LC_ALL
+fi
+if test "${LANG+set}" = set; then
+  save_LANG="$LANG"; LANG=C; export LANG
 fi
 
 # Make sure IFS has a sensible default
@@ -508,8 +489,6 @@ duplicate_deps=no
 preserve_args=
 lo2o="s/\\.lo\$/.${objext}/"
 o2lo="s/\\.${objext}\$/.lo/"
-extracted_archives=
-extracted_serial=0
 
 #####################################
 # Shell function definitions:
@@ -570,13 +549,7 @@ func_win32_libid ()
     if eval $OBJDUMP -f $1 | $SED -e '10q' 2>/dev/null | \
       $EGREP -e 'file format pe-i386(.*architecture: i386)?' >/dev/null ; then
       win32_nmres=`eval $NM -f posix -A $1 | \
-	$SED -n -e '1,100{
-		/ I /{
-			s,.*,import,
-			p
-			q
-			}
-		}'`
+	$SED -n -e '1,100{/ I /{s,.*,import,;p;q;};}'`
       case $win32_nmres in
       import*)  win32_libid_type="x86 archive import";;
       *)        win32_libid_type="x86 archive static";;
@@ -707,17 +680,7 @@ func_extract_archives ()
 	*) my_xabs=`pwd`"/$my_xlib" ;;
       esac
       my_xlib=`$echo "X$my_xlib" | $Xsed -e 's%^.*/%%'`
-      my_xlib_u=$my_xlib
-      while :; do
-        case " $extracted_archives " in
-	*" $my_xlib_u "*)
-	  extracted_serial=`expr $extracted_serial + 1`
-	  my_xlib_u=lt$extracted_serial-$my_xlib ;;
-	*) break ;;
-	esac
-      done
-      extracted_archives="$extracted_archives $my_xlib_u"
-      my_xdir="$my_gentop/$my_xlib_u"
+      my_xdir="$my_gentop/$my_xlib"
 
       $show "${rm}r $my_xdir"
       $run ${rm}r "$my_xdir"
@@ -844,12 +807,11 @@ do
     ;;
 
   --version)
-    echo "\
-$PROGRAM (GNU $PACKAGE) $VERSION$TIMESTAMP
-
-Copyright (C) 2008  Free Software Foundation, Inc.
-This is free software; see the source for copying conditions.  There is NO
-warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE."
+    $echo "$PROGRAM (GNU $PACKAGE) $VERSION$TIMESTAMP"
+    $echo
+    $echo "Copyright (C) 2005  Free Software Foundation, Inc."
+    $echo "This is free software; see the source for copying conditions.  There is NO"
+    $echo "warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE."
     exit $?
     ;;
 
@@ -1146,11 +1108,9 @@ if test -z "$show_help"; then
     *.class) xform=class ;;
     *.cpp) xform=cpp ;;
     *.cxx) xform=cxx ;;
-    *.[fF][09]?) xform=[fF][09]. ;;
+    *.f90) xform=f90 ;;
     *.for) xform=for ;;
     *.java) xform=java ;;
-    *.obj) xform=obj ;;
-    *.sx) xform=sx ;;
     esac
 
     libobj=`$echo "X$libobj" | $Xsed -e "s/\.$xform$/.lo/"`
@@ -1319,7 +1279,7 @@ EOF
       $run $rm "$lobj" "$output_obj"
 
       $show "$command"
-      if $run eval $lt_env "$command"; then :
+      if $run eval "$command"; then :
       else
 	test -n "$output_obj" && $run $rm $removelist
 	exit $EXIT_FAILURE
@@ -1391,7 +1351,7 @@ EOF
       command="$command$suppress_output"
       $run $rm "$obj" "$output_obj"
       $show "$command"
-      if $run eval $lt_env "$command"; then :
+      if $run eval "$command"; then :
       else
 	$run $rm $removelist
 	exit $EXIT_FAILURE
@@ -1524,7 +1484,6 @@ EOF
     thread_safe=no
     vinfo=
     vinfo_number=no
-    single_module="${wl}-single_module"
 
     func_infer_tag $base_compile
 
@@ -1532,9 +1491,8 @@ EOF
     for arg
     do
       case $arg in
-      -all-static | -static | -static-libtool-libs)
-	case $arg in
-	-all-static)
+      -all-static | -static)
+	if test "X$arg" = "X-all-static"; then
 	  if test "$build_libtool_libs" = yes && test -z "$link_static_flag"; then
 	    $echo "$modename: warning: complete static linking is impossible in this configuration" 1>&2
 	  fi
@@ -1542,20 +1500,12 @@ EOF
 	    dlopen_self=$dlopen_self_static
 	  fi
 	  prefer_static_libs=yes
-	  ;;
-	-static)
+	else
 	  if test -z "$pic_flag" && test -n "$link_static_flag"; then
 	    dlopen_self=$dlopen_self_static
 	  fi
 	  prefer_static_libs=built
-	  ;;
-	-static-libtool-libs)
-	  if test -z "$pic_flag" && test -n "$link_static_flag"; then
-	    dlopen_self=$dlopen_self_static
-	  fi
-	  prefer_static_libs=yes
-	  ;;
-	esac
+	fi
 	build_libtool_libs=no
 	build_old_libs=yes
 	break
@@ -2003,15 +1953,10 @@ EOF
 	continue
 	;;
 
-     -mt|-mthreads|-kthread|-Kthread|-pthread|-pthreads|--thread-safe|-threads)
+     -mt|-mthreads|-kthread|-Kthread|-pthread|-pthreads|--thread-safe)
 	compiler_flags="$compiler_flags $arg"
 	compile_command="$compile_command $arg"
 	finalize_command="$finalize_command $arg"
-	continue
-	;;
-
-      -multi_module)
-	single_module="${wl}-multi_module"
 	continue
 	;;
 
@@ -2028,11 +1973,10 @@ EOF
       # -m* pass through architecture-specific compiler args for GCC
       # -m*, -t[45]*, -txscale* pass through architecture-specific
       # compiler args for GCC
-      # -p, -pg, --coverage, -fprofile-* pass through profiling flag for GCC
-      # -F/path gives path to uninstalled frameworks, gcc on darwin
+      # -pg pass through profiling flag for GCC
       # @file GCC response files
-      -64|-mips[0-9]|-r[0-9][0-9]*|-xarch=*|-xtarget=*|+DA*|+DD*|-q*|-m*| \
-      -t[45]*|-txscale*|-p|-pg|--coverage|-fprofile-*|-F*|@*)
+      -64|-mips[0-9]|-r[0-9][0-9]*|-xarch=*|-xtarget=*|+DA*|+DD*|-q*|-m*|-pg| \
+      -t[45]*|-txscale*|@*)
 
 	# Unknown arguments in both finalize_command and compile_command need
 	# to be aesthetically quoted because they are evaled later.
@@ -2060,9 +2004,9 @@ EOF
 
       -no-install)
 	case $host in
-	*-*-cygwin* | *-*-mingw* | *-*-pw32* | *-*-os2* | *-*-darwin*)
+	*-*-cygwin* | *-*-mingw* | *-*-pw32* | *-*-os2*)
 	  # The PATH hackery in wrapper scripts is required on Windows
-	  # and Darwin in order for the loader to find any dlls it needs.
+	  # in order for the loader to find any dlls it needs.
 	  $echo "$modename: warning: \`-no-install' is ignored for $host" 1>&2
 	  $echo "$modename: warning: assuming \`-no-fast-install' instead" 1>&2
 	  fast_install=no
@@ -2121,7 +2065,7 @@ EOF
 	continue
 	;;
 
-      -static | -static-libtool-libs)
+      -static)
 	# The effects of -static are defined in a previous loop.
 	# We used to do the same as -all-static on platforms that
 	# didn't have a PIC flag, but the assumption that the effects
@@ -2491,10 +2435,7 @@ EOF
 	case $pass in
 	dlopen) libs="$dlfiles" ;;
 	dlpreopen) libs="$dlprefiles" ;;
-	link)
-	  libs="$deplibs %DEPLIBS%"
-	  test "X$link_all_deplibs" != Xno && libs="$libs $dependency_libs"
-	  ;;
+	link) libs="$deplibs %DEPLIBS% $dependency_libs" ;;
 	esac
       fi
       if test "$pass" = dlopen; then
@@ -2506,7 +2447,7 @@ EOF
 	lib=
 	found=no
 	case $deplib in
-	-mt|-mthreads|-kthread|-Kthread|-pthread|-pthreads|--thread-safe|-threads)
+	-mt|-mthreads|-kthread|-Kthread|-pthread|-pthreads|--thread-safe)
 	  if test "$linkmode,$pass" = "prog,link"; then
 	    compile_deplibs="$deplib $compile_deplibs"
 	    finalize_deplibs="$deplib $finalize_deplibs"
@@ -2521,12 +2462,7 @@ EOF
 	    continue
 	  fi
 	  name=`$echo "X$deplib" | $Xsed -e 's/^-l//'`
-	  if test "$linkmode" = lib; then
-	    searchdirs="$newlib_search_path $lib_search_path $compiler_lib_search_dirs $sys_lib_search_path $shlib_search_path"
-	  else
-	    searchdirs="$newlib_search_path $lib_search_path $sys_lib_search_path $shlib_search_path"
-	  fi
-	  for searchdir in $searchdirs; do
+	  for searchdir in $newlib_search_path $lib_search_path $sys_lib_search_path $shlib_search_path; do
 	    for search_ext in .la $std_shrext .so .a; do
 	      # Search the libtool library
 	      lib="$searchdir/lib${name}${search_ext}"
@@ -2907,9 +2843,7 @@ EOF
 
 	if test "$linkmode,$pass" = "prog,link"; then
 	  if test -n "$library_names" &&
-	     { { test "$prefer_static_libs" = no ||
-		 test "$prefer_static_libs,$installed" = "built,yes"; } ||
-	       test -z "$old_library"; }; then
+	     { test "$prefer_static_libs" = no || test -z "$old_library"; }; then
 	    # We need to hardcode the library path
 	    if test -n "$shlibpath_var" && test -z "$avoidtemprpath" ; then
 	      # Make sure the rpath contains only unique directories.
@@ -3322,18 +3256,12 @@ EOF
 		  # we do not want to link against static libs,
 		  # but need to link against shared
 		  eval deplibrary_names=`${SED} -n -e 's/^library_names=\(.*\)$/\1/p' $deplib`
-		  eval deplibdir=`${SED} -n -e 's/^libdir=\(.*\)$/\1/p' $deplib`
 		  if test -n "$deplibrary_names" ; then
 		    for tmp in $deplibrary_names ; do
 		      depdepl=$tmp
 		    done
-		    if test -f "$deplibdir/$depdepl" ; then
-		      depdepl="$deplibdir/$depdepl"
-	      	    elif test -f "$path/$depdepl" ; then
+		    if test -f "$path/$depdepl" ; then
 		      depdepl="$path/$depdepl"
-		    else
-		      # Can't find it, oh well...
-		      depdepl=
 		    fi
 		    # do not add paths which are already there
 		    case " $newlib_search_path " in
@@ -3481,10 +3409,9 @@ EOF
 
     case $linkmode in
     oldlib)
-      case " $deplibs" in
-      *\ -l* | *\ -L*)
-	$echo "$modename: warning: \`-l' and \`-L' are ignored for archives" 1>&2 ;;
-      esac
+      if test -n "$deplibs"; then
+	$echo "$modename: warning: \`-l' and \`-L' are ignored for archives" 1>&2
+      fi
 
       if test -n "$dlfiles$dlprefiles" || test "$dlself" != no; then
 	$echo "$modename: warning: \`-dlopen' is ignored for archives" 1>&2
@@ -3612,7 +3539,7 @@ EOF
 	  # which has an extra 1 added just for fun
 	  #
 	  case $version_type in
-	  darwin|linux|osf|windows|none)
+	  darwin|linux|osf|windows)
 	    current=`expr $number_major + $number_minor`
 	    age="$number_minor"
 	    revision="$number_revision"
@@ -3623,15 +3550,9 @@ EOF
 	    age="0"
 	    ;;
 	  irix|nonstopux)
-	    current=`expr $number_major + $number_minor`
+	    current=`expr $number_major + $number_minor - 1`
 	    age="$number_minor"
 	    revision="$number_minor"
-	    lt_irix_increment=no
-	    ;;
-	  *)
-	    $echo "$modename: unknown library version type \`$version_type'" 1>&2
-	    $echo "Fatal configuration error.  See the $PACKAGE docs for more information." 1>&2
-	    exit $EXIT_FAILURE
 	    ;;
 	  esac
 	  ;;
@@ -3690,8 +3611,7 @@ EOF
 	  versuffix="$major.$age.$revision"
 	  # Darwin ld doesn't like 0 for these options...
 	  minor_current=`expr $current + 1`
-	  xlcverstring="${wl}-compatibility_version ${wl}$minor_current ${wl}-current_version ${wl}$minor_current.$revision"
-	  verstring="-compatibility_version $minor_current -current_version $minor_current.$revision"
+	  verstring="${wl}-compatibility_version ${wl}$minor_current ${wl}-current_version ${wl}$minor_current.$revision"
 	  ;;
 
 	freebsd-aout)
@@ -3705,11 +3625,8 @@ EOF
 	  ;;
 
 	irix | nonstopux)
-	  if test "X$lt_irix_increment" = "Xno"; then
-	    major=`expr $current - $age`
-	  else
-	    major=`expr $current - $age + 1`
-	  fi
+	  major=`expr $current - $age + 1`
+
 	  case $version_type in
 	    nonstopux) verstring_prefix=nonstopux ;;
 	    *)         verstring_prefix=sgi ;;
@@ -3846,11 +3763,11 @@ EOF
       fi
 
       # Eliminate all temporary directories.
-      #for path in $notinst_path; do
-      #	lib_search_path=`$echo "$lib_search_path " | ${SED} -e "s% $path % %g"`
-      #	deplibs=`$echo "$deplibs " | ${SED} -e "s% -L$path % %g"`
-      #	dependency_libs=`$echo "$dependency_libs " | ${SED} -e "s% -L$path % %g"`
-      #done
+      for path in $notinst_path; do
+	lib_search_path=`$echo "$lib_search_path " | ${SED} -e "s% $path % %g"`
+	deplibs=`$echo "$deplibs " | ${SED} -e "s% -L$path % %g"`
+	dependency_libs=`$echo "$dependency_libs " | ${SED} -e "s% -L$path % %g"`
+      done
 
       if test -n "$xrpath"; then
 	# If the user specified any rpath flags, then add them.
@@ -3951,12 +3868,13 @@ EOF
 	  int main() { return 0; }
 EOF
 	  $rm conftest
-	  if $LTCC $LTCFLAGS -o conftest conftest.c $deplibs; then
+	  $LTCC $LTCFLAGS -o conftest conftest.c $deplibs
+	  if test "$?" -eq 0 ; then
 	    ldd_output=`ldd conftest`
 	    for i in $deplibs; do
 	      name=`expr $i : '-l\(.*\)'`
 	      # If $name is empty we are operating on a -L argument.
-              if test "$name" != "" && test "$name" != "0"; then
+              if test "$name" != "" && test "$name" -ne "0"; then
 		if test "X$allow_libtool_libs_with_static_runtimes" = "Xyes" ; then
 		  case " $predeps $postdeps " in
 		  *" $i "*)
@@ -3995,7 +3913,9 @@ EOF
 	      # If $name is empty we are operating on a -L argument.
               if test "$name" != "" && test "$name" != "0"; then
 		$rm conftest
-		if $LTCC $LTCFLAGS -o conftest conftest.c $i; then
+		$LTCC $LTCFLAGS -o conftest conftest.c $i
+		# Did it work?
+		if test "$?" -eq 0 ; then
 		  ldd_output=`ldd conftest`
 		  if test "X$allow_libtool_libs_with_static_runtimes" = "Xyes" ; then
 		    case " $predeps $postdeps " in
@@ -4027,7 +3947,7 @@ EOF
 		  droppeddeps=yes
 		  $echo
 		  $echo "*** Warning!  Library $i is needed by this library but I was not able to"
-		  $echo "*** make it link in!  You will probably need to install it or some"
+		  $echo "***  make it link in!  You will probably need to install it or some"
 		  $echo "*** library that it depends on before this library will be fully"
 		  $echo "*** functional.  Installing it before continuing would be even better."
 		fi
@@ -4313,10 +4233,7 @@ EOF
 	     test -n "$hardcode_libdirs"; then
 	    libdir="$hardcode_libdirs"
 	    if test -n "$hardcode_libdir_flag_spec_ld"; then
-	      case $archive_cmds in
-	      *\$LD*) eval dep_rpath=\"$hardcode_libdir_flag_spec_ld\" ;;
-	      *)      eval dep_rpath=\"$hardcode_libdir_flag_spec\" ;;
-	      esac
+	      eval dep_rpath=\"$hardcode_libdir_flag_spec_ld\"
 	    else
 	      eval dep_rpath=\"$hardcode_libdir_flag_spec\"
 	    fi
@@ -4626,10 +4543,9 @@ EOF
       ;;
 
     obj)
-      case " $deplibs" in
-      *\ -l* | *\ -L*)
-	$echo "$modename: warning: \`-l' and \`-L' are ignored for objects" 1>&2 ;;
-      esac
+      if test -n "$deplibs"; then
+	$echo "$modename: warning: \`-l' and \`-L' are ignored for objects" 1>&2
+      fi
 
       if test -n "$dlfiles$dlprefiles" || test "$dlself" != no; then
 	$echo "$modename: warning: \`-dlopen' is ignored for objects" 1>&2
@@ -4676,14 +4592,12 @@ EOF
       reload_conv_objs=
       gentop=
       # reload_cmds runs $LD directly, so let us get rid of
-      # -Wl from whole_archive_flag_spec and hope we can get by with
-      # turning comma into space..
+      # -Wl from whole_archive_flag_spec
       wl=
 
       if test -n "$convenience"; then
 	if test -n "$whole_archive_flag_spec"; then
-	  eval tmp_whole_archive_flags=\"$whole_archive_flag_spec\"
-	  reload_conv_objs=$reload_objs\ `$echo "X$tmp_whole_archive_flags" | $Xsed -e 's|,| |g'`
+	  eval reload_conv_objs=\"\$reload_objs $whole_archive_flag_spec\"
 	else
 	  gentop="$output_objdir/${obj}x"
 	  generated="$generated $gentop"
@@ -5131,16 +5045,16 @@ static const void *lt_preloaded_setup() {
           case $host in
           *cygwin* | *mingw* )
             if test -f "$output_objdir/${outputname}.def" ; then
-              compile_command=`$echo "X$compile_command" | $SP2NL | $Xsed -e "s%@SYMFILE@%$output_objdir/${outputname}.def $output_objdir/${outputname}S.${objext}%" | $NL2SP`
-              finalize_command=`$echo "X$finalize_command" | $SP2NL | $Xsed -e "s%@SYMFILE@%$output_objdir/${outputname}.def $output_objdir/${outputname}S.${objext}%" | $NL2SP`
+              compile_command=`$echo "X$compile_command" | $Xsed -e "s%@SYMFILE@%$output_objdir/${outputname}.def $output_objdir/${outputname}S.${objext}%"`
+              finalize_command=`$echo "X$finalize_command" | $Xsed -e "s%@SYMFILE@%$output_objdir/${outputname}.def $output_objdir/${outputname}S.${objext}%"`
             else
-              compile_command=`$echo "X$compile_command" | $SP2NL | $Xsed -e "s%@SYMFILE@%$output_objdir/${outputname}S.${objext}%" | $NL2SP`
-              finalize_command=`$echo "X$finalize_command" | $SP2NL | $Xsed -e "s%@SYMFILE@%$output_objdir/${outputname}S.${objext}%" | $NL2SP`
+              compile_command=`$echo "X$compile_command" | $Xsed -e "s%@SYMFILE@%$output_objdir/${outputname}S.${objext}%"`
+              finalize_command=`$echo "X$finalize_command" | $Xsed -e "s%@SYMFILE@%$output_objdir/${outputname}S.${objext}%"`
              fi
             ;;
           * )
-            compile_command=`$echo "X$compile_command" | $SP2NL | $Xsed -e "s%@SYMFILE@%$output_objdir/${outputname}S.${objext}%" | $NL2SP`
-            finalize_command=`$echo "X$finalize_command" | $SP2NL | $Xsed -e "s%@SYMFILE@%$output_objdir/${outputname}S.${objext}%" | $NL2SP`
+            compile_command=`$echo "X$compile_command" | $Xsed -e "s%@SYMFILE@%$output_objdir/${outputname}S.${objext}%"`
+            finalize_command=`$echo "X$finalize_command" | $Xsed -e "s%@SYMFILE@%$output_objdir/${outputname}S.${objext}%"`
             ;;
           esac
 	  ;;
@@ -5155,13 +5069,13 @@ static const void *lt_preloaded_setup() {
 	# really was required.
 
 	# Nullify the symbol file.
-	compile_command=`$echo "X$compile_command" | $SP2NL | $Xsed -e "s% @SYMFILE@%%" | $NL2SP`
-	finalize_command=`$echo "X$finalize_command" | $SP2NL | $Xsed -e "s% @SYMFILE@%%" | $NL2SP`
+	compile_command=`$echo "X$compile_command" | $Xsed -e "s% @SYMFILE@%%"`
+	finalize_command=`$echo "X$finalize_command" | $Xsed -e "s% @SYMFILE@%%"`
       fi
 
       if test "$need_relink" = no || test "$build_libtool_libs" != yes; then
 	# Replace the output file specification.
-	compile_command=`$echo "X$compile_command" | $SP2NL | $Xsed -e 's%@OUTPUT@%'"$output"'%g' | $NL2SP`
+	compile_command=`$echo "X$compile_command" | $Xsed -e 's%@OUTPUT@%'"$output"'%g'`
 	link_command="$compile_command$compile_rpath"
 
 	# We have no uninstalled library dependencies, so finalize right now.
@@ -5248,7 +5162,7 @@ static const void *lt_preloaded_setup() {
 	if test "$fast_install" != no; then
 	  link_command="$finalize_var$compile_command$finalize_rpath"
 	  if test "$fast_install" = yes; then
-	    relink_command=`$echo "X$compile_var$compile_command$compile_rpath" | $SP2NL | $Xsed -e 's%@OUTPUT@%\$progdir/\$file%g' | $NL2SP`
+	    relink_command=`$echo "X$compile_var$compile_command$compile_rpath" | $Xsed -e 's%@OUTPUT@%\$progdir/\$file%g'`
 	  else
 	    # fast_install is set to needless
 	    relink_command=
@@ -5285,7 +5199,7 @@ static const void *lt_preloaded_setup() {
 	  fi
 	done
 	relink_command="(cd `pwd`; $relink_command)"
-	relink_command=`$echo "X$relink_command" | $SP2NL | $Xsed -e "$sed_quote_subst" | $NL2SP`
+	relink_command=`$echo "X$relink_command" | $Xsed -e "$sed_quote_subst"`
       fi
 
       # Quote $echo for shipping.
@@ -5692,20 +5606,6 @@ EOF
 Xsed='${SED} -e 1s/^X//'
 sed_quote_subst='$sed_quote_subst'
 
-# Be Bourne compatible (taken from Autoconf:_AS_BOURNE_COMPATIBLE).
-if test -n \"\${ZSH_VERSION+set}\" && (emulate sh) >/dev/null 2>&1; then
-  emulate sh
-  NULLCMD=:
-  # Zsh 3.x and 4.x performs word splitting on \${1+\"\$@\"}, which
-  # is contrary to our usage.  Disable this feature.
-  alias -g '\${1+\"\$@\"}'='\"\$@\"'
-  setopt NO_GLOB_SUBST
-else
-  case \`(set -o) 2>/dev/null\` in *posix*) set -o posix;; esac
-fi
-BIN_SH=xpg4; export BIN_SH # for Tru64
-DUALCASE=1; export DUALCASE # for MKS sh
-
 # The HP-UX ksh and POSIX shell print the target directory to stdout
 # if CDPATH is set.
 (unset CDPATH) >/dev/null 2>&1 && unset CDPATH
@@ -5848,7 +5748,7 @@ else
 	  ;;
 	esac
 	$echo >> $output "\
-      \$echo \"\$0: cannot exec \$program \$*\"
+      \$echo \"\$0: cannot exec \$program \${1+\"\$@\"}\"
       exit $EXIT_FAILURE
     fi
   else
@@ -6034,7 +5934,7 @@ fi\
       done
       # Quote the link command for shipping.
       relink_command="(cd `pwd`; $SHELL $progpath $preserve_args --mode=relink $libtool_args @inst_prefix_dir@)"
-      relink_command=`$echo "X$relink_command" | $SP2NL | $Xsed -e "$sed_quote_subst" | $NL2SP`
+      relink_command=`$echo "X$relink_command" | $Xsed -e "$sed_quote_subst"`
       if test "$hardcode_automatic" = yes ; then
 	relink_command=
       fi
@@ -6379,9 +6279,9 @@ relink_command=\"$relink_command\""
 
 	  if test -n "$inst_prefix_dir"; then
 	    # Stick the inst_prefix_dir data into the link command.
-	    relink_command=`$echo "$relink_command" | $SP2NL | $SED "s%@inst_prefix_dir@%-inst-prefix-dir $inst_prefix_dir%" | $NL2SP`
+	    relink_command=`$echo "$relink_command" | $SED "s%@inst_prefix_dir@%-inst-prefix-dir $inst_prefix_dir%"`
 	  else
-	    relink_command=`$echo "$relink_command" | $SP2NL | $SED "s%@inst_prefix_dir@%%" | $NL2SP`
+	    relink_command=`$echo "$relink_command" | $SED "s%@inst_prefix_dir@%%"`
 	  fi
 
 	  $echo "$modename: warning: relinking \`$file'" 1>&2
@@ -6590,7 +6490,7 @@ relink_command=\"$relink_command\""
 	      file=`$echo "X$file$stripped_ext" | $Xsed -e 's%^.*/%%'`
 	      outputname="$tmpdir/$file"
 	      # Replace the output file specification.
-	      relink_command=`$echo "X$relink_command" | $SP2NL | $Xsed -e 's%@OUTPUT@%'"$outputname"'%g' | $NL2SP`
+	      relink_command=`$echo "X$relink_command" | $Xsed -e 's%@OUTPUT@%'"$outputname"'%g'`
 
 	      $show "$relink_command"
 	      if $run eval "$relink_command"; then :
@@ -6801,10 +6701,8 @@ relink_command=\"$relink_command\""
 	if test -f "$dir/$objdir/$dlname"; then
 	  dir="$dir/$objdir"
 	else
-	  if test ! -f "$dir/$dlname"; then
-	    $echo "$modename: cannot find \`$dlname' in \`$dir' or \`$dir/$objdir'" 1>&2
-	    exit $EXIT_FAILURE
-	  fi
+	  $echo "$modename: cannot find \`$dlname' in \`$dir' or \`$dir/$objdir'" 1>&2
+	  exit $EXIT_FAILURE
 	fi
 	;;
 
@@ -6868,12 +6766,12 @@ relink_command=\"$relink_command\""
       fi
 
       # Restore saved environment variables
-      for lt_var in LANG LANGUAGE LC_ALL LC_CTYPE LC_COLLATE LC_MESSAGES
-      do
-	eval "if test \"\${save_$lt_var+set}\" = set; then
-		$lt_var=\$save_$lt_var; export $lt_var
-	      fi"
-      done
+      if test "${save_LC_ALL+set}" = set; then
+	LC_ALL="$save_LC_ALL"; export LC_ALL
+      fi
+      if test "${save_LANG+set}" = set; then
+	LANG="$save_LANG"; export LANG
+      fi
 
       # Now prepare to actually exec the command.
       exec_cmd="\$cmd$args"
@@ -7230,9 +7128,9 @@ The following components of LINK-COMMAND are treated specially:
   -dlpreopen FILE   link in FILE and add its symbols to lt_preloaded_symbols
   -export-dynamic   allow symbols from OUTPUT-FILE to be resolved with dlsym(3)
   -export-symbols SYMFILE
-                    try to export only the symbols listed in SYMFILE
+		    try to export only the symbols listed in SYMFILE
   -export-symbols-regex REGEX
-                    try to export only the symbols matching REGEX
+		    try to export only the symbols matching REGEX
   -LLIBDIR          search LIBDIR for required installed libraries
   -lNAME            OUTPUT-FILE requires the installed library libNAME
   -module           build a library that can dlopened
@@ -7246,11 +7144,9 @@ The following components of LINK-COMMAND are treated specially:
   -release RELEASE  specify package release information
   -rpath LIBDIR     the created library will eventually be installed in LIBDIR
   -R[ ]LIBDIR       add LIBDIR to the runtime path of programs and libraries
-  -static           do not do any dynamic linking of uninstalled libtool libraries
-  -static-libtool-libs
-                    do not do any dynamic linking of libtool libraries
+  -static           do not do any dynamic linking of libtool libraries
   -version-info CURRENT[:REVISION[:AGE]]
-                    specify library version info [each variable defaults to 0]
+		    specify library version info [each variable defaults to 0]
 
 All other options (arguments beginning with \`-') are ignored.
 
@@ -7320,7 +7216,7 @@ disable_libs=static
 # End:
 # ### BEGIN LIBTOOL TAG CONFIG: CXX
 
-# Libtool was configured on host debian:
+# Libtool was configured on host 111.flood.pivotallabs.com:
 
 # Shell to use when invoking shell scripts.
 SHELL="/bin/sh"
@@ -7338,20 +7234,20 @@ build_libtool_need_lc=no
 allow_libtool_libs_with_static_runtimes=no
 
 # Whether or not to optimize for fast installation.
-fast_install=yes
+fast_install=needless
 
 # The host system.
 host_alias=
-host=i686-pc-linux-gnu
-host_os=linux-gnu
+host=i686-apple-darwin9.6.0
+host_os=darwin9.6.0
 
 # The build system.
 build_alias=
-build=i686-pc-linux-gnu
-build_os=linux-gnu
+build=i686-apple-darwin9.6.0
+build_os=darwin9.6.0
 
 # An echo program that does not interpret backslashes.
-echo="echo"
+echo="/bin/echo"
 
 # The archiver.
 AR="ar"
@@ -7370,16 +7266,16 @@ CC="g++"
 with_gcc=yes
 
 # An ERE matcher.
-EGREP="/bin/grep -E"
+EGREP="/usr/bin/grep -E"
 
 # The linker used to build libraries.
-LD="/usr/bin/ld"
+LD="/usr/libexec/gcc/i686-apple-darwin9/4.0.1/ld"
 
 # Whether we need hard or soft links.
 LN_S="ln -s"
 
 # A BSD-compatible nm program.
-NM="/usr/bin/nm -B"
+NM="/usr/bin/nm -p"
 
 # A symbol stripping program
 STRIP="strip"
@@ -7401,7 +7297,7 @@ objdir=.libs
 
 # How to create reloadable object files.
 reload_flag=" -r"
-reload_cmds="\$LD\$reload_flag -o \$output\$reload_objs"
+reload_cmds="\$LTCC \$LTCFLAGS -nostdlib \${wl}-r -o \$output\$reload_objs"
 
 # How to pass a linker flag through the compiler.
 wl="-Wl,"
@@ -7413,17 +7309,17 @@ objext="o"
 libext="a"
 
 # Shared library suffix (normally ".so").
-shrext_cmds='.so'
+shrext_cmds='`test .$module = .yes && echo .so || echo .dylib`'
 
 # Executable file suffix (normally "").
 exeext=""
 
 # Additional compiler flags for building library objects.
-pic_flag=" -fPIC -DPIC"
+pic_flag=" -fno-common -DPIC"
 pic_mode=default
 
 # What is the maximum length of a command?
-max_cmd_len=98304
+max_cmd_len=196608
 
 # Does compiler simultaneously support -c and -o options?
 compiler_c_o="yes"
@@ -7447,32 +7343,32 @@ dlopen_self=unknown
 dlopen_self_static=unknown
 
 # Compiler flag to prevent dynamic linking.
-link_static_flag="-static"
+link_static_flag=""
 
 # Compiler flag to turn off builtin functions.
 no_builtin_flag=" -fno-builtin"
 
 # Compiler flag to allow reflexive dlopens.
-export_dynamic_flag_spec="\${wl}--export-dynamic"
+export_dynamic_flag_spec=""
 
 # Compiler flag to generate shared objects directly from archives.
-whole_archive_flag_spec="\${wl}--whole-archive\$convenience \${wl}--no-whole-archive"
+whole_archive_flag_spec=""
 
 # Compiler flag to generate thread-safe objects.
 thread_safe_flag_spec=""
 
 # Library versioning type.
-version_type=linux
+version_type=darwin
 
 # Format of library name prefix.
 libname_spec="lib\$name"
 
 # List of archive names.  First name is the real one, the rest are links.
 # The last name is the one that the linker finds with -lNAME.
-library_names_spec="\${libname}\${release}\${shared_ext}\$versuffix \${libname}\${release}\${shared_ext}\$major \$libname\${shared_ext}"
+library_names_spec="\${libname}\${release}\${versuffix}\$shared_ext \${libname}\${release}\${major}\$shared_ext \${libname}\$shared_ext"
 
 # The coded name of the library, if different from the real name.
-soname_spec="\${libname}\${release}\${shared_ext}\$major"
+soname_spec="\${libname}\${release}\${major}\$shared_ext"
 
 # Commands used to build and install an old-style archive.
 RANLIB="ranlib"
@@ -7487,26 +7383,26 @@ old_archive_from_new_cmds=""
 old_archive_from_expsyms_cmds=""
 
 # Commands used to build and install a shared archive.
-archive_cmds="\$CC -shared -nostdlib \$predep_objects \$libobjs \$deplibs \$postdep_objects \$compiler_flags \${wl}-soname \$wl\$soname -o \$lib"
-archive_expsym_cmds="\$CC -shared -nostdlib \$predep_objects \$libobjs \$deplibs \$postdep_objects \$compiler_flags \${wl}-soname \$wl\$soname \${wl}-retain-symbols-file \$wl\$export_symbols -o \$lib"
+archive_cmds="\$CC -dynamiclib \$allow_undefined_flag -o \$lib \$libobjs \$deplibs \$compiler_flags -install_name \$rpath/\$soname \$verstring \$single_module~dsymutil \$lib || :"
+archive_expsym_cmds="sed 's,^,_,' < \$export_symbols > \$output_objdir/\${libname}-symbols.expsym~\$CC -dynamiclib \$allow_undefined_flag -o \$lib \$libobjs \$deplibs \$compiler_flags -install_name \$rpath/\$soname \$verstring \$single_module \${wl}-exported_symbols_list,\$output_objdir/\${libname}-symbols.expsym~dsymutil \$lib || :"
 postinstall_cmds=""
 postuninstall_cmds=""
 
 # Commands used to build a loadable module (assumed same as above if empty)
-module_cmds=""
-module_expsym_cmds=""
+module_cmds="\$CC \$allow_undefined_flag -o \$lib -bundle \$libobjs \$deplibs \$compiler_flags~dsymutil \$lib || :"
+module_expsym_cmds="sed -e 's,^,_,' < \$export_symbols > \$output_objdir/\${libname}-symbols.expsym~\$CC \$allow_undefined_flag -o \$lib -bundle \$libobjs \$deplibs \$compiler_flags \${wl}-exported_symbols_list,\$output_objdir/\${libname}-symbols.expsym~dsymutil \$lib || :"
 
 # Commands to strip libraries.
-old_striplib="strip --strip-debug"
-striplib="strip --strip-unneeded"
+old_striplib="strip -S"
+striplib="strip -x"
 
 # Dependencies to place before the objects being linked to create a
 # shared library.
-predep_objects="/usr/lib/gcc/i486-linux-gnu/4.3.2/../../../../lib/crti.o /usr/lib/gcc/i486-linux-gnu/4.3.2/crtbeginS.o"
+predep_objects=""
 
 # Dependencies to place after the objects being linked to create a
 # shared library.
-postdep_objects="/usr/lib/gcc/i486-linux-gnu/4.3.2/crtendS.o /usr/lib/gcc/i486-linux-gnu/4.3.2/../../../../lib/crtn.o"
+postdep_objects=""
 
 # Dependencies to place before the objects being linked to create a
 # shared library.
@@ -7514,15 +7410,15 @@ predeps=""
 
 # Dependencies to place after the objects being linked to create a
 # shared library.
-postdeps="-lstdc++ -lm -lgcc_s -lc -lgcc_s"
+postdeps=""
 
 # The directories searched by this compiler when creating a shared
 # library
-compiler_lib_search_dirs="/usr/lib/gcc/i486-linux-gnu/4.3.2 /usr/lib/gcc/i486-linux-gnu/4.3.2 /usr/lib/gcc/i486-linux-gnu/4.3.2/../../../../lib /lib/../lib /usr/lib/../lib /usr/lib/gcc/i486-linux-gnu/4.3.2/../../.."
+compiler_lib_search_dirs=""
 
 # The library search path used internally by the compiler when linking
 # a shared library.
-compiler_lib_search_path="-L/usr/lib/gcc/i486-linux-gnu/4.3.2 -L/usr/lib/gcc/i486-linux-gnu/4.3.2 -L/usr/lib/gcc/i486-linux-gnu/4.3.2/../../../../lib -L/lib/../lib -L/usr/lib/../lib -L/usr/lib/gcc/i486-linux-gnu/4.3.2/../../.."
+compiler_lib_search_path=""
 
 # Method to check whether dependent libraries are shared objects.
 deplibs_check_method="pass_all"
@@ -7531,19 +7427,19 @@ deplibs_check_method="pass_all"
 file_magic_cmd="\$MAGIC_CMD"
 
 # Flag that allows shared libraries with undefined symbols to be built.
-allow_undefined_flag=""
+allow_undefined_flag="\${wl}-undefined \${wl}dynamic_lookup"
 
 # Flag that forces no undefined symbols.
 no_undefined_flag=""
 
 # Commands used to finish a libtool library installation in a directory.
-finish_cmds="PATH=\\\"\\\$PATH:/sbin\\\" ldconfig -n \$libdir"
+finish_cmds=""
 
 # Same as above, but a single script fragment to be evaled but not shown.
 finish_eval=""
 
 # Take the output of nm and produce a listing of raw symbols and C names.
-global_symbol_pipe="sed -n -e 's/^.*[ 	]\\([ABCDGIRSTW][ABCDGIRSTW]*\\)[ 	][ 	]*\\([_A-Za-z][_A-Za-z0-9]*\\)\$/\\1 \\2 \\2/p'"
+global_symbol_pipe="sed -n -e 's/^.*[ 	]\\([BCDEGRST][BCDEGRST]*\\)[ 	][ 	]*_\\([_A-Za-z][_A-Za-z0-9]*\\)\$/\\1 _\\2 \\2/p'"
 
 # Transform the output of nm in a proper C declaration
 global_symbol_to_cdecl="sed -n -e 's/^. .* \\(.*\\)\$/extern int \\1;/p'"
@@ -7552,23 +7448,23 @@ global_symbol_to_cdecl="sed -n -e 's/^. .* \\(.*\\)\$/extern int \\1;/p'"
 global_symbol_to_c_name_address="sed -n -e 's/^: \\([^ ]*\\) \$/  {\\\"\\1\\\", (lt_ptr) 0},/p' -e 's/^[BCDEGRST] \\([^ ]*\\) \\([^ ]*\\)\$/  {\"\\2\", (lt_ptr) \\&\\2},/p'"
 
 # This is the shared library runtime path variable.
-runpath_var=LD_RUN_PATH
+runpath_var=
 
 # This is the shared library path variable.
-shlibpath_var=LD_LIBRARY_PATH
+shlibpath_var=DYLD_LIBRARY_PATH
 
 # Is shlibpath searched before the hard-coded library search path?
-shlibpath_overrides_runpath=no
+shlibpath_overrides_runpath=yes
 
 # How to hardcode a shared library path into an executable.
 hardcode_action=immediate
 
 # Whether we should hardcode library paths into libraries.
-hardcode_into_libs=yes
+hardcode_into_libs=no
 
 # Flag to hardcode $libdir into a binary during linking.
 # This must work even if $libdir does not exist.
-hardcode_libdir_flag_spec="\${wl}--rpath \${wl}\$libdir"
+hardcode_libdir_flag_spec=""
 
 # If ld is used when linking, flag to hardcode $libdir into
 # a binary during linking. This must work even if $libdir does
@@ -7592,20 +7488,20 @@ hardcode_shlibpath_var=unsupported
 
 # Set to yes if building a shared library automatically hardcodes DIR into the library
 # and all subsequent libraries and executables linked against it.
-hardcode_automatic=no
+hardcode_automatic=yes
 
 # Variables whose values should be saved in libtool wrapper scripts and
 # restored at relink time.
-variables_saved_for_relink="PATH LD_LIBRARY_PATH LD_RUN_PATH GCC_EXEC_PREFIX COMPILER_PATH LIBRARY_PATH"
+variables_saved_for_relink="PATH DYLD_LIBRARY_PATH  GCC_EXEC_PREFIX COMPILER_PATH LIBRARY_PATH"
 
 # Whether libtool must link a program against all its dependency libraries.
-link_all_deplibs=no
+link_all_deplibs=yes
 
 # Compile-time system search path for libraries
-sys_lib_search_path_spec="/usr/lib/gcc/i486-linux-gnu/4.3.2 /usr/lib /lib"
+sys_lib_search_path_spec="/usr/lib/i686-apple-darwin9/4.0.1 /usr/lib /usr/lib/gcc/i686-apple-darwin9/4.0.1 /usr/local/lib"
 
 # Run-time system search path for libraries
-sys_lib_dlsearch_path_spec="/lib /usr/lib /lib/i486-linux-gnu /usr/lib/i486-linux-gnu /usr/local/lib "
+sys_lib_dlsearch_path_spec="/usr/local/lib /lib /usr/lib"
 
 # Fix the shell variable $srcfile for the compiler.
 fix_srcfile_path=""

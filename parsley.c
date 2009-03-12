@@ -382,6 +382,8 @@ parsleyPtr parsley_compile(char* parsley_str, char* incl) {
 	sprintbuf(buf, "%s\n", "</xsl:template>\n");
 	sprintbuf(buf, "%s\n", "</xsl:stylesheet>\n");
 	
+  // printf("1\n");
+	
 	if(parsley->error == NULL) {
 		xmlParserCtxtPtr ctxt = xmlNewParserCtxt();
 		xmlDocPtr doc = xmlCtxtReadMemory(ctxt, buf->buf, buf->size, "http://parslets.com/compiled", NULL, 3);
@@ -390,14 +392,43 @@ parsleyPtr parsley_compile(char* parsley_str, char* incl) {
 		parsley->stylesheet = xsltParseStylesheetDoc(doc);
 	}
 	
-	printbuf_free(buf);
+  // printf("2\n");
 	
+  free_context(context);
+  // printf("3\n");
+	printbuf_free(buf);
+  // printf("4\n");
 	return parsley;
+}
+
+static void free_context(contextPtr c) {
+  if(c == NULL) return;
+  if(c->tag != NULL) free(c->tag);
+  if(c->filter != NULL) pxpath_free(c->filter);
+  if(c->expr != NULL) pxpath_free(c->expr);
+  
+  if(c->parent != NULL && c->parent->child != NULL) {
+    if(c->parent->child == c) {
+      c->parent->child = NULL;
+    } else {
+      contextPtr ptr = c->parent->child;
+      while(ptr->next != NULL) {
+        if(ptr->next == c) {
+          ptr->next = NULL;
+        } else {
+          ptr = ptr->next;
+        }
+      }
+    }
+  }
+  if(c->next != NULL) free_context(c->next);
+  if(c->child != NULL) free_context(c->child);
+  free(c);
 }
 
 static contextPtr new_context(struct json_object * json, struct printbuf *buf) {
 	contextPtr c = calloc(sizeof(parsley_context), 1);
-	c->tag = "root";
+  c->tag = strdup("root");
 	c->expr = pxpath_new_path(1, "/");
 	c->buf = buf;
 	c->json = json;
@@ -426,15 +457,6 @@ contextPtr deeper_context(contextPtr context, char* key, struct json_object * va
 	}
   // fprintf(stderr, "tag:    %s\nexpr:   %s\nfilter: %s\n\n", c->tag, pxpath_to_string(c->expr), pxpath_to_string(c->filter));
 	return c;
-}
-
-void context_free(contextPtr c) {
-	if(c->tag != NULL) free(c->tag);
-	if(c->filter != NULL) pxpath_free(c->filter);
-	if(c->expr != NULL) pxpath_free(c->expr);
-	if(c->child != NULL) context_free(c->child);
-	if(c->next != NULL) context_free(c->next);
-	free(c);
 }
 
 void parsley_free(parsleyPtr ptr) {
