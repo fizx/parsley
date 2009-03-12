@@ -96,12 +96,16 @@ parsedParsleyPtr parsley_parse_string(parsleyPtr parsley, char* string, size_t s
 		htmlParserCtxtPtr htmlCtxt = htmlNewParserCtxt();
   	htmlDocPtr html = htmlCtxtReadMemory(htmlCtxt, string, size, "http://parslets.com/in-memory-string", NULL, HTML_PARSE_RECOVER | HTML_PARSE_NOERROR |HTML_PARSE_NOWARNING);
     if(html == NULL) return parse_error("Couldn't parse string");
-		return parsley_parse_doc(parsley, html);
+    parsedParsleyPtr out = parsley_parse_doc(parsley, html);
+    xmlFreeDoc(html);
+    return out;
 	} else {
 		xmlParserCtxtPtr ctxt = xmlNewParserCtxt();
  		xmlDocPtr xml = xmlCtxtReadMemory(ctxt, string, size, "http://parslets.com/in-memory-string", NULL, HTML_PARSE_RECOVER | HTML_PARSE_NOERROR |HTML_PARSE_NOWARNING);
 		if(xml == NULL) return parse_error("Couldn't parse string");
-		return parsley_parse_doc(parsley, xml);
+    parsedParsleyPtr out = parsley_parse_doc(parsley, xml);
+    xmlFreeDoc(xml);
+    return out;
 	}
 }
 
