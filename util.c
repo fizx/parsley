@@ -53,6 +53,8 @@ int parsley_key_flags(char* key) {
     switch(*ptr){
     case '?':
       flags |= PARSLEY_OPTIONAL;
+    case '!':
+      flags |= PARSLEY_BANG;
       break;
     }
   }

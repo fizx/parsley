@@ -742,6 +742,8 @@ check-am:
 	@echo "craigs-simple..."; ./parsley test/craigs-simple.let test/craigs-simple.html 2>&1 | diff test/craigs-simple.json - && echo "    success."
 	@echo "yelp-home..."; ./parsley test/yelp-home.let test/yelp-home.html 2>&1 | diff test/yelp-home.json - && echo "    success."
 	@echo "cool..."; perl -e 'alarm shift @ARGV; exec @ARGV' 1 ./parsley test/cool.let test/cool.html 2>&1 | diff test/cool.json - && echo "    success."
+	@echo "bang..."; ./parsley test/bang.let test/bang.html 2>&1 | diff test/bang.json - && echo "    success."
+	@echo "unbang..."; ./parsley test/unbang.let test/unbang.html 2>&1 | diff test/unbang.json - && echo "    success."
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:

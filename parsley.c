@@ -103,7 +103,7 @@ parsedParsleyPtr parsley_parse_string(parsleyPtr parsley, char* string, size_t s
 
 static char *
 xpath_of(xmlNodePtr node) {
-  if(node == NULL || node->name == NULL && node->parent == NULL) return strdup("/");
+  if(node == NULL || node->name == NULL || node->parent == NULL) return strdup("/");
   
   struct ll * ptr = (struct ll *) calloc(sizeof(struct ll *), 1);
   
@@ -118,6 +118,7 @@ xpath_of(xmlNodePtr node) {
   }
   
   struct printbuf *buf = printbuf_new();
+  sprintbuf(buf, "");
   while(ptr->name != NULL) {
     sprintbuf(buf, "/%s", ptr->name);
     struct ll * last = ptr;
@@ -126,7 +127,7 @@ xpath_of(xmlNodePtr node) {
   }
   free(ptr);
   
-  char *str = strdup(buf->buf);
+  char *str = strdup(strlen(buf->buf) ? buf->buf : "/");
   printbuf_free(buf);
   return str;
 }
@@ -148,17 +149,15 @@ unlink(xmlNodePtr xml) {
   }
 }
 
-static bool 
-is_root(xmlElementPtr xml) {
-	return xml != NULL && xml->name != NULL && xml->prefix != NULL && !strcmp(xml->name, "root") && !strcmp(xml->prefix, "parsley");
-}
-
-// static bool
-// is_root(xmlNodePtr node) {
-// 	return !strcmp(node->ns->prefix, "parsley") && !strcmp(node->name, "root");
+// static bool 
+// is_root(xmlElementPtr xml) {
+//  return xml != NULL && xml->name != NULL && xml->prefix != NULL && !strcmp(xml->name, "root") && !strcmp(xml->prefix, "parsley");
 // }
-// 
 
+static bool
+is_root(xmlNodePtr node) {
+  return node != NULL && node->ns != NULL && !strcmp(node->ns->prefix, "parsley") && !strcmp(node->name, "root");
+}
 
 int compare_pos (const void * a, const void * b)
 {
@@ -281,17 +280,20 @@ collate(xmlNodePtr xml) {
 
 static void 
 prune(parsedParsleyPtr ptr, xmlNodePtr xml, char* err) {   
-	if(xml == NULL) return;
+	if(xml == NULL || is_root(xml)) return;
   bool optional = xmlGetProp(xml, "optional") != NULL;
   if(optional) {
     unlink(xml);
     visit(ptr, xml->parent, err);
+    // fprintf(stderr, "optional ok\n");
     return;
   } else {
     if(err == NULL) asprintf(&err, "%s was empty", xpath_of(xml));
     if(!is_root(xml->parent)) {
+      // fprintf(stderr, "prune up: %s\n", xml->parent->name);
       prune(ptr, xml->parent, err);
     } else {
+      // fprintf(stderr, "error out\n");
       ptr->error = err;
     }
   }
@@ -299,6 +301,7 @@ prune(parsedParsleyPtr ptr, xmlNodePtr xml, char* err) {
 
 static void
 visit(parsedParsleyPtr ptr, xmlNodePtr xml, char* err) { 
+  if(xml == NULL) return;
   if(xml->type != XML_ELEMENT_NODE) return;
   xmlNodePtr child = xml->children;
   xmlNodePtr parent = xml->parent;
@@ -318,13 +321,14 @@ visit(parsedParsleyPtr ptr, xmlNodePtr xml, char* err) {
 
 static bool
 xml_empty(xmlNodePtr xml) { 
+  // fprintf(stderr, "%s\n", xml->name);
   xmlNodePtr child = xml->children;
   while(child != NULL) {
     if(child->type != XML_TEXT_NODE) return false;
     if(strlen(child->content)) return false;
     child = child->next;
   }
-	// printf("hello!\n");
+  // printf("hello!\n");
   return true;
 }
 
@@ -529,6 +533,7 @@ render(contextPtr c) {
   char *filter = resolve_filter(c);
   char *expr = resolve_expr(c);
   char *scope = filter == NULL ? expr : filter;
+  char *group_optional = (c->flags & PARSLEY_BANG) ? "" : " optional=\"true\"";
   bool magic_children = c->array && filter == NULL;
   bool simple_array = c->array && filter != NULL;
   bool filtered = filter != NULL;
@@ -537,7 +542,7 @@ render(contextPtr c) {
   if(c->array)                sprintbuf(c->buf, "<parsley:groups>\n");
   if(filtered)                sprintbuf(c->buf, "<xsl:for-each select=\"%s\">\n", filter);
   if(filtered && !multiple)   sprintbuf(c->buf, "<xsl:if test=\"position()=1\">\n");
-  if(multiple)                sprintbuf(c->buf, "<parsley:group optional=\"true\">\n");
+  if(multiple)                sprintbuf(c->buf, "<parsley:group%s>\n", group_optional);
   
   sprintbuf(c->buf, "<xsl:attribute name=\"position\"><xsl:value-of select=\"count(preceding::*) + count(ancestor::*)\"/></xsl:attribute>\n");
   

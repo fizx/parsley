@@ -54,7 +54,8 @@ typedef struct __parsley_context {
 } parsley_context;
 
 enum {
-   PARSLEY_OPTIONAL    = 1,
+  PARSLEY_OPTIONAL    = 1,
+  PARSLEY_BANG        = 2
 };
 
 typedef parsley_context * contextPtr;
