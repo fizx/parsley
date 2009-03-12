@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "printbuf.h"
+#include "json-c-0.8/printbuf.h"
 #include "parsley.h"
 #include "xml2json.h"
 #include <libxslt/xslt.h>
@@ -11,7 +11,7 @@
 #include <libxml/HTMLparser.h>
 #include <libxml/HTMLtree.h>
 #include <libxml/xmlwriter.h>
-#include <json/json.h>
+#include "json-c-0.8/json.h"
 #include <argp.h>
 #include "util.h"
 

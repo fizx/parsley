@@ -7,7 +7,7 @@
 #include <libxslt/xslt.h>
 #include <libxslt/xsltInternals.h>
 #include <libxslt/transform.h>
-#include <json/json.h>
+#include "json-c-0.8/json.h"
 #include "parsed_xpath.h"
 
 

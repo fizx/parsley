@@ -1,11 +1,4 @@
-#include <libxml/parser.h>
-#include <libxml/tree.h>
-#include <libxml/debugXML.h>
-#include <json/json.h>
 #include "xml2json.h"
-#include <string.h>
-#include <stdbool.h>
-#include <stdio.h>
 
 static struct json_object * _xml2json(xmlNodePtr xml) {
   if(xml == NULL) return NULL;

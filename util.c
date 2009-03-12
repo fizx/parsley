@@ -2,6 +2,8 @@
 
 static bool parsley_exslt_registered = false;
 
+#define BUF 128
+
 FILE* parsley_fopen(char* name, char* mode) {
 	FILE* fo;
 	if(!strcmp("-", name)) {
@@ -20,6 +22,13 @@ FILE* parsley_fopen(char* name, char* mode) {
 	return fo;	
 }
 
+void
+printbuf_file_read(FILE *f, struct printbuf *buf) {
+  char chars[BUF];
+  while(fgets(chars, BUF, f) != NULL){
+    sprintbuf(buf, "%s", chars);
+  }
+}
 
 void registerEXSLT() {
   if(!parsley_exslt_registered) {

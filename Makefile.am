@@ -1,17 +1,18 @@
+SUBDIRS=json-c-0.8 .
 AM_YFLAGS = -d
 BUILT_SOURCES=parser.h
 
 lib_LTLIBRARIES = libparsley.la
-libparsley_la_SOURCES = parsed_xpath.c xml2json.c regexp.c printbuf.c functions.c util.c scanner.l parser.y parsley.c
-include_HEADERS = parsley.h xml2json.h
+libparsley_la_SOURCES = parsed_xpath.c xml2json.c regexp.c functions.c util.c scanner.l parser.y parsley.c
+include_HEADERS = parsley.h xml2json.h json-c-0.8/printbuf.h
 
 bin_PROGRAMS = parsleyc parsley
 
 parsleyc_SOURCES = parsleyc_main.c
-parsleyc_LDADD = libparsley.la
+parsleyc_LDADD = libparsley.la json-c-0.8/libjson.la
 
 parsley_SOURCES = parsley_main.c
-parsley_LDADD = libparsley.la
+parsley_LDADD = libparsley.la json-c-0.8/libjson.la
 
 bisect:
 	./bootstrap.sh && ./configure && make clean && make check

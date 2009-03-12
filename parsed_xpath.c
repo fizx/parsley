@@ -17,7 +17,7 @@
 #include <stdarg.h>
 #include <string.h>
 #include "parsed_xpath.h"
-#include "printbuf.h"
+#include "json-c-0.8/printbuf.h"
 
 pxpathPtr pxpath_new(int type, char* value) {
 	pxpathPtr ptr = (pxpathPtr) calloc(sizeof(pxpath_node), 1);
