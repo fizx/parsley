@@ -9,13 +9,21 @@
  *
  */
 
+#include "config.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <stdarg.h>
 
+#if HAVE_STDARG_H
+# include <stdarg.h>
+#else /* !HAVE_STDARG_H */
+# error Not enough var arg support!
+#endif /* HAVE_STDARG_H */
+
+#include "bits.h"
+#include "debug.h"
 #include "printbuf.h"
-#define max(a,b) ((a) > (b) ? (a) : (b))
 
 struct printbuf* printbuf_new()
 {
@@ -37,6 +45,11 @@ int printbuf_memappend(struct printbuf *p, char *buf, int size)
   char *t;
   if(p->size - p->bpos <= size) {
     int new_size = max(p->size * 2, p->bpos + size + 8);
+#ifdef PRINTBUF_DEBUG
+    MC_DEBUG("printbuf_memappend: realloc "
+	     "bpos=%d wrsize=%d old_size=%d new_size=%d\n",
+	     p->bpos, size, p->size, new_size);
+#endif /* PRINTBUF_DEBUG */
     if(!(t = realloc(p->buf, new_size))) return -1;
     p->size = new_size;
     p->buf = t;
@@ -46,6 +59,47 @@ int printbuf_memappend(struct printbuf *p, char *buf, int size)
   p->buf[p->bpos]= '\0';
   return size;
 }
+
+#if !HAVE_VSNPRINTF && defined(WIN32)
+# define vsnprintf _vsnprintf
+#elif !HAVE_VSNPRINTF /* !HAVE_VSNPRINTF */
+# error Need vsnprintf!
+#endif /* !HAVE_VSNPRINTF && defined(WIN32) */
+
+#if !HAVE_VASPRINTF
+/* CAW: compliant version of vasprintf */
+static int vasprintf(char **buf, const char *fmt, va_list ap)
+{
+#ifndef WIN32
+	static char _T_emptybuffer = '\0';
+#endif /* !defined(WIN32) */
+	int chars;
+	char *b;
+
+	if(!buf) { return -1; }
+
+#ifdef WIN32
+	chars = _vscprintf(fmt, ap)+1;
+#else /* !defined(WIN32) */
+	/* CAW: RAWR! We have to hope to god here that vsnprintf doesn't overwrite
+	   our buffer like on some 64bit sun systems.... but hey, its time to move on */
+	chars = vsnprintf(&_T_emptybuffer, 0, fmt, ap)+1;
+	if(chars < 0) { chars *= -1; } /* CAW: old glibc versions have this problem */
+#endif /* defined(WIN32) */
+
+	b = (char*)malloc(sizeof(char)*chars);
+	if(!b) { return -1; }
+
+	if((chars = vsprintf(b, fmt, ap)) < 0)
+	{
+		free(b);
+	} else {
+		*buf = b;
+	}
+
+	return chars;
+}
+#endif /* !HAVE_VASPRINTF */
 
 int sprintbuf(struct printbuf *p, const char *msg, ...)
 {
@@ -65,8 +119,9 @@ int sprintbuf(struct printbuf *p, const char *msg, ...)
   if(size == -1 || size > 127) {
     int ret;
     va_start(ap, msg);
-    if((size = vasprintf(&t, msg, ap)) == -1) return -1;
+    size = vasprintf(&t, msg, ap);
     va_end(ap);
+    if(size == -1) return -1;
     ret = printbuf_memappend(p, t, size);
     free(t);
     return ret;
@@ -88,17 +143,3 @@ void printbuf_free(struct printbuf *p)
     free(p);
   }
 }
-
-void printbuf_file_read(FILE* file, struct printbuf* pb){
-	int size = 1024;
-	char t[size];
-	while(fgets(t, size, file) != NULL) {
-		printbuf_memappend(pb, t, strlen(t));
-	}
-	
-	if(ferror(file) != 0) {
-		fprintf(stderr, "IO error\n");
-		exit(1);
-	}
-}
-

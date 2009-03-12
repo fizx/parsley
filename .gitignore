@@ -1,4 +1,5 @@
 .libs/
+printbuf.loT
 *.o
 *.lo
 dexterc

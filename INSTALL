@@ -1,5 +1,5 @@
 Parsley depends on 
-- the JSON C library from http://oss.metaparadigm.com/json-c/ (I used 0.7)
+- the JSON C library from http://oss.metaparadigm.com/json-c/ (I used 0.8)
 - argp (standard with Linux, other platforms use argp-standalone package)
 - pcre (with dev headers)
 - libxml2
@@ -12,9 +12,9 @@ current directory.
 Debian/Ubuntu
 ------------------------------------------------------------------------
 sudo apt-get install libxslt1-dev libpcre3-dev build-essential wget
-wget http://oss.metaparadigm.com/json-c/json-c-0.7.tar.gz
-tar -zxf json-c-0.7.tar.gz
-cd json-c-0.7
+wget http://oss.metaparadigm.com/json-c/json-c-0.8.tar.gz
+tar -zxf json-c-0.8.tar.gz
+cd json-c-0.8
 ./configure
 make
 sudo make install
@@ -41,3 +41,4 @@ http://github.com/fizx/pyparsley
 Other OS/Configurations:
 ------------------------------------------------------------------------
 Haven't tried.
+
