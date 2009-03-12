@@ -137,10 +137,14 @@ int main (int argc, char **argv) {
 		xmlSaveFormatFile(arguments.output_file, ptr->xml, 1);	
 	} else {
 	  struct json_object *json = xml2json(ptr->xml->children->children);
+    if(json == NULL) {
+      fprintf(stderr, "xml2json unknown error");
+      exit(1);
+    }
     char * json_string = json_object_to_json_string(json);
 		FILE* f = parsley_fopen(arguments.output_file, "w");
 	  fprintf(f, "%s\n", json_string);
-    free(json_string);
+    json_object_put(json);
 		fclose(f);
 	}
 	
