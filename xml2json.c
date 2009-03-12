@@ -4,14 +4,14 @@ static struct json_object * _xml2json(xmlNodePtr xml) {
   if(xml == NULL) return NULL;
   
   xmlNodePtr child;
-  struct json_object * json = json_object_new_string("bogus");
+  struct json_object * json = NULL;
   
   switch(xml->type) {
     case XML_ELEMENT_NODE:
       child = xml->children;
       if(xml->ns == NULL) {
         child = xml;
-        json_object_put(json);
+        // json_object_put(json);
         json = json_object_new_object();
         while(child != NULL) {
           json_object_object_add(json, child->name, xml2json(child->children));
@@ -19,7 +19,7 @@ static struct json_object * _xml2json(xmlNodePtr xml) {
         }
       } else if(!strcmp(xml->ns->prefix, "parsley")) {
         if(!strcmp(xml->name, "groups")) {
-          json_object_put(json);
+          // json_object_put(json);
           json = json_object_new_array();          
           while(child != NULL) {
             json_object_array_add(json, xml2json(child->children));
@@ -31,7 +31,7 @@ static struct json_object * _xml2json(xmlNodePtr xml) {
       }
       break;
     case XML_TEXT_NODE:  
-      json_object_put(json);
+      // json_object_put(json);
       json = json_object_new_string(xml->content);
       break;
   }
