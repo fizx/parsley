@@ -47,7 +47,7 @@ _pxpath_to_string(pxpathPtr ptr, struct printbuf *buf) {
 			sprintbuf(buf, "%s", comma);
 			next = next->next;
 		}
-		sprintbuf(buf, ")");
+		sprintbuf(buf, "%s", ")");
 	} else {
 		sprintbuf(buf, "%s", ptr->value);
 	}
