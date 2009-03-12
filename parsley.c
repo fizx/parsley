@@ -77,13 +77,17 @@ parsedParsleyPtr parsley_parse_file(parsleyPtr parsley, char* file, bool html) {
   	htmlDocPtr html = htmlCtxtReadFile(htmlCtxt, file, NULL, HTML_PARSE_RECOVER | HTML_PARSE_NOERROR |HTML_PARSE_NOWARNING);
     htmlFreeParserCtxt(htmlCtxt);
     if(html == NULL) return parse_error("Couldn't parse file: %s\n", file);
-		return parsley_parse_doc(parsley, html);
+    parsedParsleyPtr out = parsley_parse_doc(parsley, html);
+    xmlFreeDoc(html);
+    return out;
 	} else {
 		xmlParserCtxtPtr ctxt = xmlNewParserCtxt();
 		xmlDocPtr xml = xmlCtxtReadFile(ctxt, file, NULL, HTML_PARSE_RECOVER | HTML_PARSE_NOERROR |HTML_PARSE_NOWARNING);
 		xmlFreeParserCtxt(ctxt);
 		if(xml == NULL) return parse_error("Couldn't parse file: %s\n", file);
-		return parsley_parse_doc(parsley, xml);
+    parsedParsleyPtr out = parsley_parse_doc(parsley, xml);
+    xmlFreeDoc(xml);
+    return out;
 	}
 }
 
