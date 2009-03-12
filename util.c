@@ -96,8 +96,6 @@ pxpathPtr parsley_key_filter(char* key) {
 	return out;
 }
 
-
-
 char* sprintbuf_parsley_header(struct printbuf *buf) {
 	sprintbuf(buf, "<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\"");
 	sprintbuf(buf, " xmlns:lib=\"http://parslets.com/stdlib\"");

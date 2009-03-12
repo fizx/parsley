@@ -368,8 +368,8 @@ parsleyPtr parsley_compile(char* parsley_str, char* incl) {
 	
   sprintbuf_parsley_header(buf);
 	sprintbuf(buf, "%s\n", incl);
-	sprintbuf(buf, "<xsl:template match=\"/\">\n");
-	sprintbuf(buf, "<parsley:root>\n");
+	sprintbuf(buf, "%s\n", "<xsl:template match=\"/\">\n");
+	sprintbuf(buf, "%s\n", "<parsley:root>\n");
 		
 	contextPtr context = new_context(json, buf);
 	__parsley_recurse(context);
@@ -377,9 +377,9 @@ parsleyPtr parsley_compile(char* parsley_str, char* incl) {
 	json_object_put(json); // frees json
 	parsley->error = last_parsley_error;
 	
-	sprintbuf(buf, "</parsley:root>\n");
-	sprintbuf(buf, "</xsl:template>\n");
-	sprintbuf(buf, "</xsl:stylesheet>\n");
+	sprintbuf(buf, "%s\n", "</parsley:root>\n");
+	sprintbuf(buf, "%s\n", "</xsl:template>\n");
+	sprintbuf(buf, "%s\n", "</xsl:stylesheet>\n");
 	
 	if(parsley->error == NULL) {
 		xmlParserCtxtPtr ctxt = xmlNewParserCtxt();
