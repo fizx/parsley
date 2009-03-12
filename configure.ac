@@ -1,6 +1,7 @@
 AC_PREREQ(2.59)
 
 AC_INIT([parsleyc], [1.0], [kyle@kylemaxwell.com])
+AC_CONFIG_HEADER(config.h)
 
 AM_INIT_AUTOMAKE([1.9 foreign])
 
