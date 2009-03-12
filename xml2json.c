@@ -24,42 +24,7 @@ static struct json_object * _xml2json(xmlNodePtr xml) {
           child = child->next;
         }
       } else if(!strcmp(xml->ns->prefix, "parsley")) {
-        if(!strcmp(xml->name, "zipped")) {
-          int len = 0;
-          xmlNodePtr ptr = xml->children;
-          while(ptr != NULL){
-            len++;
-            ptr = ptr->next;
-          }
-          xmlNodePtr *ptrs = (xmlNodePtr *) malloc(len * sizeof(xmlNodePtr));
-          char **names = (char**) malloc(len * sizeof(char*));
-          for(int i = 0; i < len; i++) {
-            //    zip named  groups    
-            ptrs[i] = child->children->children;
-            names[i] = child->name;
-            child = child->next;
-          }
-          json = json_object_new_array();
-          bool legit = true;
-          while(legit) {
-            for(int i = 0; i < len; i++) {
-              // fprintf(stderr, "name: %s\n", names[i]);
-              // xmlDebugDumpNode(stderr, ptrs[i], 2);
-              // exit(1);
-              legit &= ptrs[i] != NULL;
-            }
-            if(legit) {
-              struct json_object * inner = json_object_new_object();
-              for(int i = 0; i < len; i++) {
-                json_object_object_add(inner, names[i], xml2json(ptrs[i]->children));
-                ptrs[i] = ptrs[i]->next;
-              }
-              json_object_array_add(json, inner);
-            }
-          }
-          free(ptrs);
-          free(names);
-        } else if(!strcmp(xml->name, "groups")) {
+        if(!strcmp(xml->name, "groups")) {
           json = json_object_new_array();          
           while(child != NULL) {
             json_object_array_add(json, xml2json(child->children));
