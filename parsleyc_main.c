@@ -80,6 +80,8 @@ int main (int argc, char **argv) {
 	
 	struct printbuf* parsley = printbuf_new();
 	struct printbuf* incl = printbuf_new();
+  sprintbuf(parsley, "");
+  sprintbuf(incl, "");
 
 	FILE* in = parsley_fopen(arguments.parsley, "r");
 	
