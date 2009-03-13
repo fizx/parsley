@@ -29,6 +29,7 @@ check-am:
 	@echo "function-magic..."; ./parsley test/function-magic.let test/function-magic.html 2>&1 | diff test/function-magic.json - && echo "    success."
 	@echo "malformed-expr..."; ./parsley test/malformed-expr.let test/malformed-expr.html 2>&1 | diff test/malformed-expr.json - && echo "    success."
 	@echo "malformed-json..."; ./parsley test/malformed-json.let test/malformed-json.html 2>&1 | diff test/malformed-json.json - && echo "    success."
+	@echo "malformed-array..."; ./parsley test/malformed-array.let test/malformed-array.html 2>&1 | diff test/malformed-array.json - && echo "    success."
 	@echo "css_attr..."; ./parsley -x test/css_attr.let test/css_attr.html 2>&1 | diff test/css_attr.json - && echo "    success."
 	@echo "match..."; ./parsley -x test/match.let test/match.xml 2>&1 | diff test/match.json - && echo "    success."
 	@echo "position..."; ./parsley test/position.let test/position.html 2>&1 | diff test/position.json - && echo "    success."

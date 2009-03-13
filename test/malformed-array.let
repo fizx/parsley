@@ -1,0 +1,22 @@
+{
+ "title": "h1",
+ "rating": ".ratingL @title",
+ "views": "#watch-view-count",
+ "description": ".description",
+ "comment_count": "#watch-comment-panel .expand-header-stat",
+ "comment(.watch-comment-entry)": [
+   {
+     "user": [
+       [
+         ".watch-comment-auth"
+       ]
+     ],
+     "comment": "normalize-space(.watch-comment-body div)",
+     "time": ".watch-comment-time",
+     "score": ".watch-comment-score"
+   }
+ ],
+ "uploader": ".contributor",
+ "uploaded_at": ".post-date",
+ "embed": "#embed_code @value"
+}

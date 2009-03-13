@@ -363,6 +363,51 @@ parsedParsleyPtr parsley_parse_doc(parsleyPtr parsley, xmlDocPtr doc) {
 	return ptr;
 }
 
+static bool 
+json_invalid_object(parsleyPtr ptr, struct json_object *json) {
+	json_object_object_foreach(json, key, val) {
+		switch(json_object_get_type(val)) {
+		case json_type_string:
+			break;
+		case json_type_array:
+			if(json_object_array_length(val) != 1) {
+				ptr->error = strdup("Parselet arrays should have length 1.");
+				return true;
+			}
+			struct json_object * inner = json_object_array_get_idx(val, 0);
+			switch(json_object_get_type(inner)) {
+			case json_type_string:
+				break;
+			case json_type_object:
+				if(json_invalid_object(ptr, inner)) return true;
+				break;
+			default:
+				ptr->error = strdup("Arrays may contain either a single string or an object.");
+				return true;
+			}
+			break;
+		case json_type_object:
+			if(json_invalid_object(ptr, val)) {
+				return true;
+			}
+			break;
+		default:
+			ptr->error = strdup("Parslets can only be made up of strings, arrays, and objects.");
+		}
+    if(val == NULL || !json_object_is_type(val, json_type_string)) return false;
+  }
+	return false;
+}
+
+static bool 
+json_invalid(parsleyPtr ptr, struct json_object *json) {
+	if(!json_object_is_type(json, json_type_object)) {
+		ptr->error = strdup("The parslet root must be an object");
+		return true;
+	}
+	return json_invalid_object(ptr, json);
+}
+
 parsleyPtr parsley_compile(char* parsley_str, char* incl) {
 	parsleyPtr parsley = (parsleyPtr) calloc(sizeof(compiled_parsley), 1);
 	
@@ -377,6 +422,11 @@ parsleyPtr parsley_compile(char* parsley_str, char* incl) {
 	if(is_error(json)) {
 		parsley->error = strdup("Your parslet is not valid json.");
     // json_object_put(json); // frees json
+		return parsley;
+	}
+	
+	if(json_invalid(parsley, json)) {
+		// fprintf(stderr, "Invalid parselet structure: %s\n", parsley->error);
 		return parsley;
 	}
 
