@@ -10,7 +10,7 @@ current directory.
 
 Debian/Ubuntu
 ------------------------------------------------------------------------
-sudo apt-get install libxslt1-dev libpcre3-dev build-essential wget
+sudo apt-get install libxslt1-dev libpcre3-dev build-essential
 ./configure
 make
 sudo make install
