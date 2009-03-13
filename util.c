@@ -97,6 +97,7 @@ pxpathPtr parsley_key_filter(char* key) {
 
 	pxpathPtr out = strlen(expr) == 0 ? NULL : myparse(expr);
 	free(orig);
+	free(expr);
 	return out;
 }
 

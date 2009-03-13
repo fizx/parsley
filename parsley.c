@@ -280,8 +280,8 @@ collate(xmlNodePtr xml) {
     free(empty);
     free(multi);
     free(sortable);
-    xml->children = NULL;
-    xmlFreeNode(xml);
+    // xml->children = NULL;
+    // xmlFreeNode(xml);
     
     collate(groups);
 		// TODO: done? figure out what the recursion target needs to be and reimplement

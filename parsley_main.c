@@ -129,7 +129,6 @@ int main (int argc, char **argv) {
 	
 	parsedParsleyPtr ptr = parsley_parse_file(compiled, arguments.input_file, !(arguments.input_xml));
 
-	
 	if(ptr->error != NULL) {
 		fprintf(stderr, "Parsing failed: %s\n", ptr->error);
 		exit(1);
@@ -153,5 +152,6 @@ int main (int argc, char **argv) {
   printbuf_free(buf);
   printbuf_free(incl);
 	parsley_free(compiled);
+	parsed_parsley_free(ptr);
 	return 0;
 }
