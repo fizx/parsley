@@ -37,7 +37,6 @@ check-am:
 	@echo "test..."; ./parsley -x test/test.let test/test.xml 2>&1 | diff test/test.json - && echo "    success."
 	@echo "yelp..."; ./parsley test/yelp.let test/yelp.html 2>&1 | diff test/yelp.json - && echo "    success."
 	@echo "optional..."; ./parsley test/optional.let test/optional.html 2>&1 | diff test/optional.json - && echo "    success."
-	@echo "malformed-function..."; ./parsley test/malformed-function.let test/malformed-function.html 2>&1 | diff test/malformed-function.json - && echo "    success."
 	@echo "empty..."; ./parsley test/empty.let test/empty.html 2>&1 | diff test/empty.json - && echo "    success."
 	@echo "trivial..."; ./parsley test/trivial.let test/trivial.html 2>&1 | diff test/trivial.json - && echo "    success."
 	@echo "trivial2..."; ./parsley test/trivial2.let test/trivial2.html 2>&1 | diff test/trivial2.json - && echo "    success."
