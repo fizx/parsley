@@ -215,7 +215,7 @@ collate(xmlNodePtr xml) {
     
 		int len = 0;
     for(int i = 0; i < n; i++) {
-      name_nodes[i] = xmlCopyNode(child, 2); // 2 means props, ns, no kids
+      name_nodes[i] = child;
       lists[i] = child->children;
 			multi[i] = false;
       optional[i] = xmlGetProp(name_nodes[i], "optional") != NULL;
@@ -225,6 +225,9 @@ collate(xmlNodePtr xml) {
       }
 			lists[i]->parent->extra = i;
 			len += _xmlChildElementCount(lists[i]->parent);
+
+      child->children = NULL;
+
       child = child->next;
     }
     xml->children = NULL;
@@ -250,7 +253,7 @@ collate(xmlNodePtr xml) {
 		xmlNodePtr groups = xml->parent;
 		groups->children = NULL;
 		xmlNodePtr group;
-		xmlNodePtr* targets = malloc(n * sizeof(xmlNodePtr));
+		xmlNodePtr* targets = calloc(sizeof(xmlNodePtr), n);
 		
 		for(j = 0; j < len; j++) {
 			int i = sortable[j]->parent->extra;
@@ -269,13 +272,16 @@ collate(xmlNodePtr xml) {
 			if(empty[i] || multi[i]) _xmlAddChild(targets[i], sortable[j]);
 			empty[i] = false;
 		}
-
+		
+    free(targets);
     free(name_nodes);
     free(lists);
     free(optional);
     free(empty);
     free(multi);
     free(sortable);
+    xml->children = NULL;
+    xmlFreeNode(xml);
     
     collate(groups);
 		// TODO: done? figure out what the recursion target needs to be and reimplement
