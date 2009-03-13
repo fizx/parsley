@@ -101,28 +101,28 @@ pxpathPtr parsley_key_filter(char* key) {
 }
 
 char* sprintbuf_parsley_header(struct printbuf *buf) {
-	sprintbuf(buf, "<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\"");
-	sprintbuf(buf, " xmlns:lib=\"http://parslets.com/stdlib\"");
-	sprintbuf(buf, " xmlns:parsley=\"http://parslets.com/json\"");
-	sprintbuf(buf, " xmlns:str=\"http://exslt.org/strings\"");
-	sprintbuf(buf, " xmlns:set=\"http://exslt.org/sets\"");
-	sprintbuf(buf, " xmlns:math=\"http://exslt.org/math\"");
-	sprintbuf(buf, " xmlns:func=\"http://exslt.org/functions\"");
-	sprintbuf(buf, " xmlns:user=\"http://parslets.com/usre\"");
-	sprintbuf(buf, " xmlns:dyn=\"http://exslt.org/dynamic\"");
-	sprintbuf(buf, " xmlns:date=\"http://exslt.org/dates-and-times\"");
-	sprintbuf(buf, " xmlns:exsl=\"http://exslt.org/common\"");
-	sprintbuf(buf, " xmlns:saxon=\"http://icl.com/saxon\"");
-	sprintbuf(buf, " xmlns:regexp=\"http://exslt.org/regular-expressions\"");
-	sprintbuf(buf, " xmlns:regex=\"http://exslt.org/regular-expressions\"");
-	sprintbuf(buf, " extension-element-prefixes=\"lib str math set func dyn exsl saxon user date regexp regex\"");
-	sprintbuf(buf, ">\n");
-	sprintbuf(buf, "<xsl:output method=\"xml\" indent=\"yes\"/>\n");
-	sprintbuf(buf, "<xsl:strip-space elements=\"*\"/>\n");
-	sprintbuf(buf, "<func:function name=\"lib:nl\"><xsl:param name=\"in\" select=\".\"/>");
-	sprintbuf(buf, "<xsl:variable name=\"out\"><xsl:apply-templates mode=\"innertext\" select=\"exsl:node-set($in)\"/></xsl:variable>");
-	sprintbuf(buf, "<func:result select=\"$out\" /></func:function>");
-	sprintbuf(buf, "<xsl:template match=\"text()\" mode=\"innertext\"><xsl:value-of select=\".\" /></xsl:template>");
-	sprintbuf(buf, "<xsl:template match=\"script|style\" mode=\"innertext\"/>");
-	sprintbuf(buf, "<xsl:template match=\"br|address|blockquote|center|dir|div|form|h1|h2|h3|h4|h5|h6|hr|menu|noframes|noscript|p|pre|li|td|th|p\" mode=\"innertext\"><xsl:apply-templates mode=\"innertext\" /><xsl:text>\n</xsl:text></xsl:template>");
+	sprintbuf(buf, "%s", "<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\"");
+	sprintbuf(buf, "%s", " xmlns:lib=\"http://parslets.com/stdlib\"");
+	sprintbuf(buf, "%s", " xmlns:parsley=\"http://parslets.com/json\"");
+	sprintbuf(buf, "%s", " xmlns:str=\"http://exslt.org/strings\"");
+	sprintbuf(buf, "%s", " xmlns:set=\"http://exslt.org/sets\"");
+	sprintbuf(buf, "%s", " xmlns:math=\"http://exslt.org/math\"");
+	sprintbuf(buf, "%s", " xmlns:func=\"http://exslt.org/functions\"");
+	sprintbuf(buf, "%s", " xmlns:user=\"http://parslets.com/usre\"");
+	sprintbuf(buf, "%s", " xmlns:dyn=\"http://exslt.org/dynamic\"");
+	sprintbuf(buf, "%s", " xmlns:date=\"http://exslt.org/dates-and-times\"");
+	sprintbuf(buf, "%s", " xmlns:exsl=\"http://exslt.org/common\"");
+	sprintbuf(buf, "%s", " xmlns:saxon=\"http://icl.com/saxon\"");
+	sprintbuf(buf, "%s", " xmlns:regexp=\"http://exslt.org/regular-expressions\"");
+	sprintbuf(buf, "%s", " xmlns:regex=\"http://exslt.org/regular-expressions\"");
+	sprintbuf(buf, "%s", " extension-element-prefixes=\"lib str math set func dyn exsl saxon user date regexp regex\"");
+	sprintbuf(buf, "%s", ">\n");
+	sprintbuf(buf, "%s", "<xsl:output method=\"xml\" indent=\"yes\"/>\n");
+	sprintbuf(buf, "%s", "<xsl:strip-space elements=\"*\"/>\n");
+	sprintbuf(buf, "%s", "<func:function name=\"lib:nl\"><xsl:param name=\"in\" select=\".\"/>");
+	sprintbuf(buf, "%s", "<xsl:variable name=\"out\"><xsl:apply-templates mode=\"innertext\" select=\"exsl:node-set($in)\"/></xsl:variable>");
+	sprintbuf(buf, "%s", "<func:result select=\"$out\" /></func:function>");
+	sprintbuf(buf, "%s", "<xsl:template match=\"text()\" mode=\"innertext\"><xsl:value-of select=\".\" /></xsl:template>");
+	sprintbuf(buf, "%s", "<xsl:template match=\"script|style\" mode=\"innertext\"/>");
+	sprintbuf(buf, "%s", "<xsl:template match=\"br|address|blockquote|center|dir|div|form|h1|h2|h3|h4|h5|h6|hr|menu|noframes|noscript|p|pre|li|td|th|p\" mode=\"innertext\"><xsl:apply-templates mode=\"innertext\" /><xsl:text>\n</xsl:text></xsl:template>");
 }
