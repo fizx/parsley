@@ -104,7 +104,7 @@ int main (int argc, char **argv) {
 
  	struct printbuf *buf = printbuf_new();
  	struct printbuf *incl = printbuf_new();
-  sprintbuf(parsley, "");
+  sprintbuf(buf, "");
   sprintbuf(incl, "");
   
   FILE * fd = parsley_fopen(arguments.parsley, "r");
