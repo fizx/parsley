@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <argp.h>
 #include <string.h>
-#include "json-c-0.8/printbuf.h"
+#include <json/printbuf.h>
 #include "parsley.h"
 #include "util.h"
 

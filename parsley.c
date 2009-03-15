@@ -2,10 +2,10 @@
 #include <stdlib.h>
 #include <argp.h>
 #include <stdarg.h>
-#include "json-c-0.8/json.h"
+#include <json/json.h>
 #include "parsley.h"
 #include "y.tab.h"
-#include "json-c-0.8/printbuf.h"
+#include <json/printbuf.h>
 #include "functions.h"
 #include "util.h"
 #include <string.h>

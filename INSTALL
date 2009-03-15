@@ -1,5 +1,6 @@
 Parsley depends on 
 - argp (standard with Linux, other platforms use argp-standalone package)
+- the JSON C library from http://oss.metaparadigm.com/json-c/ (I used 0.8)
 - pcre (with dev headers)
 - libxml2
 - libxslt (with exslt)
@@ -10,14 +11,21 @@ current directory.
 
 Debian/Ubuntu
 ------------------------------------------------------------------------
-sudo apt-get install libxslt1-dev libpcre3-dev build-essential
+sudo apt-get install libxslt1-dev libpcre3-dev build-essential wget
+-wget http://oss.metaparadigm.com/json-c/json-c-0.8.tar.gz
+tar -zxf json-c-0.8.tar.gz
+cd json-c-0.8
+./configure
+make
+sudo make install
+cd -
 ./configure
 make
 sudo make install
 
 Mac OS X with MacPorts:
 ------------------------------------------------------------------------
-sudo port install argp-standalone pcre
+sudo port install argp-standalone json-c pcre
 ./configure
 make
 sudo make install

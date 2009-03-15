@@ -2,12 +2,12 @@
 #define UTIL_H_INCLUDED
 
 #include <stdio.h>
-#include "json-c-0.8/json.h"
+#include <json/json.h>
 #include "parsed_xpath.h"
 #include "parsley.h"
 #include "parser.h"
 #include "regexp.h"
-#include "json-c-0.8/printbuf.h"
+#include <json/printbuf.h>
 #include "functions.h"
 #include <stdio.h>
 #include <string.h>

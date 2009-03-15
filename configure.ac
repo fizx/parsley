@@ -2,7 +2,6 @@ AC_PREREQ(2.59)
 
 AC_INIT([parsleyc], [1.0], [kyle@kylemaxwell.com])
 AM_INIT_AUTOMAKE([1.9 foreign])
-AC_CONFIG_SUBDIRS([json-c-0.8])
 
 LDFLAGS="$LDFLAGS -L/opt/local/lib"
 CPPFLAGS="$CPPFLAGS -I/opt/local/include"
@@ -13,6 +12,8 @@ AC_PROG_YACC
 AC_PROG_LIBTOOL
 AC_CHECK_HEADER(pcre.h, , AC_MSG_ERROR([could not find pcre.h]))
 AC_CHECK_HEADER(argp.h, , AC_MSG_ERROR([could not find argp.h]))
+AC_CHECK_HEADER(json/json.h, , AC_MSG_ERROR([could not find json.h]))
+AC_CHECK_HEADER(json/printbuf.h, , AC_MSG_ERROR([could not find printbuf.h]))
 
 AC_PATH_PROG(XML2_CONFIG, xml2-config, , [$PATH])
 if test x$XML2_CONFIG = x ; then
@@ -35,6 +36,7 @@ LIBS="$LIBS $XML2_LIBS $XSLT_LIBS"
 
 AC_CHECK_LIB(pcre, pcre_compile, , AC_MSG_ERROR([could not find pcre]))
 
+AC_CHECK_LIB(json, json_object_new_string, , AC_MSG_ERROR([could not find the json library]))
 AC_CHECK_FUNC(argp_parse, , [AC_CHECK_LIB(argp, argp_parse, , AC_MSG_ERROR([could not find argp]))])
 
 AC_CHECK_LIB(xslt, xsltApplyStylesheet, , AC_MSG_ERROR([could not find libxslt]))
