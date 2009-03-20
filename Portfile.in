@@ -9,7 +9,7 @@ description					Data extractor
 long_description		Parsley is a system to extract data from HTML/XML documents
 homepage						http://github.com/fizx/parsley
 platforms           darwin
-master_sites				http://parslets.com
+master_sites				http://parselets.com
 depends_lib					port:argp-standalone \
 										port:json-c \
 										port:libxslt \

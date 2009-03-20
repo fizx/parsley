@@ -18,7 +18,7 @@
 
 
 void parsley_register_all(){
-	xsltRegisterExtModuleFunction ((const xmlChar *) "html-document", "http://parslets.com/stdlib",
+	xsltRegisterExtModuleFunction ((const xmlChar *) "html-document", "http://parselets.com/stdlib",
 		   xsltHtmlDocumentFunction);
 }
 

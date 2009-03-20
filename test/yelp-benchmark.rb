@@ -30,7 +30,7 @@ def parse(doc)
 end
 
 def pars
-  parslet = Parsley.new({
+  parselet = Parsley.new({
     "name" => "h1",
     "phone" => "#bizPhone",
     "address" => "address",
@@ -42,7 +42,7 @@ def pars
       }
     ]
   })
-  pp parslet.parse(:file => YELP_HTML)
+  pp parselet.parse(:file => YELP_HTML)
 end
 
 Benchmark.bm do |x|

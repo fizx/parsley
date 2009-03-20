@@ -8,7 +8,7 @@ parsley is a simple language for data-extraction from XML-like documents (includ
 
 ### Examples
 
-A simple script, or "parslet", looks like this:
+A simple script, or "parselet", looks like this:
 
     {
       "title": "h1",
@@ -20,7 +20,7 @@ A simple script, or "parslet", looks like this:
       ]
     }
 
-This returns JSON or XML output with the same structure.  Applying this parslet to http://www.yelp.com/biz/amnesia-san-francisco yields either:
+This returns JSON or XML output with the same structure.  Applying this parselet to http://www.yelp.com/biz/amnesia-san-francisco yields either:
 
     {
       "title": "Amnesia",
@@ -62,7 +62,7 @@ or equivalently:
       </links>
     </parsley:root>      
 
-This parslet could also have been expressed as:
+This parselet could also have been expressed as:
 
     {
       "title": "h1",

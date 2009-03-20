@@ -115,13 +115,13 @@ _xmlLastElementChild(xmlNodePtr node) {
 xmlNodePtr new_stylesheet_skeleton(char *incl) {
 	struct printbuf *buf = printbuf_new();
 	sprintbuf(buf, "%s", "<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\"");
-	sprintbuf(buf, "%s", " xmlns:lib=\"http://parslets.com/stdlib\"");
-	sprintbuf(buf, "%s", " xmlns:parsley=\"http://parslets.com/json\"");
+	sprintbuf(buf, "%s", " xmlns:lib=\"http://parselets.com/stdlib\"");
+	sprintbuf(buf, "%s", " xmlns:parsley=\"http://parselets.com/json\"");
 	sprintbuf(buf, "%s", " xmlns:str=\"http://exslt.org/strings\"");
 	sprintbuf(buf, "%s", " xmlns:set=\"http://exslt.org/sets\"");
 	sprintbuf(buf, "%s", " xmlns:math=\"http://exslt.org/math\"");
 	sprintbuf(buf, "%s", " xmlns:func=\"http://exslt.org/functions\"");
-	sprintbuf(buf, "%s", " xmlns:user=\"http://parslets.com/usre\"");
+	sprintbuf(buf, "%s", " xmlns:user=\"http://parselets.com/usre\"");
 	sprintbuf(buf, "%s", " xmlns:dyn=\"http://exslt.org/dynamic\"");
 	sprintbuf(buf, "%s", " xmlns:date=\"http://exslt.org/dates-and-times\"");
 	sprintbuf(buf, "%s", " xmlns:exsl=\"http://exslt.org/common\"");
@@ -144,7 +144,7 @@ xmlNodePtr new_stylesheet_skeleton(char *incl) {
 	sprintbuf(buf, "%s\n", "</xsl:template>\n");
 	sprintbuf(buf, "%s\n", "</xsl:stylesheet>\n");
 	xmlParserCtxtPtr ctxt = xmlNewParserCtxt();
-	xmlDocPtr doc = xmlCtxtReadMemory(ctxt, buf->buf, buf->size, "http://parslets.com/compiled", NULL, 3);
+	xmlDocPtr doc = xmlCtxtReadMemory(ctxt, buf->buf, buf->size, "http://parselets.com/compiled", NULL, 3);
 	xmlFreeParserCtxt(ctxt);
 	printbuf_free(buf);
 	

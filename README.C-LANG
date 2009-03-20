@@ -11,7 +11,7 @@ From parsley.h
 =============
 
 parsedParsleyPtr -- a struct that contains the following elements:
-  - xmlDocPtr xml -- the output of a parslet document parse, as a libxml2 document
+  - xmlDocPtr xml -- the output of a parselet document parse, as a libxml2 document
 	- char *error -- an error message, or NULL if no error
   - compiled_parsley *parsley -- reference to the parsley that did the parsing
 
@@ -25,7 +25,7 @@ parsleyPtr parsley_compile(char* parsley, char* incl)
 	Returns: A structure that you can pass to parsley_parse_* to do the actual
 	parsing.  This structure contains the compiled XSLT.
 	
-	Notes: This is *NOT* thread-safe. (Usage of the parslet via parsley_parse_* *IS* 
+	Notes: This is *NOT* thread-safe. (Usage of the parselet via parsley_parse_* *IS* 
 	thread-safe, however.)
 	
 void parsley_free(parsleyPtr);

@@ -64,9 +64,9 @@ void parsed_parsley_free(parsedParsleyPtr);
 
 void parsley_free(parsleyPtr);
 parsleyPtr parsley_compile(char* parsley, char* incl);
-parsedParsleyPtr parsley_parse_file(parsleyPtr, char*, bool);
-parsedParsleyPtr parsley_parse_string(parsleyPtr, char*, size_t, bool);
-parsedParsleyPtr parsley_parse_doc(parsleyPtr, xmlDocPtr);
+parsedParsleyPtr parsley_parse_file(parsleyPtr, char*, bool, bool);
+parsedParsleyPtr parsley_parse_string(parsleyPtr, char*, size_t, bool, bool);
+parsedParsleyPtr parsley_parse_doc(parsleyPtr, xmlDocPtr, bool);
 
 
 static contextPtr parsley_parsing_context;

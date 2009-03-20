@@ -23,6 +23,7 @@ struct arguments
 	char *parsley;
   char *input_file;
   char *output_file;
+  int no_prune;
 };
 
 struct list_elem {
@@ -33,12 +34,13 @@ struct list_elem {
 
 const char *argp_program_version = "parsley 0.1";
 const char *argp_program_bug_address = "<kyle@kylemaxwell.com>";
-static char args_doc[] = "DEX_FILE FILE_TO_PARSE";
-static char doc[] = "Parsley is a parslet parser.";
+static char args_doc[] = "PARSELET FILE_TO_PARSE";
+static char doc[] = "Parsley is a parselet parser.";
 
 static struct argp_option options[] = {
 	{"input-xml",       'x', 0, 0, 	"Use the XML parser (not HTML)" },
 	{"output-xml",      'X', 0, 0, 	"Output XML (not JSON)" },
+	{"no-prune",        'n', 0, 0, 	"Don't prune empty subtrees" },
 	{"output",   				'o', "FILE", 0, 	"Output to FILE instead of standard output" },
   {"include",  				'i', "FILE", 0, 	"Include the contents of FILE in the compiled XSLT" },
   { 0 }
@@ -54,6 +56,9 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state)
     {	
     case 'x':
 			arguments->input_xml = 1;
+			break;
+    case 'n':
+			arguments->no_prune = 1;
 			break;
     case 'X':
 			arguments->output_xml = 1;
@@ -98,6 +103,7 @@ int main (int argc, char **argv) {
 	elem.has_next = 0;
 	arguments.input_xml = 0;
 	arguments.output_xml = 0;
+	arguments.no_prune = 0;
 	arguments.include_files = elemptr;
 	arguments.output_file = "-";
 	argp_parse (&argp, argc, argv, 0, 0, &arguments);
@@ -127,7 +133,7 @@ int main (int argc, char **argv) {
 		exit(1);
 	}
 	
-	parsedParsleyPtr ptr = parsley_parse_file(compiled, arguments.input_file, !(arguments.input_xml));
+	parsedParsleyPtr ptr = parsley_parse_file(compiled, arguments.input_file, !(arguments.input_xml), !arguments.no_prune);
 
 	if(ptr->error != NULL) {
 		fprintf(stderr, "Parsing failed: %s\n", ptr->error);

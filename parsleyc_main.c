@@ -22,7 +22,7 @@ struct arguments
 const char *argp_program_version = "parsleyc 0.1";
 const char *argp_program_bug_address = "<kyle@kylemaxwell.com>";
 static char args_doc[] = "DEX_FILE";
-static char doc[] = "Parsleyc is a parslet to XSLT compiler";
+static char doc[] = "Parsleyc is a parselet to XSLT compiler";
 
 static struct argp_option options[] = {
   {"debug",    'd', 0, 0, 	"Turn on Bison parser debugging" },

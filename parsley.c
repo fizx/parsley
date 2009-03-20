@@ -71,13 +71,13 @@ static parsedParsleyPtr parse_error(char* format, ...) {
   return ptr;
 }
 
-parsedParsleyPtr parsley_parse_file(parsleyPtr parsley, char* file, bool html) {
+parsedParsleyPtr parsley_parse_file(parsleyPtr parsley, char* file, bool html, bool prune) {
 	if(html) {
 		htmlParserCtxtPtr htmlCtxt = htmlNewParserCtxt();
   	htmlDocPtr html = htmlCtxtReadFile(htmlCtxt, file, NULL, HTML_PARSE_RECOVER | HTML_PARSE_NOERROR |HTML_PARSE_NOWARNING);
     htmlFreeParserCtxt(htmlCtxt);
     if(html == NULL) return parse_error("Couldn't parse file: %s\n", file);
-    parsedParsleyPtr out = parsley_parse_doc(parsley, html);
+    parsedParsleyPtr out = parsley_parse_doc(parsley, html, prune);
     xmlFreeDoc(html);
     return out;
 	} else {
@@ -85,25 +85,25 @@ parsedParsleyPtr parsley_parse_file(parsleyPtr parsley, char* file, bool html) {
 		xmlDocPtr xml = xmlCtxtReadFile(ctxt, file, NULL, HTML_PARSE_RECOVER | HTML_PARSE_NOERROR |HTML_PARSE_NOWARNING);
 		xmlFreeParserCtxt(ctxt);
 		if(xml == NULL) return parse_error("Couldn't parse file: %s\n", file);
-    parsedParsleyPtr out = parsley_parse_doc(parsley, xml);
+    parsedParsleyPtr out = parsley_parse_doc(parsley, xml, prune);
     xmlFreeDoc(xml);
     return out;
 	}
 }
 
-parsedParsleyPtr parsley_parse_string(parsleyPtr parsley, char* string, size_t size, bool html) {
+parsedParsleyPtr parsley_parse_string(parsleyPtr parsley, char* string, size_t size, bool html, bool prune) {
 	if(html) {
 		htmlParserCtxtPtr htmlCtxt = htmlNewParserCtxt();
-  	htmlDocPtr html = htmlCtxtReadMemory(htmlCtxt, string, size, "http://parslets.com/in-memory-string", NULL, HTML_PARSE_RECOVER | HTML_PARSE_NOERROR |HTML_PARSE_NOWARNING);
+  	htmlDocPtr html = htmlCtxtReadMemory(htmlCtxt, string, size, "http://parselets.com/in-memory-string", NULL, HTML_PARSE_RECOVER | HTML_PARSE_NOERROR |HTML_PARSE_NOWARNING);
     if(html == NULL) return parse_error("Couldn't parse string");
-    parsedParsleyPtr out = parsley_parse_doc(parsley, html);
+    parsedParsleyPtr out = parsley_parse_doc(parsley, html, prune);
     xmlFreeDoc(html);
     return out;
 	} else {
 		xmlParserCtxtPtr ctxt = xmlNewParserCtxt();
- 		xmlDocPtr xml = xmlCtxtReadMemory(ctxt, string, size, "http://parslets.com/in-memory-string", NULL, HTML_PARSE_RECOVER | HTML_PARSE_NOERROR |HTML_PARSE_NOWARNING);
+ 		xmlDocPtr xml = xmlCtxtReadMemory(ctxt, string, size, "http://parselets.com/in-memory-string", NULL, HTML_PARSE_RECOVER | HTML_PARSE_NOERROR |HTML_PARSE_NOWARNING);
 		if(xml == NULL) return parse_error("Couldn't parse string");
-    parsedParsleyPtr out = parsley_parse_doc(parsley, xml);
+    parsedParsleyPtr out = parsley_parse_doc(parsley, xml, prune);
     xmlFreeDoc(xml);
     return out;
 	}
@@ -348,14 +348,14 @@ xml_empty(xmlNodePtr xml) {
   return true;
 }
 
-parsedParsleyPtr parsley_parse_doc(parsleyPtr parsley, xmlDocPtr doc) {
+parsedParsleyPtr parsley_parse_doc(parsleyPtr parsley, xmlDocPtr doc, bool prune) {
   parsedParsleyPtr ptr = (parsedParsleyPtr) calloc(sizeof(parsed_parsley), 1);
   ptr->error = NULL;
   ptr->parsley = parsley;
   ptr->xml = xsltApplyStylesheet(parsley->stylesheet, doc, NULL);
   if(ptr->xml != NULL && ptr->error == NULL) {
     collate(ptr->xml->children);
-    visit(ptr, ptr->xml->children, NULL);
+    if(prune) visit(ptr, ptr->xml->children, NULL);
   }
   if(ptr->xml == NULL && ptr->error == NULL) { // == NULL
     ptr->error = strdup("Internal runtime error");
@@ -392,7 +392,7 @@ json_invalid_object(parsleyPtr ptr, struct json_object *json) {
 			}
 			break;
 		default:
-			ptr->error = strdup("Parslets can only be made up of strings, arrays, and objects.");
+			ptr->error = strdup("Parselets can only be made up of strings, arrays, and objects.");
 		}
     if(val == NULL || !json_object_is_type(val, json_type_string)) return false;
   }
@@ -402,7 +402,7 @@ json_invalid_object(parsleyPtr ptr, struct json_object *json) {
 static bool 
 json_invalid(parsleyPtr ptr, struct json_object *json) {
 	if(!json_object_is_type(json, json_type_object)) {
-		ptr->error = strdup("The parslet root must be an object");
+		ptr->error = strdup("The parselet root must be an object");
 		return true;
 	}
 	return json_invalid_object(ptr, json);
@@ -420,7 +420,7 @@ parsleyPtr parsley_compile(char* parsley_str, char* incl) {
 	
 	struct json_object *json = json_tokener_parse(parsley_str);
 	if(is_error(json)) {
-		parsley->error = strdup("Your parslet is not valid json.");
+		parsley->error = strdup("Your parselet is not valid json.");
     // json_object_put(json); // frees json
 		return parsley;
 	}
@@ -502,7 +502,7 @@ contextPtr deeper_context(contextPtr context, char* key, struct json_object * va
 		while(tmp->next != NULL) tmp = tmp->next;
 		tmp->next = c;
 	}
-  fprintf(stderr, "json:    %s\ntag:    %s\nexpr:   %s\nfilter: %s\n\n", json_object_get_string(c->json), c->tag, pxpath_to_string(c->expr), pxpath_to_string(c->filter));
+  // printf(stderr, "json:    %s\ntag:    %s\nexpr:   %s\nfilter: %s\n\n", json_object_get_string(c->json), c->tag, pxpath_to_string(c->expr), pxpath_to_string(c->filter));
 	return c;
 }
 
@@ -602,7 +602,7 @@ render(contextPtr c) {
   bool filtered = filter != NULL;
   bool multiple = (c->array || c->magic) && !magic_children;
 
-	printf("node %s\n", c->node->name);
+	// printf("node %s\n", c->node->name);
 	xmlNsPtr parsley = c->ns;
 	xmlNsPtr xsl = xmlDocGetRootElement(c->node->doc)->ns;
   
@@ -617,7 +617,7 @@ render(contextPtr c) {
   }
   if(multiple) {
 	               							c->node = xmlNewChild(c->node, parsley, "group", NULL);
-															if (c->flags & PARSLEY_BANG) xmlSetProp(c->node, "optional", "true");
+															if (!(c->flags & PARSLEY_BANG)) xmlSetProp(c->node, "optional", "true");
 	}
 	xmlNodePtr attr = xmlNewChild(c->node, xsl, "attribute", NULL);
 	xmlSetProp(attr, "name", "position");
@@ -639,11 +639,11 @@ render(contextPtr c) {
 void __parsley_recurse(contextPtr context) {
 	contextPtr c;
 	if(context->json == NULL) return;
-	fprintf(stderr, "<%s> %s\n", context->tag, context->node->name);
+	// printf(stderr, "<%s> %s\n", context->tag, context->node->name);
 	json_object_object_foreach(context->json, key, val) {
 		c = deeper_context(context, key, val);
-		fprintf(stderr, "<%s>\n", c->tag);
-		c->node = xmlNewChild(c->node, NULL, c->tag, NULL);
+		// printf(stderr, "<%s>\n", c->tag);
+		c->node = xmlAddChild(c->node, xmlNewNode(NULL, c->tag));
 		if (c->flags & PARSLEY_OPTIONAL) xmlSetProp(c->node, "optional", "true");
     render(c);
 	}  
