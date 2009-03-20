@@ -40,9 +40,9 @@ static char doc[] = "Parsley is a parselet parser.";
 static struct argp_option options[] = {
 	{"input-xml",       'x', 0, 0, 	"Use the XML parser (not HTML)" },
 	{"output-xml",      'X', 0, 0, 	"Output XML (not JSON)" },
-	{"no-prune",        'n', 0, 0, 	"Don't prune empty subtrees" },
 	{"output",   				'o', "FILE", 0, 	"Output to FILE instead of standard output" },
   {"include",  				'i', "FILE", 0, 	"Include the contents of FILE in the compiled XSLT" },
+	{"no-prune",        'n', 0, 0, 	"Don't prune empty subtrees" },
   { 0 }
 };
 
