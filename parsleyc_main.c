@@ -100,7 +100,7 @@ int main (int argc, char **argv) {
 	}
 	
   FILE* fo = parsley_fopen(arguments.output_file, "w");
-  xmlDocDump(fo, compiled->stylesheet->doc);
+  xmlDocFormatDump(fo, compiled->stylesheet->doc, 1);
   fclose(fo);
   
 	return 0;
