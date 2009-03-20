@@ -99,11 +99,10 @@ int main (int argc, char **argv) {
 	 	exit(1);
 	}
 	
-	// FILE* fo = parsley_fopen(arguments.output_file, "w");
-	// fprintf(fo, compiled->raw_stylesheet);
-	// fclose(fo);
-	printf(stderr, "feature disabled");
-	
+  FILE* fo = parsley_fopen(arguments.output_file, "w");
+  xmlDocDump(fo, compiled->stylesheet->doc);
+  fclose(fo);
+  
 	return 0;
 }
 
