@@ -100,6 +100,18 @@ pxpathPtr parsley_key_filter(char* key) {
 	// free(expr);
 	return out;
 }
+
+static xmlNodePtr
+_xmlLastElementChild(xmlNodePtr node) {
+  xmlNodePtr child = node->children;
+  xmlNodePtr elem = NULL;
+  while(child != NULL) {
+    if(child->type == XML_ELEMENT_NODE) elem = child;
+    child = child->next;
+  }
+  return elem;
+}
+
 xmlNodePtr new_stylesheet_skeleton(char *incl) {
 	struct printbuf *buf = printbuf_new();
 	sprintbuf(buf, "%s", "<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\"");
@@ -137,8 +149,8 @@ xmlNodePtr new_stylesheet_skeleton(char *incl) {
 	printbuf_free(buf);
 	
 	xmlNodePtr node = xmlDocGetRootElement(doc);
-	while(xmlLastElementChild(node) != NULL) {
-		node = xmlLastElementChild(node);
+	while(_xmlLastElementChild(node) != NULL) {
+		node = _xmlLastElementChild(node);
 	}
 	return node;
 }
