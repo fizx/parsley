@@ -44,5 +44,5 @@ check-am:
 	@echo "trivial2..."; ./parsley test/trivial2.let test/trivial2.html 2>&1 | diff test/trivial2.json - && echo "    success."
 	@echo "trivial..."; ./parsley test/trivial.let test/trivial.html 2>&1 | diff test/trivial.json - && echo "    success."
 	@echo "match..."; ./parsley -x test/match.let test/match.xml 2>&1 | diff test/match.json - && echo "    success."
-	@echo "quote..."; ./parsley test/quote.let test/quote.html 2>&1 | diff test/quote.json - && echo "    success."
+	@echo "quote..."; ./parsley test/quote.let test/quote.xml 2>&1 | diff test/quote.json - && echo "    success."
 	@echo "unbang..."; ./parsley test/unbang.let test/unbang.html 2>&1 | diff test/unbang.json - && echo "    success."
