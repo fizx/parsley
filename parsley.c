@@ -430,39 +430,19 @@ parsleyPtr parsley_compile(char* parsley_str, char* incl) {
 		return parsley;
 	}
 
-	struct printbuf* buf = printbuf_new();
-	
-  sprintbuf_parsley_header(buf);
-	sprintbuf(buf, "%s\n", incl);
-	sprintbuf(buf, "%s\n", "<xsl:template match=\"/\">\n");
-	sprintbuf(buf, "%s\n", "<parsley:root>\n");
+	xmlNodePtr node = new_stylesheet_skeleton(incl);
 		
-	contextPtr context = new_context(json, buf);
+	contextPtr context = new_context(json, node);
 	__parsley_recurse(context);
 	
 	json_object_put(json); // frees json
 	parsley->error = last_parsley_error;
 	
-	sprintbuf(buf, "%s\n", "</parsley:root>\n");
-	sprintbuf(buf, "%s\n", "</xsl:template>\n");
-	sprintbuf(buf, "%s\n", "</xsl:stylesheet>\n");
-	
-  // printf("1\n");
-	
 	if(parsley->error == NULL) {
-		xmlParserCtxtPtr ctxt = xmlNewParserCtxt();
-		xmlDocPtr doc = xmlCtxtReadMemory(ctxt, buf->buf, buf->size, "http://parslets.com/compiled", NULL, 3);
-		xmlFreeParserCtxt(ctxt);
-		parsley->raw_stylesheet = strdup(buf->buf);
-		parsley->stylesheet = xsltParseStylesheetDoc(doc);
+		parsley->stylesheet = xsltParseStylesheetDoc(node->doc);
 	}
 	
-  // printf("2\n");
-	
   free_context(context);
-  // printf("3\n");
-	printbuf_free(buf);
-  // printf("4\n");
 	return parsley;
 }
 
@@ -491,17 +471,20 @@ static void free_context(contextPtr c) {
   free(c);
 }
 
-static contextPtr new_context(struct json_object * json, struct printbuf *buf) {
+static contextPtr new_context(struct json_object * json, xmlNodePtr node) {
 	contextPtr c = calloc(sizeof(parsley_context), 1);
+	c->node = node;
+	c->ns = node->ns;
   c->tag = strdup("root");
 	c->expr = pxpath_new_path(1, "/");
-	c->buf = buf;
 	c->json = json;
 	return c;
 }
 
 contextPtr deeper_context(contextPtr context, char* key, struct json_object * val) {
 	contextPtr c = (contextPtr) calloc(sizeof(parsley_context), 1);
+	c->node = context->node;
+	c->ns = context->ns;
 	c->parent = context;
 	c->tag = parsley_key_tag(key);
   c->flags = parsley_key_flags(key);
@@ -511,7 +494,6 @@ contextPtr deeper_context(contextPtr context, char* key, struct json_object * va
 	c->string = val != NULL && json_object_is_type(c->json, json_type_string);
 	c->filter = parsley_key_filter(key);
 	c->magic = context->array && context->filter == NULL;
-	c->buf = context->buf;
 	c->expr = c->string ? myparse(json_object_get_string(c->json)) : NULL;
 	if(context->child == NULL) {
 		context->child = c;
@@ -520,15 +502,13 @@ contextPtr deeper_context(contextPtr context, char* key, struct json_object * va
 		while(tmp->next != NULL) tmp = tmp->next;
 		tmp->next = c;
 	}
-  // fprintf(stderr, "tag:    %s\nexpr:   %s\nfilter: %s\n\n", c->tag, pxpath_to_string(c->expr), pxpath_to_string(c->filter));
+  fprintf(stderr, "json:    %s\ntag:    %s\nexpr:   %s\nfilter: %s\n\n", json_object_get_string(c->json), c->tag, pxpath_to_string(c->expr), pxpath_to_string(c->filter));
 	return c;
 }
 
 void parsley_free(parsleyPtr ptr) {
 	if(ptr->error != NULL) 						
 			free(ptr->error);
-	if(ptr->raw_stylesheet != NULL)
-			free(ptr->raw_stylesheet);
 	if(ptr->stylesheet != NULL) 			
 			xsltFreeStylesheet(ptr->stylesheet);
 	free(ptr);
@@ -540,10 +520,6 @@ void yyerror(const char * s) {
   sprintbuf(buf, "%s in key: %s", s, full_key_name(parsley_parsing_context));
 	last_parsley_error = strdup(buf->buf);
 	printbuf_free(buf);
-}
-
-static char* optional(contextPtr c) {
-  return (c->flags & PARSLEY_OPTIONAL) ? " optional=\"true\"" : "";
 }
 
 static bool 
@@ -621,33 +597,40 @@ render(contextPtr c) {
   char *filter = resolve_filter(c);
   char *expr = resolve_expr(c);
   char *scope = filter == NULL ? expr : filter;
-  char *group_optional = (c->flags & PARSLEY_BANG) ? "" : " optional=\"true\"";
   bool magic_children = c->array && filter == NULL;
   bool simple_array = c->array && filter != NULL;
   bool filtered = filter != NULL;
   bool multiple = (c->array || c->magic) && !magic_children;
+
+	printf("node %s\n", c->node->name);
+	xmlNsPtr parsley = c->ns;
+	xmlNsPtr xsl = xmlDocGetRootElement(c->node->doc)->ns;
   
-  if(c->array)                sprintbuf(c->buf, "<parsley:groups>\n");
-  if(filtered)                sprintbuf(c->buf, "<xsl:for-each select=\"%s\">\n", filter);
-  if(filtered && !multiple)   sprintbuf(c->buf, "<xsl:if test=\"position()=1\">\n");
-  if(multiple)                sprintbuf(c->buf, "<parsley:group%s>\n", group_optional);
-  
-  sprintbuf(c->buf, "<xsl:attribute name=\"position\"><xsl:value-of select=\"count(preceding::*) + count(ancestor::*)\"/></xsl:attribute>\n");
+	if(c->array)                c->node = xmlNewChild(c->node, parsley, "groups", NULL);
+  if(filtered) {
+															c->node = xmlNewChild(c->node, xsl, "for-each", NULL);
+															xmlSetProp(c->node, "select", filter);
+	}
+  if(filtered && !multiple) {
+															c->node = xmlNewChild(c->node, xsl, "if", NULL);
+															xmlSetProp(c->node, "test", "position() = 1");
+  }
+  if(multiple) {
+	               							c->node = xmlNewChild(c->node, parsley, "group", NULL);
+															if (c->flags & PARSLEY_BANG) xmlSetProp(c->node, "optional", "true");
+	}
+	xmlNodePtr attr = xmlNewChild(c->node, xsl, "attribute", NULL);
+	xmlSetProp(attr, "name", "position");
+	xmlNodePtr counter = xmlNewChild(attr, xsl, "value-of", NULL);
+	xmlSetProp(counter, "select", "count(preceding::*) + count(ancestor::*)");
   
   if(c->string) {
-    sprintbuf(c->buf, "<xsl:value-of select=\"%s\" />\n", expr);
+		c->node = xmlNewChild(c->node, xsl, "value-of", NULL);
+		xmlSetProp(counter, "select", expr);
   } else {
-    if(magic_children)        sprintbuf(c->buf, "<parsley:zipped>\n");
+    if(magic_children)        c->node = xmlNewChild(c->node, parsley, "zipped", NULL);
     __parsley_recurse(c);
-    if(magic_children)        sprintbuf(c->buf, "</parsley:zipped>\n");
   }
-  
-  // fprintf(stderr, "d\n");
-  
-  if(multiple)                sprintbuf(c->buf, "</parsley:group>\n");
-  if(filtered && !multiple)   sprintbuf(c->buf, "</xsl:if>\n");
-  if(filtered)                sprintbuf(c->buf, "</xsl:for-each>\n");
-  if(c->array)                sprintbuf(c->buf, "</parsley:groups>\n");
   
   if(filter !=NULL) free(filter);
   if(expr !=NULL)   free(expr);
@@ -656,15 +639,13 @@ render(contextPtr c) {
 void __parsley_recurse(contextPtr context) {
 	contextPtr c;
 	if(context->json == NULL) return;
-  // fprintf(stderr, "recursing: %s\n", json_object_to_json_string(context->json));
+	fprintf(stderr, "<%s> %s\n", context->tag, context->node->name);
 	json_object_object_foreach(context->json, key, val) {
 		c = deeper_context(context, key, val);
-		// fprintf(stderr, "<%s%s>\n", c->tag, optional(c));
-		sprintbuf(c->buf, "<%s%s>\n", c->tag, optional(c));
-    // fprintf(stderr, "a\n");
+		fprintf(stderr, "<%s>\n", c->tag);
+		c->node = xmlNewChild(c->node, NULL, c->tag, NULL);
+		if (c->flags & PARSLEY_OPTIONAL) xmlSetProp(c->node, "optional", "true");
     render(c);
-		sprintbuf(c->buf, "</%s>\n", c->tag);
-    // fprintf(stderr, "</%s>\n", c->tag);
 	}  
 }
 

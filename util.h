@@ -17,7 +17,7 @@
 #include <libexslt/exslt.h>
 
 FILE* parsley_fopen(char*, char*);
-char* sprintbuf_parsley_header(struct printbuf *);
+xmlNodePtr new_stylesheet_skeleton(char *incl);
 void registerEXSLT();
 void printbuf_file_read(FILE *f, struct printbuf *buf);
 

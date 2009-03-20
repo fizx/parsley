@@ -100,8 +100,8 @@ pxpathPtr parsley_key_filter(char* key) {
 	// free(expr);
 	return out;
 }
-
-char* sprintbuf_parsley_header(struct printbuf *buf) {
+xmlNodePtr new_stylesheet_skeleton(char *incl) {
+	struct printbuf *buf = printbuf_new();
 	sprintbuf(buf, "%s", "<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\"");
 	sprintbuf(buf, "%s", " xmlns:lib=\"http://parslets.com/stdlib\"");
 	sprintbuf(buf, "%s", " xmlns:parsley=\"http://parslets.com/json\"");
@@ -126,4 +126,19 @@ char* sprintbuf_parsley_header(struct printbuf *buf) {
 	sprintbuf(buf, "%s", "<xsl:template match=\"text()\" mode=\"innertext\"><xsl:value-of select=\".\" /></xsl:template>");
 	sprintbuf(buf, "%s", "<xsl:template match=\"script|style\" mode=\"innertext\"/>");
 	sprintbuf(buf, "%s", "<xsl:template match=\"br|address|blockquote|center|dir|div|form|h1|h2|h3|h4|h5|h6|hr|menu|noframes|noscript|p|pre|li|td|th|p\" mode=\"innertext\"><xsl:apply-templates mode=\"innertext\" /><xsl:text>\n</xsl:text></xsl:template>");
+	sprintbuf(buf, "%s\n", incl);
+	sprintbuf(buf, "%s\n", "<xsl:template match=\"/\">\n");
+	sprintbuf(buf, "%s\n", "<parsley:root />\n");
+	sprintbuf(buf, "%s\n", "</xsl:template>\n");
+	sprintbuf(buf, "%s\n", "</xsl:stylesheet>\n");
+	xmlParserCtxtPtr ctxt = xmlNewParserCtxt();
+	xmlDocPtr doc = xmlCtxtReadMemory(ctxt, buf->buf, buf->size, "http://parslets.com/compiled", NULL, 3);
+	xmlFreeParserCtxt(ctxt);
+	printbuf_free(buf);
+	
+	xmlNodePtr node = xmlDocGetRootElement(doc);
+	while(xmlLastElementChild(node) != NULL) {
+		node = xmlLastElementChild(node);
+	}
+	return node;
 }

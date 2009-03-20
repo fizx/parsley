@@ -16,7 +16,6 @@ static char* last_parsley_error;
 
 
 typedef struct __compiled_parsley {
- 	char* raw_stylesheet;
 	xsltStylesheetPtr stylesheet;
 	char* error;
 } compiled_parsley;
@@ -39,7 +38,8 @@ typedef struct __key_node {
 typedef key_node * keyPtr;
 
 typedef struct __parsley_context {
-	struct printbuf * buf;
+	xmlNsPtr ns;
+ 	xmlNodePtr node;
 	struct json_object * json;
 	char* tag;
 	pxpathPtr filter;
@@ -79,7 +79,7 @@ static contextPtr init_context();
 static contextPtr clone_context(contextPtr);
 static contextPtr tagged_context(contextPtr, char*);
 
-static contextPtr new_context(struct json_object *, struct printbuf *);
+static contextPtr new_context(struct json_object *, xmlNodePtr node);
 static contextPtr deeper_context(contextPtr, char*, struct json_object *);
 
 static void __parsley_recurse(contextPtr);
