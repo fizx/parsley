@@ -626,7 +626,7 @@ render(contextPtr c) {
   
   if(c->string) {
 		c->node = xmlNewChild(c->node, xsl, "value-of", NULL);
-		xmlSetProp(counter, "select", expr);
+		xmlSetProp(c->node, "select", expr);
   } else {
     if(magic_children)        c->node = xmlNewChild(c->node, parsley, "zipped", NULL);
     __parsley_recurse(c);
