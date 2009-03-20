@@ -70,25 +70,5 @@ parsedParsleyPtr parsley_parse_doc(parsleyPtr, xmlDocPtr, bool);
 
 
 static contextPtr parsley_parsing_context;
-
-static char* expr_join(char*, char*);
-static char* inner_key_of(struct json_object *);
-static char* inner_key_each(struct json_object *);
-static void free_context(contextPtr);
-static contextPtr init_context();
-static contextPtr clone_context(contextPtr);
-static contextPtr tagged_context(contextPtr, char*);
-
-static contextPtr new_context(struct json_object *, xmlNodePtr node);
-static contextPtr deeper_context(contextPtr, char*, struct json_object *);
-
-static void __parsley_recurse(contextPtr);
-static char* filter_intersection(char*, char*);
-
-static char* inner_key_of(struct json_object *);
-static char* inner_key_each(struct json_object *);
-
-static void visit(parsedParsleyPtr ptr, xmlNodePtr xml, char* err);
-static bool xml_empty(xmlNodePtr xml);
 	
 #endif

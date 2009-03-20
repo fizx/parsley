@@ -198,6 +198,19 @@ _xmlChildElementCount(xmlNodePtr n) {
   return i;
 }
 
+static bool
+xml_empty(xmlNodePtr xml) { 
+  // fprintf(stderr, "%s\n", xml->name);
+  xmlNodePtr child = xml->children;
+  while(child != NULL) {
+    if(child->type != XML_TEXT_NODE) return false;
+    if(strlen(child->content)) return false;
+    child = child->next;
+  }
+  // printf("hello!\n");
+  return true;
+}
+
 static void 
 collate(xmlNodePtr xml) { 
 	// return ;
@@ -294,6 +307,9 @@ collate(xmlNodePtr xml) {
   }
 }
 
+static void
+visit(parsedParsleyPtr ptr, xmlNodePtr xml, char* err);
+
 static void 
 prune(parsedParsleyPtr ptr, xmlNodePtr xml, char* err) {   
 	if(xml == NULL || is_root(xml)) return;
@@ -333,19 +349,6 @@ visit(parsedParsleyPtr ptr, xmlNodePtr xml, char* err) {
     visit(ptr, child, err);
     child = child->next;
   }
-}
-
-static bool
-xml_empty(xmlNodePtr xml) { 
-  // fprintf(stderr, "%s\n", xml->name);
-  xmlNodePtr child = xml->children;
-  while(child != NULL) {
-    if(child->type != XML_TEXT_NODE) return false;
-    if(strlen(child->content)) return false;
-    child = child->next;
-  }
-  // printf("hello!\n");
-  return true;
 }
 
 parsedParsleyPtr parsley_parse_doc(parsleyPtr parsley, xmlDocPtr doc, bool prune) {
@@ -408,6 +411,42 @@ json_invalid(parsleyPtr ptr, struct json_object *json) {
 	return json_invalid_object(ptr, json);
 }
 
+static void free_context(contextPtr c) {
+  if(c == NULL) return;
+  if(c->tag != NULL) free(c->tag);
+  if(c->filter != NULL) pxpath_free(c->filter);
+  if(c->expr != NULL) pxpath_free(c->expr);
+  
+  if(c->parent != NULL && c->parent->child != NULL) {
+    if(c->parent->child == c) {
+      c->parent->child = NULL;
+    } else {
+      contextPtr ptr = c->parent->child;
+      while(ptr->next != NULL) {
+        if(ptr->next == c) {
+          ptr->next = NULL;
+        } else {
+          ptr = ptr->next;
+        }
+      }
+    }
+  }
+  if(c->next != NULL) free_context(c->next);
+  if(c->child != NULL) free_context(c->child);
+  free(c);
+}
+
+static contextPtr 
+new_context(struct json_object * json, xmlNodePtr node) {
+	contextPtr c = calloc(sizeof(parsley_context), 1);
+	c->node = node;
+	c->ns = node->ns;
+  c->tag = strdup("root");
+	c->expr = pxpath_new_path(1, "/");
+	c->json = json;
+	return c;
+}
+
 parsleyPtr parsley_compile(char* parsley_str, char* incl) {
 	parsleyPtr parsley = (parsleyPtr) calloc(sizeof(compiled_parsley), 1);
 	
@@ -444,41 +483,6 @@ parsleyPtr parsley_compile(char* parsley_str, char* incl) {
 	
   free_context(context);
 	return parsley;
-}
-
-static void free_context(contextPtr c) {
-  if(c == NULL) return;
-  if(c->tag != NULL) free(c->tag);
-  if(c->filter != NULL) pxpath_free(c->filter);
-  if(c->expr != NULL) pxpath_free(c->expr);
-  
-  if(c->parent != NULL && c->parent->child != NULL) {
-    if(c->parent->child == c) {
-      c->parent->child = NULL;
-    } else {
-      contextPtr ptr = c->parent->child;
-      while(ptr->next != NULL) {
-        if(ptr->next == c) {
-          ptr->next = NULL;
-        } else {
-          ptr = ptr->next;
-        }
-      }
-    }
-  }
-  if(c->next != NULL) free_context(c->next);
-  if(c->child != NULL) free_context(c->child);
-  free(c);
-}
-
-static contextPtr new_context(struct json_object * json, xmlNodePtr node) {
-	contextPtr c = calloc(sizeof(parsley_context), 1);
-	c->node = node;
-	c->ns = node->ns;
-  c->tag = strdup("root");
-	c->expr = pxpath_new_path(1, "/");
-	c->json = json;
-	return c;
 }
 
 contextPtr deeper_context(contextPtr context, char* key, struct json_object * val) {
@@ -655,6 +659,8 @@ void __parsley_recurse(contextPtr context) {
 // 	char* merged = arepl(expr, ".", context->full_expr);
 // 	return arepl(merged, "///", "//");
 // }
+static char* 
+inner_key_each(struct json_object * json);
 
 static char* inner_key_of(struct json_object * json) {
 	switch(json_object_get_type(json)) {
@@ -667,7 +673,8 @@ static char* inner_key_of(struct json_object * json) {
 	}
 }
 
-static char* inner_key_each(struct json_object * json) {
+static char* 
+inner_key_each(struct json_object * json) {
 	json_object_object_foreach(json, key, val) {
 		char* inner = inner_key_of(val);
 		if(inner != NULL) return inner;
