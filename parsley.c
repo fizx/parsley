@@ -20,6 +20,7 @@
 #include <libxml/HTMLparser.h>
 #include <libxml/HTMLtree.h>
 #include <libxml/xmlwriter.h>
+#include <libxml/xmlerror.h>
 #include <libxml/debugXML.h>
 #include <libexslt/exslt.h>
 
@@ -31,6 +32,25 @@ struct ll {
   xmlChar *name;
   struct ll *next;
 };
+
+static char* 
+arepl(char* orig, char* old, char* new) {
+	// printf("y\n");
+	char* ptr = strdup(orig);
+	int nlen = strlen(new);
+	int olen = strlen(old);
+	char* i;
+	struct printbuf * buf = printbuf_new();
+	while((i = strstr(ptr, old)) != NULL) {
+		printbuf_memappend(buf, ptr, i - ptr);
+		printbuf_memappend(buf, new, nlen);
+		ptr = i + olen;
+	}
+	printbuf_memappend(buf, ptr, strlen(ptr));
+	ptr = strdup(buf->buf);
+	printbuf_free(buf);
+	return ptr;
+}
 
 static char *
 full_key_name(contextPtr c) {  
@@ -351,17 +371,46 @@ visit(parsedParsleyPtr ptr, xmlNodePtr xml, char* err) {
   }
 }
 
+static parsedParsleyPtr current_ptr = NULL;
+
+static void 
+parsleyXsltError(void * ctx, const char * msg, ...) {
+  va_list ap;
+  va_start(ap, msg);
+  if(current_ptr->error == NULL) {
+    char *tmp;
+    char *tmp2;
+    vasprintf(&tmp, msg, ap);
+    tmp2 = arepl(tmp, "xmlXPathCompOpEval: ", "");
+    current_ptr->error = arepl(tmp2, "\n", "");
+    
+    free(tmp);
+    free(tmp2);
+  }
+  va_end(ap);
+}
+
+
 parsedParsleyPtr parsley_parse_doc(parsleyPtr parsley, xmlDocPtr doc, bool prune) {
   parsedParsleyPtr ptr = (parsedParsleyPtr) calloc(sizeof(parsed_parsley), 1);
   ptr->error = NULL;
   ptr->parsley = parsley;
-  ptr->xml = xsltApplyStylesheet(parsley->stylesheet, doc, NULL);
-  if(ptr->xml != NULL && ptr->error == NULL) {
-    collate(ptr->xml->children);
-    if(prune) visit(ptr, ptr->xml->children, NULL);
-  }
-  if(ptr->xml == NULL && ptr->error == NULL) { // == NULL
-    ptr->error = strdup("Internal runtime error");
+  
+  xsltTransformContextPtr ctxt = xsltNewTransformContext(parsley->stylesheet, doc);
+  xmlSetGenericErrorFunc(ctxt, parsleyXsltError);
+  current_ptr = ptr;
+  ptr->xml = xsltApplyStylesheetUser(parsley->stylesheet, doc, NULL, NULL, NULL, ctxt);
+  xsltFreeTransformContext(ctxt);
+  current_ptr = NULL;
+  
+  if(ptr->error == NULL) {
+    if(ptr->xml != NULL && ptr->error == NULL) {
+      collate(ptr->xml->children);
+      if(prune) visit(ptr, ptr->xml->children, NULL);
+    }
+    if(ptr->xml == NULL && ptr->error == NULL) { // == NULL
+      ptr->error = strdup("Internal runtime error");
+    }
   }
 	return ptr;
 }
@@ -532,25 +581,6 @@ all_strings(struct json_object * json) {
     if(val == NULL || !json_object_is_type(val, json_type_string)) return false;
   }
   return true;
-}
-
-static char* 
-arepl(char* orig, char* old, char* new) {
-	// printf("y\n");
-	char* ptr = strdup(orig);
-	int nlen = strlen(new);
-	int olen = strlen(old);
-	char* i;
-	struct printbuf * buf = printbuf_new();
-	while((i = strstr(ptr, old)) != NULL) {
-		printbuf_memappend(buf, ptr, i - ptr);
-		printbuf_memappend(buf, new, nlen);
-		ptr = i + olen;
-	}
-	printbuf_memappend(buf, ptr, strlen(ptr));
-	ptr = strdup(buf->buf);
-	printbuf_free(buf);
-	return ptr;
 }
 
 static char *

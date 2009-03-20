@@ -46,3 +46,4 @@ check-am:
 	@echo "match..."; ./parsley -x test/match.let test/match.xml 2>&1 | diff test/match.json - && echo "    success."
 	@echo "quote..."; ./parsley test/quote.let test/quote.xml 2>&1 | diff test/quote.json - && echo "    success."
 	@echo "unbang..."; ./parsley test/unbang.let test/unbang.html 2>&1 | diff test/unbang.json - && echo "    success."
+	@echo "malformed-xpath..."; ./parsley test/malformed-xpath.let test/malformed-xpath.html 2>&1 | diff test/malformed-xpath.json - && echo "    success."

@@ -1,0 +1,7 @@
+{
+  "title": "title",
+  "first_a(a:nth-child(1))": {
+    "href": "@href",
+    "title_of_target": "bad-namespace:html-document(@href)//title"
+  }
+}
