@@ -1,0 +1,8 @@
+{
+	"matches(c)": [{
+		"a": "regexp:match(., \"no+\")",
+		"b": "regexp:match(., \"no+\", \"i\")",
+		"c": "regexp:match(., \"no+\", \"g\")",
+		"d": "regexp:match(., \"no+\", \"gi\")"
+	}]
+}

@@ -44,4 +44,5 @@ check-am:
 	@echo "yelp-home..."; ./parsley test/yelp-home.let test/yelp-home.html 2>&1 | diff test/yelp-home.json - && echo "    success."
 	@echo "cool..."; perl -e 'alarm shift @ARGV; exec @ARGV' 1 ./parsley test/cool.let test/cool.html 2>&1 | diff test/cool.json - && echo "    success."
 	@echo "bang..."; ./parsley test/bang.let test/bang.html 2>&1 | diff test/bang.json - && echo "    success."
+	@echo "quote..."; ./parsley test/quote.let test/quote.html 2>&1 | diff test/quote.json - && echo "    success."
 	@echo "unbang..."; ./parsley test/unbang.let test/unbang.html 2>&1 | diff test/unbang.json - && echo "    success."
