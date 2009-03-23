@@ -58,16 +58,20 @@ enum {
   PARSLEY_BANG        = 2
 };
 
+enum {
+	PARSLEY_OPTIONS_HTML 		= 1,
+	PARSLEY_OPTIONS_PRUNE   = 2
+};
+
 typedef parsley_context * contextPtr;
 
 void parsed_parsley_free(parsedParsleyPtr);
 
 void parsley_free(parsleyPtr);
 parsleyPtr parsley_compile(char* parsley, char* incl);
-parsedParsleyPtr parsley_parse_file(parsleyPtr, char*, bool, bool);
-parsedParsleyPtr parsley_parse_string(parsleyPtr, char*, size_t, bool, bool);
+parsedParsleyPtr parsley_parse_file(parsleyPtr parsley, char* file, int flags);
+parsedParsleyPtr parsley_parse_string(parsleyPtr parsley, char* string, size_t size, char* base_uri, int flags);
 parsedParsleyPtr parsley_parse_doc(parsleyPtr, xmlDocPtr, bool);
-
 
 static contextPtr parsley_parsing_context;
 	

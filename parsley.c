@@ -91,7 +91,9 @@ static parsedParsleyPtr parse_error(char* format, ...) {
   return ptr;
 }
 
-parsedParsleyPtr parsley_parse_file(parsleyPtr parsley, char* file, bool html, bool prune) {
+parsedParsleyPtr parsley_parse_file(parsleyPtr parsley, char* file, int flags) {
+	bool html = flags & PARSLEY_OPTIONS_HTML;
+	bool prune = flags & PARSLEY_OPTIONS_PRUNE;
 	if(html) {
 		htmlParserCtxtPtr htmlCtxt = htmlNewParserCtxt();
   	htmlDocPtr html = htmlCtxtReadFile(htmlCtxt, file, NULL, HTML_PARSE_RECOVER | HTML_PARSE_NOERROR |HTML_PARSE_NOWARNING);
@@ -111,17 +113,20 @@ parsedParsleyPtr parsley_parse_file(parsleyPtr parsley, char* file, bool html, b
 	}
 }
 
-parsedParsleyPtr parsley_parse_string(parsleyPtr parsley, char* string, size_t size, bool html, bool prune) {
+parsedParsleyPtr parsley_parse_string(parsleyPtr parsley, char* string, size_t size, char* base_uri, int flags) {
+	bool html = flags & PARSLEY_OPTIONS_HTML;
+	bool prune = flags & PARSLEY_OPTIONS_PRUNE;
+	if(base_uri == NULL) base_uri = "http://parselets.com/in-memory-string";
 	if(html) {
 		htmlParserCtxtPtr htmlCtxt = htmlNewParserCtxt();
-  	htmlDocPtr html = htmlCtxtReadMemory(htmlCtxt, string, size, "http://parselets.com/in-memory-string", NULL, HTML_PARSE_RECOVER | HTML_PARSE_NOERROR |HTML_PARSE_NOWARNING);
+  	htmlDocPtr html = htmlCtxtReadMemory(htmlCtxt, string, size, base_uri, NULL, HTML_PARSE_RECOVER | HTML_PARSE_NOERROR |HTML_PARSE_NOWARNING);
     if(html == NULL) return parse_error("Couldn't parse string");
     parsedParsleyPtr out = parsley_parse_doc(parsley, html, prune);
     xmlFreeDoc(html);
     return out;
 	} else {
 		xmlParserCtxtPtr ctxt = xmlNewParserCtxt();
- 		xmlDocPtr xml = xmlCtxtReadMemory(ctxt, string, size, "http://parselets.com/in-memory-string", NULL, HTML_PARSE_RECOVER | HTML_PARSE_NOERROR |HTML_PARSE_NOWARNING);
+ 		xmlDocPtr xml = xmlCtxtReadMemory(ctxt, string, size, base_uri, NULL, HTML_PARSE_RECOVER | HTML_PARSE_NOERROR |HTML_PARSE_NOWARNING);
 		if(xml == NULL) return parse_error("Couldn't parse string");
     parsedParsleyPtr out = parsley_parse_doc(parsley, xml, prune);
     xmlFreeDoc(xml);

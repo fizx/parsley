@@ -36,20 +36,21 @@ void parsed_parsley_free(parsedParsleyPtr);
 
   Frees the parsedParsleyPtr's memory.
 
-parsedParsleyPtr parsley_parse_file(parsleyPtr parsley, char* file_name, bool html, bool prune);
+parsedParsleyPtr parsley_parse_file(parsleyPtr parsley, char* file_name, int flags);
 
 	Arguments:
 	- parsleyPtr parsley -- Compiled parsley struct
 	- char* file_name -- file to parse
-	- bool html -- Use the html parser? (instead of xml)
-	- bool prune -- prune empty subtrees, raising an error if a mandatory subtree is empty.
+	- int flags -- a bitmask as follows:
+	  1 - use the html parser? (instead of xml)
+	  2 - prune empty subtrees, raising an error if a mandatory subtree is empty.
 	
 	Returns: A libxml2 document of the extracted data.  You need to free this 
 	with xmlFree().  To output, look at the libxml2 documentation for functions 
 	like xmlSaveFormatFile().  If you want json output, look below for xml2json 
 	docs.  
 
-parsedParsleyPtr parsley_parse_string(parsleyPtr parsley, char* string, size_t len, bool html, bool prune);
+parsedParsleyPtr parsley_parse_string(parsleyPtr parsley, char* string, size_t len, char * base_uri, int flags);
 
 	Parses the in-memory string/length combination given.  See parsley_parse_file 
 	docs.
