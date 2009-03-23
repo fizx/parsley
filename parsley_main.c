@@ -18,12 +18,11 @@
 struct arguments
 {
 	struct list_elem *include_files;
-	int input_xml;
+	int flags;
 	int output_xml;
 	char *parsley;
   char *input_file;
   char *output_file;
-  int no_prune;
 };
 
 struct list_elem {
@@ -43,6 +42,8 @@ static struct argp_option options[] = {
 	{"output",   				'o', "FILE", 0, 	"Output to FILE instead of standard output" },
   {"include",  				'i', "FILE", 0, 	"Include the contents of FILE in the compiled XSLT" },
 	{"no-prune",        'n', 0, 0, 	"Don't prune empty subtrees" },
+	{"no-net",          'z', 0, 0, 	"Disable ftp and http access for parselets" },
+	{"no-filesystem",   'Z', 0, 0, 	"Disable filesystem access for parselets" },
   { 0 }
 };
 
@@ -55,10 +56,16 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state)
   switch (key)
     {	
     case 'x':
-			arguments->input_xml = 1;
+      arguments->flags &= ~PARSLEY_OPTIONS_HTML;
 			break;
     case 'n':
-			arguments->no_prune = 1;
+			arguments->flags &= ~PARSLEY_OPTIONS_PRUNE;
+			break;
+    case 'z':
+			arguments->flags &= ~PARSLEY_OPTIONS_ALLOW_NET;
+			break;
+    case 'Z':
+			arguments->flags &= ~PARSLEY_OPTIONS_ALLOW_LOCAL;
 			break;
     case 'X':
 			arguments->output_xml = 1;
@@ -101,9 +108,8 @@ int main (int argc, char **argv) {
 	struct list_elem elem;
 	struct list_elem *elemptr = &elem;
 	elem.has_next = 0;
-	arguments.input_xml = 0;
 	arguments.output_xml = 0;
-	arguments.no_prune = 0;
+  arguments.flags = ~0;
 	arguments.include_files = elemptr;
 	arguments.output_file = "-";
 	argp_parse (&argp, argc, argv, 0, 0, &arguments);
@@ -133,10 +139,7 @@ int main (int argc, char **argv) {
 		exit(1);
 	}
 	
-	int flags = 0;
-	if (!arguments.input_xml) flags |= 1;
-	if (!arguments.no_prune)  flags |= 2;
-	parsedParsleyPtr ptr = parsley_parse_file(compiled, arguments.input_file, flags);
+	parsedParsleyPtr ptr = parsley_parse_file(compiled, arguments.input_file, arguments.flags);
 
 	if(ptr->error != NULL) {
 		fprintf(stderr, "Parsing failed: %s\n", ptr->error);

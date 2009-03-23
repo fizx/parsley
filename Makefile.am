@@ -47,3 +47,5 @@ check-am:
 	@echo "quote..."; ./parsley test/quote.let test/quote.xml 2>&1 | diff test/quote.json - && echo "    success."
 	@echo "unbang..."; ./parsley test/unbang.let test/unbang.html 2>&1 | diff test/unbang.json - && echo "    success."
 	@echo "malformed-xpath..."; ./parsley test/malformed-xpath.let test/malformed-xpath.html 2>&1 | diff test/malformed-xpath.json - && echo "    success."
+	@echo "remote..."; ./parsley test/remote.let test/remote.html 2>&1 | diff test/remote.json - && echo "    success."
+	@echo "remote-fail..."; ./parsley -z test/remote.let test/remote.html 2>&1 | diff test/remote-fail.json - && echo "    success."

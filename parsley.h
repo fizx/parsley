@@ -61,7 +61,7 @@ enum {
 enum {
 	PARSLEY_OPTIONS_HTML 					 = 1,
 	PARSLEY_OPTIONS_PRUNE   			 = 2,
-	PARSLEY_OPTIONS_ALLOW_WEB  		 = 4,
+	PARSLEY_OPTIONS_ALLOW_NET  		 = 4,
 	PARSLEY_OPTIONS_ALLOW_LOCAL    = 8
 };
 
@@ -73,7 +73,7 @@ void parsley_free(parsleyPtr);
 parsleyPtr parsley_compile(char* parsley, char* incl);
 parsedParsleyPtr parsley_parse_file(parsleyPtr parsley, char* file, int flags);
 parsedParsleyPtr parsley_parse_string(parsleyPtr parsley, char* string, size_t size, char* base_uri, int flags);
-parsedParsleyPtr parsley_parse_doc(parsleyPtr, xmlDocPtr, bool);
+parsedParsleyPtr parsley_parse_doc(parsleyPtr, xmlDocPtr, int);
 
 static contextPtr parsley_parsing_context;
 	

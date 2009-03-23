@@ -22,6 +22,42 @@ FILE* parsley_fopen(char* name, char* mode) {
 	return fo;	
 }
 
+static int parsley_io_mode = ~0;
+
+int
+parsley_io_get_mode() {
+  return parsley_io_mode;
+}
+
+void
+parsley_io_set_mode(int mode) {
+  if(mode == parsley_io_mode) return;
+  parsley_io_mode = mode;
+  
+  xmlCleanupInputCallbacks();
+  
+  if(parsley_io_mode & PARSLEY_OPTIONS_ALLOW_LOCAL) {
+  
+    xmlRegisterInputCallbacks(xmlFileMatch, xmlFileOpen,
+  	                      xmlFileRead, xmlFileClose);
+    #ifdef HAVE_ZLIB_H
+        xmlRegisterInputCallbacks(xmlGzfileMatch, xmlGzfileOpen,
+    	                      xmlGzfileRead, xmlGzfileClose);
+    #endif /* HAVE_ZLIB_H */
+  }
+  if(parsley_io_mode & PARSLEY_OPTIONS_ALLOW_NET) {
+    #ifdef LIBXML_HTTP_ENABLED
+        xmlRegisterInputCallbacks(xmlIOHTTPMatch, xmlIOHTTPOpen,
+    	                      xmlIOHTTPRead, xmlIOHTTPClose);
+    #endif /* LIBXML_HTTP_ENABLED */
+
+    #ifdef LIBXML_FTP_ENABLED
+        xmlRegisterInputCallbacks(xmlIOFTPMatch, xmlIOFTPOpen,
+    	                      xmlIOFTPRead, xmlIOFTPClose);
+    #endif /* LIBXML_FTP_ENABLED */
+  }
+}
+
 void
 printbuf_file_read(FILE *f, struct printbuf *buf) {
   char chars[BUF];

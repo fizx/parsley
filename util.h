@@ -15,6 +15,7 @@
 #include <stdbool.h>
 #include <ctype.h>
 #include <libexslt/exslt.h>
+#include <libxml/xmlIO.h>
 
 FILE* parsley_fopen(char*, char*);
 xmlNodePtr new_stylesheet_skeleton(char *incl);
@@ -24,5 +25,7 @@ void printbuf_file_read(FILE *f, struct printbuf *buf);
 int parsley_key_flags(char*);
 char* parsley_key_tag(char*);
 pxpathPtr parsley_key_filter(char*);
+int parsley_io_get_mode();
+void parsley_io_set_mode(int mode);
 
 #endif
