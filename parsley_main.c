@@ -134,8 +134,8 @@ int main (int argc, char **argv) {
 	}
 	
 	int flags = 0;
-	if (!arguments.input_xml) flags += 1;
-	if (!arguments.no_prune)  flags += 2;
+	if (!arguments.input_xml) flags |= 1;
+	if (!arguments.no_prune)  flags |= 2;
 	parsedParsleyPtr ptr = parsley_parse_file(compiled, arguments.input_file, flags);
 
 	if(ptr->error != NULL) {

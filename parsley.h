@@ -59,8 +59,10 @@ enum {
 };
 
 enum {
-	PARSLEY_OPTIONS_HTML 		= 1,
-	PARSLEY_OPTIONS_PRUNE   = 2
+	PARSLEY_OPTIONS_HTML 					 = 1,
+	PARSLEY_OPTIONS_PRUNE   			 = 2,
+	PARSLEY_OPTIONS_ALLOW_WEB  		 = 4,
+	PARSLEY_OPTIONS_ALLOW_LOCAL    = 8
 };
 
 typedef parsley_context * contextPtr;

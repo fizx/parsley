@@ -380,6 +380,7 @@ static parsedParsleyPtr current_ptr = NULL;
 
 static void 
 parsleyXsltError(void * ctx, const char * msg, ...) {
+	if(current_ptr == NULL) return;
   va_list ap;
   va_start(ap, msg);
   if(current_ptr->error == NULL) {
