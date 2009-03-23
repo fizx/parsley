@@ -33,7 +33,11 @@ parsley_io_get_mode() {
 void
 _parsley_set_user_agent(char * agent) {
   if(parsley_user_agent_header != NULL) free(parsley_user_agent_header);
-  asprintf(&parsley_user_agent_header, "User-Agent: %s\n", agent);
+  if(agent == NULL) {
+    parsley_user_agent_header = NULL
+  } else {
+    asprintf(&parsley_user_agent_header, "User-Agent: %s\n", agent);
+  }
 }
 
 static void *
