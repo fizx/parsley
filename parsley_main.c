@@ -21,6 +21,7 @@ struct arguments
 	int flags;
 	int output_xml;
 	char *parsley;
+	char *user_agent;
   char *input_file;
   char *output_file;
 };
@@ -42,6 +43,7 @@ static struct argp_option options[] = {
 	{"output",   				'o', "FILE", 0, 	"Output to FILE instead of standard output" },
   {"include",  				'i', "FILE", 0, 	"Include the contents of FILE in the compiled XSLT" },
 	{"no-prune",        'n', 0, 0, 	"Don't prune empty subtrees" },
+	{"user-agent",      'U', "USER_AGENT", 0, 	"Value of HTTP User-Agent header" },
 	{"no-net",          'z', 0, 0, 	"Disable ftp and http access for parselets" },
 	{"no-filesystem",   'Z', 0, 0, 	"Disable filesystem access for parselets" },
   { 0 }
@@ -58,6 +60,8 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state)
     case 'x':
       arguments->flags &= ~PARSLEY_OPTIONS_HTML;
 			break;
+		case 'U':
+      parsley_set_user_agent(arg);
     case 'n':
 			arguments->flags &= ~PARSLEY_OPTIONS_PRUNE;
 			break;

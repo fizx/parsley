@@ -75,6 +75,7 @@ parsedParsleyPtr parsley_parse_file(parsleyPtr parsley, char* file, int flags);
 parsedParsleyPtr parsley_parse_string(parsleyPtr parsley, char* string, size_t size, char* base_uri, int flags);
 parsedParsleyPtr parsley_parse_doc(parsleyPtr, xmlDocPtr, int);
 
+void parsley_set_user_agent(char const *agent);
 static contextPtr parsley_parsing_context;
 	
 #endif

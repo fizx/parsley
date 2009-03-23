@@ -316,11 +316,8 @@ collate(xmlNodePtr xml) {
     free(empty);
     free(multi);
     free(sortable);
-    // xml->children = NULL;
-    // xmlFreeNode(xml);
     
     collate(groups);
-		// TODO: done? figure out what the recursion target needs to be and reimplement
   } else {
     xmlNodePtr child = xml->children;
     while(child != NULL){
@@ -328,6 +325,11 @@ collate(xmlNodePtr xml) {
       child = child->next;
     }
   }
+}
+
+void
+parsley_set_user_agent(char const * agent) {
+  _parsley_set_user_agent(agent);
 }
 
 static void

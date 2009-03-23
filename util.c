@@ -22,11 +22,23 @@ FILE* parsley_fopen(char* name, char* mode) {
 	return fo;	
 }
 
-static int parsley_io_mode = ~0;
+static int parsley_io_mode = 0;
+static char *parsley_user_agent_header = NULL;
 
 int
 parsley_io_get_mode() {
   return parsley_io_mode;
+}
+
+void
+_parsley_set_user_agent(char * agent) {
+  if(parsley_user_agent_header != NULL) free(parsley_user_agent_header);
+  asprintf(&parsley_user_agent_header, "User-Agent: %s\n", agent);
+}
+
+static void *
+xmlUserAgentIOHTTPOpen(const char * file_name) {
+  return(xmlNanoHTTPMethod(file_name, NULL, NULL, NULL, parsley_user_agent_header, 0));
 }
 
 void
@@ -47,7 +59,7 @@ parsley_io_set_mode(int mode) {
   }
   if(parsley_io_mode & PARSLEY_OPTIONS_ALLOW_NET) {
     #ifdef LIBXML_HTTP_ENABLED
-        xmlRegisterInputCallbacks(xmlIOHTTPMatch, xmlIOHTTPOpen,
+        xmlRegisterInputCallbacks(xmlIOHTTPMatch, xmlUserAgentIOHTTPOpen,
     	                      xmlIOHTTPRead, xmlIOHTTPClose);
     #endif /* LIBXML_HTTP_ENABLED */
 

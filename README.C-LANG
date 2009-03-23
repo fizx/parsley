@@ -28,6 +28,10 @@ parsleyPtr parsley_compile(char* parsley, char* incl)
 	Notes: This is *NOT* thread-safe. (Usage of the parselet via parsley_parse_* *IS* 
 	thread-safe, however.)
 	
+void parsley_set_user_agent(char *);
+
+	Sets the user-agent used by parsley's internal http library.
+	
 void parsley_free(parsleyPtr);
 
 	Frees the parsleyPtr's memory.

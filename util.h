@@ -27,5 +27,6 @@ char* parsley_key_tag(char*);
 pxpathPtr parsley_key_filter(char*);
 int parsley_io_get_mode();
 void parsley_io_set_mode(int mode);
+void _parsley_set_user_agent(char *agent);
 
 #endif
