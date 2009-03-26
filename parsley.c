@@ -236,11 +236,12 @@ xml_empty(xmlNodePtr xml) {
 
 static void 
 collate(xmlNodePtr xml) { 
-	// return ;
+	if(xml == NULL) return ;
   if(xml->type != XML_ELEMENT_NODE) return;
   if(xml->ns != NULL && !strcmp(xml->ns->prefix, "parsley") && !strcmp(xml->name, "zipped")){
     xmlNodePtr parent = xml->parent;
     xmlNodePtr child = xml->children;
+    if(child == NULL) return;
     int n = _xmlChildElementCount(xml);
     
     xmlNodePtr* name_nodes = malloc(n * sizeof(xmlNodePtr));
@@ -252,18 +253,21 @@ collate(xmlNodePtr xml) {
 		int len = 0;
     for(int i = 0; i < n; i++) {
       name_nodes[i] = child;
-      lists[i] = child->children;
-			multi[i] = false;
-      optional[i] = xmlGetProp(name_nodes[i], "optional") != NULL;
-      if(lists[i] != NULL && !strcmp(lists[i]->name, "groups")) {
-        lists[i] = lists[i]->children;
-        multi[i] = true;
+      if(child->children == NULL) {
+        lists[i] = NULL;
+      } else {
+        lists[i] = child->children;
+  			multi[i] = false;
+        optional[i] = xmlGetProp(name_nodes[i], "optional") != NULL;
+        if(lists[i] != NULL && !strcmp(lists[i]->name, "groups")) {
+          lists[i] = lists[i]->children;
+          multi[i] = true;
+        }
+  			lists[i]->parent->extra = i;
+  			len += _xmlChildElementCount(lists[i]->parent);
+
+        child->children = NULL;
       }
-			lists[i]->parent->extra = i;
-			len += _xmlChildElementCount(lists[i]->parent);
-
-      child->children = NULL;
-
       child = child->next;
     }
     xml->children = NULL;
@@ -412,7 +416,7 @@ parsedParsleyPtr parsley_parse_doc(parsleyPtr parsley, xmlDocPtr doc, int flags)
   
   if(ptr->error == NULL) {
     if(ptr->xml != NULL && ptr->error == NULL) {
-      collate(ptr->xml->children);
+      if(flags & PARSLEY_OPTIONS_COLLATE) collate(ptr->xml->children);
       if(flags & PARSLEY_OPTIONS_PRUNE) visit(ptr, ptr->xml->children, NULL);
     }
     if(ptr->xml == NULL && ptr->error == NULL) { // == NULL

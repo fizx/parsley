@@ -43,6 +43,7 @@ static struct argp_option options[] = {
 	{"output",   				'o', "FILE", 0, 	"Output to FILE instead of standard output" },
   {"include",  				'i', "FILE", 0, 	"Include the contents of FILE in the compiled XSLT" },
 	{"no-prune",        'n', 0, 0, 	"Don't prune empty subtrees" },
+	{"no-collate",      'N', 0, 0, 	"Don't collate array entries" },
 	{"user-agent",      'U', "USER_AGENT", 0, 	"Value of HTTP User-Agent header" },
 	{"no-net",          'z', 0, 0, 	"Disable ftp and http access for parselets" },
 	{"no-filesystem",   'Z', 0, 0, 	"Disable filesystem access for parselets" },
@@ -64,6 +65,9 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state)
       parsley_set_user_agent(arg);
     case 'n':
 			arguments->flags &= ~PARSLEY_OPTIONS_PRUNE;
+			break;
+    case 'N':
+			arguments->flags &= ~PARSLEY_OPTIONS_COLLATE;
 			break;
     case 'z':
 			arguments->flags &= ~PARSLEY_OPTIONS_ALLOW_NET;
