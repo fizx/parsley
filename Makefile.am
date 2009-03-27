@@ -21,6 +21,12 @@ valgrind: parsley
 
 install-all:
 	./bootstrap.sh && ./configure && make && make install && cd ruby && rake install && cd ../python && python setup.py install
+	
+bench:
+	@echo "yelp..."; ./parsley test/yelp.let test/yelp.html > /dev/null
+	@echo "craigs-simple..."; ./parsley test/craigs-simple.let test/craigs-simple.html > /dev/null
+	@echo "yelp-home..."; ./parsley test/yelp-home.let test/yelp-home.html > /dev/null
+	@echo "craigs..."; ./parsley test/craigs.let test/craigs.html > /dev/null
 
 check-am:
 	@echo "fictional..."; ./parsley test/fictional.let test/fictional.html 2>&1 | diff test/fictional.json - && echo "    success."

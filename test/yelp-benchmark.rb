@@ -42,7 +42,7 @@ def pars
       }
     ]
   })
-  pp parselet.parse(:file => YELP_HTML)
+  parselet.parse(:file => YELP_HTML)
 end
 
 Benchmark.bm do |x|

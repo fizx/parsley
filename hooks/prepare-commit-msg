@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+#
+# I use this to track performance regressions in my commit messages.  To
+# use, copy or symlink into .git/hooks.
+#
+message = File.read(ARGV[0]).strip
+require "benchmark"
+File.open(ARGV[0], "w") do |file|
+  ROOT = File.dirname(__FILE__) + "/../../"
+  system "cd #{ROOT} && make check"
+  status = $?.success? ? "passing" : "failing"
+  time = Benchmark.measure {
+    system "cd #{ROOT} && make bench && make bench && make bench"
+  }.real
+  file.printf "%s (%s) [%4f]", message, status, time
+end
