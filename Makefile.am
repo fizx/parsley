@@ -16,8 +16,12 @@ parsley_LDADD = libparsley.la
 bisect:
 	./bootstrap.sh && ./configure && make clean && make check
 
-valgrind: parsley
+valgrind:
 	./libtool --mode=execute valgrind --tool=memcheck --leak-check=yes --show-reachable=yes --num-callers=20 --track-fds=yes ./parsley test/fictional.let test/fictional.html
+
+profile:
+	./libtool --mode=execute valgrind --tool=callgrind ./parsley test/fictional.let test/fictional.html
+
 
 install-all:
 	./bootstrap.sh && ./configure && make && make install && cd ruby && rake install && cd ../python && python setup.py install
