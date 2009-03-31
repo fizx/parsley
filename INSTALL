@@ -12,7 +12,7 @@ current directory.
 Debian/Ubuntu
 ------------------------------------------------------------------------
 sudo apt-get install libxslt1-dev libpcre3-dev build-essential wget
--wget http://oss.metaparadigm.com/json-c/json-c-0.8.tar.gz
+wget http://oss.metaparadigm.com/json-c/json-c-0.8.tar.gz
 tar -zxf json-c-0.8.tar.gz
 cd json-c-0.8
 ./configure
@@ -25,7 +25,14 @@ sudo make install
 
 Mac OS X with MacPorts:
 ------------------------------------------------------------------------
-sudo port install argp-standalone json-c pcre
+sudo port install argp-standalone pcre wget
+wget http://oss.metaparadigm.com/json-c/json-c-0.8.tar.gz
+tar -zxf json-c-0.8.tar.gz
+cd json-c-0.8
+./configure
+make
+sudo make install
+cd -
 ./configure
 make
 sudo make install
