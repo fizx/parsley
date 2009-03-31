@@ -1,0 +1,12 @@
+{
+  "entry(.entry)": [
+    {
+      "title": "a",
+      "link": "a @href",
+      "comments": ".comments @href",
+      "comment_count": "number(regexp:match(.comments, '[0-9]+'))",
+      "author": ".author",
+      "points": "preceding::*[contains(@class, 'score')][last()]"
+    }
+  ]
+}
