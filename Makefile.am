@@ -60,3 +60,4 @@ check-am:
 	@echo "remote..."; ./parsley test/remote.let test/remote.html 2>&1 | diff test/remote.json - && echo "    success."
 	@echo "remote-fail..."; ./parsley -z test/remote.let test/remote.html 2>&1 | diff test/remote-fail.json - && echo "    success."
 	@echo "crash..."; ./parsley test/crash.let test/crash.html 2>&1 | diff test/crash.json - && echo "    success."
+	@echo "reddit..."; ./parsley test/reddit.let test/reddit.html 2>&1 | diff test/reddit.json - && echo "    success."

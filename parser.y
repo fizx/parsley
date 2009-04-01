@@ -159,6 +159,7 @@ void answer(pxpathPtr);
 %type <node> AxisSpecifier
 %type <string> AxisName
 %type <node> NodeTest
+%type <node> Predicates
 %type <node> Predicate
 %type <node> PredicateExpr
 %type <node> AbbreviatedAbsoluteLocationPath
@@ -217,7 +218,7 @@ Root
 
 LocationPath
   : RelativeLocationPath  %dprec 1
-	| AbsoluteLocationPath  %dprec 1
+	| AbsoluteLocationPath  %dprec 2
 	| selectors_group				%dprec 3
 	;
 	
@@ -235,7 +236,7 @@ RelativeLocationPath
 	
 Step
   : AxisSpecifier NodeTest						{ $$ = pxpath_cat_paths(2, $1, $2); }
-	| AxisSpecifier NodeTest Predicate  { $$ = pxpath_cat_paths(3, $1, $2, $3); }
+	| AxisSpecifier NodeTest Predicates  { $$ = pxpath_cat_paths(3, $1, $2, $3); }
 	| AbbreviatedStep                   { $$ = PXP($1); }
 	;
 	
@@ -263,6 +264,11 @@ NodeTest
   : NameTest 
 	| NodeType LPAREN RPAREN						 { $$ = pxpath_new_path(3, $1, $2, $3); }
 	| XPI LPAREN Literal RPAREN					 { $$ = pxpath_new_path(4, $1, $2, $3, $4); }
+	;
+	
+Predicates
+  : Predicates Predicate               { $$ = pxpath_cat_paths(2, $1, $2); }
+  | Predicate
 	;
 	
 Predicate
@@ -330,7 +336,7 @@ PathExpr
 	
 FilterExpr
   : PrimaryExpr 
-	| FilterExpr Predicate				{ $$ = pxpath_cat_paths(2, $1, $2); }
+	| FilterExpr Predicates				{ $$ = pxpath_cat_paths(2, $1, $2); }
 	;
 	
 OrExpr
@@ -597,8 +603,7 @@ void init_xpath_alias() {
 	xmlHashAddEntry(alias_hash, "match", "regexp:match");
 	xmlHashAddEntry(alias_hash, "replace", "regexp:replace");
 	xmlHashAddEntry(alias_hash, "test", "regexp:test");
-	xmlHashAddEntry(alias_hash, "with-newlines", "lib:nl");
-	
+	xmlHashAddEntry(alias_hash, "with-newlines", "lib:nl");	
 }
 
 pxpathPtr myparse(char* string){
