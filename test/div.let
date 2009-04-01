@@ -1,3 +1,9 @@
 {
-	"div": "//div"
+	"div": "//div",
+	"a": "//a",
+	"calc1": "//*[2 div 1]",
+	"calc2": "4 div 2",
+	"calc3": "4",
+	"calc4": "1 + 2",
+	"prolly-nan": "number(//div) + 2"
 }
