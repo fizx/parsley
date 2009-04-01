@@ -170,9 +170,12 @@ int yyparse(void);
 pxpathPtr myparse(char*);
 void answer(pxpathPtr);
 
-#define BIN_OP(A, B, C)               pxpath_cat_paths(3, A, PXP(B), C);
-#define PREP_OP(A, B)                 pxpath_cat_paths(2, PXP(A), B)
+#define LIT_BIN_OP(A, B, C)           pxpath_cat_literals(3, A, LIT(B), C)
+#define BIN_OP(A, B, C)               pxpath_cat_paths(3, A, OP(B), C)
+#define PREP_OP(A, B)                 pxpath_cat_paths(2, OP(A), B)
 #define PXP(A)                        pxpath_new_path(1, A)
+#define LIT(A)                        pxpath_new_literal(1, A)
+#define OP(A)   	                    pxpath_new_operator(1, A)
 #define APPEND(A, S)                  pxpath_cat_paths(2, A, PXP(S)); 
 #define PREPEND(A, S)                 pxpath_cat_paths(2, PXP(S), A); 
 #define PXPWRAP(A, B, C)              pxpath_cat_paths(3, PXP(A), B, PXP(C))
@@ -188,14 +191,14 @@ void answer(pxpathPtr);
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE 
-#line 50 "parser.y"
+#line 53 "parser.y"
 {
   int empty;
 	char* string;
   pxpathPtr node;
 }
-/* Line 2604 of glr.c.  */
-#line 199 "parser.h"
+/* Line 2616 of glr.c.  */
+#line 202 "parser.h"
 	YYSTYPE;
 # define YYSTYPE_IS_DECLARED 1
 # define YYSTYPE_IS_TRIVIAL 1

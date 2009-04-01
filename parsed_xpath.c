@@ -94,10 +94,8 @@ pxpathPtr pxpath_new_func(char* value, pxpathPtr child) {
 	return ptr;
 }
 
-pxpathPtr pxpath_cat_paths(int n, ...) {
+pxpathPtr pxpath_cat_things(int n, va_list va) {
 	struct printbuf *buf = printbuf_new();
-  va_list va;
-  va_start(va, n);
   pxpathPtr last;
   pxpathPtr first;
   for(int i = 0; i < n; i++) {
@@ -113,28 +111,58 @@ pxpathPtr pxpath_cat_paths(int n, ...) {
   return out;
 }
 
-pxpathPtr pxpath_new_path(int n, ...) {
-	struct printbuf *buf = printbuf_new();
-  va_list va;
+pxpathPtr pxpath_cat_literals(int n, ...) {
+	va_list va;
   va_start(va, n);
+	pxpathPtr out = pxpath_cat_things(n, va);
+	va_end(va);
+	out->type = PXPATH_LIT_EXPR;
+	return out;
+}
+
+pxpathPtr pxpath_cat_paths(int n, ...) {
+	va_list va;
+  va_start(va, n);
+	pxpathPtr out = pxpath_cat_things(n, va);
+	va_end(va);
+	out->type = PXPATH_PATH;
+	return out;
+}
+
+static pxpathPtr 
+pxpath_new_thing(int n, va_list va) {
+	struct printbuf *buf = printbuf_new();
   for(int i = 0; i < n; i++) {
     sprintbuf(buf, "%s", va_arg(va, char *));
   }
-  va_end(va);
   pxpathPtr ptr = pxpath_new(PXPATH_PATH, buf->buf);
   printbuf_free(buf);
   return ptr;
 }
 
-pxpathPtr pxpath_new_literal(int n, ...) {
-	struct printbuf *buf = printbuf_new();
+pxpathPtr pxpath_new_path(int n, ...) {
   va_list va;
   va_start(va, n);
-  for(int i = 0; i < n; i++) {
-    sprintbuf(buf, "%s", va_arg(va, char *));
-  }
+	pxpathPtr ptr = pxpath_new_thing(n, va);
   va_end(va);
-  pxpathPtr ptr = pxpath_new(PXPATH_LITERAL, buf->buf);
-  printbuf_free(buf);
+	ptr->type = PXPATH_PATH;
+  return ptr;
+}
+
+pxpathPtr pxpath_new_literal(int n, ...) {
+  va_list va;
+  va_start(va, n);
+	pxpathPtr ptr = pxpath_new_thing(n, va);
+  va_end(va);
+	ptr->type = PXPATH_LITERAL;
+  return ptr;
+}
+
+pxpathPtr pxpath_new_operator(int n, ...) {
+  va_list va;
+  va_start(va, n);
+	pxpathPtr ptr = pxpath_new_thing(n, va);
+  va_end(va);
+	ptr->type = PXPATH_OPERATOR;
   return ptr;
 }

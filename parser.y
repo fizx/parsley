@@ -27,9 +27,12 @@ int yyparse(void);
 pxpathPtr myparse(char*);
 void answer(pxpathPtr);
 
-#define BIN_OP(A, B, C)               pxpath_cat_paths(3, A, PXP(B), C);
-#define PREP_OP(A, B)                 pxpath_cat_paths(2, PXP(A), B)
+#define LIT_BIN_OP(A, B, C)           pxpath_cat_literals(3, A, LIT(B), C)
+#define BIN_OP(A, B, C)               pxpath_cat_paths(3, A, OP(B), C)
+#define PREP_OP(A, B)                 pxpath_cat_paths(2, OP(A), B)
 #define PXP(A)                        pxpath_new_path(1, A)
+#define LIT(A)                        pxpath_new_literal(1, A)
+#define OP(A)   	                    pxpath_new_operator(1, A)
 #define APPEND(A, S)                  pxpath_cat_paths(2, A, PXP(S)); 
 #define PREPEND(A, S)                 pxpath_cat_paths(2, PXP(S), A); 
 #define PXPWRAP(A, B, C)              pxpath_cat_paths(3, PXP(A), B, PXP(C))
@@ -303,7 +306,7 @@ Expr
 PrimaryExpr
   : VariableReference 
 	| LPAREN Expr RPAREN 				 	{ $$ = PXPWRAP($1, $2, $3);     }  
-  | Literal                     { $$ = PXP($1);  }
+  | Literal                     { $$ = LIT($1);  }
   | Number 
 	| FunctionCall
 	;
@@ -341,41 +344,41 @@ FilterExpr
 	
 OrExpr
   : AndExpr 
-	| OrExpr XOR AndExpr						{ $$ = BIN_OP($1, $2, $3); }
+	| OrExpr XOR AndExpr						{ $$ = LIT_BIN_OP($1, $2, $3); }
 	;
 	
 AndExpr
   : EqualityExpr 
-	| AndExpr XAND EqualityExpr			{ $$ = BIN_OP($1, $2, $3); }
+	| AndExpr XAND EqualityExpr			{ $$ = LIT_BIN_OP($1, $2, $3); }
 	;
 	
 EqualityExpr
   : RelationalExpr 
-	| EqualityExpr EQ RelationalExpr				{ $$ = BIN_OP($1, $2, $3); }
-	| EqualityExpr CXOPNE RelationalExpr		{ $$ = BIN_OP($1, $2, $3); }	
+	| EqualityExpr EQ RelationalExpr				{ $$ = LIT_BIN_OP($1, $2, $3); }
+	| EqualityExpr CXOPNE RelationalExpr		{ $$ = LIT_BIN_OP($1, $2, $3); }	
 	;
 	
 RelationalExpr
   : AdditiveExpr
-  | RelationalExpr LT AdditiveExpr        { $$ = BIN_OP($1, $2, $3); }
-  | RelationalExpr GT AdditiveExpr        { $$ = BIN_OP($1, $2, $3); }
-  | RelationalExpr LTE AdditiveExpr       { $$ = BIN_OP($1, $2, $3); }
-  | RelationalExpr GTE AdditiveExpr       { $$ = BIN_OP($1, $2, $3); }
+  | RelationalExpr OptS LT OptS AdditiveExpr        { $$ = LIT_BIN_OP($1, $3, $5); }
+  | RelationalExpr OptS GT OptS AdditiveExpr        { $$ = LIT_BIN_OP($1, $3, $5); }
+  | RelationalExpr OptS LTE OptS AdditiveExpr       { $$ = LIT_BIN_OP($1, $3, $5); }
+  | RelationalExpr OptS GTE OptS AdditiveExpr       { $$ = LIT_BIN_OP($1, $3, $5); }
 	;
-	
+
 AdditiveExpr
   : MultiplicativeExpr
-	| AdditiveExpr PLUS MultiplicativeExpr		{ $$ = BIN_OP($1, $2, $3); }
-	| AdditiveExpr DASH MultiplicativeExpr		{ $$ = BIN_OP($1, $2, $3); }
+	| AdditiveExpr OptS PLUS OptS MultiplicativeExpr		{ $$ = LIT_BIN_OP($1, $3, $5); }
+	| AdditiveExpr OptS DASH OptS MultiplicativeExpr		{ $$ = LIT_BIN_OP($1, $3, $5); }
 	;
-	
+
 MultiplicativeExpr
   : UnaryExpr
-  | MultiplicativeExpr MultiplyOperator UnaryExpr		{ $$ = BIN_OP($1, $2, $3); }
-  | MultiplicativeExpr XDIV UnaryExpr               { $$ = BIN_OP($1, $2, $3); }
-  | MultiplicativeExpr XMOD UnaryExpr               { $$ = BIN_OP($1, $2, $3); }
+  | MultiplicativeExpr OptS MultiplyOperator OptS UnaryExpr		{ $$ = LIT_BIN_OP($1, $3, $5); }
+  | MultiplicativeExpr OptS XDIV OptS UnaryExpr               { $$ = LIT_BIN_OP($1, $3, $5); }
+  | MultiplicativeExpr OptS XMOD OptS UnaryExpr               { $$ = LIT_BIN_OP($1, $3, $5); }
 	;
-	
+
 UnaryExpr
   : UnionExpr 
 	| DASH UnaryExpr		{ $$ = PREP_OP($1, $2); }
@@ -385,10 +388,10 @@ Literal
   : STRING
 	;
 Number
-  : NUMBER                { $$ = PXP($1); }
-	| NUMBER DOT						{ $$ = pxpath_new_path(2, $1, $2); }
-	| NUMBER DOT NUMBER			{ $$ = pxpath_new_path(3, $1, $2, $3); }
-	| DOT NUMBER						{ $$ = pxpath_new_path(2, $1, $2); }
+  : NUMBER                { $$ = LIT($1); }
+	| NUMBER DOT						{ $$ = pxpath_new_literal(2, $1, $2); }
+	| NUMBER DOT NUMBER			{ $$ = pxpath_new_literal(3, $1, $2, $3); }
+	| DOT NUMBER						{ $$ = pxpath_new_literal(2, $1, $2); }
 	;
 	
 MultiplyOperator
@@ -439,6 +442,7 @@ LocalPart
 
 NCName
 	: NAME
+	| keyword
 	;
 
 selectors_group
