@@ -4050,7 +4050,7 @@ void init_xpath_alias() {
 }
 
 pxpathPtr myparse(char* string){
-  // start_debugging();
+  start_debugging();
   parsed_answer = NULL;
   prepare_parse(string);
   yyparse();
