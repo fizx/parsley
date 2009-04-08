@@ -1,0 +1,1493 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Document xmlns="http://www.apple.com/itms/" artistId="284962371" browsePath="/36/6011" genreId="6011">
+  <iTunes> GuitarToolkit </iTunes>
+  <Protocol>
+    <plist version="1.0">
+      <dict>
+        <key>ping</key>
+        <string>http://metrics.apple.com/b/ss/applesuperglobal/1/G.6--NS?pageName=Software%20Page-US-GuitarToolkit-284962368&amp;pccr=true&amp;h5=appleitmsna%2Cappleitmsus&amp;ch=Software&amp;g=http%3A%2F%2Fax.itunes.apple.com%2FWebObjects%2FMZStore.woa%2Fwa%2FviewSoftware%3Fid%3D284962368%26mt%3D8</string>
+        <key>set-prefs</key>
+        <dict>
+          <key>preferred-audio-format</key>
+          <string>256</string>
+        </dict>
+      </dict>
+    </plist>
+  </Protocol>
+  <Path>
+    <PathElement displayName="App Store" inhibitDragging="false">http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewGenre?id=36&amp;mt=8</PathElement>
+    <PathElement displayName="Music" inhibitDragging="false">http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewGenre?id=6011&amp;mt=8</PathElement>
+    <PathElement displayName="GuitarToolkit" inhibitDragging="false">http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=284962368&amp;mt=8</PathElement>
+  </Path>
+  <View rightInset="0" topInset="0" bottomInset="0" leftInset="0" stretchiness="1" backColor="ffffff">
+    <ScrollView rightInset="0" topInset="0" bottomInset="0" leftInset="0" stretchiness="1" horzScroll="as needed" vertScroll="as needed">
+      <VBoxView>
+        <Include target="main" url="http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/com.apple.jingle.appserver.MZDirectAction/fontStyles"/>
+        <Test comparison="ge" value="7.4" property="iTunes version">
+          <Include value="starbucks" property="partner" comparison="eq" hookup-expire-time="true" url="http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/nowPlayingPlacard">
+    
+    
+</Include>
+        </Test>
+        <Test rightInset="0" comparison="lt" value="7.7" property="iTunes version" leftInset="0">
+          <VBoxView backColor="ccd6e1">
+            <HBoxView height="66" leftInset="20" rightInset="25" stretchiness="1">
+              <VBoxView alt="">
+                <View alt="" stretchiness="1"/>
+                <PictureView leftInset="0" width="40" topInset="5" height="40" url="/images/logo_iTunes_95.png"/>
+                <View alt="" stretchiness="1"/>
+              </VBoxView>
+              <VBoxView alt="" stretchiness="1">
+                <View alt="" stretchiness="1"/>
+                <TextView topInset="0" leftInset="10" rightInset="25" styleSet="normal14" bottomInset="0" textJust="left">
+                  <Color color="000000">
+            
+            To download iPhone and iPod touch applications, upgrade to the latest version of iTunes.
+          </Color>
+                </TextView>
+                <View alt="" stretchiness="1"/>
+              </VBoxView>
+              <View width="25"/>
+              <HBoxView rightInset="0">
+                <VBoxView alt="">
+                  <View alt="" stretchiness="1"/>
+                  <OpenURL target="main" url="http://www.apple.com/itunes/download/">
+                    <TextView topInset="1" truncation="right" leftInset="0" styleSet="normal14" textJust="left" maxLines="1">
+                      <Color color="000000">Download</Color>
+                    </TextView>
+                  </OpenURL>
+                  <View alt="" stretchiness="1"/>
+                </VBoxView>
+                <VBoxView alt="">
+                  <View alt="" stretchiness="1"/>
+                  <OpenURL target="main" alt="" url="http://www.apple.com/itunes/download/">
+                    <PictureButtonView leftInset="2" width="12" topInset="2" picts="plain,pressed,rollover" transparentClicks="1" alt="" url="/images/arrowoutline/arrow_000000_r.png" height="12"/>
+                  </OpenURL>
+                  <View alt="" stretchiness="1"/>
+                </VBoxView>
+              </HBoxView>
+            </HBoxView>
+            <View rightInset="0" leftInset="0" height="1" backColor="90a1aa"/>
+            <View height="0"/>
+          </VBoxView>
+        </Test>
+        <View stretchiness="1">
+          <PictureView topInset="0" horizontalBehavior="stretch" height="550" url="/images/gradient/lightblue_short.jpg"/>
+          <MatrixView rightInset="0" bottomInset="0" leftInset="0" topInset="0" minWidth="850" rowFormat="100%,*">
+            <FontStyle name="descriptionTextColor" color="223a5e"/>
+            <FontStyle name="textColor" color="000000"/>
+            <FontStyle name="lockupTextColor" color="000000"/>
+            <MatrixView rightInset="25" topInset="0" columnFormat="65%,25,35%" bottomInset="10" leftInset="25">
+              <VBoxView rightInset="0" topInset="10" leftInset="0">
+                <GotoURL target="main" inhibitDragging="false" url="http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewArtist?id=284962371" draggingName="Agile Partners">
+                  <TextView topInset="0" truncation="right" leftInset="0" rightInset="0" headingLevel="1" styleSet="basic20" textJust="left" maxLines="1">
+                    <SetFontStyle normalStyle="textColor">
+                      <b>Agile Partners</b>
+                    </SetFontStyle>
+                  </TextView>
+                </GotoURL>
+                <VBoxView rightInset="0" topInset="15" bottomInset="10" leftInset="0">
+                  <MatrixView columnFormat="100,10,100%" rowFormat="*">
+                    <GotoURL target="main" inhibitDragging="false" url="http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=284962368&amp;mt=8" draggingName="GuitarToolkit">
+                      <PictureView leftInset="0" proportional="1" width="100" topInset="0" verticalAlignment="top" height="100" rightInset="0" alt="GuitarToolkit artwork" reflection="1" mask="/images/masks/coverart/cover_mask_rounded_100x100.png" url="http://a1.phobos.apple.com/us/r30/Purple/fe/c1/bc/mzl.mkqvgpjx.100x100-75.jpg" addShadowSizes="true"/>
+                    </GotoURL>
+                    <View/>
+                    <VBoxView rightInset="0" topInset="0" leftInset="0" stretchiness="1">
+                      <HBoxView rightInset="0" topInset="0" bottomInset="0" leftInset="0">
+                        <VBoxView alt="" stretchiness="1">
+                          <View alt="" stretchiness="1"/>
+                          <TextView topInset="0" truncation="right" leftInset="0" rightInset="0" styleSet="basic14Bold" textJust="left" maxLines="3">
+                            <SetFontStyle normalStyle="lockupTextColor">
+                              <GotoURL target="main" inhibitDragging="false" url="http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=284962368&amp;mt=8" draggingName="GuitarToolkit">
+                                <B>GuitarToolkit</B>
+                              </GotoURL>
+                            </SetFontStyle>
+                          </TextView>
+                          <View alt="" stretchiness="1"/>
+                        </VBoxView>
+                      </HBoxView>
+                      <View minHeight="5" stretchiness="1"/>
+                      <HBoxView rightInset="0" topInset="0" leftInset="0" stretchiness="1">
+                        <TextView topInset="0" truncation="right" leftInset="0" squishiness="1" styleSet="basic11" textJust="left" maxLines="1">
+                          <SetFontStyle normalStyle="lockupTextColor">
+            
+            
+              Category: Music
+            
+          </SetFontStyle>
+                        </TextView>
+                      </HBoxView>
+                      <TextView topInset="0" truncation="right" leftInset="0" rightInset="0" styleSet="basic11" textJust="left" maxLines="1">
+                        <SetFontStyle normalStyle="lockupTextColor">
+            
+            
+              Released
+              
+              Jul 07, 2008
+            
+           </SetFontStyle>
+                      </TextView>
+                      <TextView topInset="0" truncation="right" leftInset="0" rightInset="0" styleSet="basic11" textJust="left" maxLines="1">
+                        <SetFontStyle normalStyle="lockupTextColor">
+            Seller: Agile Partners Technologies, LLC
+          </SetFontStyle>
+                      </TextView>
+                      <TextView topInset="0" truncation="right" leftInset="0" rightInset="0" styleSet="basic11" textJust="left" maxLines="1">
+                        <SetFontStyle normalStyle="lockupTextColor">© 2008 Agile Partners Technologies, LLC</SetFontStyle>
+                      </TextView>
+                      <TextView topInset="0" truncation="right" leftInset="0" rightInset="0" styleSet="basic11" textJust="left" maxLines="1">
+                        <SetFontStyle normalStyle="lockupTextColor">
+            Version: 1.2.2
+          </SetFontStyle>
+                      </TextView>
+                      <TextView topInset="0" truncation="right" leftInset="0" rightInset="0" styleSet="basic11" textJust="left" maxLines="1">
+                        <SetFontStyle normalStyle="lockupTextColor">
+            5.9 MB
+          </SetFontStyle>
+                      </TextView>
+                      <VBoxView topInset="6">
+                        <HBoxView topInset="3">
+                          <VBoxView alt="">
+                            <View alt="" stretchiness="1"/>
+                            <TextView topInset="0" truncation="right" leftInset="0" styleSet="basic11" textJust="left" maxLines="1">
+                              <SetFontStyle normalStyle="lockupTextColor">
+                                <b>$9.99</b>
+                              </SetFontStyle>
+                            </TextView>
+                            <View alt="" stretchiness="1"/>
+                          </VBoxView>
+                          <VBoxView alt="">
+                            <View alt="" stretchiness="1"/>
+                            <Test comparison="ge" value="0" property="restrict games">
+                              <Buy buy-only="0" freeDownload="0" preOrder="0" buyParams="productType=C&amp;salableAdamId=284962368&amp;pricingParameters=STDQ&amp;price=9990&amp;ct-id=14" itemName="GuitarToolkit">
+                                <PictureButtonView leftInset="5" width="115" topInset="1" picts="plain,pressed,rollover" alt="Buy App, GuitarToolkit: $9.99" url="/images/btn_buyapp_16.png" height="16"/>
+                              </Buy>
+                            </Test>
+                            <Test comparison="lt" value="0" property="restrict games">
+                              <PictureView leftInset="5" width="115" topInset="1" height="16" alt="disabled Buy App, GuitarToolkit: $9.99" url="/images/btn_buyapp_16_0.png"/>
+                            </Test>
+                            <View alt="" stretchiness="1"/>
+                          </VBoxView>
+                        </HBoxView>
+                      </VBoxView>
+                    </VBoxView>
+                  </MatrixView>
+                </VBoxView>
+                <View height="30"/>
+                <View rightInset="0" viewName="ScreenshotFrame" leftInset="0">
+                  <View>
+                    <Test comparison="greater or equal" value="7.0.0" property="iTunes version">
+                      <View rightInset="0" topInset="0" alt="" bottomInset="0" leftInset="0">
+                        <PictureButtonView leftInset="0" topInset="0" cap="4" rightInset="0" color="rgba(0,0,0,0.05)" mask="/images/masks/rounded_box.png" bottomInset="0">
+      
+    </PictureButtonView>
+                      </View>
+                    </Test>
+                    <Test comparison="less" value="7.0.0" property="iTunes version">
+                      <VBoxView rightInset="1" topInset="0" bottomInset="0" leftInset="1">
+                        <HBoxView leftInset="0" rightInset="0" height="1">
+                          <View width="3"/>
+                          <View stretchiness="1" backColor="c2cbd6"/>
+                          <View width="3"/>
+                        </HBoxView>
+                        <HBoxView leftInset="0" rightInset="0" height="1">
+                          <View width="2"/>
+                          <View width="1" backColor="c2cbd6"/>
+                          <View stretchiness="1" backColor="c2cbd6"/>
+                          <View width="1" backColor="c2cbd6"/>
+                          <View width="2"/>
+                        </HBoxView>
+                        <HBoxView leftInset="0" rightInset="0" height="1">
+                          <View width="1"/>
+                          <View width="1" backColor="c2cbd6"/>
+                          <View stretchiness="1" backColor="c2cbd6"/>
+                          <View width="1" backColor="c2cbd6"/>
+                          <View width="1"/>
+                        </HBoxView>
+                        <HBoxView leftInset="0" rightInset="0" stretchiness="1">
+                          <View width="1" backColor="c2cbd6"/>
+                          <View stretchiness="1" backColor="c2cbd6"/>
+                          <View width="1" backColor="c2cbd6"/>
+                        </HBoxView>
+                        <HBoxView leftInset="0" rightInset="0" height="1">
+                          <View width="1"/>
+                          <View width="1" backColor="c2cbd6"/>
+                          <View stretchiness="1" backColor="c2cbd6"/>
+                          <View width="1" backColor="c2cbd6"/>
+                          <View width="1"/>
+                        </HBoxView>
+                        <HBoxView leftInset="0" rightInset="0" height="1">
+                          <View width="2"/>
+                          <View width="1" backColor="c2cbd6"/>
+                          <View stretchiness="1" backColor="c2cbd6"/>
+                          <View width="1" backColor="c2cbd6"/>
+                          <View width="2"/>
+                        </HBoxView>
+                        <HBoxView leftInset="0" rightInset="0" height="1">
+                          <View width="3"/>
+                          <View stretchiness="1" backColor="c2cbd6"/>
+                          <View width="3"/>
+                        </HBoxView>
+                      </VBoxView>
+                    </Test>
+                    <View>
+                      <VBoxView>
+                        <VBoxView alt="" height="20">
+                          <View alt="" stretchiness="1"/>
+                          <HBoxView alt="">
+                            <View alt="" stretchiness="1"/>
+                            <HBoxView>
+                              <Test comparison="greater or equal" value="7.0.0" property="iTunes version">
+                                <View rightInset="1" width="7" alt="" leftInset="1" height="7">
+                                  <PictureButtonView leftInset="0" topInset="0" transparentClicks="1" rightInset="0" color="rgb(65,69,74)" alt="selected page 1 of 5" mask="/images/swoosh/swoosh_indicator_1_mask.png" bottomInset="0">
+      
+    </PictureButtonView>
+                                </View>
+                                <PictureView leftInset="1" width="7" transparentClicks="1" height="7" rightInset="1" alt="" url="/images/swoosh/swoosh_indicator_41454a_1.png"/>
+                              </Test>
+                              <LoadFrameURL transitionMovement="cos" url="http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/screenshotWidget?id=284962368&amp;direction=right&amp;dimpleStartIndex=1" transitionDuration="500" frameViewName="ScreenshotFrame" transitionModifier="right" transitionType="dissolve" transitionEndViewName="ScreenshotTransitionFrame" transitionStartViewName="ScreenshotTransitionFrame">
+                                <Test comparison="greater or equal" value="7.0.0" property="iTunes version">
+                                  <View rightInset="1" width="7" alt="" leftInset="1" height="7">
+                                    <PictureButtonView leftInset="0" topInset="0" transparentClicks="1" rightInset="0" color="rgb(65,69,74)" alt="page 2 of 5" mask="/images/swoosh/swoosh_indicator_0_mask.png" bottomInset="0">
+      
+    </PictureButtonView>
+                                  </View>
+                                  <PictureView leftInset="1" width="7" transparentClicks="1" height="7" rightInset="1" alt="" url="/images/swoosh/swoosh_indicator_41454a_0.png"/>
+                                </Test>
+                              </LoadFrameURL>
+                              <LoadFrameURL transitionMovement="cos" url="http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/screenshotWidget?id=284962368&amp;direction=right&amp;dimpleStartIndex=2" transitionDuration="500" frameViewName="ScreenshotFrame" transitionModifier="right" transitionType="dissolve" transitionEndViewName="ScreenshotTransitionFrame" transitionStartViewName="ScreenshotTransitionFrame">
+                                <Test comparison="greater or equal" value="7.0.0" property="iTunes version">
+                                  <View rightInset="1" width="7" alt="" leftInset="1" height="7">
+                                    <PictureButtonView leftInset="0" topInset="0" transparentClicks="1" rightInset="0" color="rgb(65,69,74)" alt="page 3 of 5" mask="/images/swoosh/swoosh_indicator_0_mask.png" bottomInset="0">
+      
+    </PictureButtonView>
+                                  </View>
+                                  <PictureView leftInset="1" width="7" transparentClicks="1" height="7" rightInset="1" alt="" url="/images/swoosh/swoosh_indicator_41454a_0.png"/>
+                                </Test>
+                              </LoadFrameURL>
+                              <LoadFrameURL transitionMovement="cos" url="http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/screenshotWidget?id=284962368&amp;direction=right&amp;dimpleStartIndex=3" transitionDuration="500" frameViewName="ScreenshotFrame" transitionModifier="right" transitionType="dissolve" transitionEndViewName="ScreenshotTransitionFrame" transitionStartViewName="ScreenshotTransitionFrame">
+                                <Test comparison="greater or equal" value="7.0.0" property="iTunes version">
+                                  <View rightInset="1" width="7" alt="" leftInset="1" height="7">
+                                    <PictureButtonView leftInset="0" topInset="0" transparentClicks="1" rightInset="0" color="rgb(65,69,74)" alt="page 4 of 5" mask="/images/swoosh/swoosh_indicator_0_mask.png" bottomInset="0">
+      
+    </PictureButtonView>
+                                  </View>
+                                  <PictureView leftInset="1" width="7" transparentClicks="1" height="7" rightInset="1" alt="" url="/images/swoosh/swoosh_indicator_41454a_0.png"/>
+                                </Test>
+                              </LoadFrameURL>
+                              <LoadFrameURL transitionMovement="cos" url="http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/screenshotWidget?id=284962368&amp;direction=right&amp;dimpleStartIndex=4" transitionDuration="500" frameViewName="ScreenshotFrame" transitionModifier="right" transitionType="dissolve" transitionEndViewName="ScreenshotTransitionFrame" transitionStartViewName="ScreenshotTransitionFrame">
+                                <Test comparison="greater or equal" value="7.0.0" property="iTunes version">
+                                  <View rightInset="1" width="7" alt="" leftInset="1" height="7">
+                                    <PictureButtonView leftInset="0" topInset="0" transparentClicks="1" rightInset="0" color="rgb(65,69,74)" alt="page 5 of 5" mask="/images/swoosh/swoosh_indicator_0_mask.png" bottomInset="0">
+      
+    </PictureButtonView>
+                                  </View>
+                                  <PictureView leftInset="1" width="7" transparentClicks="1" height="7" rightInset="1" alt="" url="/images/swoosh/swoosh_indicator_41454a_0.png"/>
+                                </Test>
+                              </LoadFrameURL>
+                            </HBoxView>
+                            <View alt="" stretchiness="1"/>
+                          </HBoxView>
+                          <View alt="" stretchiness="1"/>
+                        </VBoxView>
+                        <View rightInset="20" viewName="ScreenshotTransitionFrame" leftInset="20" height="460">
+                          <VBoxView alt="" height="460">
+                            <View alt="" stretchiness="1"/>
+                            <HBoxView alt="">
+                              <View alt="" stretchiness="1"/>
+                              <LoadFrameURL transitionMovement="cos" url="http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/screenshotWidget?index=1&amp;id=284962368" transitionDuration="500" frameViewName="ScreenshotFrame" transitionModifier="right" transitionType="dissolve" transitionEndViewName="ScreenshotTransitionFrame" transitionStartViewName="ScreenshotTransitionFrame">
+                                <PictureView width="320" borderColor="a9a9a9" height="460" alt="Application Screenshot" url="http://a1.phobos.apple.com/us/r30/Purple/42/e8/ee/mzl.nlhpkvmc.480x480-75.jpg" borderWidth="1"/>
+                              </LoadFrameURL>
+                              <View alt="" stretchiness="1"/>
+                            </HBoxView>
+                            <View alt="" stretchiness="1"/>
+                          </VBoxView>
+                        </View>
+                        <VBoxView alt="" height="40">
+                          <View alt="" stretchiness="1"/>
+                          <HBoxView alt="">
+                            <View alt="" stretchiness="1"/>
+                            <LoadFrameURL transitionMovement="cos" url="http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/screenshotWidget?index=4&amp;id=284962368" transitionDuration="500" frameViewName="ScreenshotFrame" transitionModifier="left" transitionType="dissolve" transitionEndViewName="ScreenshotTransitionFrame" transitionStartViewName="ScreenshotTransitionFrame">
+                              <Test comparison="greater or equal" value="7.0.0" property="iTunes version">
+                                <View width="35" alt="" height="27">
+                                  <PictureButtonView leftInset="0" topInset="0" picts="plain,pressed" transparentClicks="1" rightInset="0" color="rgb(51,51,51)" alt="previous page" mask="/images/swoosh_screenshots/arrow_left_mask.png" bottomInset="0">
+      
+    </PictureButtonView>
+                                </View>
+                                <PictureButtonView width="35" picts="plain,pressed" transparentClicks="1" alt="" url="/images/swoosh_screenshots/arrow_left_default.png" height="27"/>
+                              </Test>
+                            </LoadFrameURL>
+                            <LoadFrameURL transitionMovement="cos" url="http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/screenshotWidget?index=1&amp;id=284962368" transitionDuration="500" frameViewName="ScreenshotFrame" transitionModifier="right" transitionType="dissolve" transitionEndViewName="ScreenshotTransitionFrame" transitionStartViewName="ScreenshotTransitionFrame">
+                              <Test comparison="greater or equal" value="7.0.0" property="iTunes version">
+                                <View width="34" alt="" height="27">
+                                  <PictureButtonView leftInset="0" topInset="0" picts="plain,pressed" transparentClicks="1" rightInset="0" color="rgb(51,51,51)" alt="next page" mask="/images/swoosh_screenshots/arrow_right_mask.png" bottomInset="0">
+      
+    </PictureButtonView>
+                                </View>
+                                <PictureButtonView width="34" picts="plain,pressed" transparentClicks="1" alt="" url="/images/swoosh_screenshots/arrow_right_default.png" height="27"/>
+                              </Test>
+                            </LoadFrameURL>
+                            <View alt="" stretchiness="1"/>
+                          </HBoxView>
+                          <View alt="" stretchiness="1"/>
+                        </VBoxView>
+                      </VBoxView>
+                    </View>
+                  </View>
+                </View>
+                <View height="30"/>
+                <VBoxView>
+                  <View rightInset="0" viewName="RatingsFrame" bottomInset="30" leftInset="0">
+                    <View>
+                      <Test comparison="greater or equal" value="7.0.0" property="iTunes version">
+                        <View rightInset="0" topInset="0" alt="" bottomInset="0" leftInset="0">
+                          <PictureButtonView leftInset="0" topInset="0" cap="4" rightInset="0" color="rgba(0,0,0,0.05)" mask="/images/masks/rounded_box.png" bottomInset="0">
+      
+    </PictureButtonView>
+                        </View>
+                      </Test>
+                      <Test comparison="less" value="7.0.0" property="iTunes version">
+                        <VBoxView rightInset="1" topInset="0" bottomInset="0" leftInset="1">
+                          <HBoxView leftInset="0" rightInset="0" height="1">
+                            <View width="3"/>
+                            <View stretchiness="1" backColor="c2cbd6"/>
+                            <View width="3"/>
+                          </HBoxView>
+                          <HBoxView leftInset="0" rightInset="0" height="1">
+                            <View width="2"/>
+                            <View width="1" backColor="c2cbd6"/>
+                            <View stretchiness="1" backColor="c2cbd6"/>
+                            <View width="1" backColor="c2cbd6"/>
+                            <View width="2"/>
+                          </HBoxView>
+                          <HBoxView leftInset="0" rightInset="0" height="1">
+                            <View width="1"/>
+                            <View width="1" backColor="c2cbd6"/>
+                            <View stretchiness="1" backColor="c2cbd6"/>
+                            <View width="1" backColor="c2cbd6"/>
+                            <View width="1"/>
+                          </HBoxView>
+                          <HBoxView leftInset="0" rightInset="0" stretchiness="1">
+                            <View width="1" backColor="c2cbd6"/>
+                            <View stretchiness="1" backColor="c2cbd6"/>
+                            <View width="1" backColor="c2cbd6"/>
+                          </HBoxView>
+                          <HBoxView leftInset="0" rightInset="0" height="1">
+                            <View width="1"/>
+                            <View width="1" backColor="c2cbd6"/>
+                            <View stretchiness="1" backColor="c2cbd6"/>
+                            <View width="1" backColor="c2cbd6"/>
+                            <View width="1"/>
+                          </HBoxView>
+                          <HBoxView leftInset="0" rightInset="0" height="1">
+                            <View width="2"/>
+                            <View width="1" backColor="c2cbd6"/>
+                            <View stretchiness="1" backColor="c2cbd6"/>
+                            <View width="1" backColor="c2cbd6"/>
+                            <View width="2"/>
+                          </HBoxView>
+                          <HBoxView leftInset="0" rightInset="0" height="1">
+                            <View width="3"/>
+                            <View stretchiness="1" backColor="c2cbd6"/>
+                            <View width="3"/>
+                          </HBoxView>
+                        </VBoxView>
+                      </Test>
+                      <View>
+                        <VBoxView topInset="10" rightInset="10" bottomInset="10" leftInset="10">
+                          <VBoxView alt="">
+                            <View alt="" stretchiness="1"/>
+                            <TextView topInset="0" truncation="right" leftInset="0" headingLevel="2" styleSet="basic16" textJust="left" maxLines="1">
+                              <SetFontStyle normalStyle="descriptionTextColor">
+                                <b>CUSTOMER RATINGS</b>
+                              </SetFontStyle>
+                            </TextView>
+                            <View alt="" stretchiness="1"/>
+                          </VBoxView>
+                          <View height="5"/>
+                          <Test id="1234" property="toggle">
+                            <VBoxView topInset="8">
+                              <HBoxView>
+                                <Test comparison="ge" value="8.0.1" property="iTunes version">
+                                  <VBoxView topInset="1" alt="" bottomInset="0">
+                                    <View alt="" stretchiness="1"/>
+                                    <Toggle toggle-id="1234">
+                                      <View rightInset="3" width="9" alt="" height="9">
+                                        <PictureButtonView leftInset="0" topInset="0" transparentClicks="1" rightInset="0" color="rgb(34,58,94)" alt="collapsed" mask="/images/masks/disclosure_mask_closed.png" bottomInset="0">
+      
+    </PictureButtonView>
+                                      </View>
+                                    </Toggle>
+                                    <View alt="" stretchiness="1"/>
+                                  </VBoxView>
+                                  <View width="0"/>
+                                </Test>
+                                <VBoxView alt="">
+                                  <View alt="" stretchiness="1"/>
+                                  <TextView topInset="0" truncation="right" leftInset="0" styleSet="basic13" textJust="left" maxLines="1">
+                                    <SetFontStyle normalStyle="textColor">Average rating for the current version: </SetFontStyle>
+                                  </TextView>
+                                  <View alt="" stretchiness="1"/>
+                                </VBoxView>
+                                <VBoxView alt="">
+                                  <View alt="" stretchiness="1"/>
+                                  <HBoxView rightInset="6" alt="4 and a half stars" leftInset="6">
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_000000.png"/>
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_000000.png"/>
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_000000.png"/>
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_000000.png"/>
+                                    <TextView topInset="0" truncation="right" leftInset="0" styleSet="basic11" alt="" textJust="left" maxLines="1">
+                                      <b>
+                                        <Color color="000000">½</Color>
+                                      </b>
+                                    </TextView>
+                                  </HBoxView>
+                                  <View alt="" stretchiness="1"/>
+                                </VBoxView>
+                                <VBoxView alt="">
+                                  <View alt="" stretchiness="1"/>
+                                  <TextView topInset="0" truncation="right" leftInset="0" styleSet="basic11" textJust="left" maxLines="1">
+                                    <SetFontStyle normalStyle="descriptionTextColor">330 ratings</SetFontStyle>
+                                  </TextView>
+                                  <View alt="" stretchiness="1"/>
+                                </VBoxView>
+                                <View stretchiness="1"/>
+                              </HBoxView>
+                              <View height="10"/>
+                              <View height="1" backColor="bac0c7"/>
+                            </VBoxView>
+                            <VBoxView topInset="8">
+                              <HBoxView>
+                                <VBoxView topInset="1" alt="" bottomInset="0">
+                                  <View alt="" stretchiness="1"/>
+                                  <Toggle toggle-id="1234">
+                                    <View rightInset="3" width="9" alt="" height="9">
+                                      <PictureButtonView leftInset="0" topInset="0" transparentClicks="1" rightInset="0" color="rgb(34,58,94)" alt="expanded" mask="/images/masks/disclosure_mask_open.png" bottomInset="0">
+      
+    </PictureButtonView>
+                                    </View>
+                                  </Toggle>
+                                  <View alt="" stretchiness="1"/>
+                                </VBoxView>
+                                <VBoxView alt="">
+                                  <View alt="" stretchiness="1"/>
+                                  <TextView topInset="0" truncation="right" leftInset="0" styleSet="basic13" textJust="left" maxLines="1">
+                                    <SetFontStyle normalStyle="textColor">Average rating for the current version: </SetFontStyle>
+                                  </TextView>
+                                  <View alt="" stretchiness="1"/>
+                                </VBoxView>
+                                <VBoxView alt="">
+                                  <View alt="" stretchiness="1"/>
+                                  <HBoxView rightInset="6" alt="4 and a half stars" leftInset="6">
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_000000.png"/>
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_000000.png"/>
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_000000.png"/>
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_000000.png"/>
+                                    <TextView topInset="0" truncation="right" leftInset="0" styleSet="basic11" alt="" textJust="left" maxLines="1">
+                                      <b>
+                                        <Color color="000000">½</Color>
+                                      </b>
+                                    </TextView>
+                                  </HBoxView>
+                                  <View alt="" stretchiness="1"/>
+                                </VBoxView>
+                                <VBoxView alt="">
+                                  <View alt="" stretchiness="1"/>
+                                  <TextView topInset="0" truncation="right" leftInset="0" styleSet="basic11" textJust="left" maxLines="1">
+                                    <SetFontStyle normalStyle="descriptionTextColor">330 ratings</SetFontStyle>
+                                  </TextView>
+                                  <View alt="" stretchiness="1"/>
+                                </VBoxView>
+                                <View stretchiness="1"/>
+                              </HBoxView>
+                              <MatrixView columnFormat="*,*,*" topInset="6" leftInset="10" rightInset="0" stretchiness="1">
+                                <VBoxView>
+                                  <HBoxView rightInset="5" alt="5 stars">
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_333366.png"/>
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_333366.png"/>
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_333366.png"/>
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_333366.png"/>
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_333366.png"/>
+                                  </HBoxView>
+                                  <HBoxView rightInset="5" alt="4 stars">
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_333366.png"/>
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_333366.png"/>
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_333366.png"/>
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_333366.png"/>
+                                  </HBoxView>
+                                  <HBoxView rightInset="5" alt="3 stars">
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_333366.png"/>
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_333366.png"/>
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_333366.png"/>
+                                  </HBoxView>
+                                  <HBoxView rightInset="5" alt="2 stars">
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_333366.png"/>
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_333366.png"/>
+                                  </HBoxView>
+                                  <HBoxView rightInset="5" alt="1 star">
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_333366.png"/>
+                                  </HBoxView>
+                                </VBoxView>
+                                <MatrixView width="100" topInset="0" rowFormat="*12,*,12,*,12,*,12,*,12,*">
+                                  <View height="1" backColor="bac0c7"/>
+                                  <View width="100" backColor="223a5e"/>
+                                  <View height="1" backColor="bac0c7"/>
+                                  <View width="22" backColor="223a5e"/>
+                                  <View height="1" backColor="bac0c7"/>
+                                  <View width="9" backColor="223a5e"/>
+                                  <View height="1" backColor="bac0c7"/>
+                                  <View width="3" backColor="223a5e"/>
+                                  <View height="1" backColor="bac0c7"/>
+                                  <View width="7" backColor="223a5e"/>
+                                  <View height="1" backColor="bac0c7"/>
+                                </MatrixView>
+                                <VBoxView>
+                                  <TextView topInset="2" leftInset="5" styleSet="basic10">
+                                    <SetFontStyle normalStyle="descriptionTextColor">231</SetFontStyle>
+                                  </TextView>
+                                  <TextView topInset="2" leftInset="5" styleSet="basic10">
+                                    <SetFontStyle normalStyle="descriptionTextColor">52</SetFontStyle>
+                                  </TextView>
+                                  <TextView topInset="2" leftInset="5" styleSet="basic10">
+                                    <SetFontStyle normalStyle="descriptionTextColor">21</SetFontStyle>
+                                  </TextView>
+                                  <TextView topInset="2" leftInset="5" styleSet="basic10">
+                                    <SetFontStyle normalStyle="descriptionTextColor">9</SetFontStyle>
+                                  </TextView>
+                                  <TextView topInset="2" leftInset="5" styleSet="basic10">
+                                    <SetFontStyle normalStyle="descriptionTextColor">17</SetFontStyle>
+                                  </TextView>
+                                </VBoxView>
+                              </MatrixView>
+                              <View height="10"/>
+                              <View height="1" backColor="bac0c7"/>
+                            </VBoxView>
+                          </Test>
+                          <Test id="5678" property="toggle">
+                            <VBoxView topInset="8">
+                              <HBoxView>
+                                <VBoxView topInset="1" alt="" bottomInset="0">
+                                  <View alt="" stretchiness="1"/>
+                                  <Toggle toggle-id="5678">
+                                    <View rightInset="3" width="9" alt="" height="9">
+                                      <PictureButtonView leftInset="0" topInset="0" transparentClicks="1" rightInset="0" color="rgb(34,58,94)" alt="expanded" mask="/images/masks/disclosure_mask_open.png" bottomInset="0">
+      
+    </PictureButtonView>
+                                    </View>
+                                  </Toggle>
+                                  <View alt="" stretchiness="1"/>
+                                </VBoxView>
+                                <VBoxView alt="">
+                                  <View alt="" stretchiness="1"/>
+                                  <TextView topInset="0" truncation="right" leftInset="0" styleSet="basic13" textJust="left" maxLines="1">
+                                    <SetFontStyle normalStyle="textColor">Average rating for all versions: </SetFontStyle>
+                                  </TextView>
+                                  <View alt="" stretchiness="1"/>
+                                </VBoxView>
+                                <VBoxView alt="">
+                                  <View alt="" stretchiness="1"/>
+                                  <HBoxView rightInset="6" alt="4 and a half stars" leftInset="6">
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_000000.png"/>
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_000000.png"/>
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_000000.png"/>
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_000000.png"/>
+                                    <TextView topInset="0" truncation="right" leftInset="0" styleSet="basic11" alt="" textJust="left" maxLines="1">
+                                      <b>
+                                        <Color color="000000">½</Color>
+                                      </b>
+                                    </TextView>
+                                  </HBoxView>
+                                  <View alt="" stretchiness="1"/>
+                                </VBoxView>
+                                <VBoxView alt="">
+                                  <View alt="" stretchiness="1"/>
+                                  <TextView topInset="0" truncation="right" leftInset="0" styleSet="basic11" textJust="left" maxLines="1">
+                                    <SetFontStyle normalStyle="descriptionTextColor">582 ratings</SetFontStyle>
+                                  </TextView>
+                                  <View alt="" stretchiness="1"/>
+                                </VBoxView>
+                                <View stretchiness="1"/>
+                              </HBoxView>
+                              <MatrixView columnFormat="*,*,*" topInset="6" leftInset="10" rightInset="0" stretchiness="1">
+                                <VBoxView>
+                                  <HBoxView rightInset="5" alt="5 stars">
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_333366.png"/>
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_333366.png"/>
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_333366.png"/>
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_333366.png"/>
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_333366.png"/>
+                                  </HBoxView>
+                                  <HBoxView rightInset="5" alt="4 stars">
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_333366.png"/>
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_333366.png"/>
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_333366.png"/>
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_333366.png"/>
+                                  </HBoxView>
+                                  <HBoxView rightInset="5" alt="3 stars">
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_333366.png"/>
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_333366.png"/>
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_333366.png"/>
+                                  </HBoxView>
+                                  <HBoxView rightInset="5" alt="2 stars">
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_333366.png"/>
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_333366.png"/>
+                                  </HBoxView>
+                                  <HBoxView rightInset="5" alt="1 star">
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_333366.png"/>
+                                  </HBoxView>
+                                </VBoxView>
+                                <MatrixView width="100" topInset="0" rowFormat="*12,*,12,*,12,*,12,*,12,*">
+                                  <View height="1" backColor="bac0c7"/>
+                                  <View width="100" backColor="223a5e"/>
+                                  <View height="1" backColor="bac0c7"/>
+                                  <View width="23" backColor="223a5e"/>
+                                  <View height="1" backColor="bac0c7"/>
+                                  <View width="9" backColor="223a5e"/>
+                                  <View height="1" backColor="bac0c7"/>
+                                  <View width="5" backColor="223a5e"/>
+                                  <View height="1" backColor="bac0c7"/>
+                                  <View width="5" backColor="223a5e"/>
+                                  <View height="1" backColor="bac0c7"/>
+                                </MatrixView>
+                                <VBoxView>
+                                  <TextView topInset="2" leftInset="5" styleSet="basic10">
+                                    <SetFontStyle normalStyle="descriptionTextColor">402</SetFontStyle>
+                                  </TextView>
+                                  <TextView topInset="2" leftInset="5" styleSet="basic10">
+                                    <SetFontStyle normalStyle="descriptionTextColor">95</SetFontStyle>
+                                  </TextView>
+                                  <TextView topInset="2" leftInset="5" styleSet="basic10">
+                                    <SetFontStyle normalStyle="descriptionTextColor">38</SetFontStyle>
+                                  </TextView>
+                                  <TextView topInset="2" leftInset="5" styleSet="basic10">
+                                    <SetFontStyle normalStyle="descriptionTextColor">24</SetFontStyle>
+                                  </TextView>
+                                  <TextView topInset="2" leftInset="5" styleSet="basic10">
+                                    <SetFontStyle normalStyle="descriptionTextColor">23</SetFontStyle>
+                                  </TextView>
+                                </VBoxView>
+                              </MatrixView>
+                              <View height="10"/>
+                              <View height="1" backColor="bac0c7"/>
+                            </VBoxView>
+                            <VBoxView topInset="8">
+                              <HBoxView>
+                                <Test comparison="ge" value="8.0.1" property="iTunes version">
+                                  <VBoxView topInset="1" alt="" bottomInset="0">
+                                    <View alt="" stretchiness="1"/>
+                                    <Toggle toggle-id="5678">
+                                      <View rightInset="3" width="9" alt="" height="9">
+                                        <PictureButtonView leftInset="0" topInset="0" transparentClicks="1" rightInset="0" color="rgb(34,58,94)" alt="collapsed" mask="/images/masks/disclosure_mask_closed.png" bottomInset="0">
+      
+    </PictureButtonView>
+                                      </View>
+                                    </Toggle>
+                                    <View alt="" stretchiness="1"/>
+                                  </VBoxView>
+                                  <View width="0"/>
+                                </Test>
+                                <VBoxView alt="">
+                                  <View alt="" stretchiness="1"/>
+                                  <TextView topInset="0" truncation="right" leftInset="0" styleSet="basic13" textJust="left" maxLines="1">
+                                    <SetFontStyle normalStyle="textColor">Average rating for all versions: </SetFontStyle>
+                                  </TextView>
+                                  <View alt="" stretchiness="1"/>
+                                </VBoxView>
+                                <VBoxView alt="">
+                                  <View alt="" stretchiness="1"/>
+                                  <HBoxView rightInset="6" alt="4 and a half stars" leftInset="6">
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_000000.png"/>
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_000000.png"/>
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_000000.png"/>
+                                    <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_000000.png"/>
+                                    <TextView topInset="0" truncation="right" leftInset="0" styleSet="basic11" alt="" textJust="left" maxLines="1">
+                                      <b>
+                                        <Color color="000000">½</Color>
+                                      </b>
+                                    </TextView>
+                                  </HBoxView>
+                                  <View alt="" stretchiness="1"/>
+                                </VBoxView>
+                                <VBoxView alt="">
+                                  <View alt="" stretchiness="1"/>
+                                  <TextView topInset="0" truncation="right" leftInset="0" styleSet="basic11" textJust="left" maxLines="1">
+                                    <SetFontStyle normalStyle="descriptionTextColor">582 ratings</SetFontStyle>
+                                  </TextView>
+                                  <View alt="" stretchiness="1"/>
+                                </VBoxView>
+                                <View stretchiness="1"/>
+                              </HBoxView>
+                              <View height="10"/>
+                              <View height="1" backColor="bac0c7"/>
+                            </VBoxView>
+                          </Test>
+<!--  for frame replace
+-->
+                          <HBoxView topInset="10" viewName="inlineRatingView" leftInset="0">
+                            <TextView topInset="2" truncation="right" leftInset="0" styleSet="basic11" textJust="left" maxLines="1">
+                              <SetFontStyle normalStyle="textColor">
+                                <b>
+      
+      Rate this software:
+    </b>
+                              </SetFontStyle>
+                            </TextView>
+                            <PopupButtonView leftInset="3" topInset="0" height="18" action="Rating" normalStyle="lucida11" value="1" initialValue="1">
+                              <GotoURL target="main" url="https://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/rateContentInline?type=Purple+Software&amp;id=284962368&amp;rating=0">
+                                <MenuItem>Select</MenuItem>
+                              </GotoURL>
+                              <GotoURL target="main" url="https://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/rateContentInline?type=Purple+Software&amp;id=284962368&amp;rating=5">
+                                <MenuItem>Five Stars - Highest</MenuItem>
+                              </GotoURL>
+                              <GotoURL target="main" url="https://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/rateContentInline?type=Purple+Software&amp;id=284962368&amp;rating=4">
+                                <MenuItem>Four Stars</MenuItem>
+                              </GotoURL>
+                              <GotoURL target="main" url="https://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/rateContentInline?type=Purple+Software&amp;id=284962368&amp;rating=3">
+                                <MenuItem>Three Stars</MenuItem>
+                              </GotoURL>
+                              <GotoURL target="main" url="https://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/rateContentInline?type=Purple+Software&amp;id=284962368&amp;rating=2">
+                                <MenuItem>Two Stars</MenuItem>
+                              </GotoURL>
+                              <GotoURL target="main" url="https://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/rateContentInline?type=Purple+Software&amp;id=284962368&amp;rating=1">
+                                <MenuItem>One Star - Lowest</MenuItem>
+                              </GotoURL>
+                            </PopupButtonView>
+                          </HBoxView>
+                        </VBoxView>
+                      </View>
+                    </View>
+                  </View>
+                  <VBoxView leftInset="0" rightInset="0" stretchiness="1">
+                    <HBoxView>
+                      <TextView topInset="0" truncation="right" leftInset="0" headingLevel="2" styleSet="basic16" textJust="left" maxLines="1">
+                        <SetFontStyle normalStyle="descriptionTextColor">
+                          <b>CUSTOMER REVIEWS</b>
+                        </SetFontStyle>
+                      </TextView>
+                      <View stretchiness="1" width="10"/>
+                      <VBoxView>
+                        <View height="0" stretchiness="1"/>
+                        <HBoxView rightInset="0">
+                          <VBoxView alt="">
+                            <View alt="" stretchiness="1"/>
+                            <GotoURL target="main" inhibitDragging="false" url="http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?pageNumber=0&amp;type=Purple+Software&amp;id=284962368&amp;sortOrdering=1&amp;onlyLatestVersion=true">
+                              <TextView topInset="1" truncation="right" leftInset="0" styleSet="basic11" textJust="left" maxLines="1">
+                                <SetFontStyle normalStyle="textColor">
+                                  <b>131 Reviews For The Current Version</b>
+                                </SetFontStyle>
+                              </TextView>
+                            </GotoURL>
+                            <View alt="" stretchiness="1"/>
+                          </VBoxView>
+                          <VBoxView alt="">
+                            <View alt="" stretchiness="1"/>
+                            <GotoURL target="main" inhibitDragging="false" alt="" url="http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?pageNumber=0&amp;type=Purple+Software&amp;id=284962368&amp;sortOrdering=1&amp;onlyLatestVersion=true">
+                              <PictureButtonView leftInset="2" width="12" topInset="2" picts="plain,pressed,rollover" transparentClicks="1" alt="" url="/images/arrowoutline/arrow_000000_r.png" height="12"/>
+                            </GotoURL>
+                            <View alt="" stretchiness="1"/>
+                          </VBoxView>
+                        </HBoxView>
+                        <View height="3"/>
+                        <HBoxView rightInset="0">
+                          <VBoxView alt="">
+                            <View alt="" stretchiness="1"/>
+                            <GotoURL target="main" inhibitDragging="false" url="http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?pageNumber=0&amp;type=Purple+Software&amp;id=284962368&amp;sortOrdering=1">
+                              <TextView topInset="1" truncation="right" leftInset="0" styleSet="basic11" textJust="left" maxLines="1">
+                                <SetFontStyle normalStyle="textColor">
+                                  <b>349 Reviews for All Versions</b>
+                                </SetFontStyle>
+                              </TextView>
+                            </GotoURL>
+                            <View alt="" stretchiness="1"/>
+                          </VBoxView>
+                          <VBoxView alt="">
+                            <View alt="" stretchiness="1"/>
+                            <GotoURL target="main" inhibitDragging="false" alt="" url="http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?pageNumber=0&amp;type=Purple+Software&amp;id=284962368&amp;sortOrdering=1">
+                              <PictureButtonView leftInset="2" width="12" topInset="2" picts="plain,pressed,rollover" transparentClicks="1" alt="" url="/images/arrowoutline/arrow_000000_r.png" height="12"/>
+                            </GotoURL>
+                            <View alt="" stretchiness="1"/>
+                          </VBoxView>
+                        </HBoxView>
+                        <HBoxView rightInset="0" topInset="3">
+                          <VBoxView alt="">
+                            <View alt="" stretchiness="1"/>
+                            <GotoURL target="main" inhibitDragging="false" url="https://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/addUserReview?type=Purple+Software&amp;id=284962368">
+                              <TextView topInset="1" truncation="right" leftInset="0" styleSet="basic11" textJust="left" maxLines="1">
+                                <SetFontStyle normalStyle="textColor">
+                                  <b>Write a Review</b>
+                                </SetFontStyle>
+                              </TextView>
+                            </GotoURL>
+                            <View alt="" stretchiness="1"/>
+                          </VBoxView>
+                          <VBoxView alt="">
+                            <View alt="" stretchiness="1"/>
+                            <GotoURL target="main" inhibitDragging="false" alt="" url="https://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/addUserReview?type=Purple+Software&amp;id=284962368">
+                              <PictureButtonView leftInset="2" width="12" topInset="2" picts="plain,pressed,rollover" transparentClicks="1" alt="" url="/images/arrowoutline/arrow_000000_r.png" height="12"/>
+                            </GotoURL>
+                            <View alt="" stretchiness="1"/>
+                          </VBoxView>
+                        </HBoxView>
+                      </VBoxView>
+                    </HBoxView>
+                    <View/>
+                    <View height="15"/>
+                    <HBoxView>
+                      <VBoxView stretchiness="1" leftInset="0" rightInset="0">
+                        <HBoxView rightInset="0" topInset="0" bottomInset="0" leftInset="0">
+                          <TextView topInset="0" truncation="right" leftInset="0" squishiness="1" headingLevel="3" styleSet="basic12" textJust="left" maxLines="1">
+                            <SetFontStyle normalStyle="textColor">
+                              <GotoURL target="main" url="http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?pageNumber=0&amp;type=Purple+Software&amp;id=284962368&amp;userReviewId=36398590">
+                                <b>Good, but for the money go elsewhere</b>
+                              </GotoURL>
+                            </SetFontStyle>
+                          </TextView>
+                          <View width="5"/>
+                          <HBoxView alt="2 stars">
+                            <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_000000.png"/>
+                            <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_000000.png"/>
+                          </HBoxView>
+                          <View width="5"/>
+                        </HBoxView>
+                        <View height="2"/>
+                        <HBoxView rightInset="0" bottomInset="0" leftInset="0" topInset="0" shouldBeVisible="false">
+                          <TextView topInset="0" truncation="right" leftInset="0" squishiness="1" styleSet="basic12" textJust="left" maxLines="1">
+                            <SetFontStyle normalStyle="textColor">
+            by
+            <GotoURL target="main" inhibitDragging="false" url="http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewUsersUserReviews?personaId=6498877"><b>
+              davidk_in_co
+              </b></GotoURL>
+            
+               - 
+              Version 1.2.2
+            
+             - 
+            Mar 13, 2009
+          </SetFontStyle>
+                          </TextView>
+                        </HBoxView>
+                        <View height="5"/>
+                        <TextView normalStyle="basic11" leftInset="0" stretchiness="1" rightInset="0" styleSet="normal11" textJust="left">
+                          <SetFontStyle normalStyle="textColor">The tuner works, in a completely quiet room. The metronome is a great little add on, that you can get for free from other apps. The chords/fretboard sounds decent, which is also free or $1 elsewhere. All in all, I'd pay at most $2, $10 give me a bre...    <GotoURL target="main" url="http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?pageNumber=0&amp;type=Purple+Software&amp;id=284962368&amp;userReviewId=36398590"><b>More</b></GotoURL></SetFontStyle>
+                        </TextView>
+                      </VBoxView>
+                    </HBoxView>
+                    <View height="15"/>
+                    <HBoxView>
+                      <VBoxView stretchiness="1" leftInset="0" rightInset="0">
+                        <HBoxView rightInset="0" topInset="0" bottomInset="0" leftInset="0">
+                          <TextView topInset="0" truncation="right" leftInset="0" squishiness="1" headingLevel="3" styleSet="basic12" textJust="left" maxLines="1">
+                            <SetFontStyle normalStyle="textColor">
+                              <GotoURL target="main" url="http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?pageNumber=0&amp;type=Purple+Software&amp;id=284962368&amp;userReviewId=32911022">
+                                <b>I'm in Tune</b>
+                              </GotoURL>
+                            </SetFontStyle>
+                          </TextView>
+                          <View width="5"/>
+                          <HBoxView alt="5 stars">
+                            <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_000000.png"/>
+                            <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_000000.png"/>
+                            <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_000000.png"/>
+                            <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_000000.png"/>
+                            <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_000000.png"/>
+                          </HBoxView>
+                          <View width="5"/>
+                        </HBoxView>
+                        <View height="2"/>
+                        <HBoxView rightInset="0" bottomInset="0" leftInset="0" topInset="0" shouldBeVisible="false">
+                          <TextView topInset="0" truncation="right" leftInset="0" squishiness="1" styleSet="basic12" textJust="left" maxLines="1">
+                            <SetFontStyle normalStyle="textColor">
+            by
+            <GotoURL target="main" inhibitDragging="false" url="http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewUsersUserReviews?personaId=642246"><b>
+              scatlizard
+              </b></GotoURL>
+            
+               - 
+              Version 1.2.2
+            
+             - 
+            Mar 3, 2009
+          </SetFontStyle>
+                          </TextView>
+                        </HBoxView>
+                        <View height="5"/>
+                        <TextView normalStyle="basic11" leftInset="0" stretchiness="1" rightInset="0" styleSet="normal11" textJust="left">
+                          <SetFontStyle normalStyle="textColor">This handy application is well worth $10.  The tuner works well, the chord library is very educational, the metronome is always a big help for the rhythmically challenged (ahhh most everyone should use a metronome) the guitar tone is cool too.  The ...    <GotoURL target="main" url="http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?pageNumber=0&amp;type=Purple+Software&amp;id=284962368&amp;userReviewId=32911022"><b>More</b></GotoURL></SetFontStyle>
+                        </TextView>
+                      </VBoxView>
+                    </HBoxView>
+                    <View height="15"/>
+                    <HBoxView>
+                      <VBoxView stretchiness="1" leftInset="0" rightInset="0">
+                        <HBoxView rightInset="0" topInset="0" bottomInset="0" leftInset="0">
+                          <TextView topInset="0" truncation="right" leftInset="0" squishiness="1" headingLevel="3" styleSet="basic12" textJust="left" maxLines="1">
+                            <SetFontStyle normalStyle="textColor">
+                              <GotoURL target="main" url="http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?pageNumber=0&amp;type=Purple+Software&amp;id=284962368&amp;userReviewId=32639175">
+                                <b>Better than the cheaper apps</b>
+                              </GotoURL>
+                            </SetFontStyle>
+                          </TextView>
+                          <View width="5"/>
+                          <HBoxView alt="5 stars">
+                            <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_000000.png"/>
+                            <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_000000.png"/>
+                            <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_000000.png"/>
+                            <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_000000.png"/>
+                            <PictureView leftInset="0" width="13" topInset="0" transparentClicks="true" height="13" alt="" url="/images/colored_assets/stars/rating_star_000000.png"/>
+                          </HBoxView>
+                          <View width="5"/>
+                        </HBoxView>
+                        <View height="2"/>
+                        <HBoxView rightInset="0" bottomInset="0" leftInset="0" topInset="0" shouldBeVisible="false">
+                          <TextView topInset="0" truncation="right" leftInset="0" squishiness="1" styleSet="basic12" textJust="left" maxLines="1">
+                            <SetFontStyle normalStyle="textColor">
+            by
+            <GotoURL target="main" inhibitDragging="false" url="http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewUsersUserReviews?personaId=6044380"><b>
+              A1a1a1a1
+              </b></GotoURL>
+            
+               - 
+              Version 1.2.2
+            
+             - 
+            Mar 2, 2009
+          </SetFontStyle>
+                          </TextView>
+                        </HBoxView>
+                        <View height="5"/>
+                        <TextView normalStyle="basic11" leftInset="0" stretchiness="1" rightInset="0" styleSet="normal11" textJust="left">
+                          <SetFontStyle normalStyle="textColor">I spent a lot more trying to find the $1 and $2 apps.  Several tuners and chord databases later, I sucked it up, spent $10 and got everything I needed in a single app that worked.  I mainly use the chord database and tuner.  Everyone needs to recogn...    <GotoURL target="main" url="http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?pageNumber=0&amp;type=Purple+Software&amp;id=284962368&amp;userReviewId=32639175"><b>More</b></GotoURL></SetFontStyle>
+                        </TextView>
+                      </VBoxView>
+                    </HBoxView>
+                    <View height="16"/>
+                    <HBoxView rightInset="0">
+                      <VBoxView alt="">
+                        <View alt="" stretchiness="1"/>
+                        <GotoURL target="main" inhibitDragging="false" url="http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?pageNumber=0&amp;type=Purple+Software&amp;id=284962368&amp;sortOrdering=1&amp;onlyLatestVersion=true">
+                          <TextView topInset="1" truncation="right" leftInset="0" styleSet="basic11" textJust="left" maxLines="1">
+                            <SetFontStyle normalStyle="textColor">
+                              <b>131 Reviews For The Current Version</b>
+                            </SetFontStyle>
+                          </TextView>
+                        </GotoURL>
+                        <View alt="" stretchiness="1"/>
+                      </VBoxView>
+                      <VBoxView alt="">
+                        <View alt="" stretchiness="1"/>
+                        <GotoURL target="main" inhibitDragging="false" alt="" url="http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?pageNumber=0&amp;type=Purple+Software&amp;id=284962368&amp;sortOrdering=1&amp;onlyLatestVersion=true">
+                          <PictureButtonView leftInset="2" width="12" topInset="2" picts="plain,pressed,rollover" transparentClicks="1" alt="" url="/images/arrowoutline/arrow_000000_r.png" height="12"/>
+                        </GotoURL>
+                        <View alt="" stretchiness="1"/>
+                      </VBoxView>
+                    </HBoxView>
+                    <View height="3"/>
+                    <HBoxView rightInset="0">
+                      <VBoxView alt="">
+                        <View alt="" stretchiness="1"/>
+                        <GotoURL target="main" inhibitDragging="false" url="http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?pageNumber=0&amp;type=Purple+Software&amp;id=284962368&amp;sortOrdering=1">
+                          <TextView topInset="1" truncation="right" leftInset="0" styleSet="basic11" textJust="left" maxLines="1">
+                            <SetFontStyle normalStyle="textColor">
+                              <b>349 Reviews for All Versions</b>
+                            </SetFontStyle>
+                          </TextView>
+                        </GotoURL>
+                        <View alt="" stretchiness="1"/>
+                      </VBoxView>
+                      <VBoxView alt="">
+                        <View alt="" stretchiness="1"/>
+                        <GotoURL target="main" inhibitDragging="false" alt="" url="http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewContentsUserReviews?pageNumber=0&amp;type=Purple+Software&amp;id=284962368&amp;sortOrdering=1">
+                          <PictureButtonView leftInset="2" width="12" topInset="2" picts="plain,pressed,rollover" transparentClicks="1" alt="" url="/images/arrowoutline/arrow_000000_r.png" height="12"/>
+                        </GotoURL>
+                        <View alt="" stretchiness="1"/>
+                      </VBoxView>
+                    </HBoxView>
+                  </VBoxView>
+                </VBoxView>
+              </VBoxView>
+              <View/>
+              <VBoxView rightInset="0" topInset="0" minWidth="260" leftInset="0" stretchiness="1">
+                <View height="20"/>
+                <VBoxView rightInset="0" topInset="0" leftInset="6">
+                  <TextView topInset="0" leftInset="0" rightInset="0" headingLevel="2" styleSet="basic16" bottomInset="10">
+                    <SetFontStyle normalStyle="descriptionTextColor">
+                      <b>APPLICATION DESCRIPTION</b>
+                    </SetFontStyle>
+                  </TextView>
+                  <TextView topInset="0" leftInset="0" rightInset="0" styleSet="normal11">
+                    <SetFontStyle normalStyle="descriptionTextColor">Essential guitar utilities, including an amazingly flexible tuner and a library of over 1500 chord variations, all on your iPhone.<br/>
+<br/>
+NOTE: the original iPod touch does not have microphone capabilities, therefore there is no tuner support. GuitarToolkit Lite is intended for these users.  The tuner works great on 2nd generation iPod touch using headphones with an integrated microphone.<br/>
+<br/>
+FEATURES<br/>
+- Chromatic tuner using the iPhone microphone (or 2nd gen iPod touch with microphone headset)<br/>
+- Tune to any musical note or choose from 40+ tunings (Standard, Open G, Drop D, etc.)<br/>
+- Scales references in standard or alternate tuning (touch the fretboard to hear each note)<br/>
+- Chord library with over 260 chord maps and 1500 variations for quick and easy reference<br/>
+- Adjustable metronome with visible flash option and multiple sound effects and tempo tap pad<br/>
+- Support for 12-string guitar, 4-string bass and 5-string bass<br/>
+- Left handed support for chords and scales</SetFontStyle>
+                  </TextView>
+                  <View height="0"/>
+                  <View height="15"/>
+                </VBoxView>
+                <VBoxView leftInset="5" rightInset="0">
+                  <TextView topInset="0" leftInset="0" rightInset="0" headingLevel="3" styleSet="normal11">
+                    <SetFontStyle normalStyle="descriptionTextColor">
+                      <b>
+              WHAT'S NEW IN THIS VERSION:
+            </b>
+                    </SetFontStyle>
+                  </TextView>
+                  <TextView topInset="0" leftInset="0" rightInset="0" styleSet="normal11" bottomInset="15">
+                    <SetFontStyle normalStyle="descriptionTextColor">- 484 new chords for a total of 1,573<br/>
+- Four all-new chord forms: 7♯9, aug-maj7, mmaj7, and 7sus4<br/>
+- Several new alternate tunings, including Drop C♯, Open D♭ and Open E♭<br/>
+- Improved external mic detection on iPod touch 2G with iPhone OS 2.2</SetFontStyle>
+                  </TextView>
+                  <TextView topInset="0" leftInset="0" rightInset="0" headingLevel="3" styleSet="normal11">
+                    <SetFontStyle normalStyle="descriptionTextColor">
+                      <b>
+            LANGUAGES:
+          </b>
+                    </SetFontStyle>
+                  </TextView>
+                  <TextView topInset="0" leftInset="0" rightInset="0" styleSet="normal11" bottomInset="15">
+                    <SetFontStyle normalStyle="descriptionTextColor">
+            English
+          </SetFontStyle>
+                  </TextView>
+                  <TextView topInset="0" leftInset="0" rightInset="0" headingLevel="3" styleSet="normal11">
+                    <SetFontStyle normalStyle="descriptionTextColor">
+                      <b>
+            REQUIREMENTS:
+          </b>
+                    </SetFontStyle>
+                  </TextView>
+                  <TextView topInset="0" leftInset="0" rightInset="0" styleSet="normal11" bottomInset="15">
+                    <SetFontStyle normalStyle="descriptionTextColor">
+            Compatible with iPhone and iPod touch
+            <BR/>Requires iPhone 2.0 Software Update
+          </SetFontStyle>
+                  </TextView>
+                  <View height="10"/>
+                  <VBoxView bottomInset="0" leftInset="0" topInset="0">
+                    <FontStyle name="exclusivelinksTitleFontStyle" color="000000"/>
+                    <FontStyle name="exclusivelinksTextFontStyle" color="000000"/>
+                    <VBoxView rightInset="0" topInset="5" bottomInset="0" leftInset="0">
+                      <HBoxView rightInset="0" topInset="0" bottomInset="0" leftInset="0">
+                        <OpenURL target="main" inhibitDragging="false" url="http://guitartoolkit.com" draggingName="Agile Partners Web Site">
+                          <TextView topInset="0" truncation="right" leftInset="0" stretchiness="1" headingLevel="2" styleSet="basic11" alt="Agile Partners Web Site" textJust="left" maxLines="1">
+                            <SetFontStyle normalStyle="exclusivelinksTitleFontStyle">
+                              <b>Agile Partners Web Site</b>
+                            </SetFontStyle>
+                          </TextView>
+                        </OpenURL>
+                        <View width="5"/>
+                        <VBoxView topInset="1" alt="">
+                          <View alt="" stretchiness="1"/>
+                          <OpenURL target="main" inhibitDragging="false" url="http://guitartoolkit.com" draggingName="Agile Partners Web Site">
+                            <PictureButtonView width="12" topInset="0" picts="plain,pressed,rollover" transparentClicks="1" rightInset="0" alt="" url="/images/arrowoutline/arrow_000000_r.png" height="12"/>
+                          </OpenURL>
+                          <View alt="" stretchiness="1"/>
+                        </VBoxView>
+                      </HBoxView>
+                    </VBoxView>
+                    <View height="0"/>
+                    <VBoxView rightInset="0" topInset="5" bottomInset="0" leftInset="0">
+                      <HBoxView rightInset="0" topInset="0" bottomInset="0" leftInset="0">
+                        <OpenURL target="main" inhibitDragging="false" url="http://guitartoolkit.com/support" draggingName="GuitarToolkit Support">
+                          <TextView topInset="0" truncation="right" leftInset="0" stretchiness="1" headingLevel="2" styleSet="basic11" alt="GuitarToolkit Support" textJust="left" maxLines="1">
+                            <SetFontStyle normalStyle="exclusivelinksTitleFontStyle">
+                              <b>GuitarToolkit Support</b>
+                            </SetFontStyle>
+                          </TextView>
+                        </OpenURL>
+                        <View width="5"/>
+                        <VBoxView topInset="1" alt="">
+                          <View alt="" stretchiness="1"/>
+                          <OpenURL target="main" inhibitDragging="false" url="http://guitartoolkit.com/support" draggingName="GuitarToolkit Support">
+                            <PictureButtonView width="12" topInset="0" picts="plain,pressed,rollover" transparentClicks="1" rightInset="0" alt="" url="/images/arrowoutline/arrow_000000_r.png" height="12"/>
+                          </OpenURL>
+                          <View alt="" stretchiness="1"/>
+                        </VBoxView>
+                      </HBoxView>
+                    </VBoxView>
+                  </VBoxView>
+                </VBoxView>
+                <View height="30"/>
+                <View>
+                  <FontStyle name="outlineheadersTitleFontStyle" color="22395e"/>
+                  <FontStyle name="outlineheadersTextFontStyle" color="22395e"/>
+                  <View rightInset="0" topInset="0" bottomInset="0" leftInset="0">
+                    <Test comparison="greater or equal" value="7.0.0" property="iTunes version">
+                      <View rightInset="0" topInset="0" alt="" bottomInset="0" leftInset="0">
+                        <PictureButtonView leftInset="0" topInset="0" cap="4" rightInset="0" color="rgba(0,0,0,0.05)" mask="/images/masks/rounded_box.png" bottomInset="0">
+      
+    </PictureButtonView>
+                      </View>
+                    </Test>
+                    <Test comparison="less" value="7.0.0" property="iTunes version">
+                      <VBoxView rightInset="1" topInset="0" bottomInset="0" leftInset="1">
+                        <HBoxView leftInset="0" rightInset="0" height="1">
+                          <View width="3"/>
+                          <PictureView leftInset="0" topInset="0" horizontalBehavior="tile" stretchiness="1" rightInset="0" verticalBehavior="tile" url="/images/bgcolor/bgcolor_000000_5.png" bottomInset="0"/>
+                          <View width="3"/>
+                        </HBoxView>
+                        <HBoxView leftInset="0" rightInset="0" height="1">
+                          <View width="2"/>
+                          <PictureView leftInset="0" width="1" topInset="0" horizontalBehavior="tile" rightInset="0" verticalBehavior="tile" url="/images/bgcolor/bgcolor_000000_5.png" bottomInset="0"/>
+                          <PictureView leftInset="0" topInset="0" horizontalBehavior="tile" stretchiness="1" rightInset="0" verticalBehavior="tile" url="/images/bgcolor/bgcolor_000000_5.png" bottomInset="0"/>
+                          <PictureView leftInset="0" width="1" topInset="0" horizontalBehavior="tile" rightInset="0" verticalBehavior="tile" url="/images/bgcolor/bgcolor_000000_5.png" bottomInset="0"/>
+                          <View width="2"/>
+                        </HBoxView>
+                        <HBoxView leftInset="0" rightInset="0" height="1">
+                          <View width="1"/>
+                          <PictureView leftInset="0" width="1" topInset="0" horizontalBehavior="tile" rightInset="0" verticalBehavior="tile" url="/images/bgcolor/bgcolor_000000_5.png" bottomInset="0"/>
+                          <PictureView leftInset="0" topInset="0" horizontalBehavior="tile" stretchiness="1" rightInset="0" verticalBehavior="tile" url="/images/bgcolor/bgcolor_000000_5.png" bottomInset="0"/>
+                          <PictureView leftInset="0" width="1" topInset="0" horizontalBehavior="tile" rightInset="0" verticalBehavior="tile" url="/images/bgcolor/bgcolor_000000_5.png" bottomInset="0"/>
+                          <View width="1"/>
+                        </HBoxView>
+                        <HBoxView leftInset="0" rightInset="0" stretchiness="1">
+                          <PictureView leftInset="0" width="1" topInset="0" horizontalBehavior="tile" rightInset="0" verticalBehavior="tile" url="/images/bgcolor/bgcolor_000000_5.png" bottomInset="0"/>
+                          <PictureView leftInset="0" topInset="0" horizontalBehavior="tile" stretchiness="1" rightInset="0" verticalBehavior="tile" url="/images/bgcolor/bgcolor_000000_5.png" bottomInset="0"/>
+                          <PictureView leftInset="0" width="1" topInset="0" horizontalBehavior="tile" rightInset="0" verticalBehavior="tile" url="/images/bgcolor/bgcolor_000000_5.png" bottomInset="0"/>
+                        </HBoxView>
+                        <HBoxView leftInset="0" rightInset="0" height="1">
+                          <View width="1"/>
+                          <PictureView leftInset="0" width="1" topInset="0" horizontalBehavior="tile" rightInset="0" verticalBehavior="tile" url="/images/bgcolor/bgcolor_000000_5.png" bottomInset="0"/>
+                          <PictureView leftInset="0" topInset="0" horizontalBehavior="tile" stretchiness="1" rightInset="0" verticalBehavior="tile" url="/images/bgcolor/bgcolor_000000_5.png" bottomInset="0"/>
+                          <PictureView leftInset="0" width="1" topInset="0" horizontalBehavior="tile" rightInset="0" verticalBehavior="tile" url="/images/bgcolor/bgcolor_000000_5.png" bottomInset="0"/>
+                          <View width="1"/>
+                        </HBoxView>
+                        <HBoxView leftInset="0" rightInset="0" height="1">
+                          <View width="2"/>
+                          <PictureView leftInset="0" width="1" topInset="0" horizontalBehavior="tile" rightInset="0" verticalBehavior="tile" url="/images/bgcolor/bgcolor_000000_5.png" bottomInset="0"/>
+                          <PictureView leftInset="0" topInset="0" horizontalBehavior="tile" stretchiness="1" rightInset="0" verticalBehavior="tile" url="/images/bgcolor/bgcolor_000000_5.png" bottomInset="0"/>
+                          <PictureView leftInset="0" width="1" topInset="0" horizontalBehavior="tile" rightInset="0" verticalBehavior="tile" url="/images/bgcolor/bgcolor_000000_5.png" bottomInset="0"/>
+                          <View width="2"/>
+                        </HBoxView>
+                        <HBoxView leftInset="0" rightInset="0" height="1">
+                          <View width="3"/>
+                          <PictureView leftInset="0" topInset="0" horizontalBehavior="tile" stretchiness="1" rightInset="0" verticalBehavior="tile" url="/images/bgcolor/bgcolor_000000_5.png" bottomInset="0"/>
+                          <View width="3"/>
+                        </HBoxView>
+                      </VBoxView>
+                    </Test>
+                    <View rightInset="6" topInset="6" bottomInset="5" leftInset="6">
+    
+  </View>
+                  </View>
+                  <VBoxView rightInset="6" bottomInset="5" leftInset="6" topInset="6">
+                    <VBoxView bottomInset="0">
+                      <View>
+                        <Test comparison="less" value="7.0.0" property="iTunes version">
+                          <View borderColor="afb7c3" borderWidth="1"/>
+                        </Test>
+                        <Test comparison="greater or equal" value="7.0.0" property="iTunes version">
+                          <View alt="">
+                            <PictureButtonView leftInset="0" topInset="0" cap="4" rightInset="0" color="rgb(175,183,195)" mask="/images/masks/outline_box.png" bottomInset="0">
+      
+    </PictureButtonView>
+                          </View>
+                        </Test>
+                        <View rightInset="0" topInset="0" bottomInset="0" leftInset="0">
+                          <HBoxView rightInset="4" topInset="3" bottomInset="4" leftInset="6">
+                            <GotoURL target="main" inhibitDragging="false" url="http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewArtist?id=284962371" draggingName="Agile Partners">
+                              <TextView topInset="0" truncation="right" leftInset="0" stretchiness="1" rightInset="0" headingLevel="2" styleSet="basic11" alt="ALL APPLICATIONS BY AGILE PARTNERS" textJust="left" maxLines="1">
+                                <SetFontStyle normalStyle="outlineheadersTitleFontStyle">
+                                  <b>ALL APPLICATIONS BY AGILE PARTNERS</b>
+                                </SetFontStyle>
+                              </TextView>
+                            </GotoURL>
+                            <View width="5"/>
+                            <VBoxView topInset="1" alt="">
+                              <View alt="" stretchiness="1"/>
+                              <GotoURL target="main" inhibitDragging="false" url="http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewArtist?id=284962371" draggingName="Agile Partners">
+                                <PictureButtonView width="12" topInset="0" picts="plain,pressed,rollover" transparentClicks="1" rightInset="0" alt="" url="/images/arrowoutline/arrow_333366_r.png" height="12"/>
+                              </GotoURL>
+                              <View alt="" stretchiness="1"/>
+                            </VBoxView>
+                          </HBoxView>
+                        </View>
+                      </View>
+                    </VBoxView>
+                    <View height="4"/>
+                    <VBoxView bottomInset="0">
+                      <View>
+                        <Test comparison="less" value="7.0.0" property="iTunes version">
+                          <View borderColor="afb7c3" borderWidth="1"/>
+                        </Test>
+                        <Test comparison="greater or equal" value="7.0.0" property="iTunes version">
+                          <View alt="">
+                            <PictureButtonView leftInset="0" topInset="0" cap="4" rightInset="0" color="rgb(175,183,195)" mask="/images/masks/outline_box.png" bottomInset="0">
+      
+    </PictureButtonView>
+                          </View>
+                        </Test>
+                        <View rightInset="0" topInset="0" bottomInset="0" leftInset="0">
+                          <HBoxView rightInset="4" topInset="3" bottomInset="4" leftInset="6">
+                            <GotoURL target="main" inhibitDragging="false" url="https://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/tellAFriend?type=14&amp;id=284962368" draggingName="TELL A FRIEND">
+                              <TextView topInset="0" truncation="right" leftInset="0" stretchiness="1" rightInset="0" headingLevel="2" styleSet="basic11" alt="TELL A FRIEND" textJust="left" maxLines="1">
+                                <SetFontStyle normalStyle="outlineheadersTitleFontStyle">
+                                  <b>TELL A FRIEND</b>
+                                </SetFontStyle>
+                              </TextView>
+                            </GotoURL>
+                            <View width="5"/>
+                            <VBoxView topInset="1" alt="">
+                              <View alt="" stretchiness="1"/>
+                              <GotoURL target="main" inhibitDragging="false" url="https://buy.itunes.apple.com/WebObjects/MZFinance.woa/wa/tellAFriend?type=14&amp;id=284962368" draggingName="TELL A FRIEND">
+                                <PictureButtonView width="12" topInset="0" picts="plain,pressed,rollover" transparentClicks="1" rightInset="0" alt="" url="/images/arrowoutline/arrow_333366_r.png" height="12"/>
+                              </GotoURL>
+                              <View alt="" stretchiness="1"/>
+                            </VBoxView>
+                          </HBoxView>
+                        </View>
+                      </View>
+                    </VBoxView>
+                    <View height="4"/>
+                    <VBoxView bottomInset="0">
+                      <View>
+                        <Test comparison="less" value="7.0.0" property="iTunes version">
+                          <View borderColor="afb7c3" borderWidth="1"/>
+                        </Test>
+                        <Test comparison="greater or equal" value="7.0.0" property="iTunes version">
+                          <View alt="">
+                            <PictureButtonView leftInset="0" topInset="0" cap="4" rightInset="0" color="rgb(175,183,195)" mask="/images/masks/outline_box.png" bottomInset="0">
+      
+    </PictureButtonView>
+                          </View>
+                        </Test>
+                        <View rightInset="0" topInset="0" bottomInset="0" leftInset="0">
+                          <HBoxView rightInset="4" topInset="3" bottomInset="4" leftInset="6">
+                            <GotoURL target="main" inhibitDragging="false" url="http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/ApplicationsFAQPage" draggingName="APP STORE FAQS">
+                              <TextView topInset="0" truncation="right" leftInset="0" stretchiness="1" rightInset="0" headingLevel="2" styleSet="basic11" alt="APP STORE FAQS" textJust="left" maxLines="1">
+                                <SetFontStyle normalStyle="outlineheadersTitleFontStyle">
+                                  <b>APP STORE FAQS</b>
+                                </SetFontStyle>
+                              </TextView>
+                            </GotoURL>
+                            <View width="5"/>
+                            <VBoxView topInset="1" alt="">
+                              <View alt="" stretchiness="1"/>
+                              <GotoURL target="main" inhibitDragging="false" url="http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/ApplicationsFAQPage" draggingName="APP STORE FAQS">
+                                <PictureButtonView width="12" topInset="0" picts="plain,pressed,rollover" transparentClicks="1" rightInset="0" alt="" url="/images/arrowoutline/arrow_333366_r.png" height="12"/>
+                              </GotoURL>
+                              <View alt="" stretchiness="1"/>
+                            </VBoxView>
+                          </HBoxView>
+                        </View>
+                      </View>
+                    </VBoxView>
+                  </VBoxView>
+                </View>
+                <View height="18"/>
+                <View>
+                  <FontStyle name="outlineTitleFontStyle" color="22395e"/>
+                  <FontStyle name="outlineTextFontStyle" color="22395e"/>
+                  <View rightInset="0" topInset="0" bottomInset="0" leftInset="0">
+                    <Test comparison="greater or equal" value="7.0.0" property="iTunes version">
+                      <View rightInset="0" topInset="0" alt="" bottomInset="0" leftInset="0">
+                        <PictureButtonView leftInset="0" topInset="0" cap="4" rightInset="0" color="rgba(0,0,0,0.05)" mask="/images/masks/rounded_box.png" bottomInset="0">
+      
+    </PictureButtonView>
+                      </View>
+                    </Test>
+                    <Test comparison="less" value="7.0.0" property="iTunes version">
+                      <VBoxView rightInset="1" topInset="0" bottomInset="0" leftInset="1">
+                        <HBoxView leftInset="0" rightInset="0" height="1">
+                          <View width="3"/>
+                          <PictureView leftInset="0" topInset="0" horizontalBehavior="tile" stretchiness="1" rightInset="0" verticalBehavior="tile" url="/images/bgcolor/bgcolor_000000_5.png" bottomInset="0"/>
+                          <View width="3"/>
+                        </HBoxView>
+                        <HBoxView leftInset="0" rightInset="0" height="1">
+                          <View width="2"/>
+                          <PictureView leftInset="0" width="1" topInset="0" horizontalBehavior="tile" rightInset="0" verticalBehavior="tile" url="/images/bgcolor/bgcolor_000000_5.png" bottomInset="0"/>
+                          <PictureView leftInset="0" topInset="0" horizontalBehavior="tile" stretchiness="1" rightInset="0" verticalBehavior="tile" url="/images/bgcolor/bgcolor_000000_5.png" bottomInset="0"/>
+                          <PictureView leftInset="0" width="1" topInset="0" horizontalBehavior="tile" rightInset="0" verticalBehavior="tile" url="/images/bgcolor/bgcolor_000000_5.png" bottomInset="0"/>
+                          <View width="2"/>
+                        </HBoxView>
+                        <HBoxView leftInset="0" rightInset="0" height="1">
+                          <View width="1"/>
+                          <PictureView leftInset="0" width="1" topInset="0" horizontalBehavior="tile" rightInset="0" verticalBehavior="tile" url="/images/bgcolor/bgcolor_000000_5.png" bottomInset="0"/>
+                          <PictureView leftInset="0" topInset="0" horizontalBehavior="tile" stretchiness="1" rightInset="0" verticalBehavior="tile" url="/images/bgcolor/bgcolor_000000_5.png" bottomInset="0"/>
+                          <PictureView leftInset="0" width="1" topInset="0" horizontalBehavior="tile" rightInset="0" verticalBehavior="tile" url="/images/bgcolor/bgcolor_000000_5.png" bottomInset="0"/>
+                          <View width="1"/>
+                        </HBoxView>
+                        <HBoxView leftInset="0" rightInset="0" stretchiness="1">
+                          <PictureView leftInset="0" width="1" topInset="0" horizontalBehavior="tile" rightInset="0" verticalBehavior="tile" url="/images/bgcolor/bgcolor_000000_5.png" bottomInset="0"/>
+                          <PictureView leftInset="0" topInset="0" horizontalBehavior="tile" stretchiness="1" rightInset="0" verticalBehavior="tile" url="/images/bgcolor/bgcolor_000000_5.png" bottomInset="0"/>
+                          <PictureView leftInset="0" width="1" topInset="0" horizontalBehavior="tile" rightInset="0" verticalBehavior="tile" url="/images/bgcolor/bgcolor_000000_5.png" bottomInset="0"/>
+                        </HBoxView>
+                        <HBoxView leftInset="0" rightInset="0" height="1">
+                          <View width="1"/>
+                          <PictureView leftInset="0" width="1" topInset="0" horizontalBehavior="tile" rightInset="0" verticalBehavior="tile" url="/images/bgcolor/bgcolor_000000_5.png" bottomInset="0"/>
+                          <PictureView leftInset="0" topInset="0" horizontalBehavior="tile" stretchiness="1" rightInset="0" verticalBehavior="tile" url="/images/bgcolor/bgcolor_000000_5.png" bottomInset="0"/>
+                          <PictureView leftInset="0" width="1" topInset="0" horizontalBehavior="tile" rightInset="0" verticalBehavior="tile" url="/images/bgcolor/bgcolor_000000_5.png" bottomInset="0"/>
+                          <View width="1"/>
+                        </HBoxView>
+                        <HBoxView leftInset="0" rightInset="0" height="1">
+                          <View width="2"/>
+                          <PictureView leftInset="0" width="1" topInset="0" horizontalBehavior="tile" rightInset="0" verticalBehavior="tile" url="/images/bgcolor/bgcolor_000000_5.png" bottomInset="0"/>
+                          <PictureView leftInset="0" topInset="0" horizontalBehavior="tile" stretchiness="1" rightInset="0" verticalBehavior="tile" url="/images/bgcolor/bgcolor_000000_5.png" bottomInset="0"/>
+                          <PictureView leftInset="0" width="1" topInset="0" horizontalBehavior="tile" rightInset="0" verticalBehavior="tile" url="/images/bgcolor/bgcolor_000000_5.png" bottomInset="0"/>
+                          <View width="2"/>
+                        </HBoxView>
+                        <HBoxView leftInset="0" rightInset="0" height="1">
+                          <View width="3"/>
+                          <PictureView leftInset="0" topInset="0" horizontalBehavior="tile" stretchiness="1" rightInset="0" verticalBehavior="tile" url="/images/bgcolor/bgcolor_000000_5.png" bottomInset="0"/>
+                          <View width="3"/>
+                        </HBoxView>
+                      </VBoxView>
+                    </Test>
+                    <View rightInset="6" topInset="6" bottomInset="12" leftInset="6">
+    
+  </View>
+                  </View>
+                  <VBoxView rightInset="6" bottomInset="12" leftInset="6" topInset="6">
+                    <VBoxView bottomInset="0">
+                      <View>
+                        <Test comparison="less" value="7.0.0" property="iTunes version">
+                          <View borderColor="afb7c3" borderWidth="1"/>
+                        </Test>
+                        <Test comparison="greater or equal" value="7.0.0" property="iTunes version">
+                          <View alt="">
+                            <PictureButtonView leftInset="0" topInset="0" cap="4" rightInset="0" color="rgb(175,183,195)" mask="/images/masks/outline_box.png" bottomInset="0">
+      
+    </PictureButtonView>
+                          </View>
+                        </Test>
+                        <View rightInset="0" topInset="0" bottomInset="0" leftInset="0">
+                          <HBoxView rightInset="4" topInset="3" bottomInset="4" leftInset="6">
+                            <GotoURL target="main" inhibitDragging="false" url="http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewRecommendations?type=Purple+Software&amp;id=284962368" draggingName="CUSTOMERS ALSO BOUGHT">
+                              <TextView topInset="0" truncation="right" leftInset="0" stretchiness="1" rightInset="0" headingLevel="2" styleSet="basic11" alt="CUSTOMERS ALSO BOUGHT" textJust="left" maxLines="1">
+                                <SetFontStyle normalStyle="outlineTitleFontStyle">
+                                  <b>CUSTOMERS ALSO BOUGHT</b>
+                                </SetFontStyle>
+                              </TextView>
+                            </GotoURL>
+                            <View width="5"/>
+                            <VBoxView alt="">
+                              <View alt="" stretchiness="1"/>
+                              <GotoURL target="main" inhibitDragging="false" url="http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewRecommendations?type=Purple+Software&amp;id=284962368" draggingName="CUSTOMERS ALSO BOUGHT">
+                                <TextView topInset="0" truncation="left" stretchiness="1" rightInset="5" styleSet="basic11" alt="See All, CUSTOMERS ALSO BOUGHT" textJust="right" maxLines="1">
+                                  <SetFontStyle normalStyle="outlineTitleFontStyle">
+                                    <b>See All</b>
+                                  </SetFontStyle>
+                                </TextView>
+                              </GotoURL>
+                              <View alt="" stretchiness="1"/>
+                            </VBoxView>
+                            <VBoxView topInset="1" alt="">
+                              <View alt="" stretchiness="1"/>
+                              <GotoURL target="main" inhibitDragging="false" url="http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewRecommendations?type=Purple+Software&amp;id=284962368" draggingName="CUSTOMERS ALSO BOUGHT">
+                                <PictureButtonView width="12" topInset="0" picts="plain,pressed,rollover" transparentClicks="1" rightInset="0" alt="" url="/images/arrowoutline/arrow_333366_r.png" height="12"/>
+                              </GotoURL>
+                              <View alt="" stretchiness="1"/>
+                            </VBoxView>
+                          </HBoxView>
+                        </View>
+                      </View>
+                      <View bottomInset="0" topInset="0" stretchiness="1">
+                        <VBoxView>
+                          <VBoxView rightInset="0" topInset="6" bottomInset="1" leftInset="0"><HBoxView rightInset="0" topInset="0" leftInset="0"><GotoURL target="main" inhibitDragging="false" url="http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=289943355&amp;mt=8" draggingName="Air Sharing"><VBoxView rightInset="0" topInset="0" alt="Air Sharing. Music" leftInset="0" stretchiness="1"><TextView topInset="0" truncation="right" leftInset="9" squishiness="1" rightInset="8" styleSet="basic11" alt="" maxLines="1"><SetFontStyle normalStyle="outlineTextFontStyle"><b>Air Sharing</b></SetFontStyle></TextView><TextView topInset="1" truncation="right" leftInset="24" squishiness="1" rightInset="8" styleSet="basic11" alt="" maxLines="1"><SetFontStyle normalStyle="outlineTextFontStyle">Music</SetFontStyle></TextView></VBoxView></GotoURL></HBoxView><HBoxView rightInset="0" topInset="0" leftInset="0"><GotoURL target="main" inhibitDragging="false" url="http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=287965124&amp;mt=8" draggingName="PocketGuitar"><VBoxView rightInset="0" topInset="6" alt="PocketGuitar. Music" leftInset="0" stretchiness="1"><TextView topInset="0" truncation="right" leftInset="9" squishiness="1" rightInset="8" styleSet="basic11" alt="" maxLines="1"><SetFontStyle normalStyle="outlineTextFontStyle"><b>PocketGuitar</b></SetFontStyle></TextView><TextView topInset="1" truncation="right" leftInset="24" squishiness="1" rightInset="8" styleSet="basic11" alt="" maxLines="1"><SetFontStyle normalStyle="outlineTextFontStyle">Music</SetFontStyle></TextView></VBoxView></GotoURL></HBoxView><HBoxView rightInset="0" topInset="0" leftInset="0"><GotoURL target="main" inhibitDragging="false" url="http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=293053479&amp;mt=8" draggingName="Ocarina"><VBoxView rightInset="0" topInset="6" alt="Ocarina. Music" leftInset="0" stretchiness="1"><TextView topInset="0" truncation="right" leftInset="9" squishiness="1" rightInset="8" styleSet="basic11" alt="" maxLines="1"><SetFontStyle normalStyle="outlineTextFontStyle"><b>Ocarina</b></SetFontStyle></TextView><TextView topInset="1" truncation="right" leftInset="24" squishiness="1" rightInset="8" styleSet="basic11" alt="" maxLines="1"><SetFontStyle normalStyle="outlineTextFontStyle">Music</SetFontStyle></TextView></VBoxView></GotoURL></HBoxView>
+
+                              
+
+                          
+                        
+                      
+                    
+                  
+                
+                  
+                    
+                    
+
+                      
+
+                      
+  
+                      
+                        
+                          
+                            
+                          
+                          
+                            
+                              <HBoxView rightInset="0" topInset="0" leftInset="0"><GotoURL target="main" inhibitDragging="false" url="http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=281736535&amp;mt=8" draggingName="Enigmo"><VBoxView rightInset="0" topInset="6" alt="Enigmo. Music" leftInset="0" stretchiness="1"><TextView topInset="0" truncation="right" leftInset="9" squishiness="1" rightInset="8" styleSet="basic11" alt="" maxLines="1"><SetFontStyle normalStyle="outlineTextFontStyle"><b>Enigmo</b></SetFontStyle></TextView><TextView topInset="1" truncation="right" leftInset="24" squishiness="1" rightInset="8" styleSet="basic11" alt="" maxLines="1"><SetFontStyle normalStyle="outlineTextFontStyle">Music</SetFontStyle></TextView></VBoxView></GotoURL></HBoxView><HBoxView rightInset="0" topInset="0" leftInset="0"><GotoURL target="main" inhibitDragging="false" url="http://ax.itunes.apple.com/WebObjects/MZStore.woa/wa/viewSoftware?id=281966695&amp;mt=8" draggingName="Super Monkey Ball"><VBoxView rightInset="0" topInset="6" alt="Super Monkey Ball. Music" leftInset="0" stretchiness="1"><TextView topInset="0" truncation="right" leftInset="9" squishiness="1" rightInset="8" styleSet="basic11" alt="" maxLines="1"><SetFontStyle normalStyle="outlineTextFontStyle"><b>Super Monkey Ball</b></SetFontStyle></TextView><TextView topInset="1" truncation="right" leftInset="24" squishiness="1" rightInset="8" styleSet="basic11" alt="" maxLines="1"><SetFontStyle normalStyle="outlineTextFontStyle">Music</SetFontStyle></TextView></VBoxView></GotoURL></HBoxView></VBoxView>
+                        </VBoxView>
+                      </View>
+                    </VBoxView>
+                  </VBoxView>
+                </View>
+              </VBoxView>
+            </MatrixView>
+            <VBoxView>
+              <View height="30"/>
+              <HBoxView rightInset="0" alt="" bottomInset="0" leftInset="0">
+                <View alt="" stretchiness="1"/>
+                <TextView topInset="2" leftInset="0" styleSet="basic9" textJust="center">
+                  <SetFontStyle normalStyle="textColor">
+                  Copyright
+                </SetFontStyle>
+                </TextView>
+                <View width="2"/>
+                <TextView topInset="0" normalStyle="lucida12" leftInset="0" textJust="center">
+                  <SetFontStyle normalStyle="textColor">©</SetFontStyle>
+                </TextView>
+                <View width="2"/>
+                <TextView topInset="2" leftInset="0" styleSet="basic9" textJust="center">
+                  <SetFontStyle normalStyle="textColor">
+                  2009 Apple Inc.
+                </SetFontStyle>
+                </TextView>
+                <View width="2"/>
+                <TextView topInset="2" leftInset="0" styleSet="basic9" textJust="center">
+                  <SetFontStyle normalStyle="textColor">
+                    <OpenURL target="main" url="http://www.apple.com/legal/">
+                    All rights reserved.
+                  </OpenURL>
+                  </SetFontStyle>
+                </TextView>
+                <TextView width="6" topInset="2" styleSet="basic9" alt="" textJust="center">
+                  <SetFontStyle normalStyle="textColor"> | </SetFontStyle>
+                </TextView>
+                <TextView topInset="2" leftInset="0" styleSet="basic9" textJust="center">
+                  <SetFontStyle normalStyle="textColor">
+                    <OpenURL target="main" url="http://www.apple.com/legal/privacy/">
+                    Privacy Policy
+                  </OpenURL>
+                  </SetFontStyle>
+                </TextView>
+                <TextView width="6" topInset="2" styleSet="basic9" alt="" textJust="center">
+                  <SetFontStyle normalStyle="textColor"> | </SetFontStyle>
+                </TextView>
+                <TextView topInset="2" leftInset="0" styleSet="basic9" textJust="center">
+                  <SetFontStyle normalStyle="textColor">
+                    <OpenURL target="main" url="http://www.apple.com/legal/itunes/us/service.html">
+                      Terms of Service
+                    </OpenURL>
+                  </SetFontStyle>
+                </TextView>
+                <TextView width="6" topInset="2" styleSet="basic9" alt="" textJust="center">
+                  <SetFontStyle normalStyle="textColor"> | </SetFontStyle>
+                </TextView>
+                <TextView topInset="2" leftInset="0" styleSet="basic9" textJust="center">
+                  <SetFontStyle normalStyle="textColor">
+                    <OpenURL target="main" url="http://www.apple.com/legal/itunes/us/sales.html">
+                      Terms of Sale
+                    </OpenURL>
+                  </SetFontStyle>
+                </TextView>
+                <View alt="" stretchiness="1"/>
+              </HBoxView>
+              <View height="10"/>
+            </VBoxView>
+          </MatrixView>
+        </View>
+      </VBoxView>
+    </ScrollView>
+  </View>
+</Document>
