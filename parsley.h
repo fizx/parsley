@@ -70,6 +70,7 @@ typedef parsley_context * contextPtr;
 
 void parsed_parsley_free(parsedParsleyPtr);
 
+void killDefaultNS(xmlDocPtr doc);
 void parsley_free(parsleyPtr);
 parsleyPtr parsley_compile(char* parsley, char* incl);
 parsedParsleyPtr parsley_parse_file(parsleyPtr parsley, char* file, int flags);

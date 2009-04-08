@@ -400,8 +400,47 @@ parsleyXsltError(void * ctx, const char * msg, ...) {
   va_end(ap);
 }
 
+static bool
+hasDefaultNS(xmlDocPtr doc) {
+	return xmlSearchNs(doc, doc->children, NULL) != NULL;
+}
+
+static void 
+_killDefaultNS(xmlNodePtr node) {
+	if(node == NULL) return;
+
+	xmlNsPtr ns = node->nsDef;
+	if(ns != NULL) {
+		if(ns->prefix == NULL) node->nsDef = ns->next;
+		xmlNsPtr prev = ns;
+		while(ns = ns->next) {
+			if(ns->prefix == NULL) prev->next = ns->next;
+		}
+	}
+	
+	ns = node->ns;
+	if(ns != NULL) {
+		if(ns->prefix == NULL) node->ns = ns->next;
+		xmlNsPtr prev = ns;
+		while(ns = ns->next) {
+			if(ns->prefix == NULL) prev->next = ns->next;
+		}
+	}
+	
+	_killDefaultNS(node->children);
+	_killDefaultNS(node->next);
+}
+
+void 
+killDefaultNS(xmlDocPtr doc) {
+	if(hasDefaultNS(doc)) {
+		_killDefaultNS(doc->children);
+	}
+}
 
 parsedParsleyPtr parsley_parse_doc(parsleyPtr parsley, xmlDocPtr doc, int flags) {
+	killDefaultNS(doc);
+	
   parsedParsleyPtr ptr = (parsedParsleyPtr) calloc(sizeof(parsed_parsley), 1);
   ptr->error = NULL;
   ptr->parsley = parsley;
