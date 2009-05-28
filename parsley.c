@@ -471,6 +471,8 @@ parsedParsleyPtr parsley_parse_doc(parsleyPtr parsley, xmlDocPtr doc, int flags)
 static bool 
 json_invalid_object(parsleyPtr ptr, struct json_object *json) {
 	json_object_object_foreach(json, key, val) {
+		if(val==NULL) ptr->error = strdup("Parselets can only be made up of strings, arrays, and objects.");
+		
 		switch(json_object_get_type(val)) {
 		case json_type_string:
 			break;
