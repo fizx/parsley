@@ -382,7 +382,7 @@ visit(parsedParsleyPtr ptr, xmlNodePtr xml, char* err) {
 
 static parsedParsleyPtr current_ptr = NULL;
 
-static void 
+void 
 parsleyXsltError(void * ctx, const char * msg, ...) {
 	if(current_ptr == NULL) return;
   va_list ap;
@@ -449,6 +449,9 @@ parsedParsleyPtr parsley_parse_doc(parsleyPtr parsley, xmlDocPtr doc, int flags)
   xsltTransformContextPtr ctxt = xsltNewTransformContext(parsley->stylesheet, doc);
   xmlSetGenericErrorFunc(ctxt, parsleyXsltError);
   current_ptr = ptr;
+  if(true) { // TODO: potential performance optimization: only wrap if needed!
+    doc = parsley_apply_span_wrap(doc);
+  }
   ptr->xml = xsltApplyStylesheetUser(parsley->stylesheet, doc, NULL, NULL, NULL, ctxt);
   xsltFreeTransformContext(ctxt);
   current_ptr = NULL;

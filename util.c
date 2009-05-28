@@ -30,6 +30,33 @@ parsley_io_get_mode() {
   return parsley_io_mode;
 }
 
+static xsltStylesheetPtr span_wrap_sheet = NULL;
+
+xmlDocPtr 
+parsley_apply_span_wrap(xmlDocPtr doc) {
+  if(span_wrap_sheet == NULL) {
+    char * sheet = "<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" xmlns:sg=\"http://selectorgadget.com/\"> \
+      <xsl:template match=\"text()[following-sibling::* or preceding-sibling::*]\"> \
+        <sg_wrap><xsl:value-of select=\".\" /></sg_wrap> \
+      </xsl:template> \
+    	<xsl:template match=\"@*|node()\"> \
+    	  <xsl:copy> \
+          <xsl:apply-templates select=\"@*|node()\"/> \
+    	  </xsl:copy> \
+    	</xsl:template> \
+    </xsl:stylesheet>";
+    
+    xmlParserCtxtPtr ctxt = xmlNewParserCtxt();
+ 		xmlDocPtr xml = xmlCtxtReadMemory(ctxt, sheet, strlen(sheet), NULL, NULL, 0);
+    span_wrap_sheet = xsltParseStylesheetDoc(xml);
+  }  
+  xsltTransformContextPtr ctxt = xsltNewTransformContext(span_wrap_sheet, doc);
+  xmlSetGenericErrorFunc(ctxt, parsleyXsltError);
+  xmlDocPtr out = xsltApplyStylesheetUser(span_wrap_sheet, doc, NULL, NULL, NULL, ctxt);
+  xsltFreeTransformContext(ctxt);
+  return out;
+}
+
 void
 _parsley_set_user_agent(char * agent) {
   if(parsley_user_agent_header != NULL) free(parsley_user_agent_header);

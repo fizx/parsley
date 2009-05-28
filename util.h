@@ -29,4 +29,6 @@ int parsley_io_get_mode();
 void parsley_io_set_mode(int mode);
 void _parsley_set_user_agent(char *agent);
 
+xmlDocPtr parsley_apply_span_wrap(xmlDocPtr ptr);
+
 #endif

@@ -63,3 +63,4 @@ check-am:
 	@echo "reddit..."; ./parsley test/reddit.let test/reddit.html 2>&1 | diff test/reddit.json - && echo "    success."
 	@echo "div..."; ./parsley test/div.let test/div.html 2>&1 | diff test/div.json - && echo "    success."
 	@echo "default-namespace..."; ./parsley -x test/default-namespace.let test/default-namespace.xml 2>&1 | diff test/default-namespace.json - && echo "    success."
+	@echo "sg-wrap..."; ./parsley test/sg-wrap.let test/sg-wrap.html 2>&1 | diff test/sg-wrap.json - && echo "    success."
