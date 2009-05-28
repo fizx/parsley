@@ -17,6 +17,7 @@
 #include <libxslt/transform.h>
 #include <libxml/tree.h>
 #include <libxml/parser.h>
+#include <libxml/debugXML.h>
 #include <libxml/HTMLparser.h>
 #include <libxml/HTMLtree.h>
 #include <libxml/xmlwriter.h>
@@ -163,28 +164,6 @@ xpath_of(xmlNodePtr node) {
   return str;
 }
 
-static void 
-unlink(xmlNodePtr xml) {
-  if(xml == NULL || xml->parent == NULL) return;
-  xmlNodePtr sibling = xml->parent->children;
-  if(sibling == xml) {
-    xml->parent->children = xml->next;
-    return;
-  }
-  while(sibling != NULL) {
-    if(sibling == xml) {
-      if(xml->prev) xml->prev->next = xml->next;
-      if(xml->next) xml->next->prev = xml->prev;
-    }    
-    sibling = sibling->next;
-  }
-}
-
-// static bool 
-// is_root(xmlElementPtr xml) {
-//  return xml != NULL && xml->name != NULL && xml->prefix != NULL && !strcmp(xml->name, "root") && !strcmp(xml->prefix, "parsley");
-// }
-
 static bool
 is_root(xmlNodePtr node) {
   return node != NULL && node->ns != NULL && !strcmp(node->ns->prefix, "parsley") && !strcmp(node->name, "root");
@@ -244,11 +223,11 @@ collate(xmlNodePtr xml) {
     if(child == NULL) return;
     int n = _xmlChildElementCount(xml);
     
-    xmlNodePtr* name_nodes = malloc(n * sizeof(xmlNodePtr));
-    xmlNodePtr* lists = malloc(n * sizeof(xmlNodePtr));
-    bool* empty = malloc(n * sizeof(bool));
-    bool* multi = malloc(n * sizeof(bool));
-    bool* optional = malloc(n * sizeof(bool));
+    xmlNodePtr* name_nodes = calloc(n, sizeof(xmlNodePtr));
+    xmlNodePtr* lists = calloc(n, sizeof(xmlNodePtr));
+    bool* empty = calloc(n, sizeof(bool));
+    bool* multi = calloc(n, sizeof(bool));
+    bool* optional = calloc(n, sizeof(bool));
     
 		int len = 0;
     for(int i = 0; i < n; i++) {
@@ -337,6 +316,30 @@ parsley_set_user_agent(char const * agent) {
 }
 
 static void
+unlink(xmlNodePtr parent, xmlNodePtr child) {
+  if(child == NULL || parent == NULL) return;
+  xmlNodePtr ptr = parent->children;
+  
+  if(ptr == child) {
+    parent->children = child->next;
+    if(child->next != NULL) {
+      child->next->prev = NULL;
+    }
+  } else {
+    while(ptr != NULL) {
+      if(ptr->next == child) {
+        ptr->next = child->next;
+        if(child->next) child->next->prev = ptr;
+      }
+      ptr = ptr->next;
+    }
+  }  
+  child->next = NULL;
+  child->prev = NULL;
+  child->parent = NULL;
+}
+
+static void
 visit(parsedParsleyPtr ptr, xmlNodePtr xml, char* err);
 
 static void 
@@ -344,9 +347,11 @@ prune(parsedParsleyPtr ptr, xmlNodePtr xml, char* err) {
 	if(xml == NULL || is_root(xml)) return;
   bool optional = xmlGetProp(xml, "optional") != NULL;
   if(optional) {
-    unlink(xml);
-    visit(ptr, xml->parent, err);
-    // fprintf(stderr, "optional ok\n");
+    xmlNodePtr parent = xml->parent;
+    unlink(parent, xml);
+    free(err);
+    err = NULL;
+    visit(ptr, parent, err);
     return;
   } else {
     if(err == NULL) asprintf(&err, "%s was empty", xpath_of(xml));
@@ -363,16 +368,21 @@ prune(parsedParsleyPtr ptr, xmlNodePtr xml, char* err) {
 static void
 visit(parsedParsleyPtr ptr, xmlNodePtr xml, char* err) { 
   if(xml == NULL) return;
+  // printf("trying to visit:      %s\n", xml->name);
   if(xml->type != XML_ELEMENT_NODE) return;
   xmlNodePtr child = xml->children;
   xmlNodePtr parent = xml->parent;
   if(parent == NULL) return;
+  
+  // printf("passed guard clause:      %s\n", xml->name);
+  
   if(xml_empty(xml)) {
     if(err == NULL) asprintf(&err, "%s was empty", xpath_of(xml));
+    
     prune(ptr, xml, err);
   } else if(err != NULL) {
     free(err);
-  }
+  }  
   while(err == NULL && child != NULL){
 		child->parent = xml;
     visit(ptr, child, err);

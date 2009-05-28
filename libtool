@@ -56,12 +56,12 @@ fast_install=needless
 
 # The host system.
 host_alias=
-host=i686-apple-darwin9.6.0
+host=i386-apple-darwin9.6.0
 host_os=darwin9.6.0
 
 # The build system.
 build_alias=
-build=i686-apple-darwin9.6.0
+build=i386-apple-darwin9.6.0
 build_os=darwin9.6.0
 
 # A sed program that does not truncate output.
