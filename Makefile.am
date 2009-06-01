@@ -13,15 +13,11 @@ parsleyc_LDADD = libparsley.la
 parsley_SOURCES = parsley_main.c
 parsley_LDADD = libparsley.la
 
-bisect:
-	./bootstrap.sh && ./configure && make clean && make check
-
 valgrind:
 	./libtool --mode=execute valgrind --tool=memcheck --leak-check=yes --show-reachable=yes --num-callers=20 --track-fds=yes ./parsley test/fictional.let test/fictional.html
 
 profile:
 	./libtool --mode=execute valgrind --tool=callgrind ./parsley test/fictional.let test/fictional.html
-
 
 install-all:
 	./bootstrap.sh && ./configure && make && make install && cd ruby && rake install && cd ../python && python setup.py install
@@ -33,6 +29,7 @@ bench:
 	@echo "craigs..."; ./parsley test/craigs.let test/craigs.html > /dev/null
 
 check-am:
+	@echo "nth-regression..."; ./parsley test/nth-regression.let test/nth-regression.html 2>&1 | diff test/nth-regression.json - && echo "    success."
 	@echo "array-regression..."; ./parsley test/array-regression.let test/array-regression.html 2>&1 | diff test/array-regression.json - && echo "    success."
 	@echo "fictional..."; ./parsley test/fictional.let test/fictional.html 2>&1 | diff test/fictional.json - && echo "    success."
 	@echo "fictional-opt..."; ./parsley test/fictional-opt.let test/fictional-opt.html 2>&1 | diff test/fictional-opt.json - && echo "    success."
@@ -65,4 +62,3 @@ check-am:
 	@echo "div..."; ./parsley test/div.let test/div.html 2>&1 | diff test/div.json - && echo "    success."
 	@echo "default-namespace..."; ./parsley -x test/default-namespace.let test/default-namespace.xml 2>&1 | diff test/default-namespace.json - && echo "    success."
 	@echo "sg-wrap..."; ./parsley test/sg-wrap.let test/sg-wrap.html 2>&1 | diff test/sg-wrap.json - && echo "    success."
-	@echo "array-regression..."; ./parsley test/array-regression.let test/array-regression.html 2>&1 | diff test/array-regression.json - && echo "    success."

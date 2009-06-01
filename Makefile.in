@@ -713,9 +713,6 @@ uninstall-am: uninstall-binPROGRAMS uninstall-includeHEADERS \
 	uninstall-includeHEADERS uninstall-libLTLIBRARIES
 
 
-bisect:
-	./bootstrap.sh && ./configure && make clean && make check
-
 valgrind:
 	./libtool --mode=execute valgrind --tool=memcheck --leak-check=yes --show-reachable=yes --num-callers=20 --track-fds=yes ./parsley test/fictional.let test/fictional.html
 
@@ -732,6 +729,7 @@ bench:
 	@echo "craigs..."; ./parsley test/craigs.let test/craigs.html > /dev/null
 
 check-am:
+	@echo "nth-regression..."; ./parsley test/nth-regression.let test/nth-regression.html 2>&1 | diff test/nth-regression.json - && echo "    success."
 	@echo "array-regression..."; ./parsley test/array-regression.let test/array-regression.html 2>&1 | diff test/array-regression.json - && echo "    success."
 	@echo "fictional..."; ./parsley test/fictional.let test/fictional.html 2>&1 | diff test/fictional.json - && echo "    success."
 	@echo "fictional-opt..."; ./parsley test/fictional-opt.let test/fictional-opt.html 2>&1 | diff test/fictional-opt.json - && echo "    success."
@@ -759,11 +757,11 @@ check-am:
 	@echo "malformed-xpath..."; ./parsley test/malformed-xpath.let test/malformed-xpath.html 2>&1 | diff test/malformed-xpath.json - && echo "    success."
 	@echo "remote..."; ./parsley test/remote.let test/remote.html 2>&1 | diff test/remote.json - && echo "    success."
 	@echo "remote-fail..."; ./parsley -z test/remote.let test/remote.html 2>&1 | diff test/remote-fail.json - && echo "    success."
+	@echo "crash..."; ./parsley test/crash.let test/crash.html 2>&1 | diff test/crash.json - && echo "    success."
 	@echo "reddit..."; ./parsley test/reddit.let test/reddit.html 2>&1 | diff test/reddit.json - && echo "    success."
 	@echo "div..."; ./parsley test/div.let test/div.html 2>&1 | diff test/div.json - && echo "    success."
 	@echo "default-namespace..."; ./parsley -x test/default-namespace.let test/default-namespace.xml 2>&1 | diff test/default-namespace.json - && echo "    success."
 	@echo "sg-wrap..."; ./parsley test/sg-wrap.let test/sg-wrap.html 2>&1 | diff test/sg-wrap.json - && echo "    success."
-	@echo "array-regression..."; ./parsley test/array-regression.let test/array-regression.html 2>&1 | diff test/array-regression.json - && echo "    success."
 # Tell versions [3.59,3.63) of GNU make to not export all variables.
 # Otherwise a system limit (for SysV at least) may be exceeded.
 .NOEXPORT:
