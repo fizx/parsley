@@ -44,6 +44,7 @@ static struct argp_option options[] = {
   {"include",  				'i', "FILE", 0, 	"Include the contents of FILE in the compiled XSLT" },
 	{"no-prune",        'n', 0, 0, 	"Don't prune empty subtrees" },
 	{"no-collate",      'N', 0, 0, 	"Don't collate array entries" },
+	{"sg-wrap",         's', 0, 0, 	"Wrap text nodes for SelectorGadget compatibility" },
 	{"user-agent",      'U', "USER_AGENT", 0, 	"Value of HTTP User-Agent header" },
 	{"no-net",          'z', 0, 0, 	"Disable ftp and http access for parselets" },
 	{"no-filesystem",   'Z', 0, 0, 	"Disable filesystem access for parselets" },
@@ -71,6 +72,9 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state)
 			break;
     case 'z':
 			arguments->flags &= ~PARSLEY_OPTIONS_ALLOW_NET;
+			break;
+    case 's':
+			arguments->flags |= PARSLEY_OPTIONS_SGWRAP;
 			break;
     case 'Z':
 			arguments->flags &= ~PARSLEY_OPTIONS_ALLOW_LOCAL;
@@ -117,11 +121,11 @@ int main (int argc, char **argv) {
 	struct list_elem *elemptr = &elem;
 	elem.has_next = 0;
 	arguments.output_xml = 0;
-  arguments.flags = ~0;
+  arguments.flags = ~0 & ~PARSLEY_OPTIONS_SGWRAP;
 	arguments.include_files = elemptr;
 	arguments.output_file = "-";
 	argp_parse (&argp, argc, argv, 0, 0, &arguments);
-
+	
  	struct printbuf *buf = printbuf_new();
  	struct printbuf *incl = printbuf_new();
   sprintbuf(buf, "");

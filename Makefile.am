@@ -29,7 +29,6 @@ bench:
 	@echo "craigs..."; ./parsley test/craigs.let test/craigs.html > /dev/null
 
 check-am:
-	@echo "collate_regression..."; ./parsley test/collate_regression.let test/collate_regression.html 2>&1 | diff test/collate_regression.json - && echo "    success."
 	@echo "sg_off..."; ./parsley test/sg_off.let test/sg_off.html 2>&1 | diff test/sg_off.json - && echo "    success."
 	@echo "nth-regression..."; ./parsley test/nth-regression.let test/nth-regression.html 2>&1 | diff test/nth-regression.json - && echo "    success."
 	@echo "array-regression..."; ./parsley test/array-regression.let test/array-regression.html 2>&1 | diff test/array-regression.json - && echo "    success."
@@ -63,4 +62,6 @@ check-am:
 	@echo "reddit..."; ./parsley test/reddit.let test/reddit.html 2>&1 | diff test/reddit.json - && echo "    success."
 	@echo "div..."; ./parsley test/div.let test/div.html 2>&1 | diff test/div.json - && echo "    success."
 	@echo "default-namespace..."; ./parsley -x test/default-namespace.let test/default-namespace.xml 2>&1 | diff test/default-namespace.json - && echo "    success."
-	@echo "sg-wrap..."; ./parsley test/sg-wrap.let test/sg-wrap.html 2>&1 | diff test/sg-wrap.json - && echo "    success."
+	@echo "sg-wrap..."; ./parsley -s test/sg-wrap.let test/sg-wrap.html 2>&1 | diff test/sg-wrap.json - && echo "    success."
+	@echo "collate_regression..."; ./parsley test/collate_regression.let test/collate_regression.html 2>&1 | diff test/collate_regression.json - && echo "    success."
+	

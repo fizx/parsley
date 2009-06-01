@@ -63,7 +63,8 @@ enum {
 	PARSLEY_OPTIONS_PRUNE   			 = 2,
 	PARSLEY_OPTIONS_ALLOW_NET  		 = 4,
 	PARSLEY_OPTIONS_ALLOW_LOCAL    = 8,
-	PARSLEY_OPTIONS_COLLATE        = 16
+	PARSLEY_OPTIONS_COLLATE        = 16,
+	PARSLEY_OPTIONS_SGWRAP         = 32
 };
 
 typedef parsley_context * contextPtr;

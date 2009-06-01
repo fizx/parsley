@@ -46,8 +46,14 @@ parsedParsleyPtr parsley_parse_file(parsleyPtr parsley, char* file_name, int fla
 	- parsleyPtr parsley -- Compiled parsley struct
 	- char* file_name -- file to parse
 	- int flags -- a bitmask as follows:
-	  1 - use the html parser? (instead of xml)
-	  2 - prune empty subtrees, raising an error if a mandatory subtree is empty.
+			enum {
+				PARSLEY_OPTIONS_HTML 					 = 1,
+				PARSLEY_OPTIONS_PRUNE   			 = 2,
+				PARSLEY_OPTIONS_ALLOW_NET  		 = 4,
+				PARSLEY_OPTIONS_ALLOW_LOCAL    = 8,
+				PARSLEY_OPTIONS_COLLATE        = 16,
+				PARSLEY_OPTIONS_SGWRAP         = 32
+			};
 	
 	Returns: A libxml2 document of the extracted data.  You need to free this 
 	with xmlFree().  To output, look at the libxml2 documentation for functions 
