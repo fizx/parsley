@@ -242,8 +242,10 @@ collate(xmlNodePtr xml) {
           lists[i] = lists[i]->children;
           multi[i] = true;
         }
-  			lists[i]->parent->extra = i;
-  			len += _xmlChildElementCount(lists[i]->parent);
+  			if(lists[i] != NULL) {
+  			  lists[i]->parent->extra = i;
+  			  len += _xmlChildElementCount(lists[i]->parent);
+			  }
 
         child->children = NULL;
       }
