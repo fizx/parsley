@@ -36,7 +36,7 @@ xmlDocPtr
 parsley_apply_span_wrap(xmlDocPtr doc) {
   if(span_wrap_sheet == NULL) {
     char * sheet = "<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" xmlns:sg=\"http://selectorgadget.com/\"> \
-      <xsl:template match=\"text()[following-sibling::* or preceding-sibling::*]\"> \
+      <xsl:template match=\"text()[(following-sibling::* or preceding-sibling::*) and normalize-space(.) != '']\"> \
         <sg_wrap><xsl:value-of select=\".\" /></sg_wrap> \
       </xsl:template> \
     	<xsl:template match=\"@*|node()\"> \
