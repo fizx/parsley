@@ -1,0 +1,9 @@
+{
+	"jobs": [{
+		"education?": ["skipped"], 
+		"title": ".iCIMS_Header_JobTitle", 
+		"experience?": ["skipped"], 
+		"description?": ["sg_wrap"], 
+		"location?": [".iCIMS_JobHeaderTable tr:nth-child(1) :nth-child(4)"]
+	}]
+}
