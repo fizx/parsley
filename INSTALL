@@ -4,7 +4,7 @@ Parsley depends on
 - argp (standard with Linux, other platforms use argp-standalone package)
 - the JSON C library from http://oss.metaparadigm.com/json-c/ (I used 0.8)
 - pcre (with dev headers)
-- libxml2
+- libxml2	(>= 2.7)
 - libxslt (with exslt)
 
 
