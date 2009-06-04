@@ -12,6 +12,7 @@ void parsley_register_all();
 
 static void xsltHtmlDocumentFunction(xmlXPathParserContextPtr, int);
 static void xsltHtmlDocumentFunctionLoadDocument(xmlXPathParserContextPtr, xmlChar*);
+static void xsltOuterXmlFunction(xmlXPathParserContextPtr ctxt, int nargs);
 xsltDocumentPtr	xsltLoadHtmlDocument(xsltTransformContextPtr, const xmlChar *);
 
 #endif

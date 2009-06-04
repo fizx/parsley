@@ -20,6 +20,13 @@
 void parsley_register_all(){
 	xsltRegisterExtModuleFunction ((const xmlChar *) "html-document", "http://parselets.com/stdlib",
 		   xsltHtmlDocumentFunction);
+  xsltRegisterExtModuleFunction ((const xmlChar *) "outer-xml", "http://parselets.com/stdlib",
+		   xsltOuterXmlFunction);
+}
+
+void
+xsltOuterXmlFunction(xmlXPathParserContextPtr ctxt, int nargs) {
+  
 }
 
 void

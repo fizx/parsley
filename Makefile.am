@@ -29,6 +29,7 @@ bench:
 	@echo "craigs..."; ./parsley test/craigs.let test/craigs.html > /dev/null
 
 check-am:
+	@echo "outer-xml..."; ./parsley test/outer-xml.let test/outer-xml.html 2>&1 | diff test/outer-xml.json - && echo "    success."
 	@echo "segfault..."; ./parsley test/segfault.let test/segfault.html 2>&1 | diff test/segfault.json - && echo "    success."
 	@echo "sg_off..."; ./parsley test/sg_off.let test/sg_off.html 2>&1 | diff test/sg_off.json - && echo "    success."
 	@echo "nth-regression..."; ./parsley test/nth-regression.let test/nth-regression.html 2>&1 | diff test/nth-regression.json - && echo "    success."
