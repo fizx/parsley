@@ -729,6 +729,7 @@ bench:
 	@echo "craigs..."; ./parsley test/craigs.let test/craigs.html > /dev/null
 
 check-am:
+	@echo "question_regressions..."; ./parsley test/question_regressions.let test/question_regressions.html 2>&1 | diff test/question_regressions.json - && echo "    success."
 	@echo "outer-xml..."; ./parsley test/outer-xml.let test/outer-xml.html 2>&1 | diff test/outer-xml.json - && echo "    success."
 	@echo "segfault..."; ./parsley test/segfault.let test/segfault.html 2>&1 | diff test/segfault.json - && echo "    success."
 	@echo "sg_off..."; ./parsley test/sg_off.let test/sg_off.html 2>&1 | diff test/sg_off.json - && echo "    success."

@@ -1,0 +1,443 @@
+<html lang="en">
+<head>
+<title>Amazon Career Section - Job description</title>
+<meta http-equiv="content-type" content="text/html;charset=UTF-8">
+<script type="text/javascript" src="/700/700PRD.11.0.7.3.0/htdocs/js/UtilCareerSection.js"></script>
+<!--interface_no:108-->
+<link href="/custom/careersection.css" rel="styleSheet" type="text/css">
+<script type="text/javascript" src="/700/700PRD.11.0.7.3.0/htdocs/js/component.js"></script>
+
+
+
+<script type="text/javascript" src="/700/700PRD.11.0.7.3.0/htdocs/js/ToolbarJavascriptRecentBrowser.js"></script>
+<script type="text/javascript" src="/700/700PRD.11.0.7.3.0/htdocs/js/ToolbarJavascriptGeneral.js"></script>
+
+<script type="text/javascript" language="JavaScript">
+tmpToolbar = getNewToolbar();
+tmpToolbar.id = "tb";
+tmpToolbar.fullId = "preapply_tb";
+tmpToolbar.targetForm = "document.preapplyform";
+tmpToolbar.formTarget = "";
+putToolbar(tmpToolbar);
+</script>
+<!--interface_no:01-->
+<script type="text/javascript" language="JavaScript"><!--
+function stopEvent() {
+var userAgent = window.navigator.userAgent;
+var appName = window.navigator.appName;
+if ((appName.indexOf("Explorer") >= 0) && (userAgent.indexOf("Mozilla/3") >= 0) && (userAgent.indexOf("Mac") >= 0)) {
+return (true);
+} else {
+return (false);
+}
+}
+//-->
+</script><script type="text/javascript" language="JavaScript">
+// 0 run, 1 don't run
+var runRegister= 0;
+// For double-click check purpose.
+var isActionAlreadyRequested = false;
+//we need this function because the onSubmit Event of a form is not fired when we submit the form in
+//the Onclick event of a button.
+function submitEvent()
+{
+var keepGoing = true;
+if (runRegister == 0){keepGoing =  executeRegister();}
+if (keepGoing)
+{
+window.document.preapplyform.submit();
+}
+}
+addComponentListener('preapply_tb', 'csToolbarListener');
+function csToolbarListener(toolbarId, actionId, value)
+{
+if (runRegister == 0)
+{
+return executeRegister();
+}
+else
+{
+return NEXT_EVENT_LISTENER_AND_SUBMIT;
+}
+}
+</script>
+<style media="screen" type="text/css"><!--.nounderline {text-decoration:none;}--></style>
+
+</head>
+<body bgcolor="#FFFFFF" onunload="closeChildWindow();">
+
+
+<script type="text/javascript" language="JavaScript">
+<!--
+//---------------------------------------------------------------------
+// This method increments the count of browser using the career section
+// on the current session in the document's cookie.
+// This code is inserted only when IE browser is used
+//---------------------------------------------------------------------
+function setMultiBrowserDetection()
+{
+if (window.navigator.cookieEnabled)
+{
+// The multibrowser problem doesn't occur where cookies are not available
+var cs_cnt = -1;
+var index = document.cookie.indexOf("cs_cnt");
+var countbegin = -1;
+var countend = -1;
+if (index == -1)
+{
+cs_cnt = 1;
+}
+else
+{
+countbegin = (document.cookie.indexOf("=", index) + 1);
+countend = document.cookie.indexOf(";", index);
+if (countend == -1)
+{
+countend = document.cookie.length;
+cs_cnt = eval(document.cookie.substring(countbegin, countend));
+}
+else
+{
+if (countend < countbegin)
+{
+cs_cnt = 0;
+}
+else
+{
+cs_cnt = eval(document.cookie.substring(countbegin, countend));
+}
+}
+if (cs_cnt < 1)
+{
+cs_cnt = 1;
+}
+else
+{
+cs_cnt = cs_cnt + 1;
+}
+}
+document.cookie = "cs_cnt="+cs_cnt;
+if (cs_cnt > 1)
+{
+// More than one browser is using the current session
+window.document.location = "https://amazon.taleo.net/servlets/CareerSection?art_ip_action=MultipleBrowserConflict&art_servlet_language=en&selected_language=en&csNo=2";
+}
+}
+}
+//---------------------------------------------------------------------
+// This method decrements the count of browser using the career section
+// on the current session in the document's cookie.
+// This code is inserted only when IE browser is used
+//---------------------------------------------------------------------
+function unsetMultiBrowserDetection()
+{
+if (window.navigator.cookieEnabled)
+{
+// The multibrowser problem doesn't occur where cookies are not available
+var cs_cnt = -1;
+var index = document.cookie.indexOf("cs_cnt");
+var countbegin = -1;
+var countend = -1;
+if (index == -1)
+{
+// This could happen if the cookies was enabled after accessing a career section
+// We suppose there was only one browser opened
+cs_cnt = 0;
+}
+else
+{
+countbegin = (document.cookie.indexOf("=", index) + 1);
+countend = document.cookie.indexOf(";", index);
+if (countend == -1)
+{
+countend = document.cookie.length;
+cs_cnt = eval(document.cookie.substring(countbegin, countend));
+}
+else
+{
+if (countend < countbegin)
+{
+cs_cnt = 0;
+}
+else
+{
+cs_cnt = eval(document.cookie.substring(countbegin, countend));
+}
+}
+if (cs_cnt > 0)
+{
+cs_cnt = cs_cnt - 1;
+}
+else
+{
+cs_cnt = 0;
+}
+}
+document.cookie = "cs_cnt="+cs_cnt;
+}
+}
+if (window.attachEvent) window.attachEvent("onload", setMultiBrowserDetection);
+if (window.attachEvent) window.attachEvent("onunload", unsetMultiBrowserDetection);
+if (window.addEventListener) window.addEventListener("load", setMultiBrowserDetection, false);
+if (window.addEventListener) window.addEventListener("unload", unsetMultiBrowserDetection, false);
+-->
+</script>
+<table summary="" border="0" cellpadding="0" cellspacing="0" width="500">
+
+<tr align="left" valign="top">
+<td align="left" valign="top">
+<form name="preapplyform"  method="GET" action="/servlets/CareerSection" onSubmit="if (runRegister == 0) {return executeRegister();}">
+<!--interface_no:01-->
+<input type="hidden" name="reqNo" value="66474">
+<input type="hidden" name="csNo" value="2">
+<input type="hidden" name="flowTypeNo" value="13">
+<input type="hidden" name="pageSeq" value="2">
+<input type="hidden" name="art_servlet_language" value="en">
+<input type="hidden" name="selected_language" value="en">
+<input type="hidden" name="RS_CHARSET_" value="UTF-8">
+<input type="hidden" name="HISTORY" value="">
+<!--
+--><input type="hidden" name="art_ip_action" value="PreApplyFlowController">
+<input type="hidden" name="SessionID" value="noneRequiredWhenCookiesAreEnabled">
+<script type="text/javascript" language="JavaScript">
+document.write('<input type="hidden" name="JavascriptEnable" value="1">');
+</script>
+<noscript>
+<input type="hidden" name="JavascriptEnable" value="0">
+
+</noscript>
+<!--interface_no:55-->
+<input type="hidden" name="ComponentID" value="">
+
+
+
+<input type="hidden" name="ToolbarActionToExecuteID" value="">
+<script type="text/javascript" language="JavaScript"><!--
+document.write('<input type="hidden" name="toolbar_submitted" value="0">');
+//-->
+</script>
+
+
+<table summary="" border="0" cellpadding="0" cellspacing="0" width="500">
+<tr>
+<td>
+<input type="hidden" name="preapply" value="1">
+<input type="hidden" name="current_flow" value="24">
+<input type="hidden" name="current_page" value="2">
+
+<input type="hidden" name="callback" value="">
+<!--interface_no:05-->
+<!--    HEADER PART   -->
+<!--interface_no:05-->
+<a name="topOfCsPage" id="topOfCsPage"></a>
+<table summary="" border="0" cellpadding="0" cellspacing="0" width="500">
+<tr>
+<td colspan="4"><p><H1>Software Development Support Engineer, Retail Customer Experience&nbsp;&#150;&nbsp;037385</H1></p></td>
+</tr>
+<tr>
+<td colspan="4">&nbsp;</td>
+</tr>
+</table>
+<!-- BLOCK TITLE PART -->
+<table summary="" border="0" cellspacing="0" cellpadding="0" width="100%">
+
+<tr>
+<td><p><H2>Job Description</H2></p></td>
+<td></td>
+<td></td>
+</tr>
+</table>
+<!-- APPLY BUTTON PART -->
+<table summary="" border="0" cellpadding="0" cellspacing="0" width="100%">
+<tr>
+<td width="100%"></td>
+<td align="right" valign="top" nowrap><!--interface_no:66-->
+<script type="text/javascript" language="JavaScript"><!--
+document.write('<p class="button"><a class="button" href="https://amazon.taleo.net/servlets/CareerSection?art_ip_action=FlowDispatcher&amp;flowTypeNo=13&amp;pageSeq=4&amp;art_servlet_language=en&amp;selected_language=en&amp;csNo=2&amp;LDCondition=LOGIN&amp;LDRedirect=%2Fservlets%2FCareerSection%3Fart_ip_action%3DFlowDispatcher%26flowTypeNo%3D1%26art_servlet_language%3Den%26selected_language%3Den%26reqNo%3D66474%26csNo%3D2#topOfCsPage"');
+document.write('onClick="if(isActionAlreadyRequested == false){isActionAlreadyRequested = true; setTimeout(\'isActionAlreadyRequested = false;\', 2000); } else {return dontFollowLink();} " name="apply_online" title="Apply for this position online">');
+document.write('<span class="label-button">Apply Online<\/span><\/a><\/p>');
+//-->
+</script>
+<noscript>
+<p class="button"><a class="button" href="https://amazon.taleo.net/servlets/CareerSection?art_ip_action=FlowDispatcher&amp;flowTypeNo=13&amp;pageSeq=4&amp;art_servlet_language=en&amp;selected_language=en&amp;csNo=2&amp;LDCondition=LOGIN&amp;LDRedirect=%2Fservlets%2FCareerSection%3Fart_ip_action%3DFlowDispatcher%26flowTypeNo%3D1%26art_servlet_language%3Den%26selected_language%3Den%26reqNo%3D66474%26csNo%3D2#topOfCsPage" name="apply_online" title="Apply for this position online"><span class="label-button">Apply Online</span></a></p>
+</noscript>
+</td>
+
+</tr>
+</table>
+<!-- DESCRIPTION & QUALIFICATION PART -->
+<table summary="" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr><td><p class="box_content_bold"><span class="label-subtitle">Description</span></p></td></tr>
+<tr><td><span class="label-text"><P STYLE="margin-top:0px;margin-bottom:0px"><FONT FACE=Arial SIZE=2>Looking for the best of both worlds? Want to work in a startup environment but with all the advantages of Amazon.com, the e-commerce leader?&nbsp; Endless.com and Javari.jp development team is looking for a talented Software Development Support Engineer who will be the first level support for all incoming production software application issues. Endless and Javari are online shoe e-commerce sites recently launched by Amazon.com.&nbsp;&nbsp; </FONT></P><P STYLE="margin-top:0px;margin-bottom:0px"><FONT FACE=Arial SIZE=2></FONT>&nbsp;</P><P STYLE="margin-top:0px;margin-bottom:0px"><FONT FACE=Arial SIZE=2>Primary responsibilities include diagnosing and fixing production software issues on endless.com and javari.jp and working with other internal teams to resolve issues in their software that are effecting the endless.com website.&nbsp; Other responsibilities include automation of support processes, developing monitoring solutions and building tools to help programmatically identity and diagnose the root cause of website issues.&nbsp;&nbsp; High Impact production issues often require coordination between multiple Operations and IT Support groups.&nbsp; </FONT></P><P STYLE="margin-top:0px;margin-bottom:0px"><FONT FACE=Arial SIZE=2></FONT>&nbsp;</P></span></td></tr>
+
+<tr><td><br></td></tr>
+<tr><td><span class="label-subtitle">Qualifications</span></td></tr>
+<tr><td><span class="label-text"><P STYLE="margin-top:0px;margin-bottom:0px"><FONT FACE=Arial SIZE=2>Excellent problem solving and coding skills are required to be successful in this position. Strong verbal communication skills are needed for coordinating with internal business teams and other software development groups.&nbsp;&nbsp;&nbsp; The ideal candidate is interested in a career in software development and is looking to expand their coding skills by gaining exposure to a wide variety of software applications.&nbsp; The person who fits this role is organized, independent, self-motivating and can maintain professionalism under pressure. Necessary technical skills include: JAVA, Javascript, CSS, HTML, AJAX, Perl,&nbsp; SQL, LINUX/UNIX. A Computer Science degree or other technical degree is required.<BR></FONT></P></span></td></tr>
+</table>
+<!-- PROFILE PART -->
+<br>
+<table summary="" width="100%" border="1" cellspacing="0" cellpadding="0">
+<tr>
+<td>
+
+<table summary="" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td class="cell-box-title"><img src="/700/700PRD.11.0.7.3.0/htdocs/images/CareerSection/_shim_1px1p_transparent.gif" alt="" height="15" width="5" border="0"></td>
+<td class="cell-box-title" colspan="3" nowrap><span class="label-box-title">Profile</span></td>
+<td class="cell-box-title"><img src="/700/700PRD.11.0.7.3.0/htdocs/images/CareerSection/_shim_1px1p_transparent.gif" alt="" height="15" width="10" border="0"></td>
+</tr>
+<tr>
+<td class="cell-box-text" width="1%">&nbsp;</td>
+<td class="cell-box-text" valign="top" NOWRAP><span class="label-box-subtitle">Job Field</span></td>
+<td class="cell-box-text" width="1%">&nbsp;</td>
+<td class="cell-box-text" width="100%" valign="top"><span class="label-box-text">Support Engineer</span></td>
+<td class="cell-box-text" width="1%">&nbsp;</td>
+</tr>
+<tr>
+
+<td class="cell-box-text" width="1%">&nbsp;</td>
+<td class="cell-box-text" valign="top" NOWRAP><span class="label-box-subtitle">Locations</span></td>
+<td class="cell-box-text" width="1%">&nbsp;</td>
+<td class="cell-box-text" width="100%" valign="top"><span class="label-box-text">Washington-Seattle</span></td>
+<td class="cell-box-text" width="1%">&nbsp;</td>
+</tr>
+<tr>
+<td class="cell-box-text" width="1%">&nbsp;</td>
+<td class="cell-box-text" valign="top" NOWRAP><span class="label-box-subtitle">Organization</span></td>
+<td class="cell-box-text" width="1%">&nbsp;</td>
+<td class="cell-box-text" width="100%" valign="top"><span class="label-box-text">Amazon</span></td>
+<td class="cell-box-text" width="1%">&nbsp;</td>
+</tr>
+
+</table>
+</td>
+</tr>
+</table>
+<!-- ADDITIONAL INFO PART -->
+<br>
+<table summary="" width="100%" border="1" cellspacing="0" cellpadding="0">
+<tr>
+<td>
+<table summary="" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td class="cell-box-title" width="1%"><img src="/700/700PRD.11.0.7.3.0/htdocs/images/CareerSection/_shim_1px1p_transparent.gif" alt="" height="15" width="5" border="0"></td>
+<td class="cell-box-title" colspan="3"><span class="label-box-title">Additional Information</span></td>
+<td class="cell-box-title" width="1%"><img src="/700/700PRD.11.0.7.3.0/htdocs/images/CareerSection/_shim_1px1p_transparent.gif" alt="" height="15" width="8" border="0"></td>
+</tr>
+<tr>
+
+<td class="cell-box-text" width="1%">&nbsp;</td>
+<td class="cell-box-text" valign="top" NOWRAP><span class="label-box-subtitle">Posting Date</span></td>
+<td class="cell-box-text" width="1%">&nbsp;</td>
+<td class="cell-box-text" valign="top" width="100%"><span class="label-box-text">May 27, 2009, 11:13 PM, (UTC -7:00)</span></td>
+<td class="cell-box-text" width="1%">&nbsp;</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+<!-- UDF PART -->
+<br>
+<table summary="" width="auto" border="0" cellspacing="0" cellpadding="1">
+<tr>
+<td valign="top"><span class="label-subtitle">   </span></td>
+
+<td><span class="label-text">&nbsp;</span></td>
+<td valign="top"><span class="label-text">NOTE: Clicking [Apply Online] and submitting your information through this site is the only way external candidates may apply for this position with Amazon.com.</span></td>
+</tr>
+</table>
+<br>
+<table summary="" border="0" cellpadding="0" cellspacing="0" width="100%">
+<tr>
+<!-- SEND TO A FRIEND PART -->
+<script type="text/javascript" language="JavaScript"><!--
+function openSendThisJob()
+{
+openWindow('/servlets/CareerSection?art_ip_action=SendJob&reqNo=66474&altCsNo=2&art_servlet_language=en&selected_language=en&csNo=2&art_view_popup=true', 'send_job', '450', '480', 'yes', 'yes', '0', '0');
+}
+//-->
+</script>
+<td align="left" width="100%"><img src="/700/700PRD.11.0.7.3.0/htdocs/images/CareerSection/icon_send.gif" align="middle" alt="">
+<script type="text/javascript" language="JavaScript"><!--
+document.write('<a href="#" title="Open the form used to send this job to a friend" name="SendToFriend" onclick="openSendThisJob(); return dontFollowLink();"><span class="label-link">Send this job to a friend</span></a>');
+//-->
+</script>
+<noscript>
+<a href="/servlets/CareerSection?art_ip_action=SendJob&reqNo=66474&altCsNo=2&art_servlet_language=en&selected_language=en&csNo=2&art_view_popup=true" title="Open the form used to send this job to a friend" name="SendToFriend" target="_blank"><span class="label-link">Send this job to a friend</span></a>
+</noscript>
+</td>
+
+</tr>
+</table>
+<!-- RETURN TO JOBLIST PART -->
+<table summary="" width="100%" border="0" cellspacing="0" cellpadding="0">
+<tr>
+<td align="left"><img src="/700/700PRD.11.0.7.3.0/htdocs/images/CareerSection/icon_return.gif" alt="" align="middle">&nbsp;<a name="return_job_list" title="Access the list of job openings within the organization" href="https://amazon.taleo.net/servlets/CareerSection?art_ip_action=FlowDispatcher&amp;flowTypeNo=13&amp;pageSeq=1&amp;alt=1&amp;art_servlet_language=en&amp;selected_language=en&amp;csNo=2&amp;sp=1"><span class="label-link">Return to the job list</span></a></td>
+<!-- BOTTOM APPLY BUTTON PART -->
+<td align="right" nowrap><!--interface_no:66-->
+<script type="text/javascript" language="JavaScript"><!--
+document.write('<p class="button"><a class="button" href="https://amazon.taleo.net/servlets/CareerSection?art_ip_action=FlowDispatcher&amp;flowTypeNo=13&amp;pageSeq=4&amp;art_servlet_language=en&amp;selected_language=en&amp;csNo=2&amp;LDCondition=LOGIN&amp;LDRedirect=%2Fservlets%2FCareerSection%3Fart_ip_action%3DFlowDispatcher%26flowTypeNo%3D1%26art_servlet_language%3Den%26selected_language%3Den%26reqNo%3D66474%26csNo%3D2#topOfCsPage"');
+document.write('onClick="if(isActionAlreadyRequested == false){isActionAlreadyRequested = true; setTimeout(\'isActionAlreadyRequested = false;\', 2000); } else {return dontFollowLink();} " name="apply_online" title="Apply for this position online">');
+document.write('<span class="label-button">Apply Online<\/span><\/a><\/p>');
+//-->
+</script>
+<noscript>
+<p class="button"><a class="button" href="https://amazon.taleo.net/servlets/CareerSection?art_ip_action=FlowDispatcher&amp;flowTypeNo=13&amp;pageSeq=4&amp;art_servlet_language=en&amp;selected_language=en&amp;csNo=2&amp;LDCondition=LOGIN&amp;LDRedirect=%2Fservlets%2FCareerSection%3Fart_ip_action%3DFlowDispatcher%26flowTypeNo%3D1%26art_servlet_language%3Den%26selected_language%3Den%26reqNo%3D66474%26csNo%3D2#topOfCsPage" name="apply_online" title="Apply for this position online"><span class="label-button">Apply Online</span></a></p>
+</noscript>
+</td>
+</tr>
+</table>
+<INPUT NAME="JobDetailBlock" TYPE="HIDDEN"  VALUE="281">
+
+<input NAME="preapply_pg" TYPE="hidden"  VALUE="1">
+</td>
+</tr>
+</table>
+</form>
+</td>
+</tr>
+</table>
+<table summary="" width="500">
+<tr>
+<td align="right">
+</td>
+</tr>
+</table>
+<table summary="" border="0" cellpadding="0" cellspacing="0" width="500">
+<tr align="center" valign="top">
+<td align="center" valign="top">
+
+<hr size="1">
+<table summary="" border="0" cellspacing="2" cellpadding="0">
+<tr>
+<td>
+<script type="text/javascript" language="javascript"><!--
+window.document.write('<img src="\x2f700\x2f700PRD.11.0.7.3.0\x2fhtdocs\x2fimages\x2fCareerSection\x2flogo_powered_by.gif"  border="0" alt="Taleo logo"><\/td>');
+window.document.write('<td nowrap><img src="\x2f700\x2f700PRD.11.0.7.3.0\x2fhtdocs\x2fimages\x2fCareerSection\x2f_shim_1px1p_transparent.gif" alt="" height="3" width="3"><\/td>');
+window.document.write('<td nowrap><a href=\"http:\x2f\x2fwww.taleo.com\"  title=\"This service is powered by Taleo - Access Taleo\'s Web site\" onClick=\"openWindow(\'http:\x2f\x2fwww.taleo.com\', \'taleo\', \'790\', \'630\', \'yes\', \'yes\', \'0\', \'0\'); return stopEvent();\"><span class="label-link">Powered by Taleo<\/span><\/a>');
+//-->
+</script>
+<noscript>
+<img src="/700/700PRD.11.0.7.3.0/htdocs/images/CareerSection/logo_powered_by.gif"  border="0" alt="Taleo logo"></td>
+<td nowrap><img src="/700/700PRD.11.0.7.3.0/htdocs/images/CareerSection/_shim_1px1p_transparent.gif" alt="" height="3" width="3"></td>
+<td nowrap><a href="http://www.taleo.com"  title="This service is powered by Taleo - Access Taleo's Web site" target="_blank"><span class="label-link">Powered by Taleo</span></a>
+</noscript>
+</td>
+</tr>
+</table>
+</td>
+</tr>
+</table>
+
+<script type="text/javascript" language="JavaScript"><!--
+setInterval("window.document.images.KeepAliveCS.src = '/servlets/KeepAliveCS.gif?product=40&JServSessionIdamazon=1fk87emrl3bqa9uv2.RJS3498_3500'", 300000);
+window.document.write('<table summary="" border="0" cellpadding="0" cellspacing="0"><tr><td><img name="KeepAliveCS" src="/700/700PRD.11.0.7.3.0/htdocs/images/CareerSection/_shim_1px1p_transparent.gif" border="0" width="1" height="1" alt=""><\/td><\/tr><\/table>');
+//-->
+</script>
+
+</body>
+
+
+
+
+</html>
