@@ -26,7 +26,29 @@ void parsley_register_all(){
 
 void
 xsltOuterXmlFunction(xmlXPathParserContextPtr ctxt, int nargs) {
-  
+    if (nargs != 1) {
+        xsltTransformError(xsltXPathGetTransformContext(ctxt), NULL, NULL,
+                          "outer-xml() : invalid number of args %d\n",
+                          nargs);
+        ctxt->error = XPATH_INVALID_ARITY;
+        return;
+    }
+    if (ctxt->value->type == XPATH_NODESET) {
+        xmlXPathObjectPtr obj, newobj;
+
+        obj = valuePop(ctxt);
+        
+        xmlBufferPtr buf = xmlBufferCreate();
+        int n = obj->nodesetval->nodeNr;
+        for(int i = 0; i < n; i++) {
+          xmlNodePtr node = obj->nodesetval->nodeTab[i];
+          xmlDocPtr doc = node->doc;
+          xmlNodeDump(buf, doc, node, 0, 0);
+        }
+        newobj = xmlXPathNewCString(xmlBufferContent(buf));
+        xmlBufferFree(buf);
+        valuePush(ctxt, newobj);
+    }
 }
 
 void
