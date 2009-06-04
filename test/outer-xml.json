@@ -1,1 +1,1 @@
-{ "foo": "<p id=\"foo\">bar<\/p>" }
+{ "foo": "<p id=\"foo\">bar<\/p>", "both": [ "<p id=\"foo\">bar<\/p>", "<p id=\"foo\">baz<\/p>" ] }

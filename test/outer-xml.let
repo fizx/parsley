@@ -1,3 +1,4 @@
 {
-	"foo": "lib:outer-xml(p)"
+	"foo": "lib:outer-xml(p)",
+	"both": [ "lib:outer-xml(p)" ]
 }
