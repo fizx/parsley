@@ -5,5 +5,6 @@
 	"calc2": "4 div 2",
 	"calc3": "4",
 	"calc4": "1 + 2",
-	"prolly-nan": "number(//div) + 2"
+	"prolly-nan": "number(//div) + 2",
+	"css_div": "body div a"
 }
