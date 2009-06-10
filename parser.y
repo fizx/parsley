@@ -373,10 +373,10 @@ AdditiveExpr
 	;
 
 MultiplicativeExpr
-  : UnaryExpr
-  | MultiplicativeExpr OptS MultiplyOperator OptS UnaryExpr		{ $$ = LIT_BIN_OP($1, $3, $5); }
-  | MultiplicativeExpr OptS XDIV OptS UnaryExpr               { $$ = LIT_BIN_OP($1, $3, $5); }
-  | MultiplicativeExpr OptS XMOD OptS UnaryExpr               { $$ = LIT_BIN_OP($1, $3, $5); }
+  : UnaryExpr                                                %dprec 2
+  | MultiplicativeExpr OptS MultiplyOperator OptS UnaryExpr	 %dprec 2 { $$ = LIT_BIN_OP($1, $3, $5); }
+  | MultiplicativeExpr OptS XDIV OptS UnaryExpr              %dprec 1 { $$ = LIT_BIN_OP($1, $3, $5); }
+  | MultiplicativeExpr OptS XMOD OptS UnaryExpr              %dprec 2 { $$ = LIT_BIN_OP($1, $3, $5); }
 	;
 
 UnaryExpr
