@@ -300,7 +300,7 @@ AbbreviatedAxisSpecifier
 	|				{ $$ = ""; }
 	;
 Expr
-  : LPAREN Expr RPAREN %dprec 2  { $$ = PXPWRAP($1, $2, $3);    }  
+  : LPAREN Argument RPAREN %dprec 2  { $$ = PXPWRAP($1, $2, $3);    }  
   | OrExpr						 %dprec 1
 	;
 PrimaryExpr
