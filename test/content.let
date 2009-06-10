@@ -1,6 +1,3 @@
 {
-  "paras(p)": [{
-    "id": "@id",
-    "is_a": ":content('a')"
-  }]
+  "foo": [":content('a')"]
 }

@@ -87,6 +87,7 @@ CXODD         ":odd"
 CXEQ          ":eq"
 CXGT          ":gt"
 CXLT          ":lt"
+CXCONTENT     ":content"
 CXHEADER      ":header"
 CXCONTAINS    ":contains"
 CXEMPTY       ":empty"
@@ -185,6 +186,7 @@ NAME        [a-zA-Z_][a-zA-Z0-9\-_]*
 {CXEQ} yylval.string = strdup(yytext); return CXEQ;
 {CXGT} yylval.string = strdup(yytext); return CXGT;
 {CXLT} yylval.string = strdup(yytext); return CXLT;
+{CXCONTENT} yylval.string = strdup(yytext); return CXCONTENT;
 {CXHEADER} yylval.string = strdup(yytext); return CXHEADER;
 {CXCONTAINS} yylval.string = strdup(yytext); return CXCONTAINS;
 {CXEMPTY} yylval.string = strdup(yytext); return CXEMPTY;

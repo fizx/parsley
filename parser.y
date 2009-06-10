@@ -122,6 +122,7 @@ void answer(pxpathPtr);
 %token <string> CXEQ
 %token <string> CXGT
 %token <string> CXLT
+%token <string> CXCONTENT
 %token <string> CXHEADER
 %token <string> CXCONTAINS
 %token <string> CXEMPTY
@@ -493,6 +494,7 @@ simple_selector_sequence
 	| possibly_empty_sequence CXLAST	                                                                  	{ $$ = APPEND($1, "[last()]"); }
 	| possibly_empty_sequence CXEVEN		                                                                  { $$ = APPEND($1, "[position() % 2 = 0]"); }
 	| possibly_empty_sequence CXODD		                                                                    { $$ = APPEND($1, "[position() % 2 = 1]"); }
+	| possibly_empty_sequence CXCONTENT	LPAREN StringLike RPAREN	                                                                { $$ = P4E($1, "[normalize-space(.)=", $4, "]"); }
 	| possibly_empty_sequence CXHEADER		                                                                { $$ = APPEND($1, "[contains('h1 h2 h3 h4 h5 h6', lower-case(local-name()))]"); }
 	| possibly_empty_sequence CXEMPTY		                                                                  { $$ = APPEND($1, "[not(node())]"); }
 	| possibly_empty_sequence CXPARENT		                                                                { $$ = APPEND($1, "[node()]"); }
