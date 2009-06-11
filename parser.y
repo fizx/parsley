@@ -122,6 +122,7 @@ void answer(pxpathPtr);
 %token <string> CXEQ
 %token <string> CXGT
 %token <string> CXLT
+%token <string> CXCONTENT
 %token <string> CXHEADER
 %token <string> CXCONTAINS
 %token <string> CXEMPTY
@@ -300,7 +301,7 @@ AbbreviatedAxisSpecifier
 	|				{ $$ = ""; }
 	;
 Expr
-  : LPAREN Expr RPAREN %dprec 2  { $$ = PXPWRAP($1, $2, $3);    }  
+  : LPAREN Argument RPAREN %dprec 2  { $$ = PXPWRAP($1, $2, $3);    }  
   | OrExpr						 %dprec 1
 	;
 PrimaryExpr
@@ -373,10 +374,10 @@ AdditiveExpr
 	;
 
 MultiplicativeExpr
-  : UnaryExpr
-  | MultiplicativeExpr OptS MultiplyOperator OptS UnaryExpr		{ $$ = LIT_BIN_OP($1, $3, $5); }
-  | MultiplicativeExpr OptS XDIV OptS UnaryExpr               { $$ = LIT_BIN_OP($1, $3, $5); }
-  | MultiplicativeExpr OptS XMOD OptS UnaryExpr               { $$ = LIT_BIN_OP($1, $3, $5); }
+  : UnaryExpr                                                %dprec 2
+  | MultiplicativeExpr OptS MultiplyOperator OptS UnaryExpr	 %dprec 2 { $$ = LIT_BIN_OP($1, $3, $5); }
+  | MultiplicativeExpr OptS XDIV OptS UnaryExpr              %dprec 1 { $$ = LIT_BIN_OP($1, $3, $5); }
+  | MultiplicativeExpr OptS XMOD OptS UnaryExpr              %dprec 2 { $$ = LIT_BIN_OP($1, $3, $5); }
 	;
 
 UnaryExpr
@@ -493,6 +494,7 @@ simple_selector_sequence
 	| possibly_empty_sequence CXLAST	                                                                  	{ $$ = APPEND($1, "[last()]"); }
 	| possibly_empty_sequence CXEVEN		                                                                  { $$ = APPEND($1, "[position() % 2 = 0]"); }
 	| possibly_empty_sequence CXODD		                                                                    { $$ = APPEND($1, "[position() % 2 = 1]"); }
+	| possibly_empty_sequence CXCONTENT	LPAREN StringLike RPAREN	                                                                { $$ = P4E($1, "[normalize-space(.)=", $4, "]"); }
 	| possibly_empty_sequence CXHEADER		                                                                { $$ = APPEND($1, "[contains('h1 h2 h3 h4 h5 h6', lower-case(local-name()))]"); }
 	| possibly_empty_sequence CXEMPTY		                                                                  { $$ = APPEND($1, "[not(node())]"); }
 	| possibly_empty_sequence CXPARENT		                                                                { $$ = APPEND($1, "[node()]"); }

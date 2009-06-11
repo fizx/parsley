@@ -104,37 +104,38 @@
      CXEQ = 321,
      CXGT = 322,
      CXLT = 323,
-     CXHEADER = 324,
-     CXCONTAINS = 325,
-     CXEMPTY = 326,
-     CXHAS = 327,
-     CXPARENT = 328,
-     CXNTHCH = 329,
-     CXNTHLASTCH = 330,
-     CXNTHTYPE = 331,
-     CXNTHLASTTYPE = 332,
-     CXFIRSTCH = 333,
-     CXLASTCH = 334,
-     CXFIRSTTYPE = 335,
-     CXLASTTYPE = 336,
-     CXONLYCH = 337,
-     CXONLYTYPE = 338,
-     CXINPUT = 339,
-     CXTEXT = 340,
-     CXPASSWORD = 341,
-     CXRADIO = 342,
-     CXCHECKBOX = 343,
-     CXSUBMIT = 344,
-     CXIMAGE = 345,
-     CXRESET = 346,
-     CXBUTTON = 347,
-     CXFILE = 348,
-     CXENABLED = 349,
-     CXDISABLED = 350,
-     CXCHECKED = 351,
-     CXSELECTED = 352,
-     NAME = 353,
-     STRING = 354
+     CXCONTENT = 324,
+     CXHEADER = 325,
+     CXCONTAINS = 326,
+     CXEMPTY = 327,
+     CXHAS = 328,
+     CXPARENT = 329,
+     CXNTHCH = 330,
+     CXNTHLASTCH = 331,
+     CXNTHTYPE = 332,
+     CXNTHLASTTYPE = 333,
+     CXFIRSTCH = 334,
+     CXLASTCH = 335,
+     CXFIRSTTYPE = 336,
+     CXLASTTYPE = 337,
+     CXONLYCH = 338,
+     CXONLYTYPE = 339,
+     CXINPUT = 340,
+     CXTEXT = 341,
+     CXPASSWORD = 342,
+     CXRADIO = 343,
+     CXCHECKBOX = 344,
+     CXSUBMIT = 345,
+     CXIMAGE = 346,
+     CXRESET = 347,
+     CXBUTTON = 348,
+     CXFILE = 349,
+     CXENABLED = 350,
+     CXDISABLED = 351,
+     CXCHECKED = 352,
+     CXSELECTED = 353,
+     NAME = 354,
+     STRING = 355
    };
 #endif
 
@@ -198,7 +199,7 @@ typedef union YYSTYPE
   pxpathPtr node;
 }
 /* Line 2616 of glr.c.  */
-#line 202 "parser.h"
+#line 203 "parser.h"
 	YYSTYPE;
 # define YYSTYPE_IS_DECLARED 1
 # define YYSTYPE_IS_TRIVIAL 1

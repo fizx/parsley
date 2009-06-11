@@ -1,0 +1,4 @@
+These notes are intended for people hacking on the Parsley source.
+
+Some gotchas:
+- The parser.y is known to work with Bison 2.3, and known to break on Bison 2.4.1.  This has something to do with the Bison prologue being moved from the generated parser.h file to the parser.c file.  I'd love to hear anyone's solution for this.
