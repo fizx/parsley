@@ -360,17 +360,17 @@ EqualityExpr
 	;
 	
 RelationalExpr
-  : AdditiveExpr
-  | RelationalExpr OptS LT OptS AdditiveExpr        { $$ = LIT_BIN_OP($1, $3, $5); }
-  | RelationalExpr OptS GT OptS AdditiveExpr        { $$ = LIT_BIN_OP($1, $3, $5); }
-  | RelationalExpr OptS LTE OptS AdditiveExpr       { $$ = LIT_BIN_OP($1, $3, $5); }
-  | RelationalExpr OptS GTE OptS AdditiveExpr       { $$ = LIT_BIN_OP($1, $3, $5); }
+  : AdditiveExpr                               %dprec 2
+  | RelationalExpr OptS LT OptS AdditiveExpr   %dprec 2     { $$ = LIT_BIN_OP($1, $3, $5); }
+  | RelationalExpr OptS GT OptS AdditiveExpr   %dprec 1     { $$ = LIT_BIN_OP($1, $3, $5); }
+  | RelationalExpr OptS LTE OptS AdditiveExpr  %dprec 2     { $$ = LIT_BIN_OP($1, $3, $5); }
+  | RelationalExpr OptS GTE OptS AdditiveExpr  %dprec 2     { $$ = LIT_BIN_OP($1, $3, $5); }
 	;
 
 AdditiveExpr
-  : MultiplicativeExpr
-	| AdditiveExpr OptS PLUS OptS MultiplicativeExpr		{ $$ = LIT_BIN_OP($1, $3, $5); }
-	| AdditiveExpr OptS DASH OptS MultiplicativeExpr		{ $$ = LIT_BIN_OP($1, $3, $5); }
+  : MultiplicativeExpr                             %dprec 2
+	| AdditiveExpr OptS PLUS OptS MultiplicativeExpr %dprec 1 	{ $$ = LIT_BIN_OP($1, $3, $5); }
+	| AdditiveExpr OptS DASH OptS MultiplicativeExpr %dprec 2 	{ $$ = LIT_BIN_OP($1, $3, $5); }
 	;
 
 MultiplicativeExpr
