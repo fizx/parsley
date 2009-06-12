@@ -29,6 +29,7 @@ bench:
 	@echo "craigs..."; ./parsley test/craigs.let test/craigs.html > /dev/null
 
 check-am:
+	@echo "contains..."; ./parsley test/contains.let test/contains.html 2>&1 | diff test/contains.json - && echo "    success."
 	@echo "content..."; ./parsley test/content.let test/content.html 2>&1 | diff test/content.json - && echo "    success."
 	@echo "whitespace..."; ./parsley test/whitespace.let test/whitespace.html 2>&1 | diff test/whitespace.json - && echo "    success."
 	@echo "backslash..."; ./parsley test/backslash.let test/backslash.html 2>&1 | diff test/backslash.json - && echo "    success."

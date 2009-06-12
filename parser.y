@@ -478,7 +478,7 @@ simple_selector_sequence
 	| possibly_empty_sequence CXEQ LPAREN NumberLike RPAREN			                                          { $$ = P4E($1, "[position() = ", $3, "]"); }
 	| possibly_empty_sequence CXGT LPAREN NumberLike RPAREN			                                          { $$ = P4E($1, "[position() > ", $3, "]"); }
 	| possibly_empty_sequence CXLT LPAREN NumberLike RPAREN			                                          { $$ = P4E($1, "[position() < ", $3, "]"); }
-	| possibly_empty_sequence CXCONTAINS	LPAREN StringLike RPAREN                                        { $$ = P4E($1, "[contains(., ", $3, "]"); }
+	| possibly_empty_sequence CXCONTAINS	LPAREN StringLike RPAREN                                        { $$ = P4E($1, "[contains(., ", $4, ")]"); }
 	| possibly_empty_sequence CXHAS LPAREN selectors_group RPAREN		                                      { $$ = P4E($1, "[", $3, "]"); }
 	| possibly_empty_sequence CXNTHTYPE LPAREN NumberLike RPAREN		                                    	{ $$ = P4E($1, "[position() = ", $3, "]"); }
 	| possibly_empty_sequence CXNTHLASTTYPE LPAREN NumberLike RPAREN			                                { $$ = P4E($1, "[position() = last() - ", $3, "]"); }
