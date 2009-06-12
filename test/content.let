@@ -1,5 +1,7 @@
 {
   "foo": [":content('a')"],
 	"td": "td",
-	"content?": ":content('Position: Pashto\/Dari Linguist')"
+	"content?": ":content('Position: Pashto\/Dari Linguist')",
+	"leading_nbsp": ":content(' foo')",
+	"two spaces": ":content('foo  bar')",
 }
