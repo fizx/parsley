@@ -210,6 +210,7 @@ xmlNodePtr new_stylesheet_skeleton(char *incl) {
 	sprintbuf(buf, "%s", " xmlns:regex=\"http://exslt.org/regular-expressions\"");
 	sprintbuf(buf, "%s", " extension-element-prefixes=\"lib str math set func dyn exsl saxon user date regexp regex\"");
 	sprintbuf(buf, "%s", ">\n");
+  sprintbuf(buf, "%s", "<xsl:variable name=\"nbsp\">&#160;</xsl:variable>\n");
 	sprintbuf(buf, "%s", "<xsl:output method=\"xml\" indent=\"yes\"/>\n");
 	sprintbuf(buf, "%s", "<xsl:strip-space elements=\"*\"/>\n");
 	sprintbuf(buf, "%s", "<func:function name=\"lib:nl\"><xsl:param name=\"in\" select=\".\"/>");
