@@ -1,1 +1,1 @@
-Check out the wiki at: http://wiki.github.com/fizx/parsley
+## [Please see the wiki for documentation](http://wiki.github.com/fizx/parsley)
