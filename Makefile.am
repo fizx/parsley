@@ -29,6 +29,7 @@ bench:
 	@echo "craigs..."; ./parsley test/craigs.let test/craigs.html > /dev/null
 
 check-am:
+	@echo "ambiguous..."; ./parsley test/ambiguous.let test/ambiguous.html 2>&1 | diff test/ambiguous.json - && echo "    success."
 	@echo "contains..."; ./parsley test/contains.let test/contains.html 2>&1 | diff test/contains.json - && echo "    success."
 	@echo "math_ambiguity..."; ./parsley test/math_ambiguity.let test/math_ambiguity.html 2>&1 | diff test/math_ambiguity.json - && echo "    success."
 	@echo "content..."; ./parsley test/content.let test/content.html 2>&1 | diff test/content.json - && echo "    success."
