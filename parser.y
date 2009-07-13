@@ -361,14 +361,14 @@ EqualityExpr
 	
 RelationalExpr
   : AdditiveExpr                               %dprec 2
-  | RelationalExpr OptS LT OptS AdditiveExpr   %dprec 2     { $$ = LIT_BIN_OP($1, $3, $5); }
+  | RelationalExpr OptS LT OptS AdditiveExpr   %dprec 3     { $$ = LIT_BIN_OP($1, $3, $5); }
   | RelationalExpr OptS GT OptS AdditiveExpr   %dprec 1     { $$ = LIT_BIN_OP($1, $3, $5); }
-  | RelationalExpr OptS LTE OptS AdditiveExpr  %dprec 2     { $$ = LIT_BIN_OP($1, $3, $5); }
-  | RelationalExpr OptS GTE OptS AdditiveExpr  %dprec 2     { $$ = LIT_BIN_OP($1, $3, $5); }
+  | RelationalExpr OptS LTE OptS AdditiveExpr  %dprec 3     { $$ = LIT_BIN_OP($1, $3, $5); }
+  | RelationalExpr OptS GTE OptS AdditiveExpr  %dprec 3     { $$ = LIT_BIN_OP($1, $3, $5); }
 	;
 
 AdditiveExpr
-  : MultiplicativeExpr                             %dprec 2
+  : MultiplicativeExpr                             %dprec 3
 	| AdditiveExpr OptS PLUS OptS MultiplicativeExpr %dprec 1 	{ $$ = LIT_BIN_OP($1, $3, $5); }
 	| AdditiveExpr OptS DASH OptS MultiplicativeExpr %dprec 2 	{ $$ = LIT_BIN_OP($1, $3, $5); }
 	;
@@ -462,9 +462,9 @@ selector
   ;
 	
 combinator
-  : PLUS OptS			{ $$ = "/following-sibling::*[1]/self::"; } 
-	| GT OptS				{ $$ = "/"; } 
-	| TILDE OptS		{ $$ = "/following-sibling::*/self::"; } 
+  : OptS PLUS OptS			{ $$ = "/following-sibling::*[1]/self::"; } 
+	| OptS GT OptS				{ $$ = "/"; } 
+	| OptS TILDE OptS		{ $$ = "/following-sibling::*/self::"; } 
 	| S							{ $$ = "//"; }
   ;
 

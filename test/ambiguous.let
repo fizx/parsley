@@ -1,4 +1,6 @@
 {
-	"foo": "a+b b+c",
-	"bar": "a+b+c"
+	"foo?": "a+b b+c",
+	"bar?": "a+b+c",
+	"foo-s?": "a + b b + c",
+	"bar-s?": "a + b + c"
 }
