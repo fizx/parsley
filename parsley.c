@@ -93,6 +93,7 @@ static parsedParsleyPtr parse_error(char* format, ...) {
 }
 
 parsedParsleyPtr parsley_parse_file(parsleyPtr parsley, char* file, int flags) {
+  xmlSetGenericErrorFunc(NULL , parsleyXsltError);
 	bool html = flags & PARSLEY_OPTIONS_HTML;
 	if(html) {
 		htmlParserCtxtPtr htmlCtxt = htmlNewParserCtxt();
