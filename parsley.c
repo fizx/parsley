@@ -575,10 +575,18 @@ parsleyPtr parsley_compile(char* parsley_str, char* incl) {
 	
   registerEXSLT();
 	
-	struct json_object *json = json_tokener_parse(parsley_str);
+  // struct json_tokener *tok = json_tokener_new();
+  //  struct json_object *json = json_tokener_parse_ex(tok, parsley_str);
+  //  
+	struct json_tokener *tok = json_tokener_new();
+  struct json_object *json = json_tokener_parse_ex(tok, parsley_str, -1);
+  int error_offset = tok->char_offset;
+  if(tok->err != json_tokener_success)
+    json = error_ptr(-tok->err);
+  json_tokener_free(tok);
+  
 	if(is_error(json)) {
-		parsley->error = strdup("Your parselet is not valid json.");
-    // json_object_put(json); // frees json
+		asprintf(&(parsley->error), "Your parselet is not valid json: %s at char:%d", json_tokener_errors[-(unsigned long) json], error_offset);
 		return parsley;
 	}
 	
