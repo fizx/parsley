@@ -115,6 +115,7 @@ parsedParsleyPtr parsley_parse_file(parsleyPtr parsley, char* file, int flags) {
 }
 
 parsedParsleyPtr parsley_parse_string(parsleyPtr parsley, char* string, size_t size, char* base_uri, int flags) {
+  xmlSetGenericErrorFunc(NULL , parsleyXsltError);
 	bool html = flags & PARSLEY_OPTIONS_HTML;
 	if(base_uri == NULL) base_uri = "http://parselets.com/in-memory-string";
 	if(html) {
