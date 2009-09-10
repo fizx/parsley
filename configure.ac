@@ -3,8 +3,8 @@ AC_PREREQ(2.59)
 AC_INIT([parsleyc], [1.0], [kyle@kylemaxwell.com])
 AM_INIT_AUTOMAKE([1.9 foreign])
 
-LDFLAGS="$LDFLAGS -L/opt/local/lib"
-CPPFLAGS="$CPPFLAGS -I/opt/local/include"
+LDFLAGS="$LDFLAGS -L/opt/local/lib -L/usr/local/lib"
+CPPFLAGS="$CPPFLAGS -I/opt/local/include -I/usr/local/include"
 
 AC_PROG_CC_C99
 AM_PROG_LEX
