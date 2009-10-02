@@ -1,3 +1,4 @@
+#include <stdbool.h>
 #include <libxml/xpath.h>
 #include <libxml/xpathInternals.h>
 #include <libxml/parserInternals.h>
@@ -22,33 +23,53 @@ void parsley_register_all(){
 		   xsltHtmlDocumentFunction);
   xsltRegisterExtModuleFunction ((const xmlChar *) "outer-xml", "http://parselets.com/stdlib",
 		   xsltOuterXmlFunction);
+  xsltRegisterExtModuleFunction ((const xmlChar *) "inner-xml", "http://parselets.com/stdlib",
+		   xsltInnerXmlFunction);
+}
+
+static void 
+xsltStarXMLFunction(xmlXPathParserContextPtr ctxt, int nargs, bool is_inner) {
+	if (nargs != 1) {
+		xsltTransformError(xsltXPathGetTransformContext(ctxt), NULL, NULL,
+												"outer-xml() : invalid number of args %d\n",
+												nargs);
+		ctxt->error = XPATH_INVALID_ARITY;
+		return;
+	}
+	if (ctxt->value->type == XPATH_NODESET) {
+		xmlXPathObjectPtr obj, newobj;
+
+		obj = valuePop(ctxt);
+
+		xmlBufferPtr buf = xmlBufferCreate();
+		int n = obj->nodesetval->nodeNr;
+		for(int i = 0; i < n; i++) {
+			xmlNodePtr node = obj->nodesetval->nodeTab[i];
+			xmlDocPtr doc = node->doc;
+			if(is_inner){
+				xmlNodePtr child = node->children;
+				while(child != NULL) {
+					xmlNodeDump(buf, doc, child, 0, 0);
+					child = child->next;
+				}
+			} else {
+				xmlNodeDump(buf, doc, node, 0, 0);
+			}
+		}
+		newobj = xmlXPathNewCString(xmlBufferContent(buf));
+		xmlBufferFree(buf);
+		valuePush(ctxt, newobj);
+	}
+}
+
+void
+xsltInnerXmlFunction(xmlXPathParserContextPtr ctxt, int nargs) {
+	xsltStarXMLFunction(ctxt, nargs, true);
 }
 
 void
 xsltOuterXmlFunction(xmlXPathParserContextPtr ctxt, int nargs) {
-    if (nargs != 1) {
-        xsltTransformError(xsltXPathGetTransformContext(ctxt), NULL, NULL,
-                          "outer-xml() : invalid number of args %d\n",
-                          nargs);
-        ctxt->error = XPATH_INVALID_ARITY;
-        return;
-    }
-    if (ctxt->value->type == XPATH_NODESET) {
-        xmlXPathObjectPtr obj, newobj;
-
-        obj = valuePop(ctxt);
-        
-        xmlBufferPtr buf = xmlBufferCreate();
-        int n = obj->nodesetval->nodeNr;
-        for(int i = 0; i < n; i++) {
-          xmlNodePtr node = obj->nodesetval->nodeTab[i];
-          xmlDocPtr doc = node->doc;
-          xmlNodeDump(buf, doc, node, 0, 0);
-        }
-        newobj = xmlXPathNewCString(xmlBufferContent(buf));
-        xmlBufferFree(buf);
-        valuePush(ctxt, newobj);
-    }
+	xsltStarXMLFunction(ctxt, nargs, false);
 }
 
 void

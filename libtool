@@ -2,7 +2,7 @@
 
 # libtool - Provide generalized library-building support services.
 # Generated automatically by config.status (parsleyc) 1.0
-# Libtool was configured on host kyles-macbook.local:
+# Libtool was configured on host kyles-macbook:
 # NOTE: Changes made to this file will be lost: look at ltmain.sh.
 #
 #   Copyright (C) 1996, 1997, 1998, 1999, 2000, 2001, 2003, 2004, 2005,
@@ -56,13 +56,13 @@ fast_install=needless
 
 # The host system.
 host_alias=
-host=i386-apple-darwin9.8.0
-host_os=darwin9.8.0
+host=i386-apple-darwin10.0.0
+host_os=darwin10.0.0
 
 # The build system.
 build_alias=
-build=i386-apple-darwin9.8.0
-build_os=darwin9.8.0
+build=i386-apple-darwin10.0.0
+build_os=darwin10.0.0
 
 # A sed program that does not truncate output.
 SED="/usr/bin/sed"
@@ -80,7 +80,7 @@ EGREP="/usr/bin/grep -E"
 FGREP="/usr/bin/grep -F"
 
 # A BSD- or MS-compatible name lister.
-NM="/usr/bin/nm -p"
+NM="/usr/bin/nm"
 
 # Whether we need soft or hard links.
 LN_S="ln -s"
@@ -234,7 +234,7 @@ finish_eval=""
 hardcode_into_libs=no
 
 # Compile-time system search path for libraries.
-sys_lib_search_path_spec="/usr/lib/i686-apple-darwin9/4.0.1 /usr/lib /usr/lib/gcc/i686-apple-darwin9/4.0.1 /usr/local/lib"
+sys_lib_search_path_spec="/usr/lib/gcc/i686-apple-darwin10/4.2.1/x86_64 /usr/lib/i686-apple-darwin10/4.2.1 /usr/lib /usr/local/lib"
 
 # Run-time system search path for libraries.
 sys_lib_dlsearch_path_spec="/usr/local/lib /lib /usr/lib"
@@ -254,7 +254,7 @@ striplib="strip -x"
 
 
 # The linker used to build libraries.
-LD="/usr/libexec/gcc/i686-apple-darwin9/4.0.1/ld"
+LD="/usr/libexec/gcc/i686-apple-darwin10/4.2.1/ld"
 
 # Commands used to build an old-style archive.
 old_archive_cmds="\$AR \$AR_FLAGS \$oldlib\$oldobjs~\$RANLIB \$oldlib"
