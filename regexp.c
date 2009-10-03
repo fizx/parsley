@@ -97,7 +97,7 @@ exsltRegexpMatchFunction (xmlXPathParserContextPtr ctxt, int nargs)
     xmlDocPtr container;
     xmlXPathObjectPtr ret = NULL;
     xmlChar *haystack, *regexp, *flagstr, *working, *match;
-    int rc, x, flags, global, ovector[3];
+    int rc, x, flags, global, ovector[30];
 
     if ((nargs < 1) || (nargs > 3)) {
         xmlXPathSetArityError(ctxt);
@@ -148,15 +148,16 @@ exsltRegexpMatchFunction (xmlXPathParserContextPtr ctxt, int nargs)
                                 ovector, sizeof(ovector)/sizeof(int));
 
         while (rc > 0) {
-          match = xmlStrsub(working, ovector[0], ovector[1]-ovector[0]);
-          if (NULL == match) goto fail;
+					for(int group = 0; group < rc; group++) {
+          	match = xmlStrsub(working, ovector[group*2], ovector[group*2+1]-ovector[group*2]);
+          	if (NULL == match) goto fail;
 
-          node = xmlNewDocRawNode(container, NULL, "match", match);
-          xmlFree(match);
+	          node = xmlNewDocRawNode(container, NULL, "match", match);
+	          xmlFree(match);
 
-          xmlAddChild((xmlNodePtr) container, node);
-          xmlXPathNodeSetAddUnique(ret->nodesetval, node);
-
+	          xmlAddChild((xmlNodePtr) container, node);
+	          xmlXPathNodeSetAddUnique(ret->nodesetval, node);
+					}
           if (!global) break;
 
           working = working + ovector[1];
