@@ -31,7 +31,6 @@ static struct json_object * _xml2json(xmlNodePtr xml) {
       }
       break;
     case XML_TEXT_NODE:  
-      // json_object_put(json);
       json = json_object_new_string(xml->content);
       break;
   }

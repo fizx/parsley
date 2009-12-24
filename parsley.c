@@ -95,9 +95,10 @@ static parsedParsleyPtr parse_error(char* format, ...) {
 parsedParsleyPtr parsley_parse_file(parsleyPtr parsley, char* file, int flags) {
   xmlSetGenericErrorFunc(NULL , parsleyXsltError);
 	bool html = flags & PARSLEY_OPTIONS_HTML;
+  char * encoding = flags & PARSLEY_OPTIONS_FORCE_UTF8 ? "UTF-8" : NULL;
 	if(html) {
 		htmlParserCtxtPtr htmlCtxt = htmlNewParserCtxt();
-  	htmlDocPtr html = htmlCtxtReadFile(htmlCtxt, file, NULL, HTML_PARSE_RECOVER | HTML_PARSE_NOERROR |HTML_PARSE_NOWARNING);
+  	htmlDocPtr html = htmlCtxtReadFile(htmlCtxt, file, encoding, HTML_PARSE_RECOVER | HTML_PARSE_NOERROR |HTML_PARSE_NOWARNING);
     htmlFreeParserCtxt(htmlCtxt);
     if(html == NULL) return parse_error("Couldn't parse file: %s\n", file);
     parsedParsleyPtr out = parsley_parse_doc(parsley, html, flags);
@@ -105,7 +106,7 @@ parsedParsleyPtr parsley_parse_file(parsleyPtr parsley, char* file, int flags) {
     return out;
 	} else {
 		xmlParserCtxtPtr ctxt = xmlNewParserCtxt();
-		xmlDocPtr xml = xmlCtxtReadFile(ctxt, file, NULL, HTML_PARSE_RECOVER | HTML_PARSE_NOERROR |HTML_PARSE_NOWARNING);
+		xmlDocPtr xml = xmlCtxtReadFile(ctxt, file, encoding, HTML_PARSE_RECOVER | HTML_PARSE_NOERROR |HTML_PARSE_NOWARNING);
 		xmlFreeParserCtxt(ctxt);
 		if(xml == NULL) return parse_error("Couldn't parse file: %s\n", file);
     parsedParsleyPtr out = parsley_parse_doc(parsley, xml, flags);
@@ -117,17 +118,18 @@ parsedParsleyPtr parsley_parse_file(parsleyPtr parsley, char* file, int flags) {
 parsedParsleyPtr parsley_parse_string(parsleyPtr parsley, char* string, size_t size, char* base_uri, int flags) {
   xmlSetGenericErrorFunc(NULL , parsleyXsltError);
 	bool html = flags & PARSLEY_OPTIONS_HTML;
+  char * encoding = flags & PARSLEY_OPTIONS_FORCE_UTF8 ? "UTF-8" : NULL;
 	if(base_uri == NULL) base_uri = "http://parselets.com/in-memory-string";
 	if(html) {
 		htmlParserCtxtPtr htmlCtxt = htmlNewParserCtxt();
-  	htmlDocPtr html = htmlCtxtReadMemory(htmlCtxt, string, size, base_uri, NULL, HTML_PARSE_RECOVER | HTML_PARSE_NOERROR |HTML_PARSE_NOWARNING);
+  	htmlDocPtr html = htmlCtxtReadMemory(htmlCtxt, string, size, base_uri, encoding, HTML_PARSE_RECOVER | HTML_PARSE_NOERROR |HTML_PARSE_NOWARNING);
     if(html == NULL) return parse_error("Couldn't parse string");
     parsedParsleyPtr out = parsley_parse_doc(parsley, html, flags);
     xmlFreeDoc(html);
     return out;
 	} else {
 		xmlParserCtxtPtr ctxt = xmlNewParserCtxt();
- 		xmlDocPtr xml = xmlCtxtReadMemory(ctxt, string, size, base_uri, NULL, HTML_PARSE_RECOVER | HTML_PARSE_NOERROR |HTML_PARSE_NOWARNING);
+ 		xmlDocPtr xml = xmlCtxtReadMemory(ctxt, string, size, base_uri, encoding, HTML_PARSE_RECOVER | HTML_PARSE_NOERROR |HTML_PARSE_NOWARNING);
 		if(xml == NULL) return parse_error("Couldn't parse string");
     parsedParsleyPtr out = parsley_parse_doc(parsley, xml, flags);
     xmlFreeDoc(xml);

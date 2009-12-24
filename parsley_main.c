@@ -46,6 +46,7 @@ static struct argp_option options[] = {
 	{"no-collate",      'N', 0, 0, 	"Don't collate array entries" },
 	{"sg-wrap",         's', 0, 0, 	"Wrap text nodes for SelectorGadget compatibility" },
 	{"user-agent",      'U', "USER_AGENT", 0, 	"Value of HTTP User-Agent header" },
+	{"utf8",            'u', 0, 0, 	"Force input to be read as UTF-8" },
 	{"no-net",          'z', 0, 0, 	"Disable ftp and http access for parselets" },
 	{"no-filesystem",   'Z', 0, 0, 	"Disable filesystem access for parselets" },
   { 0 }
@@ -61,6 +62,9 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state)
     {	
     case 'x':
       arguments->flags &= ~PARSLEY_OPTIONS_HTML;
+			break;
+    case 'u':
+      arguments->flags |= PARSLEY_OPTIONS_FORCE_UTF8;
 			break;
 		case 'U':
       parsley_set_user_agent(arg);
@@ -121,7 +125,7 @@ int main (int argc, char **argv) {
 	struct list_elem *elemptr = &elem;
 	elem.has_next = 0;
 	arguments.output_xml = 0;
-  arguments.flags = ~0 & ~PARSLEY_OPTIONS_SGWRAP;
+  arguments.flags = ~0 & ~PARSLEY_OPTIONS_SGWRAP & ~PARSLEY_OPTIONS_FORCE_UTF8;
 	arguments.include_files = elemptr;
 	arguments.output_file = "-";
 	argp_parse (&argp, argc, argv, 0, 0, &arguments);

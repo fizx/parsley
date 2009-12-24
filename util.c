@@ -69,7 +69,7 @@ _parsley_set_user_agent(char * agent) {
 
 static void *
 xmlUserAgentIOHTTPOpen(const char * file_name) {
-  return(xmlNanoHTTPMethod(file_name, NULL, NULL, NULL, parsley_user_agent_header, 0));
+  return (void *)(xmlNanoHTTPMethod(file_name, NULL, NULL, NULL, parsley_user_agent_header, 0));
 }
 
 void
