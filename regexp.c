@@ -19,7 +19,7 @@
 #include "regexp.h"
 
 static void
-exsltRegexpFlagsFromString(const xmlChar* flagstr, 
+exsltRegexpFlagsFromString(const xmlChar* flagstr,
                            int* global, int* flags)
 {
   const xmlChar* i = flagstr;
@@ -38,7 +38,7 @@ exsltRegexpFlagsFromString(const xmlChar* flagstr,
 }
 
 static int
-exsltRegexpExecute(xmlXPathParserContextPtr ctxt, 
+exsltRegexpExecute(xmlXPathParserContextPtr ctxt,
                    const xmlChar* haystack, const xmlChar* regexp,
                    int flags, int ovector[], int ovector_len)
 {
@@ -75,8 +75,8 @@ exsltRegexpExecute(xmlXPathParserContextPtr ctxt,
                         "exslt:regexp failed to execute %s for %s", regexp, haystack);
     rc = 0;
   }
-  
-  if (compiled_regexp != NULL) 
+
+  if (compiled_regexp != NULL)
     pcre_free(compiled_regexp);
 
   return rc;
@@ -84,7 +84,7 @@ exsltRegexpExecute(xmlXPathParserContextPtr ctxt,
 
 /**
  * exsltRegexpMatchFunction:
- * @ns:     
+ * @ns:
  *
  * Returns a node set of string matches
  */
@@ -113,7 +113,7 @@ exsltRegexpMatchFunction (xmlXPathParserContextPtr ctxt, int nargs)
     } else {
      flagstr = xmlStrdup("");
     }
-    
+
     regexp = xmlXPathPopString(ctxt);
     if (xmlXPathCheckError(ctxt) || (regexp == NULL)) {
         xmlFree(flagstr);
@@ -140,11 +140,11 @@ exsltRegexpMatchFunction (xmlXPathParserContextPtr ctxt, int nargs)
       xsltRegisterTmpRVT(tctxt, container);
       ret = xmlXPathNewNodeSet(NULL);
       if (ret != NULL) {
-        ret->boolval = 0; 
+        ret->boolval = 0;
 
         exsltRegexpFlagsFromString(flagstr, &global, &flags);
         working = haystack;
-        rc = exsltRegexpExecute(ctxt, working, regexp, flags, 
+        rc = exsltRegexpExecute(ctxt, working, regexp, flags,
                                 ovector, sizeof(ovector)/sizeof(int));
 
         while (rc > 0) {
@@ -161,12 +161,12 @@ exsltRegexpMatchFunction (xmlXPathParserContextPtr ctxt, int nargs)
           if (!global) break;
 
           working = working + ovector[1];
-          rc = exsltRegexpExecute(ctxt, working, regexp, flags, 
+          rc = exsltRegexpExecute(ctxt, working, regexp, flags,
                                   ovector, sizeof(ovector)/sizeof(int));
         }
       }
     }
-    
+
  fail:
     if (flagstr != NULL)
       xmlFree(flagstr);
@@ -183,7 +183,7 @@ exsltRegexpMatchFunction (xmlXPathParserContextPtr ctxt, int nargs)
 
 /**
  * exsltRegexpReplaceFunction:
- * @ns:     
+ * @ns:
  *
  * Returns a node set of string matches
  */
@@ -229,7 +229,7 @@ exsltRegexpReplaceFunction (xmlXPathParserContextPtr ctxt, int nargs)
     exsltRegexpFlagsFromString(flagstr, &global, &flags);
 
     working = haystack;
-    rc = exsltRegexpExecute(ctxt, working, regexp, flags, 
+    rc = exsltRegexpExecute(ctxt, working, regexp, flags,
                             ovector, sizeof(ovector)/sizeof(int));
 
     while (rc > 0 ) {
@@ -246,11 +246,11 @@ exsltRegexpReplaceFunction (xmlXPathParserContextPtr ctxt, int nargs)
         }
         result = xmlStrcat(result, replace);
       }
-      
+
       working = working + ovector[1];
 
       if (!global) break;
-      rc = exsltRegexpExecute(ctxt, working, regexp, flags, 
+      rc = exsltRegexpExecute(ctxt, working, regexp, flags,
                               ovector, sizeof(ovector)/sizeof(int));
     }
 
@@ -277,11 +277,11 @@ fail:
 
 /**
  * exsltRegexpTestFunction:
- * @ns:     
+ * @ns:
  *
- * returns true if the string given as the first argument 
+ * returns true if the string given as the first argument
  * matches the regular expression given as the second argument
- * 
+ *
  */
 
 static void
@@ -323,7 +323,7 @@ exsltRegexpTestFunction (xmlXPathParserContextPtr ctxt, int nargs)
     regexp = xmlStrcat(regexp, "\\Z");
 
     exsltRegexpFlagsFromString(flagstr, &global, &flags);
-    rc = exsltRegexpExecute(ctxt, haystack, regexp, flags, 
+    rc = exsltRegexpExecute(ctxt, haystack, regexp, flags,
                             ovector, sizeof(ovector)/sizeof(int));
 
 fail:

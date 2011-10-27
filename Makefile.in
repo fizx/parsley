@@ -327,7 +327,7 @@ parser.h: parser.c
 	  rm -f parser.c; \
 	  $(MAKE) $(AM_MAKEFLAGS) parser.c; \
 	else :; fi
-libparsley.la: $(libparsley_la_OBJECTS) $(libparsley_la_DEPENDENCIES) 
+libparsley.la: $(libparsley_la_OBJECTS) $(libparsley_la_DEPENDENCIES)
 	$(LINK) -rpath $(libdir) $(libparsley_la_OBJECTS) $(libparsley_la_LIBADD) $(LIBS)
 install-binPROGRAMS: $(bin_PROGRAMS)
 	@$(NORMAL_INSTALL)
@@ -372,10 +372,10 @@ clean-binPROGRAMS:
 	list=`for p in $$list; do echo "$$p"; done | sed 's/$(EXEEXT)$$//'`; \
 	echo " rm -f" $$list; \
 	rm -f $$list
-parsley$(EXEEXT): $(parsley_OBJECTS) $(parsley_DEPENDENCIES) 
+parsley$(EXEEXT): $(parsley_OBJECTS) $(parsley_DEPENDENCIES)
 	@rm -f parsley$(EXEEXT)
 	$(LINK) $(parsley_OBJECTS) $(parsley_LDADD) $(LIBS)
-parsleyc$(EXEEXT): $(parsleyc_OBJECTS) $(parsleyc_DEPENDENCIES) 
+parsleyc$(EXEEXT): $(parsleyc_OBJECTS) $(parsleyc_DEPENDENCIES)
 	@rm -f parsleyc$(EXEEXT)
 	$(LINK) $(parsleyc_OBJECTS) $(parsleyc_LDADD) $(LIBS)
 

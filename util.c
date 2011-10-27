@@ -15,11 +15,11 @@ FILE* parsley_fopen(char* name, char* mode) {
 	} else {
 		fo = fopen(name, mode);
 	}
-	if(fo == NULL) {		
+	if(fo == NULL) {
     fprintf(stderr, "Cannot open file %s, error %d, %s\n", name, errno, strerror(errno));
 		exit(1);
 	}
-	return fo;	
+	return fo;
 }
 
 static int parsley_io_mode = 0;
@@ -32,7 +32,7 @@ parsley_io_get_mode() {
 
 static xsltStylesheetPtr span_wrap_sheet = NULL;
 
-xmlDocPtr 
+xmlDocPtr
 parsley_apply_span_wrap(xmlDocPtr doc) {
   if(span_wrap_sheet == NULL) {
     char * sheet = "<xsl:stylesheet version=\"1.0\" xmlns:xsl=\"http://www.w3.org/1999/XSL/Transform\" xmlns:sg=\"http://selectorgadget.com/\"> \
@@ -45,11 +45,11 @@ parsley_apply_span_wrap(xmlDocPtr doc) {
     	  </xsl:copy> \
     	</xsl:template> \
     </xsl:stylesheet>";
-    
+
     xmlParserCtxtPtr ctxt = xmlNewParserCtxt();
  		xmlDocPtr xml = xmlCtxtReadMemory(ctxt, sheet, strlen(sheet), NULL, NULL, 0);
     span_wrap_sheet = xsltParseStylesheetDoc(xml);
-  }  
+  }
   xsltTransformContextPtr ctxt = xsltNewTransformContext(span_wrap_sheet, doc);
   xmlSetGenericErrorFunc(ctxt, parsleyXsltError);
   xmlDocPtr out = xsltApplyStylesheetUser(span_wrap_sheet, doc, NULL, NULL, NULL, ctxt);
@@ -76,11 +76,11 @@ void
 parsley_io_set_mode(int mode) {
   if(mode == parsley_io_mode) return;
   parsley_io_mode = mode;
-  
+
   xmlCleanupInputCallbacks();
-  
+
   if(parsley_io_mode & PARSLEY_OPTIONS_ALLOW_LOCAL) {
-  
+
     xmlRegisterInputCallbacks(xmlFileMatch, xmlFileOpen,
   	                      xmlFileRead, xmlFileClose);
     #ifdef HAVE_ZLIB_H
@@ -228,7 +228,7 @@ xmlNodePtr new_stylesheet_skeleton(char *incl) {
 	xmlDocPtr doc = xmlCtxtReadMemory(ctxt, buf->buf, buf->size, "http://parselets.com/compiled", NULL, 3);
 	xmlFreeParserCtxt(ctxt);
 	printbuf_free(buf);
-	
+
 	xmlNodePtr node = xmlDocGetRootElement(doc);
 	while(_xmlLastElementChild(node) != NULL) {
 		node = _xmlLastElementChild(node);

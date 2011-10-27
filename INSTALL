@@ -1,6 +1,6 @@
 Welcome to Parsley!
 
-Parsley depends on 
+Parsley depends on
 - argp (standard with Linux, other platforms use argp-standalone package)
 - the JSON C library from http://oss.metaparadigm.com/json-c/ (I used 0.8)
 - pcre (with dev headers)
@@ -12,17 +12,17 @@ Here's how to install it:
 
 1. Get the release
 ------------------------------------------------------------------------
-Parsley is currently still being tracked in git, and isn't ready to make a 
+Parsley is currently still being tracked in git, and isn't ready to make a
 formal release. So you need to either clone or download the latest tarball:
 
 git clone git://github.com/fizx/parsley.git
-or 
+or
 wget http://github.com/fizx/parsley/tarball/master
 
 
 2. Build for your platform
 ------------------------------------------------------------------------
-Enter your parsley working directory, (from the clone or download you 
+Enter your parsley working directory, (from the clone or download you
 just made) and, based on your platform, do the following:
 
 
@@ -56,7 +56,7 @@ make
 sudo make install
 
 If you have a few extra minutes, consider replacing the last make with a
-'make check' and let us know if it reports any failures from the test 
+'make check' and let us know if it reports any failures from the test
 suite - thanks!
 
 3. Ruby Binding (via Gems)

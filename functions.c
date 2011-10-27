@@ -27,7 +27,7 @@ void parsley_register_all(){
 		   xsltInnerXmlFunction);
 }
 
-static void 
+static void
 xsltStarXMLFunction(xmlXPathParserContextPtr ctxt, int nargs, bool is_inner) {
 	if (nargs != 1) {
 		xsltTransformError(xsltXPathGetTransformContext(ctxt), NULL, NULL,
@@ -208,16 +208,16 @@ xsltHtmlDocumentFunctionLoadDocument(xmlXPathParserContextPtr ctxt, xmlChar* URI
 	    "document() : internal error tctxt == NULL\n");
 	valuePush(ctxt, xmlXPathNewNodeSet(NULL));
 	return;
-    } 
-	
+    }
+
     uri = xmlParseURI((const char *) URI);
     if (uri == NULL) {
 	xsltTransformError(tctxt, NULL, NULL,
 	    "document() : failed to parse URI\n");
 	valuePush(ctxt, xmlXPathNewNodeSet(NULL));
 	return;
-    } 
-    
+    }
+
     /*
      * check for and remove fragment identifier
      */
@@ -231,12 +231,12 @@ xsltHtmlDocumentFunctionLoadDocument(xmlXPathParserContextPtr ctxt, xmlChar* URI
     } else
 	idoc = xsltLoadHtmlDocument(tctxt, URI);
     xmlFreeURI(uri);
-    
+
     if (idoc == NULL) {
 	if ((URI == NULL) ||
 	    (URI[0] == '#') ||
 	    ((tctxt->style->doc != NULL) &&
-	    (xmlStrEqual(tctxt->style->doc->URL, URI)))) 
+	    (xmlStrEqual(tctxt->style->doc->URL, URI))))
 	{
 	    /*
 	    * This selects the stylesheet's doc itself.
@@ -257,7 +257,7 @@ xsltHtmlDocumentFunctionLoadDocument(xmlXPathParserContextPtr ctxt, xmlChar* URI
 	valuePush(ctxt, xmlXPathNewNodeSet((xmlNodePtr) doc));
 	return;
     }
-	
+
     /* use XPointer of HTML location for fragment ID */
 #ifdef LIBXML_XPTR_ENABLED
     xptrctxt = xmlXPtrNewContext(doc, NULL, NULL);
@@ -270,11 +270,11 @@ xsltHtmlDocumentFunctionLoadDocument(xmlXPathParserContextPtr ctxt, xmlChar* URI
     resObj = xmlXPtrEval(fragment, xptrctxt);
     xmlXPathFreeContext(xptrctxt);
 #endif
-    xmlFree(fragment);	
+    xmlFree(fragment);
 
     if (resObj == NULL)
 	goto out_fragment;
-	
+
     switch (resObj->type) {
 	case XPATH_NODESET:
 	    break;
@@ -288,11 +288,11 @@ xsltHtmlDocumentFunctionLoadDocument(xmlXPathParserContextPtr ctxt, xmlChar* URI
 	case XPATH_RANGE:
 	case XPATH_LOCATIONSET:
 	    xsltTransformError(tctxt, NULL, NULL,
-		"document() : XPointer does not select a node set: #%s\n", 
+		"document() : XPointer does not select a node set: #%s\n",
 		fragment);
 	goto out_object;
     }
-    
+
     valuePush(ctxt, resObj);
     return;
 
@@ -303,7 +303,7 @@ out_fragment:
     valuePush(ctxt, xmlXPathNewNodeSet(NULL));
 }
 
-xsltDocumentPtr	
+xsltDocumentPtr
 xsltLoadHtmlDocument(xsltTransformContextPtr ctxt, const xmlChar *URI) {
     xsltDocumentPtr ret;
     xmlDocPtr doc;
@@ -316,7 +316,7 @@ xsltLoadHtmlDocument(xsltTransformContextPtr ctxt, const xmlChar *URI) {
      */
     if (ctxt->sec != NULL) {
 	int res;
-	
+
 	res = xsltCheckRead(ctxt->sec, ctxt, URI);
 	if (res == 0) {
 	    xsltTransformError(ctxt, NULL, NULL,

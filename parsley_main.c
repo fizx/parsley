@@ -59,7 +59,7 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state)
 	struct list_elem *e;
 
   switch (key)
-    {	
+    {
     case 'x':
       arguments->flags &= ~PARSLEY_OPTIONS_HTML;
 			break;
@@ -129,12 +129,12 @@ int main (int argc, char **argv) {
 	arguments.include_files = elemptr;
 	arguments.output_file = "-";
 	argp_parse (&argp, argc, argv, 0, 0, &arguments);
-	
+
  	struct printbuf *buf = printbuf_new();
  	struct printbuf *incl = printbuf_new();
   sprintbuf(buf, "");
   sprintbuf(incl, "");
-  
+
   FILE * fd = parsley_fopen(arguments.parsley, "r");
   printbuf_file_read(fd, buf);
   fclose(fd);
@@ -145,8 +145,8 @@ int main (int argc, char **argv) {
 		printbuf_file_read(f, incl);
 		fclose(f);
 	}
-	
-  // printf("a\n"); 
+
+  // printf("a\n");
 	parsleyPtr compiled = parsley_compile(buf->buf, incl->buf);
   // printf("b\n");
 
@@ -154,16 +154,16 @@ int main (int argc, char **argv) {
 		fprintf(stderr, "%s\n", compiled->error);
 		exit(1);
 	}
-	
+
 	parsedParsleyPtr ptr = parsley_parse_file(compiled, arguments.input_file, arguments.flags);
 
 	if(ptr->error != NULL) {
 		fprintf(stderr, "Parsing failed: %s\n", ptr->error);
 		exit(1);
 	}
-	
+
 	if(arguments.output_xml) {
-		xmlSaveFormatFile(arguments.output_file, ptr->xml, 1);	
+		xmlSaveFormatFile(arguments.output_file, ptr->xml, 1);
 	} else {
 	  struct json_object *json = xml2json(ptr->xml->children->children);
     if(json == NULL) {
@@ -176,7 +176,7 @@ int main (int argc, char **argv) {
     json_object_put(json);
 		fclose(f);
 	}
-	
+
   printbuf_free(buf);
   printbuf_free(incl);
 	parsley_free(compiled);

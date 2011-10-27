@@ -2614,7 +2614,7 @@ yyuserMerge (int yyn, YYSTYPE* yy0, YYSTYPE* yy1)
 
   switch (yyn)
     {
-      
+
       default: break;
     }
 }
@@ -4262,7 +4262,7 @@ void init_xpath_alias() {
 	xmlHashAddEntry(alias_hash, "match", "regexp:match");
 	xmlHashAddEntry(alias_hash, "replace", "regexp:replace");
 	xmlHashAddEntry(alias_hash, "test", "regexp:test");
-	xmlHashAddEntry(alias_hash, "with-newlines", "lib:nl");	
+	xmlHashAddEntry(alias_hash, "with-newlines", "lib:nl");
 }
 
 pxpathPtr myparse(char* string){
@@ -4281,4 +4281,4 @@ void answer(pxpathPtr a){
 void start_debugging(){
   yydebug = 1;
   return;
-}   
+}

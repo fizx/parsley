@@ -12,7 +12,7 @@ def noko
 end
 
 def hpri
-  parse Hpricot(File.open(YELP_HTML))  
+  parse Hpricot(File.open(YELP_HTML))
 end
 
 def parse(doc)

@@ -4,9 +4,9 @@
 //  	__pxpath_node * next;
 //  	__pxpath_node * child;
 // } pxpath_node;
-// 
+//
 // typedef pxpath_node pxpathPtr;
-// 
+//
 // enum {
 //    PXPATH_FUNCTION,
 // 	 PXPATH_PATH
@@ -29,14 +29,14 @@ pxpathPtr pxpath_new(int type, char* value) {
 }
 
 // pxpathPtr pxpath_cat_paths(int n, va_list) {
-// 	
+//
 // }
 // pxpathPtr pxpath_new_paths(int n, va_list) {
-// 	
+//
 // }
 
 static void
-_pxpath_to_string(pxpathPtr ptr, struct printbuf *buf) {	
+_pxpath_to_string(pxpathPtr ptr, struct printbuf *buf) {
   if(ptr == NULL) return;
 	if(ptr->type == PXPATH_FUNCTION) {
 		sprintbuf(buf, "%s(", ptr->value);
@@ -53,7 +53,7 @@ _pxpath_to_string(pxpathPtr ptr, struct printbuf *buf) {
 	}
 }
 
-static char * 
+static char *
 format_n(int n) {
   char * out = calloc(2 * n + 1, 1);
   for(int i =0; i < n; i++) {
@@ -129,7 +129,7 @@ pxpathPtr pxpath_cat_paths(int n, ...) {
 	return out;
 }
 
-static pxpathPtr 
+static pxpathPtr
 pxpath_new_thing(int n, va_list va) {
 	struct printbuf *buf = printbuf_new();
   for(int i = 0; i < n; i++) {

@@ -5,13 +5,13 @@
 YY_BUFFER_STATE mybuffer;
 
 void prepare_parse(char* msg) {
-  mybuffer = yy_scan_string(msg);  
+  mybuffer = yy_scan_string(msg);
 }
 
 void cleanup_parse() {
-  yy_delete_buffer(mybuffer);  
+  yy_delete_buffer(mybuffer);
 }
- 
+
 %}
 
 %option stack
@@ -69,7 +69,7 @@ XAND					"and"
 XDIV					"div"
 XMOD					"mod"
 XCOMMENT			"comment"
-XTEXT 				"text" 
+XTEXT 				"text"
 XPI					 	"processing-instruction"
 XNODE					"node"
 CXEQUATION    [0-9]+n

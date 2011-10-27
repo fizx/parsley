@@ -33,8 +33,8 @@ void answer(pxpathPtr);
 #define PXP(A)                        pxpath_new_path(1, A)
 #define LIT(A)                        pxpath_new_literal(1, A)
 #define OP(A)   	                    pxpath_new_operator(1, A)
-#define APPEND(A, S)                  pxpath_cat_paths(2, A, PXP(S)); 
-#define PREPEND(A, S)                 pxpath_cat_paths(2, PXP(S), A); 
+#define APPEND(A, S)                  pxpath_cat_paths(2, A, PXP(S));
+#define PREPEND(A, S)                 pxpath_cat_paths(2, PXP(S), A);
 #define PXPWRAP(A, B, C)              pxpath_cat_paths(3, PXP(A), B, PXP(C))
 #define P4E(A, B, C, D)               pxpath_cat_paths(4, A, PXP(B), C, PXP(D))
 #define P4O(A, B, C, D)               pxpath_cat_paths(4, PXP(A), B, PXP(C), D)
@@ -43,7 +43,7 @@ void answer(pxpathPtr);
 #define TRACE(A, B)                   fprintf(stderr, "trace(%s): ", A); fprintf(stderr, "%s\n", pxpath_to_string(B));
 
 #endif
-  
+
 %}
 
 %glr-parser
@@ -104,9 +104,9 @@ void answer(pxpathPtr);
 %token <string> XDIV
 %token <string> XMOD
 %token <string> XCOMMENT
-%token <string> XTEXT 
-%token <string> XPI		
-%token <string> XNODE	
+%token <string> XTEXT
+%token <string> XPI
+%token <string> XNODE
 %token <string> CXEQUATION
 %token <string> CXOPHE
 %token <string> CXOPNE
@@ -225,93 +225,93 @@ LocationPath
 	| AbsoluteLocationPath  %dprec 2
 	| selectors_group				%dprec 3
 	;
-	
+
 AbsoluteLocationPath
   : SLASH RelativeLocationPath				{ $$ = PREP_OP($1, $2); }
 	| SLASH                             { $$ = PXP($1); }
 	| AbbreviatedAbsoluteLocationPath
 	;
-	
+
 RelativeLocationPath
-  : Step 
+  : Step
   | RelativeLocationPath SLASH Step		{ $$ = BIN_OP($1, $2, $3); }
 	| AbbreviatedRelativeLocationPath
 	;
-	
+
 Step
   : AxisSpecifier NodeTest						{ $$ = pxpath_cat_paths(2, $1, $2); }
 	| AxisSpecifier NodeTest Predicates  { $$ = pxpath_cat_paths(3, $1, $2, $3); }
 	| AbbreviatedStep                   { $$ = PXP($1); }
 	;
-	
+
 AxisSpecifier
-  : AxisName DBLCOLON									{ $$ = pxpath_new_path(2, $1, $2); } 
+  : AxisName DBLCOLON									{ $$ = pxpath_new_path(2, $1, $2); }
 	| AbbreviatedAxisSpecifier          { $$ = PXP($1); }
 	;
 AxisName
-	: XANCESTOR 		
-	| XANCESTORSELF	
-	| XATTR					
-	| XCHILD				
-	| XDESC					
-	| XDESCSELF			
-	| XFOLLOW				
-	| XFOLLOWSIB		
-	| XNS						
-	| XPARENT				
-	| XPRE					
-	| XPRESIB				
-	| XSELF					
+	: XANCESTOR
+	| XANCESTORSELF
+	| XATTR
+	| XCHILD
+	| XDESC
+	| XDESCSELF
+	| XFOLLOW
+	| XFOLLOWSIB
+	| XNS
+	| XPARENT
+	| XPRE
+	| XPRESIB
+	| XSELF
 	;
-	
+
 NodeTest
-  : NameTest 
+  : NameTest
 	| NodeType LPAREN RPAREN						 { $$ = pxpath_new_path(3, $1, $2, $3); }
 	| XPI LPAREN Literal RPAREN					 { $$ = pxpath_new_path(4, $1, $2, $3, $4); }
 	;
-	
+
 Predicates
   : Predicates Predicate               { $$ = pxpath_cat_paths(2, $1, $2); }
   | Predicate
 	;
-	
+
 Predicate
   : LBRA PredicateExpr RBRA						 { $$ = PXPWRAP($1, $2, $3); }
 	;
-	
+
 PredicateExpr
   : Expr
 	;
-	
+
 AbbreviatedAbsoluteLocationPath
   : DBLSLASH RelativeLocationPath			{ $$ = PREP_OP($1, $2); }
 	;
-	
+
 AbbreviatedRelativeLocationPath
   : RelativeLocationPath DBLSLASH Step	{ $$ = BIN_OP($1, $2, $3); }
 	;
-	
+
 AbbreviatedStep
   : DOT
  	| DBLDOT
 	;
-	
+
 AbbreviatedAxisSpecifier
   : AT
 	|				{ $$ = ""; }
 	;
 Expr
-  : LPAREN Argument RPAREN %dprec 2  { $$ = PXPWRAP($1, $2, $3);    }  
+  : LPAREN Argument RPAREN %dprec 2  { $$ = PXPWRAP($1, $2, $3);    }
   | OrExpr						 %dprec 1
 	;
 PrimaryExpr
-  : VariableReference 
-	| LPAREN Expr RPAREN 				 	{ $$ = PXPWRAP($1, $2, $3);     }  
+  : VariableReference
+	| LPAREN Expr RPAREN 				 	{ $$ = PXPWRAP($1, $2, $3);     }
   | Literal                     { $$ = LIT($1);  }
-  | Number 
+  | Number
 	| FunctionCall
 	;
-	
+
 FunctionCall
   : FunctionName LPAREN Arguments RPAREN		{ $$ = pxpath_new_func(xpath_alias(pxpath_to_string($1)), $3); }
 	;
@@ -327,38 +327,38 @@ Argument
   : OptS Expr OptS		{ $$ = $2; }
 	;
 UnionExpr
-  : PathExpr 
+  : PathExpr
 	| UnionExpr PIPE PathExpr							{ $$ = BIN_OP($1, $2, $3); }
 	;
-	
+
 PathExpr
-  : LocationPath 
-	| FilterExpr                                    
+  : LocationPath
+	| FilterExpr
 	| FilterExpr SLASH RelativeLocationPath					{ $$ = BIN_OP($1, $2, $3); }
 	| FilterExpr DBLSLASH RelativeLocationPath			{ $$ = BIN_OP($1, $2, $3); }
 	;
-	
+
 FilterExpr
-  : PrimaryExpr 
+  : PrimaryExpr
 	| FilterExpr Predicates				{ $$ = pxpath_cat_paths(2, $1, $2); }
 	;
-	
+
 OrExpr
-  : AndExpr 
+  : AndExpr
 	| OrExpr XOR AndExpr						{ $$ = LIT_BIN_OP($1, $2, $3); }
 	;
-	
+
 AndExpr
-  : EqualityExpr 
+  : EqualityExpr
 	| AndExpr XAND EqualityExpr			{ $$ = LIT_BIN_OP($1, $2, $3); }
 	;
-	
+
 EqualityExpr
-  : RelationalExpr 
+  : RelationalExpr
 	| EqualityExpr EQ RelationalExpr				{ $$ = LIT_BIN_OP($1, $2, $3); }
-	| EqualityExpr CXOPNE RelationalExpr		{ $$ = LIT_BIN_OP($1, $2, $3); }	
+	| EqualityExpr CXOPNE RelationalExpr		{ $$ = LIT_BIN_OP($1, $2, $3); }
 	;
-	
+
 RelationalExpr
   : AdditiveExpr                               %dprec 2
   | RelationalExpr OptS LT OptS AdditiveExpr   %dprec 3     { $$ = LIT_BIN_OP($1, $3, $5); }
@@ -381,10 +381,10 @@ MultiplicativeExpr
 	;
 
 UnaryExpr
-  : UnionExpr 
+  : UnionExpr
 	| DASH UnaryExpr		{ $$ = PREP_OP($1, $2); }
 	;
-	
+
 Literal
   : STRING
 	;
@@ -394,28 +394,28 @@ Number
 	| NUMBER DOT NUMBER			{ $$ = pxpath_new_literal(3, $1, $2, $3); }
 	| DOT NUMBER						{ $$ = pxpath_new_literal(2, $1, $2); }
 	;
-	
+
 MultiplyOperator
   : SPLAT
 	;
-	
+
 VariableReference
   : DOLLAR QName				{	$$ = PREP_OP($1, $2); }
 	;
-	
+
 NameTest
   : SPLAT               { $$ = PXP($1); }
 	| NCName COLON SPLAT 	{ $$ = pxpath_new_path(3, $1, $2, $3); }
 	| QName
 	;
-	
+
 NodeType
-  : XCOMMENT 
-	| XTEXT 
-	| XPI 
+  : XCOMMENT
+	| XTEXT
+	| XPI
 	| XNODE
 	;
-	
+
 FunctionName
   : QName
 	;
@@ -428,7 +428,7 @@ QName
 PrefixedName
 	: Prefix COLON LocalPart  { $$ = pxpath_new_path(3, $1, $2, $3); }
 	;
-	
+
 UnprefixedName
 	: LocalPart
 	;
@@ -460,16 +460,16 @@ selector
   : simple_selector_sequence combinator selector						{ $$ = pxpath_cat_paths(3, $1, PXP($2), $3); }
 	| simple_selector_sequence
   ;
-	
+
 combinator
-  : OptS PLUS OptS			{ $$ = "/following-sibling::*[1]/self::"; } 
-	| OptS GT OptS				{ $$ = "/"; } 
-	| OptS TILDE OptS		{ $$ = "/following-sibling::*/self::"; } 
+  : OptS PLUS OptS			{ $$ = "/following-sibling::*[1]/self::"; }
+	| OptS GT OptS				{ $$ = "/"; }
+	| OptS TILDE OptS		{ $$ = "/following-sibling::*/self::"; }
 	| S							{ $$ = "//"; }
   ;
 
 simple_selector_sequence
-	: simple_selector_anchor                        
+	: simple_selector_anchor
 	| possibly_empty_sequence LBRA	type_selector OptS CXOPHE OptS StringLike OptS RBRA                   { $$ = pxpath_cat_paths(10, $1, PXP("[@"), $3, PXP(" = "), $7, PXP(" or starts-with(@"), $3, PXP(", concat("), $7, PXP(", '-' ))]")); }
 	| possibly_empty_sequence CXNOT LPAREN selectors_group RPAREN		                                      { $$ = pxpath_cat_paths(5, PXP("set-difference("), $1, PXP(", "), $4, PXP(")")); }
 	| possibly_empty_sequence HASH Ident		                                                              { $$ = P4E($1, "[@id='", $3, "']"); }
@@ -519,7 +519,7 @@ simple_selector_sequence
 	| possibly_empty_sequence CXBUTTON 		                                                                { $$ = INPUT_TYPE($1, button); }
 	| possibly_empty_sequence CXFILE 			                                                                { $$ = INPUT_TYPE($1, file); }
 	;
-	
+
 possibly_empty_sequence
 	: simple_selector_sequence
 	|											{ $$ = PXP("*"); }
@@ -532,7 +532,7 @@ simple_selector_anchor
 
 type_selector
   : namespace_prefix element_name	{	$$ = pxpath_cat_paths(3, $1, PXP(":"), $2); }
-  | element_name				
+  | element_name
   ;
 
 namespace_prefix
@@ -561,7 +561,7 @@ Ident
 	| BSLASHLIT Ident			{ $$ = pxpath_cat_paths(2, PXP($1 + 1), $2); }
 	| keyword             { $$ = PXP($1); }
 	;
-	
+
 keyword
 	: XANCESTOR
 	| XANCESTORSELF
@@ -585,17 +585,17 @@ keyword
 	| XPI
 	| XNODE
 	;
-	
+
 StringLike
-	: Ident 			
+	: Ident
 	| STRING      { $$ = pxpath_new_literal(1, $1); }
 	;
 
 OptS
-  : S			      { $$ = 0; }					
+  : S			      { $$ = 0; }
 	|							{ $$ = 0; }
 	;
-	
+
 %%
 
 char* xpath_alias(char* key) {
@@ -609,7 +609,7 @@ void init_xpath_alias() {
 	xmlHashAddEntry(alias_hash, "match", "regexp:match");
 	xmlHashAddEntry(alias_hash, "replace", "regexp:replace");
 	xmlHashAddEntry(alias_hash, "test", "regexp:test");
-	xmlHashAddEntry(alias_hash, "with-newlines", "lib:nl");	
+	xmlHashAddEntry(alias_hash, "with-newlines", "lib:nl");
 }
 
 pxpathPtr myparse(char* string){
@@ -628,4 +628,4 @@ void answer(pxpathPtr a){
 void start_debugging(){
   yydebug = 1;
   return;
-}   
+}
