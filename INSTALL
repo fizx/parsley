@@ -40,6 +40,17 @@ cd -
 make
 sudo make install
 
+Mac OS X with Homebrew:
+------------------------------------------------------------------------
+brew install argp-standalone pcre json-c
+./configure
+make
+sudo make install
+
+If you have a few extra minutes, consider replacing the last make with a
+'make check' and let us know if it reports any failures from the test 
+suite - thanks!
+
 
 Mac OS X with MacPorts:
 ------------------------------------------------------------------------
