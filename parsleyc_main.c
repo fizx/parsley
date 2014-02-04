@@ -46,7 +46,7 @@ static error_t parse_opt (int key, char *arg, struct argp_state *state)
 			base->next = e;
 			base->has_next = 1;
       break;
-    case 'd':	
+    case 'd':
 			// parsley_set_debug_mode(1);
 			break;
     case 'o':
@@ -72,19 +72,19 @@ int main (int argc, char **argv) {
 	struct list_elem elem;
 	struct list_elem *elemptr = &elem;
 	elem.has_next = 0;
-	
+
 	arguments.include_files = elemptr;
 	arguments.output_file = "-";
 	arguments.parsley = "-";
 	argp_parse (&argp, argc, argv, 0, 0, &arguments);
-	
+
 	struct printbuf* parsley = printbuf_new();
 	struct printbuf* incl = printbuf_new();
   sprintbuf(parsley, "");
   sprintbuf(incl, "");
 
 	FILE* in = parsley_fopen(arguments.parsley, "r");
-	
+
 	printbuf_file_read(in, parsley);
 	while(elemptr->has_next) {
 		elemptr = elemptr->next;
@@ -92,17 +92,17 @@ int main (int argc, char **argv) {
 		printbuf_file_read(f, incl);
 		fclose(f);
 	}
-	
+
 	parsleyPtr compiled = parsley_compile(parsley->buf, incl->buf);
 	if(compiled->error != NULL) {
 		fprintf(stderr, "%s\n", compiled->error);
 	 	exit(1);
 	}
-	
+
   FILE* fo = parsley_fopen(arguments.output_file, "w");
   xmlDocFormatDump(fo, compiled->stylesheet->doc, 1);
   fclose(fo);
-  
+
 	return 0;
 }
 

@@ -14,5 +14,5 @@ depends_lib					port:argp-standalone \
 										port:json-c \
 										port:libxslt \
 										port:pcre
-										
+
 checksums 				md5 5e4d9080aa4ed2dfa7996c89a8e7f719 				sha1 9508eea67212d9a9620eac3fe3719c91e00e11d9 				rmd160 dfa9cee2fdb41ac750d47288d5128f1963a84334

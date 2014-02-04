@@ -21,7 +21,7 @@ profile:
 
 install-all:
 	./bootstrap.sh && ./configure && make && make install && cd ruby && rake install && cd ../python && python setup.py install
-	
+
 bench:
 	@echo "yelp..."; ./parsley test/yelp.let test/yelp.html > /dev/null
 	@echo "craigs-simple..."; ./parsley test/craigs-simple.let test/craigs-simple.html > /dev/null
@@ -73,4 +73,3 @@ check-am:
 	@echo "default-namespace..."; ./parsley -x test/default-namespace.let test/default-namespace.xml 2>&1 | diff test/default-namespace.json - && echo "    success."
 	@echo "sg-wrap..."; ./parsley -s test/sg-wrap.let test/sg-wrap.html 2>&1 | diff test/sg-wrap.json - && echo "    success."
 	@echo "collate_regression..."; ./parsley test/collate_regression.let test/collate_regression.html 2>&1 | diff test/collate_regression.json - && echo "    success."
-	

@@ -21,16 +21,16 @@
 
 	<title>San Francisco Restaurants, Dentists, Bars, Beauty Salons, Doctors</title>
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-		
+
 	<meta name="description" content="San Francisco - User Reviews and Recommendations of Top Restaurants, Shopping, Nightlife, Entertainment, Services and More at Yelp">
-	<meta name="keywords" content="Yelp,recommendation,San Francisco, bay area, local,business,review,friend,restaurant,dentist,doctor,salon,spa,shopping,store,share,community,massage,sushi,pizza,nails,New York,Los Angeles"> 
-	<meta http-equiv="imagetoolbar" content="no">	
+	<meta name="keywords" content="Yelp,recommendation,San Francisco, bay area, local,business,review,friend,restaurant,dentist,doctor,salon,spa,shopping,store,share,community,massage,sushi,pizza,nails,New York,Los Angeles">
+	<meta http-equiv="imagetoolbar" content="no">
 	<link rel="shortcut icon" href="/favicon.ico" type="image/ico">
 	<link rel="search" type="application/opensearchdescription+xml" href="/html/moz-plug/yelp.xml" title="Yelp">
 	<link rel="stylesheet" type="text/css" media="all" href="http://static.px.yelp.com/static/20090220/css/base_versioned.css">
 	<link rel="stylesheet" type="text/css" media="print" href="http://static.px.yelp.com/static/20090220/css/print.css">
 	<link rel="stylesheet" type="text/css" media="all" href="http://static.px.yelp.com/static/20090220/css/home.css">
-	<link rel="alternate" type="application/rss+xml" title="Yelp - Recent Reviews Near San Francisco, CA" href="http://www.yelp.com/syndicate/area/rss.xml?loc=San+Francisco%2C+CA">		
+	<link rel="alternate" type="application/rss+xml" title="Yelp - Recent Reviews Near San Francisco, CA" href="http://www.yelp.com/syndicate/area/rss.xml?loc=San+Francisco%2C+CA">
 	<script type="text/javascript">
 	var imagesHostUrl = "http://static.px.yelp.com/";
 	var Yelp = {
@@ -38,30 +38,30 @@
 		js_serial : "20090218a",
 		css_serial : "20090220",
 		unique_request_id : "5cd4a34fd29ef3d7",
-		cookie_domain: ".yelp.com" 
+		cookie_domain: ".yelp.com"
 	};
 </script>
 
 	<script type="text/javascript" src="http://static.px.yelp.com/static/20090218a/js/site.min.js"></script>
 	<script type="text/javascript">
-	Yelp.lang_pref = ["en_US"];	
+	Yelp.lang_pref = ["en_US"];
 
-	
+
 	function trackUnload(e) {
 		if (Yelp.JSONCookie.get('js_track') != "") {
 			return;
 		} else {
-			var trackRequest = new Ajax.Request("/unload_tracker", { 
-				method: 'get', 
-				parameters: "r=5cd4a34fd29ef3d7&ctime=" + (new Date()).getTime(), 
-				onComplete: function() { }, 
-				asynchronous: false 
+			var trackRequest = new Ajax.Request("/unload_tracker", {
+				method: 'get',
+				parameters: "r=5cd4a34fd29ef3d7&ctime=" + (new Date()).getTime(),
+				onComplete: function() { },
+				asynchronous: false
 			});
 		}
 	}
 	Event.observe(window, 'unload', trackUnload);
 	Event.observe(window, 'load', function(){
-				
+
 	var header_hoods = $('header_hoods');
 	if(header_hoods){
 		Element.addClassName(header_hoods,'pseudoLink');
@@ -69,7 +69,7 @@
 				Yelp.startHoods($('header_hoods'), 'dropperText_Mast', {'x':-80,'y':20});
 			});
 	}
-	
+
 
 	});
 	document.observe("dom:loaded", function(){
@@ -101,7 +101,7 @@
 	GA_googleFetchAds();
 </script>
 
-  <!-- Revision: main 45627 --> 
+  <!-- Revision: main 45627 -->
 	<style type="text/css">
 			#mastHead{
 				height:51px;
@@ -109,7 +109,7 @@
 			}
 			#mastHead #logo{
 				background-image:url(http://static.px.yelp.com/static/20090220/i/new/gfx/newHeader/ExternalHeaderLogo.gif);
-				width:285px;	
+				width:285px;
 				height:51px;
 			}
 			#mastHead #logo a{
@@ -117,7 +117,7 @@
 				height:51px;
 			}
 			#mastHead #rightEdge{
-				height:51px;	
+				height:51px;
 			}
 			#mastHead #uk_promo{
 				top:10px;
@@ -128,12 +128,12 @@
 <body id="yelp_main_body" class="us">
 <script type="text/javascript">
 Yelp.JSONCookie.clear('js_track');
-Event.observe(document.body, 'mousedown', function(event) { 
+Event.observe(document.body, 'mousedown', function(event) {
 	Yelp.JSTrack.handleClickOnLink(event);
 });
 
-Event.observe(document, 'keypress', function(event) { 
-	if (event.keyCode == Event.KEY_RETURN) { 
+Event.observe(document, 'keypress', function(event) {
+	if (event.keyCode == Event.KEY_RETURN) {
 		var searchButton = $('headerSearchBtn');
 		if (searchButton) {
 			Yelp.JSTrack.handleSearchKeyPress(searchButton);
@@ -162,9 +162,9 @@ Event.observe(document, 'keypress', function(event) {
 				<li id="talk"><a href="/talk">Talk</a></li>
 
 						<li id="events"><a href="/events/sf">Events</a></li>
-				<li class="header_login" id="rt"><a  rel="nofollow" href="/login?return_url=%2F">Log In</a></li>	
+				<li class="header_login" id="rt"><a  rel="nofollow" href="/login?return_url=%2F">Log In</a></li>
 				<li class="header_login"><a href="/signup?return_url=%2Fprofile" rel="nofollow" id="Zprofile">Account</a> | </li>
-				<li class="header_login"><a href="/member_search" rel="nofollow">Member Search</a> | </li>		
+				<li class="header_login"><a href="/member_search" rel="nofollow">Member Search</a> | </li>
 			</ul>
 		</div>
 
@@ -175,7 +175,7 @@ Event.observe(document, 'keypress', function(event) {
 
 
 <div id="bodyContainer">
-	
+
 			<div id="expanded_city">
 <div class="cities">
 	<a rel="nofollow" class="floatlink" href="/">Hide</a>
@@ -286,9 +286,9 @@ Event.observe(document, 'keypress', function(event) {
 		</li>
 		<li class="right" >
 		<strong><a href="/locations">More Cities&raquo;</a></strong>
-		</li>	
+		</li>
 	</ul>
-</div>	
+</div>
 <div class="citybar">
 <h3>Yelp San Francisco</h3>
 </div>
@@ -299,7 +299,7 @@ Event.observe(document, 'keypress', function(event) {
 			<a rel="nofollow" href="/signup">Yelp is the fun and easy way to find, review and talk about what's great - and not so great, in your area.</a>
 </h2>
 <div id="external_search">
-<form method="get" action="/search" name="external_search"> 
+<form method="get" action="/search" name="external_search">
 <p><label for="find_desc_ext">Search for <em>(e.g. taco, salon, Max's)</em></label>
 <input type="text" maxlength="64" id="find_desc_ext" name="find_desc" tabindex="1"></p>
 
@@ -314,7 +314,7 @@ Event.observe(document, 'keypress', function(event) {
 </div>
 
 
-		
+
 	<div id="column_wrapper" class="clearfix">
 		<div id="leftColumn">
 
@@ -328,7 +328,7 @@ Event.observe(document, 'keypress', function(event) {
 </div>
 
 <div id="bestOfYelpModule" class="clearfix external">
-	
+
 <div id="best_cats">
 <a rel="nofollow" href="/find"><img src="http://static.px.yelp.com/static/20090220/i/new/btn/more_best_of.gif" alt="More Best Of" style="float: right; margin-right: 5px; margin-top: 5px;" /></a>
 <h3>Top reviewed businesses in San Francisco</h3>
@@ -337,8 +337,8 @@ Event.observe(document, 'keypress', function(event) {
 		<div class="bestCat">
 			<h4 style="margin-bottom:0px;" title="Best Restaurants in San Francisco"><a href="/c/sf/restaurants">Restaurants</a></h4>
 				<em>3822 reviewed</em>
-				
-				
+
+
 
 <div class="clearStyles bizPhotoBox">
 		<a  href="/biz/la-tiendita-san-francisco"><img src="http://static.px.yelp.com/bphoto/_22tVvLUnlu7tcMM3_dSrQ/m" style="" alt="La Tiendita, San Francisco"></a>
@@ -355,8 +355,8 @@ Event.observe(document, 'keypress', function(event) {
 		<div class="bestCat">
 			<h4 style="margin-bottom:0px;" title="Best Shopping in San Francisco"><a href="/c/sf/shopping">Shopping</a></h4>
 				<em>4041 reviewed</em>
-				
-				
+
+
 
 <div class="clearStyles bizPhotoBox">
 		<a  href="/biz/greencitizen-san-francisco-2"><img src="http://static.px.yelp.com/bphoto/r6LzylhDwE55LjkM60C_Ew/m" style="" alt="recycling electronics for a cleaner future"></a>
@@ -375,8 +375,8 @@ Event.observe(document, 'keypress', function(event) {
 		<div class="bestCat">
 			<h4 style="margin-bottom:0px;" title="Best Nightlife in San Francisco"><a href="/c/sf/nightlife">Nightlife</a></h4>
 				<em>961 reviewed</em>
-				
-				
+
+
 
 <div class="clearStyles bizPhotoBox">
 		<a  href="/biz/cairo-nights-san-francisco"><img src="http://static.px.yelp.com/bphoto/JWNZlCwcSOrLtvpll4Om0A/m" style="" alt="Cairo Nights, San Francisco"></a>
@@ -393,8 +393,8 @@ Event.observe(document, 'keypress', function(event) {
 		<div class="bestCat">
 			<h4 style="margin-bottom:0px;" title="Best Beauty and Spas in San Francisco"><a href="/c/sf/beautysvc">Beauty and Spas</a></h4>
 				<em>1791 reviewed</em>
-				
-				
+
+
 
 <div class="clearStyles bizPhotoBox">
 		<a  href="/biz/mad-about-brows-san-francisco"><img src="http://static.px.yelp.com/bphoto/UR9de_TvJC47KXZHIgMXLQ/m" style="" alt="Just one example..."></a>
@@ -410,11 +410,11 @@ Event.observe(document, 'keypress', function(event) {
 		</div>
 	</div>
 
-</div>	
-	<div id="cat_list">	
+</div>
+	<div id="cat_list">
 		<h4 class="ieSucks">Browse by Category</h4>
 		<ul class="stripped ieSucks">
-				
+
 			<li class="shopping"><a href="/c/sf/shopping">Shopping</a> 4087</li>
 			<li class="restaurants"><a href="/c/sf/restaurants">Restaurants</a> 3899</li>
 			<li class="food"><a href="/c/sf/food">Food</a> 2440</li>
@@ -437,17 +437,17 @@ Event.observe(document, 'keypress', function(event) {
 			<li class="localflavor"><a href="/c/sf/localflavor">Local Flavor</a> 304</li>
 			<li class="massmedia"><a href="/c/sf/massmedia">Mass Media</a> 202</li>
 			<li class="religiousorgs"><a href="/c/sf/religiousorgs">Religious Organizations</a> 149</li>
-		
+
 		</ul>
 		<p style="font-size:1px;clear:both;margin:0px;">&nbsp;</p>
 	</div>
-</div> 
+</div>
 
 
 	<div id="hot_and_new" class="external">
 <h3>Hot on Yelp</h3>
 <p class="smaller"><em>Hottest in the past month, based on bookmarks</em></p>
-		
+
 
 <div class="clearStyles bizPhotoBox">
 		<a rel="nofollow" href="/biz/humphry-slocombe-ice-cream-san-francisco#hrid:nr3FUteW2TCGYVodIod0Iw"><img src="http://static.px.yelp.com/bphoto/mXInwpdyN0n6CFvAYopI2w/m" style="" alt="Humphry Slocombe Ice Cream, San Francisco, CA"></a>
@@ -455,7 +455,7 @@ Event.observe(document, 'keypress', function(event) {
 
 	<div class="rating stars_4_half">4.5 star rating</div>
 	<h4>1. <a rel="nofollow" href="/biz/humphry-slocombe-ice-cream-san-francisco#hrid:nr3FUteW2TCGYVodIod0Iw">Humphry Slocombe Ice Cream</a></h4>
-	<p>Just came from Humphry&#39;s after picking up 2 pints of bb viet coffee and 2 pints of secret breakfast. While I was there, I was talking to the nice, handsome gentleman behind the counter (i didn&#39;t get&#8230;</p>		
+	<p>Just came from Humphry&#39;s after picking up 2 pints of bb viet coffee and 2 pints of secret breakfast. While I was there, I was talking to the nice, handsome gentleman behind the counter (i didn&#39;t get&#8230;</p>
 	<div id="hot_list">
 	<h4>More Hot Picks</h4>
 	<ul class="stripped">
@@ -503,40 +503,40 @@ Sign up and get The Weekly Yelp delivered to your inbox every Tuesday.</p>
 
 <div id="popular_events" class="clearfix events_border_top">
 	<a class="floatLink" href="/events"><img src="http://static.px.yelp.com/static/20090220/i/new/btn/browseAllEvents.png" alt="Browse all events" width="111" height="23" /></a>
-	
+
 	<h3>Popular Events This Week</h3>
 	<ul class="stripped external">
 		<li>
 			<a rel="nofollow" href="/events/berkeley-a-midsummer-nights-dream" class="event_photo"><img src="http://static.px.yelp.com/ephoto/CXBRZa8LaxIItQg9Y2s8sg/ss" alt="Photo of A Midsummer Night&#39;s Dream" height="40" width="40" /></a>
 
-			<a rel="nofollow" href="/events/berkeley-a-midsummer-nights-dream" class="name">A Midsummer Night&#39;s Dream</a>	
+			<a rel="nofollow" href="/events/berkeley-a-midsummer-nights-dream" class="name">A Midsummer Night&#39;s Dream</a>
 			<p class="time">Today, Feb 26, 8:00 PM</p>
 		</li>
 		<li>
 			<a rel="nofollow" href="/events/san-francisco-7th-annual-celebrity-crab-fest" class="event_photo"><img src="http://static.px.yelp.com/ephoto/fFAkl4pgRoA6G9CktyNQng/ss" alt="Photo of 7Th Annual Celebrity Crab Fest" height="40" width="40" /></a>
 
-			<a rel="nofollow" href="/events/san-francisco-7th-annual-celebrity-crab-fest" class="name">7Th Annual Celebrity Crab Fest</a>	
+			<a rel="nofollow" href="/events/san-francisco-7th-annual-celebrity-crab-fest" class="name">7Th Annual Celebrity Crab Fest</a>
 			<p class="time">Saturday, Feb 28, 12:00 PM</p>
 		</li>
 		<li>
 			<a rel="nofollow" href="/events/san-francisco-weekly-small-dog-beach-walk" class="event_photo"><img src="http://static.px.yelp.com/ephoto/beLCvyMvtaSt3p63HL4KoA/ss" alt="Photo of Weekly Small Dog Beach Walk" height="40" width="40" /></a>
 
-			<a rel="nofollow" href="/events/san-francisco-weekly-small-dog-beach-walk" class="name">Weekly Small Dog Beach Walk</a>	
+			<a rel="nofollow" href="/events/san-francisco-weekly-small-dog-beach-walk" class="name">Weekly Small Dog Beach Walk</a>
 			<p class="time">Saturday, Feb 28, 10:00 AM</p>
 		</li>
 		<li>
 			<a rel="nofollow" href="/events/oakland-belgium-brewsky-blowout-at-the-trappist" class="event_photo"><img src="http://static.px.yelp.com/ephoto/hdBE4pMDMbhZN_r7StEBQQ/ss" alt="Photo of Belgium brewsky blowout at The Trappist!" height="40" width="40" /></a>
 
-			<a rel="nofollow" href="/events/oakland-belgium-brewsky-blowout-at-the-trappist" class="name">Belgium brewsky blowout at The Trappist!</a>	
+			<a rel="nofollow" href="/events/oakland-belgium-brewsky-blowout-at-the-trappist" class="name">Belgium brewsky blowout at The Trappist!</a>
 			<p class="time">Today, Feb 26, 7:30 PM</p>
 		</li>
 	</ul>
-	
+
 </div>
 
 
 	<div class="recentReviewsBox external">
-	
+
 <a href="/browse/reviews/recent"><img src="http://static.px.yelp.com/static/20090220/i/new/btn/more.gif" style="float: right; margin-right: 5px; margin-top: 5px;" alt="more" /></a>
 <h3>New Reviews Near You</h3>
 
@@ -589,7 +589,7 @@ Sign up and get The Weekly Yelp delivered to your inbox every Tuesday.</p>
 <a href="/browse/reviews/picks" class="floatLink"><img src="http://static.px.yelp.com/static/20090220/i/new/btn/archive_btn.gif" width="60" height="23" alt="Archive"></a>
 <h3>Review of the Day</h3>
 <p>
-	Voted by our members! 
+	Voted by our members!
 </p>
 	<div id="reviewerInfo">
 			<div class="clearStyles photoBox" >
@@ -606,7 +606,7 @@ Sign up and get The Weekly Yelp delivered to your inbox every Tuesday.</p>
 		<p style="padding-top:.3em;">
 		Since no gentleman will have me, I decided to escort myself on a lovely Valentine&#39;s date to see the Miscreants Cabaret&#39;s &quot;The Nightmare Before Valentine&#39;s Day: a massacre you&#39;ll love to hate&quot;. Taking&#8230; <a rel="nofollow" href="/biz/miscreants-cabaret-san-francisco#hrid:TlPRa2WzsZgQ_hZYvyaR0w">Read more &raquo;</a>
 		</p>
-	</div>	
+	</div>
 </div>
 
 
@@ -622,7 +622,7 @@ Sign up and get The Weekly Yelp delivered to your inbox every Tuesday.</p>
 	<h3>Sales &amp; Offers Near You</h3>
 	<ul class="stripped">
 			<li>
-				
+
 
 <div class="clearStyles bizPhotoBox">
 		<a rel="nofollow" href="/biz/la-borinquena-mex-icatessen-and-specialty-shop-oakland"><img src="http://static.px.yelp.com/bphoto/Cdy0JYZYu9ceJm5kLp6Z2w/ss" style="height:40px;width:40px;" alt="business image"></a>
@@ -633,7 +633,7 @@ Sign up and get The Weekly Yelp delivered to your inbox every Tuesday.</p>
 				<p class="grey">1dz pre-cooked frozen tamales with&#8230;</p>
 			</li>
 			<li>
-				
+
 
 <div class="clearStyles bizPhotoBox">
 		<a rel="nofollow" href="/biz/jeanty-at-jacks-san-francisco"><img src="http://static.px.yelp.com/bphoto/F5dMbtoFV84oQFM0wjVDEA/ss" style="height:40px;width:40px;" alt="business image"></a>
@@ -800,11 +800,11 @@ Sign up and get The Weekly Yelp delivered to your inbox every Tuesday.</p>
 					</p>
 		</div>
 </div>
- 
+
 </div>
 
 
-		</div>		
+		</div>
 	</div>
 </div>
 <div id="pressLinks"><img src="http://static.px.yelp.com/static/20090220/i/new/gfx/hpAdsStatic.png" width="950" height="84" usemap="#pressMap" alt="homepage footer ads" />
@@ -837,8 +837,8 @@ Sign up and get The Weekly Yelp delivered to your inbox every Tuesday.</p>
 
 <!-- google_ad_section_start(weight=ignore) -->
 <div id="footer">
-	
-	<div>		
+
+	<div>
 				<ul id="aboutSite">
 					<li><a href="/business?country=US" rel="nofollow">Business Owners</a></li>
 					<li> | <a href="/signup" rel="nofollow" id="Zprofile_footer">My Account</a></li>
@@ -856,7 +856,7 @@ Sign up and get The Weekly Yelp delivered to your inbox every Tuesday.</p>
 				</ul>
 	</div>
 
-<p>&nbsp;</p>	
+<p>&nbsp;</p>
 <div class="directory">
 	<span class="azlist">
 		Business Listings
@@ -889,8 +889,8 @@ Sign up and get The Weekly Yelp delivered to your inbox every Tuesday.</p>
 		<a href="/sm/z">Z</a>
 		| <a href="/sm/san-francisco-ca-added">Newly Added</a>
 	</span>
-</div>	
-<p>&nbsp;</p>	
+</div>
+<p>&nbsp;</p>
 <p>Use of this site is subject to express <a href="/static?p=tos&amp;country=US" rel="nofollow"><strong>Terms of Service</strong></a>. By continuing past this page, you agree to abide by these terms.</p>
 <p>Copyright &copy; 2004-2009 Yelp | <a href="/static?p=privacy&amp;country=US" rel="nofollow">Privacy Policy</a><br><br></p>
 

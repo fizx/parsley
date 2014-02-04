@@ -176,8 +176,8 @@ void answer(pxpathPtr);
 #define PXP(A)                        pxpath_new_path(1, A)
 #define LIT(A)                        pxpath_new_literal(1, A)
 #define OP(A)   	                    pxpath_new_operator(1, A)
-#define APPEND(A, S)                  pxpath_cat_paths(2, A, PXP(S)); 
-#define PREPEND(A, S)                 pxpath_cat_paths(2, PXP(S), A); 
+#define APPEND(A, S)                  pxpath_cat_paths(2, A, PXP(S));
+#define PREPEND(A, S)                 pxpath_cat_paths(2, PXP(S), A);
 #define PXPWRAP(A, B, C)              pxpath_cat_paths(3, PXP(A), B, PXP(C))
 #define P4E(A, B, C, D)               pxpath_cat_paths(4, A, PXP(B), C, PXP(D))
 #define P4O(A, B, C, D)               pxpath_cat_paths(4, PXP(A), B, PXP(C), D)
@@ -186,11 +186,11 @@ void answer(pxpathPtr);
 #define TRACE(A, B)                   fprintf(stderr, "trace(%s): ", A); fprintf(stderr, "%s\n", pxpath_to_string(B));
 
 #endif
-  
+
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef union YYSTYPE 
+typedef union YYSTYPE
 #line 53 "parser.y"
 {
   int empty;
