@@ -9,6 +9,7 @@
  * Authors:
  *   Joel W. Reed <joelwreed@gmail.com>
  *   Some modification by Kyle Maxwell
+ *   Minor fix for UTF8 strings by Eugene Dorfman <eugene.dorfman@gmail.com>
  *
  * TODO:
  * functions:
@@ -66,13 +67,13 @@ exsltRegexpExecute(xmlXPathParserContextPtr ctxt,
                  haystack,                      /* the subject string */
                  haystack_len,                  /* the length of the subject string */
                  0,                             /* start at offset 0 in the subject */
-                 0,                             /* default options */
+                 PCRE_NO_UTF8_CHECK,                             /* default options */
                  (int*)ovector,                       /* vector of integers for substring information */
                  ovector_len);  /* number of elements in the vector  (NOT size in bytes) */
 
   if (rc < -1) {
     xsltTransformError (xsltXPathGetTransformContext (ctxt), NULL, NULL,
-                        "exslt:regexp failed to execute %s for %s", regexp, haystack);
+                        "exslt:regexp failed to execute %s for %s with error code: %d ", regexp, haystack, rc);
     rc = 0;
   }
   
@@ -149,8 +150,8 @@ exsltRegexpMatchFunction (xmlXPathParserContextPtr ctxt, int nargs)
 
         while (rc > 0) {
 					for(int group = 0; group < rc; group++) {
-          	match = xmlStrsub(working, ovector[group*2], ovector[group*2+1]-ovector[group*2]);
-          	if (NULL == match) goto fail;
+          	match = xmlUTF8Strsub(working, ovector[group*2], ovector[group*2+1]-ovector[group*2]);
+          	if (NULL == match || 0 == xmlUTF8Strlen(match)) goto fail;
 
 	          node = xmlNewDocRawNode(container, NULL, "match", match);
 	          xmlFree(match);
@@ -160,7 +161,7 @@ exsltRegexpMatchFunction (xmlXPathParserContextPtr ctxt, int nargs)
 					}
           if (!global) break;
 
-          working = working + ovector[1];
+          working = xmlUTF8Strpos(working,ovector[1]);
           rc = exsltRegexpExecute(ctxt, working, regexp, flags, 
                                   ovector, sizeof(ovector)/sizeof(int));
         }
