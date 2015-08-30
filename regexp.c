@@ -73,7 +73,7 @@ exsltRegexpExecute(xmlXPathParserContextPtr ctxt,
 
   if (rc < -1) {
     xsltTransformError (xsltXPathGetTransformContext (ctxt), NULL, NULL,
-                        "exslt:regexp failed to execute %s for %s", regexp, haystack);
+                        "exslt:regexp failed to execute %s for %s with error code: %d ", regexp, haystack, rc);
     rc = 0;
   }
   
